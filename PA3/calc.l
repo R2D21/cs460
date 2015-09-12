@@ -7,7 +7,6 @@ Due Date: September 16, 2015
 
 /* definitions */
 %{
-	#include "stdio.h"
 	#include "calc.tab.h"
 	#include "stdlib.h"
 %}
