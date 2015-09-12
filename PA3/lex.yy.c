@@ -473,12 +473,11 @@ Due Date: September 16, 2015
 */
 /* definitions */
 #line 10 "calc.l"
-	#include "stdio.h"
 	#include "calc.tab.h"
 	#include "stdlib.h"
 /* tell flex to read only one input file */
 /* rules and actions */
-#line 482 "lex.yy.c"
+#line 481 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -665,9 +664,9 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
     
-#line 24 "calc.l"
+#line 23 "calc.l"
 
-#line 671 "lex.yy.c"
+#line 670 "lex.yy.c"
 
 	if ( !(yy_init) )
 		{
@@ -752,66 +751,62 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 25 "calc.l"
-{	printf("Found a + symbol.\n");
-					return PLUS;	}
+#line 24 "calc.l"
+{return PLUS;}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 27 "calc.l"
-{	return MINUS;	}
+#line 25 "calc.l"
+{return MINUS;}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 28 "calc.l"
-{	return MULT;	}
+#line 26 "calc.l"
+{return MULT;}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 29 "calc.l"
-{	printf("Found a / symbol.\n");
-					return DIV;		}
+#line 27 "calc.l"
+{return DIV;}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 31 "calc.l"
-{	return SEMI;	}
+#line 28 "calc.l"
+{return SEMI;}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 32 "calc.l"
-{	return OPEN;	}
+#line 29 "calc.l"
+{return OPEN;}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 33 "calc.l"
-{	return CLOSE;	}
+#line 30 "calc.l"
+{return CLOSE;}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 34 "calc.l"
-{	printf("Found a number!\n");
-					yylval = atoi(yytext);
-					printf("%i\n", yylval);	
-					return INTEGER; }
+#line 31 "calc.l"
+{yylval = atoi(yytext);	
+				return INTEGER;}
 	YY_BREAK
 case 9:
 /* rule 9 can match eol */
 YY_RULE_SETUP
-#line 38 "calc.l"
+#line 33 "calc.l"
 {}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 39 "calc.l"
-{	return ERROR;	}		
+#line 34 "calc.l"
+{return ERROR;}		
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 41 "calc.l"
+#line 35 "calc.l"
 ECHO;
 	YY_BREAK
-#line 815 "lex.yy.c"
+#line 810 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1809,7 +1804,8 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 41 "calc.l"
+#line 35 "calc.l"
 
 
-/* user code */
+/* user code: none for now I think.. */
+

@@ -12,7 +12,7 @@ Due Date: September 16, 2015
 %}
 
 delim	[ \t\n]
-ws		{delim}+
+ws	{delim}+
 digit	[0-9]
 number	{digit}+
 
@@ -21,17 +21,16 @@ number	{digit}+
 
 /* rules and actions */
 %%
-"+"				{	return PLUS;	}
-"-"				{	return MINUS;	}
-"*"				{	return MULT;	}
-"/"				{	return DIV;		}
-";"				{	return SEMI;	}
-"("				{	return OPEN;	}
-")"				{	return CLOSE;	}
-{number}		{	yylval = atoi(yytext);	
-					return INTEGER; }
-{ws}			{}
-.				{	return ERROR;	}		
-
+"+"				{return PLUS;}
+"-"				{return MINUS;}
+"*"				{return MULT;}
+"/"				{return DIV;}
+";"				{return SEMI;}
+"("				{return OPEN;}
+")"				{return CLOSE;}
+{number}			{yylval = atoi(yytext);	
+				return INTEGER;}
+{ws}				{}
+.				{return ERROR;}		
 %%
-/* user code */
+/* user code: none for now I think.. */
