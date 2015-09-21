@@ -433,8 +433,8 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    55,    55,    56,    59,    62,    71,    73,    76,    86,
-      94,    97,    99
+       0,    55,    55,    56,    59,    62,    72,    74,    77,    88,
+      97,   100,   102
 };
 #endif
 
@@ -1219,75 +1219,78 @@ yyreduce:
 
   case 5:
 #line 62 "calc.y" /* yacc.c:1646  */
-    {	unsigned long long int plusResult = (yyvsp[-2]) + (yyvsp[0]);
-									if (plusResult > INT_MAX) {
-										yyerror("Integer out of range.");
-									}
-									else {
-										(yyval) = (yyvsp[-2]) + (yyvsp[0]);
-									}
-								}
-#line 1231 "calc.tab.c" /* yacc.c:1646  */
+    {	
+						unsigned long long int plusResult = (yyvsp[-2]) + (yyvsp[0]);
+						if (plusResult > INT_MAX) {
+							yyerror("Integer out of range.");
+						}
+						else {
+							(yyval) = (yyvsp[-2]) + (yyvsp[0]);
+						}
+					}
+#line 1232 "calc.tab.c" /* yacc.c:1646  */
     break;
 
   case 6:
-#line 71 "calc.y" /* yacc.c:1646  */
+#line 72 "calc.y" /* yacc.c:1646  */
     {(yyval) = (yyvsp[-2]) - (yyvsp[0]);}
-#line 1237 "calc.tab.c" /* yacc.c:1646  */
+#line 1238 "calc.tab.c" /* yacc.c:1646  */
     break;
 
   case 7:
-#line 73 "calc.y" /* yacc.c:1646  */
+#line 74 "calc.y" /* yacc.c:1646  */
     {(yyval) = (yyvsp[0]);}
-#line 1243 "calc.tab.c" /* yacc.c:1646  */
+#line 1244 "calc.tab.c" /* yacc.c:1646  */
     break;
 
   case 8:
-#line 76 "calc.y" /* yacc.c:1646  */
-    {	long long int multResult = (yyvsp[-2]) * (yyvsp[0]);
-									if ( (multResult > INT_MAX) || 
-										(multResult < INT_MIN) ) {
-										yyerror("Integer out of range.");
-									}
-									else { 
-										(yyval) = (yyvsp[-2]) * (yyvsp[0]);
-									}
-								}
-#line 1257 "calc.tab.c" /* yacc.c:1646  */
+#line 77 "calc.y" /* yacc.c:1646  */
+    {	
+						long long int multResult = (yyvsp[-2]) * (yyvsp[0]);
+						if ( (multResult > INT_MAX) || 
+							(multResult < INT_MIN) ) {
+							yyerror("Integer out of range.");
+						}
+						else { 
+							(yyval) = (yyvsp[-2]) * (yyvsp[0]);
+						}
+					}
+#line 1259 "calc.tab.c" /* yacc.c:1646  */
     break;
 
   case 9:
-#line 86 "calc.y" /* yacc.c:1646  */
-    {	if ((yyvsp[0]) == 0) {
-										yyerror("Division by 0.");
-									}
-									else {
-										(yyval) = (yyvsp[-2]) / (yyvsp[0]);
-									}
-								}
-#line 1269 "calc.tab.c" /* yacc.c:1646  */
+#line 88 "calc.y" /* yacc.c:1646  */
+    {	
+						if ((yyvsp[0]) == 0) {
+							yyerror("Division by 0.");
+						}
+						else {
+							(yyval) = (yyvsp[-2]) / (yyvsp[0]);
+						}
+					}
+#line 1272 "calc.tab.c" /* yacc.c:1646  */
     break;
 
   case 10:
-#line 94 "calc.y" /* yacc.c:1646  */
+#line 97 "calc.y" /* yacc.c:1646  */
     {(yyval) = (yyvsp[0]);}
-#line 1275 "calc.tab.c" /* yacc.c:1646  */
+#line 1278 "calc.tab.c" /* yacc.c:1646  */
     break;
 
   case 11:
-#line 97 "calc.y" /* yacc.c:1646  */
+#line 100 "calc.y" /* yacc.c:1646  */
     {(yyval) = (yyvsp[-1]);}
-#line 1281 "calc.tab.c" /* yacc.c:1646  */
+#line 1284 "calc.tab.c" /* yacc.c:1646  */
     break;
 
   case 12:
-#line 99 "calc.y" /* yacc.c:1646  */
+#line 102 "calc.y" /* yacc.c:1646  */
     {(yyval) = (yyvsp[0]);}
-#line 1287 "calc.tab.c" /* yacc.c:1646  */
+#line 1290 "calc.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 1291 "calc.tab.c" /* yacc.c:1646  */
+#line 1294 "calc.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1515,7 +1518,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 102 "calc.y" /* yacc.c:1906  */
+#line 105 "calc.y" /* yacc.c:1906  */
 
 
 /* user code */

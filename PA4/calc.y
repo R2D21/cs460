@@ -53,50 +53,53 @@ yylval will remain as an integer in this program. */
 /* grammar and actions */
 %%		 
 Input	:	Line Input
-			|
+		|
 		;
 
 Line 	:	Expr SEMI {cout << ">> Result: " << $1 << endl;}
 		;
 
-Expr	:	Expr PLUS Term		{	unsigned long long int plusResult = $1 + $3;
-									if (plusResult > INT_MAX) {
-										yyerror("Integer out of range.");
-									}
-									else {
-										$$ = $1 + $3;
-									}
-								}
-			|
-			Expr MINUS Term		{$$ = $1 - $3;}
-			|
-			Term				{$$ = $1;}
+Expr	:	Expr PLUS Term		{	
+						unsigned long long int plusResult = $1 + $3;
+						if (plusResult > INT_MAX) {
+							yyerror("Integer out of range.");
+						}
+						else {
+							$$ = $1 + $3;
+						}
+					}
+		|
+		Expr MINUS Term		{$$ = $1 - $3;}
+		|
+		Term			{$$ = $1;}
 		;
 
-Term	:	Term MULT Factor	{	long long int multResult = $1 * $3;
-									if ( (multResult > INT_MAX) || 
-										(multResult < INT_MIN) ) {
-										yyerror("Integer out of range.");
-									}
-									else { 
-										$$ = $1 * $3;
-									}
-								}
-			|
-			Term DIV Factor		{	if ($3 == 0) {
-										yyerror("Division by 0.");
-									}
-									else {
-										$$ = $1 / $3;
-									}
-								}
-			|	
-			Factor				{$$ = $1;}
+Term	:	Term MULT Factor	{	
+						long long int multResult = $1 * $3;
+						if ( (multResult > INT_MAX) || 
+							(multResult < INT_MIN) ) {
+							yyerror("Integer out of range.");
+						}
+						else { 
+							$$ = $1 * $3;
+						}
+					}
+		|
+		Term DIV Factor		{	
+						if ($3 == 0) {
+							yyerror("Division by 0.");
+						}
+						else {
+							$$ = $1 / $3;
+						}
+					}
+		|	
+		Factor			{$$ = $1;}
 		;
 
 Factor	:	OPEN Expr CLOSE		{$$ = $2;}
-			|
-			INTEGER				{$$ = $1;}
+		|
+		INTEGER			{$$ = $1;}
 		;
 
 %%

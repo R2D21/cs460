@@ -797,16 +797,16 @@ case 8:
 YY_RULE_SETUP
 #line 39 "calc.l"
 {	
-					long int tempInt = atol(yytext);	
-					if (tempInt > INT_MAX) {
-						yyerror("Integer out of range.");
-					}
-					else {
-						yylval = atoi(yytext);
-						colPosition += yyleng;  	
-						return INTEGER;
-					}
-				}
+			long int tempInt = atol(yytext);	
+			if (tempInt > INT_MAX) {
+				yyerror("Integer out of range.");
+			}
+			else {
+				yylval = atoi(yytext);
+				colPosition += yyleng;  	
+				return INTEGER;
+			}
+			}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
@@ -817,18 +817,18 @@ case 10:
 YY_RULE_SETUP
 #line 51 "calc.l"
 {
-					tabCount++; 
-					if (colPosition < (tabCount * 8)) {
-						colPosition = (tabCount * 8);
-					}
-					else {
-						int nextHighestMultipleOf8 = 8;
-						while(colPosition > nextHighestMultipleOf8) {
-							nextHighestMultipleOf8 + 8;
-						}
-						colPosition = nextHighestMultipleOf8;
-					} 
+			tabCount++; 
+			if (colPosition < (tabCount * 8)) {
+				colPosition = (tabCount * 8);
+			}
+			else {
+				int nextHighestMultipleOf8 = 8;
+				while(colPosition > nextHighestMultipleOf8) {
+					nextHighestMultipleOf8 + 8;
 				}
+					colPosition = nextHighestMultipleOf8;
+				} 
+			}
 	YY_BREAK
 case 11:
 /* rule 11 can match eol */
@@ -1849,3 +1849,4 @@ void yyfree (void * ptr )
 
 
 /* user code: none for now I think.. */
+
