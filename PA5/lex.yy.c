@@ -473,21 +473,30 @@ int yy_flex_debug = 0;
 char *yytext;
 #line 1 "calc.l"
 /*
-Name: Renee Iinuma, Kyle Lee, and Wesley Kepke. 
-Purpose: Using Flex and experimenting with various C++ STL containers. 
-Last Modified: September 22, 2015
-Due Date: ??, 2015
+File: cLexer.l
+Created: September 27, 2015
+Last Modified: September 27, 2015
+Class: CS 460 (Compiler Construction)
 
-Currently, the lexer maps strings (variables) to integers because I 
-just wanted to see if this even works.. but in the future we will
-be mapping strings to a class we create which will hold all of the 
-data associated with variables (datatypes, scopes, etc). 
+This is the input file to Flex that will be used in the front end of our
+compiler. 
 
-Note: The symbol table is a stack of BSTs. I used a deque (used as a stack)
-that contains maps (BSTs). 
+The lexer is responsible for two main tasks:
+1. Scan for tokens and pass these tokens to the parser for syntax analysis.
+2. Place all of the appropriate identifier data into the symbol table. 
+
+Tokens have been declared by Bison and are included in the file 
+"cParser.tab.h."
+
+We are using the C++ STL for our symbol table (a stack of BSTs). 
+More specifically, we are using a deque (used as a stack) of maps (the maps
+are responsible for mapping a string (the identifier name) to 
+"symbolTableEntry" objects). A "symbolTableEntry" object is an object that we
+created and contains all associated information of identifiers (type, scope, 
+etc.).  
 */
-/* definitions */
-#line 18 "calc.l"
+/* lexer definitions */
+#line 27 "calc.l"
 	#include "calc.tab.h"
 	#include "stdlib.h"
 	#include <climits>
@@ -506,7 +515,7 @@ that contains maps (BSTs).
 	deque< map<string, int> >::iterator stackIterator; 
 /* tell flex to read only one input file */
 /* rules and actions */
-#line 510 "lex.yy.c"
+#line 519 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -693,9 +702,9 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
     
-#line 47 "calc.l"
+#line 56 "calc.l"
 
-#line 699 "lex.yy.c"
+#line 708 "lex.yy.c"
 
 	if ( !(yy_init) )
 		{
@@ -780,49 +789,49 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 48 "calc.l"
+#line 57 "calc.l"
 {
 				/*cout << "Found an integer datatype!" << endl;*/
 			}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 51 "calc.l"
+#line 60 "calc.l"
 {colPosition++; return PLUS;}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 52 "calc.l"
+#line 61 "calc.l"
 {colPosition++; return MINUS;}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 53 "calc.l"
+#line 62 "calc.l"
 {colPosition++; return MULT;}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 54 "calc.l"
+#line 63 "calc.l"
 {colPosition++; return DIV;}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 55 "calc.l"
+#line 64 "calc.l"
 {colPosition++; return SEMI;}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 56 "calc.l"
+#line 65 "calc.l"
 {colPosition++; return OPEN;}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 57 "calc.l"
+#line 66 "calc.l"
 {colPosition++; return CLOSE;}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 58 "calc.l"
+#line 67 "calc.l"
 {
 			colPosition += yyleng;
 			string variableToBePutInSymbolTable(yytext);
@@ -845,7 +854,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 77 "calc.l"
+#line 86 "calc.l"
 {	
 			long int tempInt = atol(yytext);	
 			if (tempInt > INT_MAX) {
@@ -860,12 +869,12 @@ YY_RULE_SETUP
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 88 "calc.l"
+#line 97 "calc.l"
 {colPosition += yyleng;}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 89 "calc.l"
+#line 98 "calc.l"
 {
 			tabCount++; 
 			if (colPosition < (tabCount * 8)) {
@@ -883,20 +892,20 @@ YY_RULE_SETUP
 case 13:
 /* rule 13 can match eol */
 YY_RULE_SETUP
-#line 102 "calc.l"
+#line 111 "calc.l"
 {yylineno++; colPosition = 0;}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 103 "calc.l"
+#line 112 "calc.l"
 {return ERROR;}		
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 104 "calc.l"
+#line 113 "calc.l"
 ECHO;
 	YY_BREAK
-#line 900 "lex.yy.c"
+#line 909 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1894,7 +1903,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 104 "calc.l"
+#line 113 "calc.l"
 
 
 

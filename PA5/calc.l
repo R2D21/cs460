@@ -1,19 +1,28 @@
 /*
-Name: Renee Iinuma, Kyle Lee, and Wesley Kepke. 
-Purpose: Using Flex and experimenting with various C++ STL containers. 
-Last Modified: September 22, 2015
-Due Date: ??, 2015
+File: cLexer.l
+Created: September 27, 2015
+Last Modified: September 27, 2015
+Class: CS 460 (Compiler Construction)
 
-Currently, the lexer maps strings (variables) to integers because I 
-just wanted to see if this even works.. but in the future we will
-be mapping strings to a class we create which will hold all of the 
-data associated with variables (datatypes, scopes, etc). 
+This is the input file to Flex that will be used in the front end of our
+compiler. 
 
-Note: The symbol table is a stack of BSTs. I used a deque (used as a stack)
-that contains maps (BSTs). 
+The lexer is responsible for two main tasks:
+1. Scan for tokens and pass these tokens to the parser for syntax analysis.
+2. Place all of the appropriate identifier data into the symbol table. 
+
+Tokens have been declared by Bison and are included in the file 
+"cParser.tab.h."
+
+We are using the C++ STL for our symbol table (a stack of BSTs). 
+More specifically, we are using a deque (used as a stack) of maps (the maps
+are responsible for mapping a string (the identifier name) to 
+"symbolTableEntry" objects). A "symbolTableEntry" object is an object that we
+created and contains all associated information of identifiers (type, scope, 
+etc.).  
 */
 
-/* definitions */
+/* lexer definitions */
 %{
 	#include "calc.tab.h"
 	#include "stdlib.h"
