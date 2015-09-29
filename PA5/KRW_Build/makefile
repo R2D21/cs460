@@ -6,15 +6,17 @@
 # This is the makefile for the front end of our ANSI C compiler.
 
 # Macros
-CC = g++
-CFLAGS = -g -Wall
 OBJS = ../KRW_ObjectFiles/main.o ../KRW_ObjectFiles/symbolTable.o ../KRW_ObjectFiles/symbolTableEntry.o
+CC = g++
+DEBUG = -g
+CFLAGS = -Wall -c $(DEBUG)
+LFLAGS = -Wall $(DEBUG)
 
 # Targets, dependencies, and rules
-default: ../KRW_ObjectFiles/krwFrontEnd
+all:	../KRW_ObjectFiles/krwFrontEnd
 
 ../KRW_ObjectFiles/krwFrontEnd: $(OBJS)
-	$(CC) $(CFLAGS) -o $@ $(OBJS)
+	$(CC) $(LFLAGS) -o $@ $(OBJS)
 
 ../KRW_ObjectFiles/main.o: ../KRW_Main/main.cpp ../KRW_Objects/symbolTableEntry.cpp ../KRW_Objects/symbolTableEntry.h ../KRW_Objects/symbolTable.cpp ../KRW_Objects/symbolTable.h
 	$(CC) $(CFLAGS) ../KRW_Main/main.cpp -o $@
