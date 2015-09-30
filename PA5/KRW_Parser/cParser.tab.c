@@ -62,7 +62,7 @@
 
 
 /* Copy the first part of user declarations.  */
-#line 22 "cParser.y" /* yacc.c:339  */
+#line 22 "../KRW_Parser/cParser.y" /* yacc.c:339  */
 
 	#include <climits>
 	#include <iostream>
@@ -2031,7 +2031,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 481 "cParser.y" /* yacc.c:1906  */
+#line 481 "../KRW_Parser/cParser.y" /* yacc.c:1906  */
  /* end of ANSI C grammar and actions */
 
 /* user code */
@@ -2045,7 +2045,3 @@ void yyerror(const char* s) {
 	exit(-1);
 }
 
-int main(void) {
-	yyparse();
-	return 0; 
-}

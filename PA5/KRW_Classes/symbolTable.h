@@ -39,7 +39,7 @@ class symbolTable {
 
         void writeSymbolTableContentsToFile();
 
-
+        ~symbolTable();
     private:
         // symbol table data members 
         deque< map<string,symbolTableEntry> > cSymbolTable; 

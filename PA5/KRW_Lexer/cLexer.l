@@ -24,7 +24,7 @@ etc.).
 
 /* lexer definitions */
 %{
-	#include "calc.tab.h"
+	#include "../KRW_Parser/cParser.tab.h"
 	#include "stdlib.h"
 	#include <climits>
 	#include <iostream>
@@ -57,13 +57,13 @@ variable [a-zA-Z][a-zA-z0-9]*
 "int"			{
 				/*cout << "Found an integer datatype!" << endl;*/
 			}
-"+"			{colPosition++; return PLUS;}
-"-"			{colPosition++; return MINUS;}
-"*"			{colPosition++; return MULT;}
-"/"			{colPosition++; return DIV;}
-";"			{colPosition++; return SEMI;}
-"("			{colPosition++; return OPEN;}
-")"			{colPosition++; return CLOSE;}
+"+"			{colPosition++; }
+"-"			{colPosition++; }
+"*"			{colPosition++; }
+"/"			{colPosition++; }
+";"			{colPosition++; }
+"("			{colPosition++; }
+")"			{colPosition++; }
 {variable}		{
 			colPosition += yyleng;
 			string variableToBePutInSymbolTable(yytext);
@@ -73,7 +73,7 @@ variable [a-zA-Z][a-zA-z0-9]*
 				int stackLevel = 0; 
 				/* iterate through the levels of the stack */
 				for (stackIterator = symbolTable.begin(); stackIterator != symbolTable.end(); stackIterator++ ) {
-					cout << "We are at level #" << stackLevel << " of the stack." << endl;
+					cout << "We are at level #:" << stackLevel << " of the stack." << endl;
 					/* iterate through the variables stored in the BSTs of the stack entries */  
 					for (variablesIterator = stackIterator->begin(); variablesIterator != stackIterator->end(); variablesIterator++) {
 						cout << variablesIterator->first << " is variable #" << variablesIterator->second << endl;
@@ -91,7 +91,7 @@ variable [a-zA-Z][a-zA-z0-9]*
 			else {
 				//yylval = atoi(yytext);
 				colPosition += yyleng;  	
-				return INTEGER;
+				
 			}
 			}
 {blankspace}+		{colPosition += yyleng;}
@@ -109,11 +109,7 @@ variable [a-zA-Z][a-zA-z0-9]*
 				} 
 			}
 {newline}+		{yylineno++; colPosition = 0;}
-.			{return ERROR;}		
+.			{}		
 %%
 
 /* user code: none for now I think.. */
-int main(void) {
-	yylex();
-	return 0; 
-}

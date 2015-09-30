@@ -491,7 +491,3 @@ void yyerror(const char* s) {
 	exit(-1);
 }
 
-int main(void) {
-	yyparse();
-	return 0; 
-}
