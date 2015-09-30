@@ -57,7 +57,7 @@ variable [a-zA-Z][a-zA-z0-9]*
 "int"			{
 				/*cout << "Found an integer datatype!" << endl;*/
 			}
-"+"			{colPosition++; }
+"+"			{colPosition++; cout << "hi" << endl;}
 "-"			{colPosition++; }
 "*"			{colPosition++; }
 "/"			{colPosition++; }
