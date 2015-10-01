@@ -2,7 +2,7 @@
 Name: Renee Iinuma, Kyle Lee, and Wesley Kepke. 
 File: symbolTable.h
 Created: September 27, 2015
-Last Modified: September 27, 2015
+Last Modified: October 1, 2015
 Class: CS 460 (Compiler Construction)
 
 This is the header file for the symbol table of our C compiler.
@@ -15,14 +15,24 @@ created and contains all associated information of identifiers (type, scope,
 etc.).    
 */
 
+// header guards
 #ifndef SYMBOL_TABLE_H
 #define SYMBOL_TABLE_H
 
+// includes
 #include "symbolTableEntry.h"
+#include <fstream>
 #include <map>
 #include <deque>
 using namespace std;
 
+// symbol table and bst typedefs to reduce keystrokes 
+typedef map<string, symbolTableEntry> bst; 
+typedef bst::iterator bstItr;
+typedef deque<bst> symTbl;  
+typedef symTbl::iterator symTblItr; 
+
+// class definition 
 class symbolTable {
     public:
         // constructors
@@ -37,12 +47,16 @@ class symbolTable {
         void pushLevelOnSymbolTable();
         void popLevelOffSymbolTable(); 
 
+	symbolTableEntry* searchForSymbolAtTopOfStack(string symbolToSearch); 
+
         void writeSymbolTableContentsToFile();
 
+	// destructor 
         ~symbolTable();
     private:
         // symbol table data members 
-        deque< map<string,symbolTableEntry> > cSymbolTable; 
+        symTbl cSymbolTable;
+	int topLevelScope;   
 };
 
 #endif // SYMBOL_TABLE_H
