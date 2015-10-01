@@ -24,7 +24,7 @@ etc.).
 
 /* lexer definitions */
 %{
-	#include "../KRW_Parser/cParser.tab.h"
+	#include "../parser/cParser.tab.h"
 	#include "stdlib.h"
 	#include <climits>
 	#include <iostream>

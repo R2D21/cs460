@@ -471,7 +471,7 @@ int yy_flex_debug = 0;
 #define YY_MORE_ADJ 0
 #define YY_RESTORE_YY_MORE_OFFSET
 char *yytext;
-#line 1 "../KRW_Lexer/cLexer.l"
+#line 1 "../lexer/cLexer.l"
 /*
 File: cLexer.l
 Created: September 27, 2015
@@ -496,8 +496,8 @@ created and contains all associated information of identifiers (type, scope,
 etc.).  
 */
 /* lexer definitions */
-#line 27 "../KRW_Lexer/cLexer.l"
-	#include "../KRW_Parser/cParser.tab.h"
+#line 27 "../lexer/cLexer.l"
+	#include "../parser/cParser.tab.h"
 	#include "stdlib.h"
 	#include <climits>
 	#include <iostream>
@@ -702,7 +702,7 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
     
-#line 56 "../KRW_Lexer/cLexer.l"
+#line 56 "../lexer/cLexer.l"
 
 #line 708 "lex.yy.c"
 
@@ -789,49 +789,49 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 57 "../KRW_Lexer/cLexer.l"
+#line 57 "../lexer/cLexer.l"
 {
 				/*cout << "Found an integer datatype!" << endl;*/
 			}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 60 "../KRW_Lexer/cLexer.l"
-{colPosition++; }
+#line 60 "../lexer/cLexer.l"
+{colPosition++; cout << "hi" << endl;}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 61 "../KRW_Lexer/cLexer.l"
+#line 61 "../lexer/cLexer.l"
 {colPosition++; }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 62 "../KRW_Lexer/cLexer.l"
+#line 62 "../lexer/cLexer.l"
 {colPosition++; }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 63 "../KRW_Lexer/cLexer.l"
+#line 63 "../lexer/cLexer.l"
 {colPosition++; }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 64 "../KRW_Lexer/cLexer.l"
+#line 64 "../lexer/cLexer.l"
 {colPosition++; }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 65 "../KRW_Lexer/cLexer.l"
+#line 65 "../lexer/cLexer.l"
 {colPosition++; }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 66 "../KRW_Lexer/cLexer.l"
+#line 66 "../lexer/cLexer.l"
 {colPosition++; }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 67 "../KRW_Lexer/cLexer.l"
+#line 67 "../lexer/cLexer.l"
 {
 			colPosition += yyleng;
 			string variableToBePutInSymbolTable(yytext);
@@ -854,7 +854,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 86 "../KRW_Lexer/cLexer.l"
+#line 86 "../lexer/cLexer.l"
 {	
 			long int tempInt = atol(yytext);	
 			if (tempInt > INT_MAX) {
@@ -869,12 +869,12 @@ YY_RULE_SETUP
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 97 "../KRW_Lexer/cLexer.l"
+#line 97 "../lexer/cLexer.l"
 {colPosition += yyleng;}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 98 "../KRW_Lexer/cLexer.l"
+#line 98 "../lexer/cLexer.l"
 {
 			tabCount++; 
 			if (colPosition < (tabCount * 8)) {
@@ -892,17 +892,17 @@ YY_RULE_SETUP
 case 13:
 /* rule 13 can match eol */
 YY_RULE_SETUP
-#line 111 "../KRW_Lexer/cLexer.l"
+#line 111 "../lexer/cLexer.l"
 {yylineno++; colPosition = 0;}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 112 "../KRW_Lexer/cLexer.l"
+#line 112 "../lexer/cLexer.l"
 {}		
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 113 "../KRW_Lexer/cLexer.l"
+#line 113 "../lexer/cLexer.l"
 ECHO;
 	YY_BREAK
 #line 909 "lex.yy.c"
@@ -1903,8 +1903,9 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 113 "../KRW_Lexer/cLexer.l"
+#line 113 "../lexer/cLexer.l"
 
 
 
 /* user code: none for now I think.. */
+
