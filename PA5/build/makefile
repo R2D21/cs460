@@ -13,7 +13,8 @@ LFLAGS = -Wall $(DEBUG)
 FLEX = flex
 BISON = bison
 LIBS = -L/usr/local/lib -lfl
-OBJS = ../lexer/lex.yy.o ../parser/cParser.tab.o ../main/main.o
+OBJS = ../lexer/lex.yy.o ../parser/cParser.tab.o ../main/main.o \
+	../classes/symbolTable.o ../classes/symbolTableEntry.o
 
 # Targets, dependencies, and rules
 all: ../bin/krwCompiler
@@ -23,6 +24,15 @@ all: ../bin/krwCompiler
 
 ../main/main.o: ../main/main.cpp
 	$(CC) $(CFLAGS) ../main/main.cpp -o $@  
+
+../classes/symbolTableEntry.o: ../classes/symbolTableEntry.cpp \
+				../classes/symbolTableEntry.h
+	$(CC) $(CFLAGS) $< -o $@
+
+../classes/symbolTable.o: ../classes/symbolTable.cpp \
+				../classes/symbolTable.h \
+				../classes/symbolTableEntry.h
+	$(CC) $(CFLAGS) $< -o $@
 
 ../lexer/lex.yy.c: ../lexer/cLexer.l ../parser/cParser.tab.c
 	$(FLEX) $<
