@@ -20,17 +20,18 @@ etc.).
 #define SYMBOL_TABLE_H
 
 // includes
-#include "symbolTableEntry.h"
+#include "scope.h"
 #include <fstream>
 #include <map>
 #include <deque>
 using namespace std;
 
 // symbol table and bst typedefs to reduce keystrokes 
-typedef map<string, symbolTableEntry> bst; 
+//typedef map<string, symbolTableEntry> bst; 
 typedef bst::iterator bstItr;
-typedef deque<bst> symTbl;  
+typedef deque<scope> symTbl;  
 typedef symTbl::iterator symTblItr; 
+//typedef symTbl::const_iterator constSymTblItr;
 
 // class definition 
 class symbolTable {
@@ -39,24 +40,27 @@ class symbolTable {
         symbolTable();
 
         // symbol table functions 
-        void insertNewSymbol(symbolTableEntry newSymbolTableEntry);
-        symbolTableEntry* searchForSymbol(int& levelSymbolWasFound); // todo: parameters and return type TBD
+        void pushLevelOn();
+        void pushLevelOn(int outer);
+        void popLevelOff(); 
 
-        void searchTopLevelOnly(); // todo: parameters and return type TBD
+        void insertNewSymbol(string name, symbolTableEntry newEntry);
 
-        void pushLevelOnSymbolTable();
-        void popLevelOffSymbolTable(); 
+        symbolTableEntry* searchForSymbol(string symbolToSearch, int& levelSymbolWasFound); // todo: parameters and return type TBD
+        symbolTableEntry* searchHelper(string symbolToSearch, int&levelSymbolWasFound, int searchLevel);
+        //void searchTopLevelOnly(); // todo: parameters and return type TBD
 
-	symbolTableEntry* searchForSymbolAtTopOfStack(string symbolToSearch); 
+        symbolTableEntry* searchTopOfStack(string symbolToSearch); 
 
-        void writeSymbolTableContentsToFile();
+        void writeToFile();
+        void writeToScreen();
 
 	// destructor 
         ~symbolTable();
     private:
         // symbol table data members 
         symTbl cSymbolTable;
-	int topLevelScope;   
+	//int topLevelScope;   
 };
 
 #endif // SYMBOL_TABLE_H
