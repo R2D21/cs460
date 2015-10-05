@@ -50,7 +50,7 @@ yylval will remain as an integer in this program. */
 %token PLUS MINUS MULT DIV MOD
 %token SEMI COLON COMMA AMP
 %token EQUALS TILDE PIPE CARROT DOT
-%token EXCLAM QUESTION
+%token BANG QUESTION
 %token LPAREN LBRACK LCURL
 %token RPAREN RBRACK RCURL
 %token LTHAN GTHAN
@@ -448,7 +448,7 @@ unary_operator
 	| PLUS
 	| MINUS
 	| TILDE
-	| EXCLAM
+	| BANG
 	;
 
 postfix_expression

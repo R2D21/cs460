@@ -15,7 +15,6 @@ BISON = bison
 LIBS = -L/usr/local/lib -lfl
 OBJS = ../lexer/lex.yy.o ../parser/cParser.tab.o ../main/main.o \
 	../classes/symbolTable.o ../classes/symbolTableEntry.o \
-	../classes/scope.o
 
 # Targets, dependencies, and rules
 all: ../bin/krwCompiler
@@ -28,9 +27,6 @@ all: ../bin/krwCompiler
 
 ../classes/symbolTableEntry.o: ../classes/symbolTableEntry.cpp \
 				../classes/symbolTableEntry.h
-	$(CC) $(CFLAGS) $< -o $@
-
-../classes/scope.o: ../classes/scope.cpp ../classes/scope.h
 	$(CC) $(CFLAGS) $< -o $@
 
 ../classes/symbolTable.o: ../classes/symbolTable.cpp \

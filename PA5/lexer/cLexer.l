@@ -24,91 +24,68 @@ etc.).
 
 /* lexer definitions */
 %{
-	#include "../parser/cParser.tab.h"
-	#include "stdlib.h"
-	#include <climits>
+	/* includes */
 	#include <iostream>
-	using namespace std; 
-	//void yyerror(const char* errorMsg);
-	int colPosition = 0;
-	int tabCount = 0;
-	int variableNumber = 0; 
 	#include <map>
 	#include <string>
 	#include <deque>
-	deque< map<string,int> > symbolTable; 
-	map<string, int> variables;
-	map<string, int>::iterator variablesIterator;  
-	deque< map<string, int> >::iterator stackIterator; 
+	#include "stdlib.h"
+	#include <climits>
+	#include "../parser/cParser.tab.h"
+	#include "../classes/symbolTable.h"
+	using namespace std; 
+	//void yyerror(const char* errorMsg);
+
+	/* variables */
+	int colPosition = 0;
+	int tabCount = 0; 
 %}
- 
+
+/* token definitions */
 blankspace	[ ]
 tab	[\t]
 newline	[\n]
 digit	[0-9]
 number	{digit}+
-variable [a-zA-Z][a-zA-z0-9]*
+identifier [a-zA-Z][a-zA-z0-9]*
 
-/* tell flex to read only one input file */
+/* tell flex to read only one input file - THIS COULD CHANGE */
 %option noyywrap
 
 /* rules and actions */
 %%
-"int"			{
-				/*cout << "Found an integer datatype!" << endl;*/
-			}
-"+"			{colPosition++; cout << "hi" << endl;}
-"-"			{colPosition++; }
-"*"			{colPosition++; }
-"/"			{colPosition++; }
-";"			{colPosition++; }
-"("			{colPosition++; }
-")"			{colPosition++; }
-{variable}		{
-			colPosition += yyleng;
-			string variableToBePutInSymbolTable(yytext);
-			variables[variableToBePutInSymbolTable] = variableNumber++; /* add variable to BST (maps are BST)  */
-			if (variableNumber % 3 == 0) { /* push symbol table onto stack as if we are entering a new scope/subroutine */
-				symbolTable.push_front(variables);
-				int stackLevel = 0; 
-				/* iterate through the levels of the stack */
-				for (stackIterator = symbolTable.begin(); stackIterator != symbolTable.end(); stackIterator++ ) {
-					cout << "We are at level #:" << stackLevel << " of the stack." << endl;
-					/* iterate through the variables stored in the BSTs of the stack entries */  
-					for (variablesIterator = stackIterator->begin(); variablesIterator != stackIterator->end(); variablesIterator++) {
-						cout << variablesIterator->first << " is variable #" << variablesIterator->second << endl;
-					}
-					stackLevel++; 
-				}
-				variables.clear(); 
-			}
-			}
-{number}		{	
-			long int tempInt = atol(yytext);	
-			if (tempInt > INT_MAX) {
-				//yyerror("Integer out of range.");
-			}
-			else {
-				//yylval = atoi(yytext);
-				colPosition += yyleng;  	
-				
-			}
-			}
-{blankspace}+		{colPosition += yyleng;}
-{tab}			{
-			tabCount++; 
-			if (colPosition < (tabCount * 8)) {
-				colPosition = (tabCount * 8);
-			}
-			else {
-				int nextHighestMultipleOf8 = 8;
-				while(colPosition > nextHighestMultipleOf8) {
-					nextHighestMultipleOf8 += 8;
-				}
-					colPosition = nextHighestMultipleOf8;
-				} 
-			}
-{newline}+		{yylineno++; colPosition = 0;}
+"auto"		{}
+"break"		{}
+"case"		{}
+"char"		{}
+"const"		{}
+"continue"	{}
+"default"	{}
+"do"		{}
+"double"	{}	
+"else"		{}
+"enum"		{}
+"extern"	{}
+"float"		{}
+"for"		{}
+"goto"		{}
+"if"		{}
+"int"		{}
+"long"		{}
+"register"	{}
+"return"	{}
+"short"		{}
+"signed"	{}
+"sizeof"	{}	
+"static"	{}
+"struct"	{}
+"switch"	{}
+"typedef"	{}
+"union"		{}
+"unsigned"	{}
+"void"		{}
+"volatile"	{}
+"while"		{}
 .			{}		
 %%
 
