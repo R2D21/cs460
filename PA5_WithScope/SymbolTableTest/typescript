@@ -1,0 +1,329 @@
+Script started on Fri 02 Oct 2015 07:45:24 PM PDT
+]0;reneei@ubuntu: ~/Documents/CS460/cs460/PA5/SymbolTableTestreneei@ubuntu:~/Documents/CS460/cs460/PA5/SymbolTableTest$ make clean
+rm -rf ../SymbolTableTest/main.o ../classes/symbolTable.o ../classes/symbolTableEntry.o ../classes/scope.o ../SymbolTableTest/TestST
+]0;reneei@ubuntu: ~/Documents/CS460/cs460/PA5/SymbolTableTestreneei@ubuntu:~/Documents/CS460/cs460/PA5/SymbolTableTest$ make
+g++ -Wall -c -g ../classes/symbolTable.cpp -o ../classes/symbolTable.o
+g++ -Wall -c -g ../classes/symbolTableEntry.cpp -o ../classes/symbolTableEntry.o
+g++ -Wall -c -g ../classes/scope.cpp -o ../classes/scope.o
+g++ -Wall -c -g ../SymbolTableTest/mainST.cpp -o ../SymbolTableTest/main.o  
+g++ -Wall -g -o ../SymbolTableTest/TestST ../SymbolTableTest/main.o ../classes/symbolTable.o ../classes/symbolTableEntry.o ../classes/scope.o 
+]0;reneei@ubuntu: ~/Documents/CS460/cs460/PA5/SymbolTableTestreneei@ubuntu:~/Documents/CS460/cs460/PA5/SymbolTableTest$ ./TestST 
+New symbol table!
+Symbol Table Test Program
+
+
+Select option:
+	0. Exit program
+	1. Display symbol table
+	2. Begin new scope
+	3. End current scope
+	4. Add variable to ST
+	5. Search top level
+	6. Check if variable in scope
+1
+Symbol table is empty!
+
+Select option:
+	0. Exit program
+	1. Display symbol table
+	2. Begin new scope
+	3. End current scope
+	4. Add variable to ST
+	5. Search top level
+	6. Check if variable in scope
+2
+New outer scope? (y/n): n
+New scope!
+
+Select option:
+	0. Exit program
+	1. Display symbol table
+	2. Begin new scope
+	3. End current scope
+	4. Add variable to ST
+	5. Search top level
+	6. Check if variable in scope
+4
+Enter new variable name: Renee
+New symbol table entry.
+
+Select option:
+	0. Exit program
+	1. Display symbol table
+	2. Begin new scope
+	3. End current scope
+	4. Add variable to ST
+	5. Search top level
+	6. Check if variable in scope
+4
+Enter new variable name: Wes
+New symbol table entry.
+
+Select option:
+	0. Exit program
+	1. Display symbol table
+	2. Begin new scope
+	3. End current scope
+	4. Add variable to ST
+	5. Search top level
+	6. Check if variable in scope
+2
+New outer scope? (y/n): y
+Enter new outer scope: 0
+New scope!
+
+Select option:
+	0. Exit program
+	1. Display symbol table
+	2. Begin new scope
+	3. End current scope
+	4. Add variable to ST
+	5. Search top level
+	6. Check if variable in scope
+1
+Scope Level 0 in Scope 0
+Variable: Renee
+Variable: Wes
+Scope Level 1 in Scope 0
+
+Select option:
+	0. Exit program
+	1. Display symbol table
+	2. Begin new scope
+	3. End current scope
+	4. Add variable to ST
+	5. Search top level
+	6. Check if variable in scope
+4
+Enter new variable name: Kyle
+New symbol table entry.
+
+Select option:
+	0. Exit program
+	1. Display symbol table
+	2. Begin new scope
+	3. End current scope
+	4. Add variable to ST
+	5. Search top level
+	6. Check if variable in scope
+1
+Scope Level 0 in Scope 0
+Variable: Renee
+Variable: Wes
+Scope Level 1 in Scope 0
+Variable: Kyle
+
+Select option:
+	0. Exit program
+	1. Display symbol table
+	2. Begin new scope
+	3. End current scope
+	4. Add variable to ST
+	5. Search top level
+	6. Check if variable in scope
+2
+New outer scope? (y/n): n
+New scope!
+
+Select option:
+	0. Exit program
+	1. Display symbol table
+	2. Begin new scope
+	3. End current scope
+	4. Add variable to ST
+	5. Search top level
+	6. Check if variable in scope
+2 4
+Enter new variable name: Ernest
+New symbol table entry.
+
+Select option:
+	0. Exit program
+	1. Display symbol table
+	2. Begin new scope
+	3. End current scope
+	4. Add variable to ST
+	5. Search top level
+	6. Check if variable in scope
+1
+Scope Level 0 in Scope 0
+Variable: Renee
+Variable: Wes
+Scope Level 1 in Scope 0
+Variable: Kyle
+Scope Level 2 in Scope 2
+Variable: Ernest
+
+Select option:
+	0. Exit program
+	1. Display symbol table
+	2. Begin new scope
+	3. End current scope
+	4. Add variable to ST
+	5. Search top level
+	6. Check if variable in scope
+2
+New outer scope? (y/n): y
+Enter new outer scope: 2
+New scope!
+
+Select option:
+	0. Exit program
+	1. Display symbol table
+	2. Begin new scope
+	3. End current scope
+	4. Add variable to ST
+	5. Search top level
+	6. Check if variable in scope
+1
+Scope Level 0 in Scope 0
+Variable: Renee
+Variable: Wes
+Scope Level 1 in Scope 0
+Variable: Kyle
+Scope Level 2 in Scope 2
+Variable: Ernest
+Scope Level 3 in Scope 2
+
+Select option:
+	0. Exit program
+	1. Display symbol table
+	2. Begin new scope
+	3. End current scope
+	4. Add variable to ST
+	5. Search top level
+	6. Check if variable in scope
+4
+Enter new variable name: Quinn
+New symbol table entry.
+
+Select option:
+	0. Exit program
+	1. Display symbol table
+	2. Begin new scope
+	3. End current scope
+	4. Add variable to ST
+	5. Search top level
+	6. Check if variable in scope
+5
+Enter variable to search for: Ernest
+Not found!
+
+Select option:
+	0. Exit program
+	1. Display symbol table
+	2. Begin new scope
+	3. End current scope
+	4. Add variable to ST
+	5. Search top level
+	6. Check if variable in scope
+6
+Enter variable to search for: Ernest
+Found at Scope 2
+
+Select option:
+	0. Exit program
+	1. Display symbol table
+	2. Begin new scope
+	3. End current scope
+	4. Add variable to ST
+	5. Search top level
+	6. Check if variable in scope
+1
+Scope Level 0 in Scope 0
+Variable: Renee
+Variable: Wes
+Scope Level 1 in Scope 0
+Variable: Kyle
+Scope Level 2 in Scope 2
+Variable: Ernest
+Scope Level 3 in Scope 2
+Variable: Quinn
+
+Select option:
+	0. Exit program
+	1. Display symbol table
+	2. Begin new scope
+	3. End current scope
+	4. Add variable to ST
+	5. Search top level
+	6. Check if variable in scope
+2
+New outer scope? (y/n): y
+Enter new outer scope: 1
+New scope!
+
+Select option:
+	0. Exit program
+	1. Display symbol table
+	2. Begin new scope
+	3. End current scope
+	4. Add variable to ST
+	5. Search top level
+	6. Check if variable in scope
+4
+Enter new variable name: Ae wesome
+New symbol table entry.
+
+Select option:
+	0. Exit program
+	1. Display symbol table
+	2. Begin new scope
+	3. End current scope
+	4. Add variable to ST
+	5. Search top level
+	6. Check if variable in scope
+1
+Scope Level 0 in Scope 0
+Variable: Renee
+Variable: Wes
+Scope Level 1 in Scope 0
+Variable: Kyle
+Scope Level 2 in Scope 2
+Variable: Ernest
+Scope Level 3 in Scope 2
+Variable: Quinn
+Scope Level 4 in Scope 1
+Variable: Awesome
+
+Select option:
+	0. Exit program
+	1. Display symbol table
+	2. Begin new scope
+	3. End current scope
+	4. Add variable to ST
+	5. Search top level
+	6. Check if variable in scope
+6
+Enter variable to search for: Kyle
+Found at Scope 1
+
+Select option:
+	0. Exit program
+	1. Display symbol table
+	2. Begin new scope
+	3. End current scope
+	4. Add variable to ST
+	5. Search top level
+	6. Check if variable in scope
+6
+Enter variable to search for: Renee
+Found at Scope 0
+
+Select option:
+	0. Exit program
+	1. Display symbol table
+	2. Begin new scope
+	3. End current scope
+	4. Add variable to ST
+	5. Search top level
+	6. Check if variable in scope
+0
+Destroy symbol table
+Destroy scope
+Destroy scope
+Destroy scope
+Destroy scope
+Destroy scope
+]0;reneei@ubuntu: ~/Documents/CS460/cs460/PA5/SymbolTableTestreneei@ubuntu:~/Documents/CS460/cs460/PA5/SymbolTableTest$ exit script
+Script done on Fri 02 Oct 2015 07:48:57 PM PDT

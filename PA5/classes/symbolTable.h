@@ -2,7 +2,7 @@
 Name: Renee Iinuma, Kyle Lee, and Wesley Kepke. 
 File: symbolTable.h
 Created: September 27, 2015
-Last Modified: October 1, 2015
+Last Modified: October 4, 2015
 Class: CS 460 (Compiler Construction)
 
 This is the header file for the symbol table of our C compiler.
@@ -20,18 +20,20 @@ etc.).
 #define SYMBOL_TABLE_H
 
 // includes
-#include "scope.h"
+#include "symbolTableEntry.h"
 #include <fstream>
 #include <map>
 #include <deque>
 using namespace std;
 
 // symbol table and bst typedefs to reduce keystrokes 
-//typedef map<string, symbolTableEntry> bst; 
+typedef map<string, symbolTableEntry> bst; 
 typedef bst::iterator bstItr;
-typedef deque<scope> symTbl;  
+typedef bst::const_iterator constBstItr;
+typedef deque<bst> symTbl;  
 typedef symTbl::iterator symTblItr; 
-//typedef symTbl::const_iterator constSymTblItr;
+typedef pair<string, symbolTableEntry> entry;
+typedef symTbl::const_iterator constSymTblItr;
 
 // class definition 
 class symbolTable {
@@ -41,26 +43,19 @@ class symbolTable {
 
         // symbol table functions 
         void pushLevelOn();
-        void pushLevelOn(int outer);
         void popLevelOff(); 
-
-        void insertNewSymbol(string name, symbolTableEntry newEntry);
-
-        symbolTableEntry* searchForSymbol(string symbolToSearch, int& levelSymbolWasFound); // todo: parameters and return type TBD
-        symbolTableEntry* searchHelper(string symbolToSearch, int&levelSymbolWasFound, int searchLevel);
-        //void searchTopLevelOnly(); // todo: parameters and return type TBD
-
+        void insertNewSymbol(string name);
+        symbolTableEntry* searchForSymbol(string symbolToSearch, int& levelSymbolWasFound);
         symbolTableEntry* searchTopOfStack(string symbolToSearch); 
+        void writeToFile() const;
+        void writeToScreen() const;
 
-        void writeToFile();
-        void writeToScreen();
-
-	// destructor 
+	   // destructor 
         ~symbolTable();
+
     private:
         // symbol table data members 
-        symTbl cSymbolTable;
-	//int topLevelScope;   
+        symTbl table;
 };
 
 #endif // SYMBOL_TABLE_H

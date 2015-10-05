@@ -2,7 +2,7 @@
 Name: Renee Iinuma, Kyle Lee, and Wesley Kepke. 
 File: symbolTable.cpp
 Created: September 27, 2015
-Last Modified: October 1, 2015
+Last Modified: October 4, 2015
 Class: CS 460 (Compiler Construction)
 
 This is the implementation file for the symbol table of our C compiler.
@@ -23,76 +23,80 @@ etc.).
 /*
 Function: symbolTable() (constructor) 
 
-Description: Allows for instantiation of a new symbolTable object. 
+Description: Allows for instantiation of a new symbol table object. 
 */
-symbolTable::symbolTable() {
+symbolTable::symbolTable(){
 	cout << "New symbol table!" << endl; 
-	//topLevelScope = 0; 
+	pushLevelOn(); 
 }
 
-void symbolTable::insertNewSymbol(string name, symbolTableEntry newEntry){
-	int topLevel = cSymbolTable.size() - 1;
+/*
+Function: pushLevelOn()
 
-	if(topLevel == -1)
-	{
-		// DO WE WANT ERROR OR ADD SCOPE?
-	}
-	else
-	{
-		bst* currentVars = cSymbolTable[ topLevel ].getVars();
-		currentVars->insert( pair<string,symbolTableEntry>(name, newEntry) );
-	}
-
-}
-
-
+Description: This function pushes a new scope level onto the stack. 
+*/
 void symbolTable::pushLevelOn(){
 	bst* newTree = new bst();
-	scope* newScope = new scope(cSymbolTable.size(), cSymbolTable.size(), *newTree);
-	cSymbolTable.push_back(*newScope);
+	table.push_back(*newTree);
 
 }
 
-void symbolTable::pushLevelOn(int outer){
-	bst* newTree = new bst();
-	scope* newScope = new scope(cSymbolTable.size(), outer, *newTree);
-	cSymbolTable.push_back(*newScope);
+/*
+Function: popLevelOff()
 
-}
-
+Description: This function pops a scope level off of the stack (assuming) 
+there is a level to pop off. 
+*/
 void symbolTable::popLevelOff(){
-	cSymbolTable.pop_back();
-
+	if (table.size() > 0){
+		table.pop_back();
+	}
 }
 
+/*
+Function: insertNewSymbol(string name)
+
+Description: This function will add a new entry to the current scope level
+on the stack. 
+
+Parameters:
+string name: The name of the identifier to be added to the current scope 
+level. 
+*/
+void symbolTable::insertNewSymbol(string name){
+	symbolTableEntry* newEntry = new symbolTableEntry(); // empty for now 
+	bst* currentVars = &table[table.size() - 1]; 
+	currentVars->insert(entry(name, *newEntry));
+}
+
+/*
+Function: symbolTableEntry* searchForSymbol(string symbolToSearch, int& levelSymbolWasFound) const
+
+Description: This function will search the symbol table for the desired symbol and return a pointer
+to the corresponding symbol table entry. 
+*/
 symbolTableEntry* symbolTable::searchForSymbol(string symbolToSearch, int& levelSymbolWasFound){
-	if(cSymbolTable.size() == 0){
+	if(table.size() == 0){
 		levelSymbolWasFound = -1;
 		return NULL;
 	}
-	return searchHelper( symbolToSearch, levelSymbolWasFound, cSymbolTable.size()-1 );
-}
 
-symbolTableEntry* symbolTable::searchHelper(string symbolToSearch, int&levelSymbolWasFound, int searchLevel){
-	// variables
-	bst* searchBST = cSymbolTable[searchLevel].getVars();
-	bstItr scopeItr;
+	symTblItr stackItr;
+	bstItr treeItr;
+	int currentLevel;
 
-	// iterate through the top BST in the symbol table
-	for (scopeItr = searchBST->begin(); scopeItr != searchBST->end(); scopeItr++) {
-		// check for the desired symbol
-		if (symbolToSearch == scopeItr->first) {
-			levelSymbolWasFound = searchLevel;
-			return &(scopeItr->second); 
+	for(currentLevel = table.size()-1; currentLevel >= 0; currentLevel--){
+		for(treeItr = table[currentLevel].begin(); treeItr != table[currentLevel].end(); treeItr++){
+			// check for the desired symbol
+			if (symbolToSearch == treeItr->first) {
+				levelSymbolWasFound = currentLevel;
+				return &(treeItr->second); 
+			}
 		}
 	}
-	if(searchLevel == 0){
-		levelSymbolWasFound = -1;
-		return NULL;
-	}
-	else{
-		return searchHelper( symbolToSearch, levelSymbolWasFound, cSymbolTable[searchLevel].getOuterScope() );
-	}
+
+	levelSymbolWasFound = -1;
+	return NULL;
 }
 
 /*
@@ -105,37 +109,25 @@ table entry's data will be returned. Otherwise, if the function was unable
 to locate the symbol table entry or if the symbol table is empty, the 
 function will return NULL. 
 */
-symbolTableEntry* symbolTable::searchTopOfStack(string symbolToSearch) {
+symbolTableEntry* symbolTable::searchTopOfStack(string symbolToSearch){
 	// check if symbol table is empty
-	if (cSymbolTable.size() == 0) {
+	if (table.size() == 0) {
 		return NULL; 
 	}
-
+	
 	// variables
-	bst* topBST = cSymbolTable[cSymbolTable.size()-1].getVars();
+	//symTblItr firstBST = table[table.size() - 1]; 
 	bstItr scopeItr;
 
 	// iterate through the top BST in the symbol table
-	for (scopeItr = topBST->begin(); scopeItr != topBST->end(); scopeItr++) {
+	for (scopeItr = table[table.size() - 1].begin(); 
+			scopeItr != table[table.size() - 1].end(); scopeItr++) {
 		// check for the desired symbol
 		if (symbolToSearch == scopeItr->first) {
 			return &(scopeItr->second); 
 		}
 	}
 
-/*
-	// variables
-	symTblItr firstBST = cSymbolTable.begin(); 
-	bstItr scopeItr;
-
-	// iterate through the top BST in the symbol table
-	for (scopeItr = firstBST->begin(); scopeItr != firstBST->end(); scopeItr++) {
-		// check for the desired symbol
-		if (symbolToSearch == scopeItr->first) {
-			return &(scopeItr->second); 
-		}
-	}
-*/
 	return NULL; 
 }
 
@@ -146,82 +138,46 @@ Return type: void
 Description: Will write the contents of the symbol table to a file that
 will be located in the "outputFiles" directory.  
 */
-void symbolTable::writeToFile() {
+void symbolTable::writeToFile() const{
 	// variables
-	bstItr scopeItr; 
-	symTblItr symbolTableItr; 
+	constSymTblItr stackItr;
+	constBstItr treeItr;
+	int currentLevel;
  
 	ofstream outFile;
 	outFile.open("../outputFiles/symbolTableContents.txt", ofstream::out); 
-	int scopeLevel = cSymbolTable.size(); 
+	int scopeLevel = table.size(); 
  	if(scopeLevel == -1){
 		outFile << "Symbol table is empty!" << endl;
 	}
 
- /*
-	// iterate through BSTs in the symbol table
-	for (symbolTableItr = cSymbolTable.end();  
-		symbolTableItr != cSymbolTable.begin(); 
-		symbolTableItr--) {
-
-		// output all content in the current scope 
-		outFile << "Scope level: " << scopeLevel << endl;
-		for (scopeItr = symbolTableItr->begin();
-			scopeItr != symbolTableItr->end();
-			scopeItr++) {
-			outFile << "Identifier name: " << scopeItr->first << endl;
-			outFile << "TBD: " << endl;
+	for(currentLevel = table.size()-1; currentLevel >= 0; currentLevel--){
+		outFile << "Scope Level " << currentLevel << ":" << endl;
+		for(treeItr = table[currentLevel].begin(); treeItr != table[currentLevel].end(); treeItr++){
+			outFile << "\tVariable: " << treeItr->first << endl;
 		}
 	}
-*/
+
 	// file writing complete 
 	outFile.close(); 	
 }
 
-void symbolTable::writeToScreen() {
-	// variables
-	bstItr varsItr; 
-	symTblItr symbolTableItr; 
-	bst* currentVars;
-	int scopeLevel = cSymbolTable.size() - 1;  
-	if(scopeLevel == -1){
+void symbolTable::writeToScreen() const{
+	int scopeLevel = table.size(); 
+ 	if(scopeLevel == -1){
 		cout << "Symbol table is empty!" << endl;
 	}
-	else
-	{
-		for (symbolTableItr = cSymbolTable.begin();  
-			symbolTableItr != cSymbolTable.end(); 
-			symbolTableItr++) {
 
-			currentVars = symbolTableItr->getVars();
-			cout << "Scope Level " << symbolTableItr->getScopeLevel() << " in Scope ";
-			cout << symbolTableItr->getOuterScope() << endl;
-			for (varsItr = currentVars->begin(); varsItr != currentVars->end(); 
-					varsItr++) {
-				cout << "Variable: " << varsItr->first << endl;
+	constSymTblItr stackItr;
+	constBstItr treeItr;
+	int currentLevel;
 
-			}
-			
-		}
-
-	}
- /*
-	// iterate through BSTs in the symbol table
-	for (symbolTableItr = cSymbolTable.end();  
-		symbolTableItr != cSymbolTable.begin(); 
-		symbolTableItr--) {
-
-		// output all content in the current scope 
-		outFile << "Scope level: " << scopeLevel << endl;
-		for (scopeItr = symbolTableItr->begin();
-			scopeItr != symbolTableItr->end();
-			scopeItr++) {
-			outFile << "Identifier name: " << scopeItr->first << endl;
-			outFile << "TBD: " << endl;
+	for(currentLevel = table.size()-1; currentLevel >= 0; currentLevel--){
+		cout << "Scope Level " << currentLevel << ":" << endl;
+		for(treeItr = table[currentLevel].begin(); treeItr != table[currentLevel].end(); treeItr++){
+			cout << "\tVariable: " << treeItr->first << endl;
 		}
 	}
-*/
-
 }
 
 symbolTable::~symbolTable(){

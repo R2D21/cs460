@@ -9,12 +9,11 @@ void menu();
 
 int main(){
 
-	char input, yn;
+	char input;
 	int scopeNum;
 	symbolTable testTable;
 	string varName;
 	symbolTableEntry* testEntry;
-	symbolTableEntry* newEntry;
 	cout << "Symbol Table Test Program" << endl << endl;
 	do{
 
@@ -28,16 +27,9 @@ int main(){
 				testTable.writeToScreen();
 				break;
 			case '2':	// Begin new scope
-				cout << "New outer scope? (y/n): ";
-				cin >> yn;
-				if( yn == 'n' ){
-					testTable.pushLevelOn();
-				}
-				else{
-					cout << "Enter new outer scope: ";
-					cin >> scopeNum;
-					testTable.pushLevelOn(scopeNum);
-				}
+
+				testTable.pushLevelOn();
+
 				break;
 			case '3':	// End current scope
 				testTable.popLevelOff();
@@ -45,8 +37,7 @@ int main(){
 			case '4':	// Add variable to ST
 				cout << "Enter new variable name: ";
 				cin >> varName;
-				newEntry = new symbolTableEntry();
-				testTable.insertNewSymbol(varName, *newEntry);
+				testTable.insertNewSymbol(varName);
 				break;
 			case '5':
 				cout << "Enter variable to search for: ";
