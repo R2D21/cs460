@@ -16,24 +16,13 @@ of our C compiler.
 #include <string>
 using namespace std;
 
-enum typeSpecifier {
-    CHAR,
-    SHORT,
-    INT,
-    LONG,
-    FLOAT,
-    DOUBLE,
-    SIGNED,
-    UNSIGNED
-};
-
 class symbolTableEntry {
 	public:
         // constructors
         symbolTableEntry(); 
         
         // functions for symbol table objects
-        void setIdentifierType(typeSpecifier type);
+        void setIdentifierType();
         string getIdentifierType();
         void setIdentifierName(string name);
         string getIdentifierName(); 

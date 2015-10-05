@@ -88,7 +88,7 @@ extern int yydebug;
     PIPE = 298,
     CARROT = 299,
     DOT = 300,
-    EXCLAM = 301,
+    BANG = 301,
     QUESTION = 302,
     LPAREN = 303,
     LBRACK = 304,
