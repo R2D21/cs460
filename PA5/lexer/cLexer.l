@@ -1,7 +1,7 @@
 /*
 File: cLexer.l
 Created: September 27, 2015
-Last Modified: September 27, 2015
+Last Modified: October, 2015
 Class: CS 460 (Compiler Construction)
 
 This is the input file to Flex that will be used in the front end of our
@@ -34,15 +34,16 @@ etc.).
 	#include "../parser/cParser.tab.h"
 	#include "../classes/symbolTable.h"
 	using namespace std; 
-	//void yyerror(const char* errorMsg);
 
-	bool LFLAG; /* extern? */
-	std::ofstream out;
-	out.open("../outputFiles/tokens.txt", std::ofstream::out);
+	/* externs */
+	extern bool LFLAG; 
+	extern ofstream out; 
+	extern void yyerror(const char* errorMsg);
 
 	/* variables */
 	int colPosition = 0;
 	int tabCount = 0; 
+	symbolTable table; 
 %}
 
 /* token definitions */
@@ -51,6 +52,8 @@ tab	[\t]
 newline	[\n]
 digit	[0-9]
 number	{digit}+
+decimal	{digit}+"."{digit}+
+character [a-zA-Z]+
 identifier [a-zA-Z][a-zA-z0-9]*
 
 /* tell flex to read only one input file - THIS COULD CHANGE */
@@ -250,8 +253,47 @@ identifier [a-zA-Z][a-zA-z0-9]*
 					}
 					return WHILE; 
 				}
+{identifier}	{
+					if(LFLAG){
+						out << "< IDENTIFIER >";
+					}
+					string newEntry(yytext);
+					table.insertNewSymbol(newEntry);
+					cout << "Just inserted: " << newEntry << endl;
+					/*
+					colPosition += strlen(yytext);
+					yylval.sVal = new char[25]; where is this deallocated? 
+					strcpy(yylval.sVal, yytext);   */
+					return IDENTIFIER; 				
+				}
+{number}		{
+					if(LFLAG){
+						out << "< INTEGER_CONSTANT >";
+					}
+					return INTEGER_CONSTANT; 						
+				}
+{decimal}		{
+					if(LFLAG){
+						out << "< FLOATING_CONSTANT >";
+					}
+					return FLOATING_CONSTANT; 		
+				}
+{character}		{
+					if(LFLAG){
+						out << "< CHARACTER_CONSTANT >";
+					}
+					return CHARACTER_CONSTANT; 		
+				}
+				/* don't know what this is 
+{
+						if(LFLAG){
+						out << "< ENUMERATION_CONSTANT >";
+					}
+					return ENUMERATION_CONSTANT; 		
+}
+			*/
 "stringliteral"	{
-
+					cout << "string literal" << endl; 
 				}
 "->"			{
 					if(LFLAG){
@@ -523,8 +565,19 @@ identifier [a-zA-Z][a-zA-z0-9]*
 					} 
 					return GTHAN;
 				}
+{newline}		{
+					if(LFLAG){
+						out << "< NEWLINE >";
+					}
+					yylineno++; 
+					colPosition = 0;
+					cout << "newline" << endl;  
+				}
 .				{
 
+					cout << "here" << endl; 
+					/* found an illegal token */
+					/*yyerror("Unknown token..");*/
 				}		
 %%
 
