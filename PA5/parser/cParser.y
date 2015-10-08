@@ -76,7 +76,7 @@ translation_unit
 	: external_declaration
 		{
 			if(YFLAG){
-				outY << "translation_unit : external declaration;" << endl;
+				outY << "translation_unit : external_declaration;" << endl;
 				outY << $$ << "->" << $1;
 			}
 		}
@@ -117,34 +117,111 @@ function_definition
 			}
 		}
 	| declaration_specifiers declarator compound_statement
+		{
+			if(YFLAG){
+				outY << "function_definition : declaration_specifiers declarator compound_statement;" << endl;
+			}
+		}
 	| declaration_specifiers declarator declaration_list compound_statement
+		{
+			if(YFLAG){
+				outY << "function_definition : declaration_specifiers declarator declaration_list compound_statement;" << endl;
+			}
+		}
 	;
 
 declaration
 	: declaration_specifiers SEMI
+		{
+			if(YFLAG){
+				outY << "declaration : declaration_specifiers SEMI;" << endl << endl;
+			}
+		}
 	| declaration_specifiers init_declarator_list SEMI
+		{
+			if(YFLAG){
+				outY << "declaration : declaration_specifiers init_declarator_list SEMI;" << endl << endl;
+			}
+		}
 	;
 
 declaration_list
 	: declaration
+		{
+			if(YFLAG){
+				outY << "declaration_list : declaration;" << endl;
+			}
+		}
 	| declaration_list declaration
+		{
+			if(YFLAG){
+				outY << "declaration_list : declaration_list declaration;" << endl;
+			}
+		}
 	;
 
 declaration_specifiers
 	: storage_class_specifier
+		{
+			if(YFLAG){
+				outY << "declaration_specifiers : storage_class_specifier;" << endl;
+			}
+		}
 	| storage_class_specifier declaration_specifiers
+		{
+			if(YFLAG){
+				outY << "declaration_specifiers : storage_class_specifier declaration_specifiers;" << endl;
+			}
+		}
 	| type_specifier
+		{
+			if(YFLAG){
+				outY << "declaration_specifiers : type_specifier;" << endl;
+			}
+		}
 	| type_specifier declaration_specifiers
+		{
+			if(YFLAG){
+				outY << "declaration_specifiers : type_specifier declaration_specifiers;" << endl;
+			}
+		}
 	| type_qualifier 
+		{
+			if(YFLAG){
+				outY << "declaration_specifiers : type_qualifier;" << endl;
+			}
+		}
 	| type_qualifier declaration_specifiers
+		{
+			if(YFLAG){
+				outY << "declaration_specifiers : type_qualifier declaration_specifiers;" << endl;
+			}
+		}
 	;
 
 storage_class_specifier
 	: AUTO
+		{
+			if(YFLAG){
+				outY << "storage_class_specifier : AUTO;" << endl;
+			}
+		}
 	| REGISTER
+			if(YFLAG){
+				outY << "storage_class_specifier : REGISTER;" << endl;
+			}
 	| STATIC
+			if(YFLAG){
+				outY << "storage_class_specifier : STATIC;" << endl;
+			}
 	| EXTERN
+			if(YFLAG){
+				outY << "storage_class_specifier : EXTERN;" << endl;
+			}
 	| TYPEDEF
+			if(YFLAG){
+				outY << "storage_class_specifier : TYPEDEF;" << endl;
+			}
 	;
 
 type_specifier

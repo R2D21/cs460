@@ -50,7 +50,7 @@ int main(int argc, char** argv) {
 
 	yyparse();  
 
-	cout << "Front end complete - writing symbol table.." << endl;
+	cout << "Front end complete - writing symbol table..." << endl;
 	table.writeToScreen(); 
 
 	if (LFLAG) {

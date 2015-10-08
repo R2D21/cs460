@@ -1,5 +1,8 @@
 10/7 11pm Renee
 - Can read command line arguments (-y and/or -l)
 - Added flag to output yacc
+- Added line number in symbol table entry
+
 - Need to consider yytext or yylval--not sure which
-- Added line number in symbol table
+- How to print line of code for errors
+- Need to check shadowing/redeclaration of variables

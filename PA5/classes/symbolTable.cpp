@@ -182,5 +182,5 @@ void symbolTable::writeToScreen() const{
 }
 
 symbolTable::~symbolTable(){
-	cout << "Destroy symbol table" << endl;
+	//cout << "Destroy symbol table" << endl;
 }

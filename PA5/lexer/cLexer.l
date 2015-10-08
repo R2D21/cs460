@@ -577,12 +577,12 @@ identifier [a-zA-Z][a-zA-z0-9]*
 					}
 					yylineno++; 
 					colPosition = 0;
-					cout << "newline" << endl;  
+					//cout << "newline" << endl;  
 				}
 .				{
 
-					cout << "ERROR?" << endl; 
-					/* found an illegal token */
+					/*cout << "ERROR?" << endl; */
+					/* found an illegal token, why does this output*/
 					/*yyerror("Unknown token..");*/
 				}		
 %%
