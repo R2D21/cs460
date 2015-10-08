@@ -20,18 +20,21 @@ class symbolTableEntry {
 	public:
         // constructors
         symbolTableEntry(); 
+        symbolTableEntry(int lineNumber);
         
         // functions for symbol table objects
         void setIdentifierType();
         string getIdentifierType();
         void setIdentifierName(string name);
         string getIdentifierName(); 
+        void setLineNumber(int);
+        int getLineNumber() const;
 
 	private:
         // symbol table entry data members 
         string identifierType; 
         string identifierName;
-
+        int lineNum;
 };
 
 #endif // SYMBOL_TABLE_ENTRY_H

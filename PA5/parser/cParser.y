@@ -21,12 +21,16 @@ the token declarations that will be used in the lexer.
 /* start of declarations and definitions */
 %{
 	#include <climits>
+	#include <fstream>
 	#include <iostream>
 	using namespace std;
+
 	int yylex(void);
 	void yyerror(const char* errorMsg);
 	extern int yylineno;
 	extern int colPosition;  
+	extern bool YFLAG; 
+	extern ofstream outY; 
 %}
 /* end of declarations and definitions */
 
@@ -49,7 +53,7 @@ yylval will remain as an integer in this program. */
 
 %token PLUS MINUS MULT DIV MOD
 %token SEMI COLON COMMA AMP
-%token EQUALS TILDE PIPE CARROT DOT
+%token ASSIGN TILDE PIPE CARROT DOT
 %token BANG QUESTION
 %token LPAREN LBRACK LCURL
 %token RPAREN RBRACK RCURL
@@ -70,17 +74,48 @@ yylval will remain as an integer in this program. */
 %%		 
 translation_unit
 	: external_declaration
+		{
+			if(YFLAG){
+				outY << "translation_unit : external declaration;" << endl;
+				outY << $$ << "->" << $1;
+			}
+		}
 	| translation_unit external_declaration
+		{
+			if(YFLAG){
+				outY << "translation_unit : translation_unit external_declaration;" << endl;
+			}
+		}
 	;
 
 external_declaration
 	: function_definition
+		{
+			if(YFLAG){
+				outY << "external_declaration : function_definition;" << endl;
+			}
+		}
 	| declaration
+		{
+			if(YFLAG){
+				outY << "external_declaration : declaration;" << endl;
+			}
+		}
 	;
 
 function_definition
 	: declarator compound_statement
+		{
+			if(YFLAG){
+				outY << "function_definition : declarator compound_statement;" << endl;
+			}
+		}
 	| declarator declaration_list compound_statement
+		{
+			if(YFLAG){
+				outY << "function_definition : declarator declaration_list compound_statement;" << endl;
+			}
+		}
 	| declaration_specifiers declarator compound_statement
 	| declaration_specifiers declarator declaration_list compound_statement
 	;
@@ -155,7 +190,7 @@ init_declarator_list
 
 init_declarator
 	: declarator
-	| declarator EQUALS initializer
+	| declarator ASSIGN initializer
 	;
 
 struct_declaration
@@ -193,7 +228,7 @@ enumerator_list
 
 enumerator
 	: identifier
-	| identifier EQUALS constant_expression
+	| identifier ASSIGN constant_expression
 	;
 
 declarator
@@ -348,7 +383,7 @@ assignment_expression
 	;
 
 assignment_operator
-	: EQUALS
+	: ASSIGN
 	| MUL_ASSIGN
 	| DIV_ASSIGN
 	| MOD_ASSIGN

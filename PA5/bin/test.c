@@ -1,4 +1,4 @@
 int x;
 int yyy;
 int z;
-int w;
+int w = 'a';

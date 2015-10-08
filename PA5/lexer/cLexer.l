@@ -37,7 +37,7 @@ etc.).
 
 	/* externs */
 	extern bool LFLAG; 
-	extern ofstream out; 
+	extern ofstream outL; 
 	extern void yyerror(const char* errorMsg);
 
 	/* variables */
@@ -61,204 +61,205 @@ identifier [a-zA-Z][a-zA-z0-9]*
 
 /* rules and actions */
 %%
+
 "auto"			{
 					if(LFLAG){
-						out << "< AUTO >";
+						outL << "< AUTO >";
 					}
 					return AUTO; 
 				}
 "break"			{
 					if(LFLAG){
-						out << "< BREAK >";
+						outL << "< BREAK >";
 					}
 					return BREAK; 
 				}
 "case"			{
 					if(LFLAG){
-						out << " < CASE >";
+						outL << " < CASE >";
 					}
 					return CASE; 
 				}
 "char"			{
 					if(LFLAG){
-						out << "< CHAR >";
+						outL << "< CHAR >";
 					}
 					return CHAR; 
 				}
 "const"			{
 					if(LFLAG){
-						out << "< CONST >";
+						outL << "< CONST >";
 					}
 					return CONST; 
 				}
 "continue"		{
 					if(LFLAG){
-						out << "< CONTINUE >";
+						outL << "< CONTINUE >";
 					}
 					return CONTINUE; 
 				}
 "default"		{
 					if(LFLAG){
-						out << "< DEFAULT >";
+						outL << "< DEFAULT >";
 					}
 					return DEFAULT; 
 				}
 "do"			{
 					if(LFLAG){
-						out << "< DO >";
+						outL << "< DO >";
 					}
 					return DO; 
 				}
 "double"		{
 					if(LFLAG){
-						out << "< DOUBLE >";
+						outL << "< DOUBLE >";
 					}
 					return DOUBLE; 
 				}	
 "else"			{
 					if(LFLAG){
-						out << "< ELSE >";
+						outL << "< ELSE >";
 					}
 					return ELSE; 
 				}
 "enum"			{
 					if(LFLAG){
-						out << "< ENUM >";
+						outL << "< ENUM >";
 					}
 					return ENUM; 
 				}
 "extern"		{
 					if(LFLAG){
-						out << "< EXTERN >";
+						outL << "< EXTERN >";
 					}
 					return EXTERN; 
 				}
 "float"			{
 					if(LFLAG){
-						out << "< FLOAT >";
+						outL << "< FLOAT >";
 					}
 					return FLOAT; 
 				}
 "for"			{
 					if(LFLAG){
-						out << "< FOR >";
+						outL << "< FOR >";
 					}
 					return FOR; 
 				}
 "goto"			{
 					if(LFLAG){
-						out << "< GOTO >";
+						outL << "< GOTO >";
 					}
 					return GOTO; 
 				}
 "if"			{
 					if(LFLAG){
-						out << "< IF >";
+						outL << "< IF >";
 					}
 					return IF;  
 				}
 "int"			{
 					if(LFLAG){
-						out << "< INT >";
+						outL << "< INT >";
 					}
 					return INT; 	
 				}
 "long"			{
 					if(LFLAG){
-						out << "< LONG >";
+						outL << "< LONG >";
 					}
 					return LONG; 
 				}
 "register"		{
 					if(LFLAG){
-						out << "< REGISTER >";
+						outL << "< REGISTER >";
 					}
 					return REGISTER; 
 				}
 "return"		{
 					if(LFLAG){
-						out << "< RETURN >";
+						outL << "< RETURN >";
 					}
 					return RETURN; 
 				}
 "short"			{
 					if(LFLAG){
-						out << "< SHORT >";
+						outL << "< SHORT >";
 					}
 					return SHORT; 
 				}
 "signed"		{
 					if(LFLAG){
-						out << "< SIGNED >";
+						outL << "< SIGNED >";
 					}
 					return SIGNED; 
 				}
 "sizeof"		{
 					if(LFLAG){
-						out << "< SIZEOF >";
+						outL << "< SIZEOF >";
 					}
 					return SIZEOF; 
 				}	
 "static"		{
 					if(LFLAG){
-						out << "< STATIC >";
+						outL << "< STATIC >";
 					}
 					return STATIC; 
 				}
 "struct"		{
 					if(LFLAG){
-						out << "< STRUCT >";
+						outL << "< STRUCT >";
 					}
 					return STRUCT; 
 				}
 "switch"		{
 					if(LFLAG){
-						out << "< SWITCH >";
+						outL << "< SWITCH >";
 					}
 					return SWITCH; 
 				}
 "typedef"		{
 					if(LFLAG){
-						out << "< TYPEDEF >";
+						outL << "< TYPEDEF >";
 					}
 					return TYPEDEF; 
 				}
 "union"			{
 					if(LFLAG){
-						out << "< UNION >";
+						outL << "< UNION >";
 					}
 					return UNION; 
 				}
 "unsigned"		{
 					if(LFLAG){
-						out << "< UNSIGNED >";
+						outL << "< UNSIGNED >";
 					}
 					return UNSIGNED; 
 				}
 "void"			{
 					if(LFLAG){
-						out << "< VOID >";
+						outL << "< VOID >";
 					}
 					return VOID; 
 				}
 "volatile"		{
 					if(LFLAG){
-						out << "< VOLATILE >";
+						outL << "< VOLATILE >";
 					}
 					return VOLATILE; 
 				}
 "while"			{
 					if(LFLAG){
-						out << "< WHILE >";
+						outL << "< WHILE >";
 					}
 					return WHILE; 
 				}
 {identifier}	{
 					if(LFLAG){
-						out << "< IDENTIFIER >";
+						outL << "< IDENTIFIER >";
 					}
 					string newEntry(yytext);
-					table.insertNewSymbol(newEntry);
+					table.insertNewSymbol(newEntry, yylineno);
 					cout << "Just inserted: " << newEntry << endl;
 					/*
 					colPosition += strlen(yytext);
@@ -268,306 +269,311 @@ identifier [a-zA-Z][a-zA-z0-9]*
 				}
 {number}		{
 					if(LFLAG){
-						out << "< INTEGER_CONSTANT >";
+						outL << "< INTEGER_CONSTANT >";
 					}
 					return INTEGER_CONSTANT; 						
 				}
 {decimal}		{
 					if(LFLAG){
-						out << "< FLOATING_CONSTANT >";
+						outL << "< FLOATING_CONSTANT >";
 					}
 					return FLOATING_CONSTANT; 		
 				}
-{character}		{
+"'"[a-zA-Z]"'"	{
 					if(LFLAG){
-						out << "< CHARACTER_CONSTANT >";
+						outL << "< CHARACTER_CONSTANT >";
 					}
 					return CHARACTER_CONSTANT; 		
 				}
 				/* don't know what this is 
 {
 						if(LFLAG){
-						out << "< ENUMERATION_CONSTANT >";
+						outL << "< ENUMERATION_CONSTANT >";
 					}
 					return ENUMERATION_CONSTANT; 		
 }
 			*/
-"stringliteral"	{
+\"[^\"]*\"	{
 					cout << "string literal" << endl; 
+					/* yytext??*/
+					if(LFLAG){
+						outL << "< STRING_LITERAL > ";
+					}
+					return STRING_LITERAL;
 				}
 "->"			{
 					if(LFLAG){
-						out << "< -> > ";
+						outL << "< -> > ";
 					}
 					return PTR_OP;
 				}
 "++"			{
 					if(LFLAG){
-						out << "< ++ > ";
+						outL << "< ++ > ";
 					}
 					return INC_OP;
 				}
 "--"			{
 					if(LFLAG){
-						out << "< -- > ";
+						outL << "< -- > ";
 					}
 					return DEC_OP;
 				}
 "<<"			{
 					if(LFLAG){
-						out << "< << > ";
+						outL << "< << > ";
 					}
 					return LEFT_OP;
 				}
 ">>"			{
 					if(LFLAG){
-						out << "< -> > ";
+						outL << "< -> > ";
 					}
 					return RIGHT_OP;
 				}
 "<="			{
 					if(LFLAG){
-						out << "< <= > ";
+						outL << "< <= > ";
 					}
 					return LE_OP;
 				}
 ">="			{
 					if(LFLAG){
-						out << "< >= > ";
+						outL << "< >= > ";
 					}
 					return GE_OP;
 				}
 "=="			{
 					if(LFLAG){
-						out << "< == > ";
+						outL << "< == > ";
 					}
 					return EQ_OP;
 				}
 "!="			{
 					if(LFLAG){
-						out << "< != >";
+						outL << "< != >";
 					}
 					return NE_OP;
 				}
 "&&"			{
 					if(LFLAG){
-						out << "< && >";
+						outL << "< && >";
 					}
 					return AND_OP;
 				}
 "||"			{
 					if(LFLAG){
-						out << "< || >";
+						outL << "< || >";
 					}
 					return OR_OP;
 				}
 "*="			{
 					if(LFLAG){
-						out << "< *= >";
+						outL << "< *= >";
 					}
 					return MUL_ASSIGN;
 				}
 "/="			{
 					if(LFLAG){
-						out << "< /= >";
+						outL << "< /= >";
 					}
 					return DIV_ASSIGN;
 				}
 "%="			{
 					if(LFLAG){
-						out << "< %= >";
+						outL << "< %= >";
 					}
 					return MOD_ASSIGN;
 				}
 "+="			{
 					if(LFLAG){
-						out << "< += >";
+						outL << "< += >";
 					}
 					return ADD_ASSIGN;
 				}
 "-="			{
 					if(LFLAG){
-						out << "< -= >";
+						outL << "< -= >";
 					}
 					return SUB_ASSIGN;
 				}
 "<<="			{
 					if(LFLAG){
-						out << "< <<= >";
+						outL << "< <<= >";
 					}
 					return LEFT_ASSIGN;
 				}
 ">>="			{
 					if(LFLAG){
-						out << "< >>= >";
+						outL << "< >>= >";
 					}
 					return RIGHT_ASSIGN;
 				}
 "&="			{
 					if(LFLAG){
-						out << "< &= >";
+						outL << "< &= >";
 					}
 					return AND_ASSIGN;
 				}
 "^="			{
 					if(LFLAG){
-						out << "< ^= >";
+						outL << "< ^= >";
 					}
 					return XOR_ASSIGN;
 				}
 "|="			{
 					if(LFLAG){
-						out << "< |= >";
+						outL << "< |= >";
 					}
 					return XOR_ASSIGN;
 				}
 "+"				{
 					if(LFLAG){
-						out << "< + > ";
+						outL << "< + > ";
 					} 
 					return PLUS;
 				}
 "-"				{
 					if(LFLAG){
-						out << "< - > ";
+						outL << "< - > ";
 					} 
 					return MINUS;
 				}
 "*"				{
 					if(LFLAG){
-						out << "< * > ";
+						outL << "< * > ";
 					} 
 					return MULT;
 				}
 "/"				{
 					if(LFLAG){
-						out << "< / > ";
+						outL << "< / > ";
 					} 
 					return DIV;
 				}
 "%"				{
 					if(LFLAG){
-						out << "< % > ";
+						outL << "< % > ";
 					} 
 					return MOD;
 				}
 ";"				{
 					if(LFLAG){
-						out << "< ; > ";
+						outL << "< ; > ";
 					} 
 					return SEMI;
 				}
 ":"				{
 					if(LFLAG){
-						out << "< : > ";
+						outL << "< : > ";
 					} 
 					return COLON;
 				}
 ","				{
 					if(LFLAG){
-						out << "< , > ";
+						outL << "< , > ";
 					} 
 					return COMMA;
 				}
 "&"				{
 					if(LFLAG){
-						out << "< & > ";
+						outL << "< & > ";
 					} 
 					return AMP;
 				}
 "="				{
 					if(LFLAG){
-						out << "< = > ";
+						outL << "< = > ";
 					} 
-					return EQUALS;/*CHANGE?*/
+					return ASSIGN;
 				}
 "~"				{
 					if(LFLAG){
-						out << "< ~ > ";
+						outL << "< ~ > ";
 					} 
 					return TILDE;
 				}
 "|"				{
 					if(LFLAG){
-						out << "< | > ";
+						outL << "< | > ";
 					} 
 					return PIPE;
 				}
 "^"				{
 					if(LFLAG){
-						out << "< ^ > ";
+						outL << "< ^ > ";
 					} 
 					return CARROT;
 				}
 "."				{
 					if(LFLAG){
-						out << "< . > ";
+						outL << "< . > ";
 					} 
 					return DOT;
 				}
 "!"				{
 					if(LFLAG){
-						out << "< ! > ";
+						outL << "< ! > ";
 					} 
 					return BANG;
 				}
 "?"				{
 					if(LFLAG){
-						out << "< ? > ";
+						outL << "< ? > ";
 					} 
 					return QUESTION;
 				}
 "("				{
 					if(LFLAG){
-						out << "< ( > ";
+						outL << "< ( > ";
 					} 
 					return LPAREN;
 				}
 "["				{
 					if(LFLAG){
-						out << "< [ > ";
+						outL << "< [ > ";
 					} 
 					return LBRACK;
 				}
 "{"				{
 					if(LFLAG){
-						out << "< { > ";
+						outL << "< { > ";
 					} 
 					return LCURL;
 				}
 ")"				{
 					if(LFLAG){
-						out << "< ) > ";
+						outL << "< ) > ";
 					} 
 					return RPAREN;
 				}
 "]"				{
 					if(LFLAG){
-						out << "< ] > ";
+						outL << "< ] > ";
 					} 
 					return RBRACK;
 				}
 "}"				{
 					if(LFLAG){
-						out << "< } > ";
+						outL << "< } > ";
 					} 
 					return RCURL;
 				}
 "<"				{
 					if(LFLAG){
-						out << "< < > ";
+						outL << "< < > ";
 					} 
 					return LTHAN;
 				}
 ">"				{
 					if(LFLAG){
-						out << "< > > ";
+						outL << "< > > ";
 					} 
 					return GTHAN;
 				}
 {newline}		{
 					if(LFLAG){
-						out << "< NEWLINE >";
+						outL << "< NEWLINE >" << endl;
 					}
 					yylineno++; 
 					colPosition = 0;
@@ -575,7 +581,7 @@ identifier [a-zA-Z][a-zA-z0-9]*
 				}
 .				{
 
-					cout << "here" << endl; 
+					cout << "ERROR?" << endl; 
 					/* found an illegal token */
 					/*yyerror("Unknown token..");*/
 				}		

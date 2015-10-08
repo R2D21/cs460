@@ -63,8 +63,8 @@ Parameters:
 string name: The name of the identifier to be added to the current scope 
 level. 
 */
-void symbolTable::insertNewSymbol(string name){
-	symbolTableEntry* newEntry = new symbolTableEntry(); // empty for now 
+void symbolTable::insertNewSymbol(string name, int line){
+	symbolTableEntry* newEntry = new symbolTableEntry(line); // empty for now 
 	bst* currentVars = &table[table.size() - 1]; 
 	currentVars->insert(entry(name, *newEntry));
 }
@@ -175,7 +175,8 @@ void symbolTable::writeToScreen() const{
 	for(currentLevel = table.size()-1; currentLevel >= 0; currentLevel--){
 		cout << "Scope Level " << currentLevel << ":" << endl;
 		for(treeItr = table[currentLevel].begin(); treeItr != table[currentLevel].end(); treeItr++){
-			cout << "\tVariable: " << treeItr->first << endl;
+			cout << "\tVariable: " << treeItr->first;
+			cout << " at Line " << (treeItr->second).getLineNumber() << endl;
 		}
 	}
 }

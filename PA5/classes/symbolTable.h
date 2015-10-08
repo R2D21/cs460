@@ -44,7 +44,7 @@ class symbolTable {
         // symbol table functions 
         void pushLevelOn();
         void popLevelOff(); 
-        void insertNewSymbol(string name);
+        void insertNewSymbol(string name, int line);
         symbolTableEntry* searchForSymbol(string symbolToSearch, int& levelSymbolWasFound);
         symbolTableEntry* searchTopOfStack(string symbolToSearch); 
         void writeToFile() const;

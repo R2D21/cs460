@@ -1,0 +1,8 @@
+external_declaration : declaration;
+translation_unit : external declaration;
+0->0external_declaration : declaration;
+translation_unit : translation_unit external_declaration;
+external_declaration : declaration;
+translation_unit : translation_unit external_declaration;
+external_declaration : declaration;
+translation_unit : translation_unit external_declaration;

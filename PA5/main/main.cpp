@@ -18,7 +18,9 @@ using namespace std;
 extern int yyparse();
 extern FILE* yyin; 
 bool LFLAG = false; 
-ofstream out;
+bool YFLAG = false;
+ofstream outL;
+ofstream outY;
 extern symbolTable table; 
 
 int main(int argc, char** argv) {
@@ -27,9 +29,21 @@ int main(int argc, char** argv) {
 	// read input file
 	yyin = fopen(argv[1], "r");
 
+	for(int i=1; i < argc; i++){
+		if( (string) argv[i] == "-l" ){
+			LFLAG = true;
+		}
+		if( (string) argv[i] == "-y" ){
+			YFLAG = true;
+		}
+	}
+
 	// check if 
 	if (LFLAG){
-		out.open("../outputFiles/tokens.txt", std::ofstream::out);
+		outL.open("../outputFiles/tokens.txt", std::ofstream::out);
+	}
+	if (YFLAG){
+		outY.open("../outputFiles/reductions.txt", std::ofstream::out);
 	}
 
 	cout << "Main program - compiler driver." << endl;
@@ -40,7 +54,10 @@ int main(int argc, char** argv) {
 	table.writeToScreen(); 
 
 	if (LFLAG) {
-		
+		outL.close();
+	}
+	if( YFLAG ){
+		outY.close();
 	}
 	return 0; 
 } 

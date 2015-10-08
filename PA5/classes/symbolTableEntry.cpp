@@ -14,3 +14,12 @@ table of our C compiler.
 symbolTableEntry::symbolTableEntry() {
 	cout << "New symbol table entry." << endl;
 }
+
+symbolTableEntry::symbolTableEntry(int lineNumber) {
+	cout << "New symbol table entry." << endl;
+	lineNum = lineNumber;
+}
+
+int symbolTableEntry::getLineNumber() const{
+	return lineNum;
+}

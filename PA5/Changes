@@ -1,0 +1,5 @@
+10/7 11pm Renee
+- Can read command line arguments (-y and/or -l)
+- Added flag to output yacc
+- Need to consider yytext or yylval--not sure which
+- Added line number in symbol table
