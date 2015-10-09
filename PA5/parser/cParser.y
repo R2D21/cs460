@@ -207,105 +207,323 @@ storage_class_specifier
 			}
 		}
 	| REGISTER
+		{
 			if(YFLAG){
 				outY << "storage_class_specifier : REGISTER;" << endl;
 			}
+		}
 	| STATIC
+		{
 			if(YFLAG){
 				outY << "storage_class_specifier : STATIC;" << endl;
 			}
+		}
 	| EXTERN
+		{
 			if(YFLAG){
 				outY << "storage_class_specifier : EXTERN;" << endl;
 			}
+		}
 	| TYPEDEF
+		{
 			if(YFLAG){
 				outY << "storage_class_specifier : TYPEDEF;" << endl;
 			}
+		}
 	;
 
 type_specifier
 	: VOID
+		{
+			if(YFLAG){
+				outY << "type_specifier : VOID;" << endl;
+			}
+		}
 	| CHAR
+		{
+			if(YFLAG){
+				outY << "type_specifier : CHAR;" << endl;
+			}
+		}
 	| SHORT
+		{
+			if(YFLAG){
+				outY << "type_specifier : SHORT;" << endl;
+			}
+		}
 	| INT
+		{
+			if(YFLAG){
+				outY << "type_specifier : INT;" << endl;
+			}
+		}
 	| LONG
-	| FLOAT 
+		{
+			if(YFLAG){
+				outY << "type_specifier : LONG;" << endl;
+			}
+		}
+	| FLOAT
+ 		{
+			if(YFLAG){
+				outY << "type_specifier : FLOAT;" << endl;
+			}
+		}
 	| DOUBLE
+ 		{
+			if(YFLAG){
+				outY << "type_specifier : DOUBLE;" << endl;
+			}
+		}
 	| SIGNED
+ 		{
+			if(YFLAG){
+				outY << "type_specifier : SIGNED;" << endl;
+			}
+		}
 	| UNSIGNED
+ 		{
+			if(YFLAG){
+				outY << "type_specifier : UNSIGNED;" << endl;
+			}
+		}
 	| struct_or_union_specifier
+ 		{
+			if(YFLAG){
+				outY << "type_specifier : struct_or_union_specifier;" << endl;
+			}
+		}
 	| enum_specifier
+ 		{
+			if(YFLAG){
+				outY << "type_specifier : enum_specifier;" << endl;
+			}
+		}
 	| TYPEDEF_NAME
+ 		{
+			if(YFLAG){
+				outY << "type_specifier : TYPEDEF_NAME;" << endl;
+			}
+		}
 	;
 
 type_qualifier
 	: CONST
+ 		{
+			if(YFLAG){
+				outY << "type_qualifier : CONST;" << endl;
+			}
+		}
 	| VOLATILE
+ 		{
+			if(YFLAG){
+				outY << "type_qualifier : VOLATILE;" << endl;
+			}
+		}
 	;
 
 struct_or_union_specifier
 	: struct_or_union identifier LCURL struct_declaration_list RCURL
+ 		{
+			if(YFLAG){
+				outY << "struct_or_union_specifier : struct_or_union identifier LCURL struct_declaration_list RCURL;" << endl;
+			}
+		}
 	| struct_or_union LCURL struct_declaration_list RCURL
+ 		{
+			if(YFLAG){
+				outY << "struct_or_union_specifier : struct_or_union LCURL struct_declaration_list RCURL;" << endl;
+			}
+		}
 	| struct_or_union identifier
+ 		{
+			if(YFLAG){
+				outY << "struct_or_union_specifier : struct_or_union identifier;" << endl;
+			}
+		}
 	;
 
 struct_or_union
 	: STRUCT
+ 		{
+			if(YFLAG){
+				outY << "struct_or_union : STRUCT;" << endl;
+			}
+		}
 	| UNION
+ 		{
+			if(YFLAG){
+				outY << "struct_or_union : UNION;" << endl;
+			}
+		}
 	;
 
 struct_declaration_list
 	: struct_declaration
+ 		{
+			if(YFLAG){
+				outY << "struct_declaration_list : struct_declaration;" << endl;
+			}
+		}
 	| struct_declaration_list struct_declaration
+ 		{
+			if(YFLAG){
+				outY << "struct_declaration_list : struct_declaration_list struct_declaration;" << endl;
+			}
+		}
 	;
 
 init_declarator_list
 	: init_declarator
+ 		{
+			if(YFLAG){
+				outY << "init_declarator_list : init_declarator;" << endl;
+			}
+		}
 	| init_declarator_list COMMA init_declarator
+ 		{
+			if(YFLAG){
+				outY << "init_declarator_list : init_declarator_list COMMA init_declarator;" << endl;
+			}
+		}
 	;
 
 init_declarator
 	: declarator
+ 		{
+			if(YFLAG){
+				outY << "init_declarator : declarator;" << endl;
+			}
+		}
 	| declarator ASSIGN initializer
+ 		{
+			if(YFLAG){
+				outY << "init_declarator : declarator ASSIGN initializer;" << endl;
+			}
+		}
 	;
 
 struct_declaration
 	: specifier_qualifier_list struct_declarator_list SEMI
+ 		{
+			if(YFLAG){
+				outY << "struct_declaration : specifier_qualifier_list struct_declarator_list SEMI;" << endl << endl;
+			}
+		}
 	;
 
 specifier_qualifier_list
 	: type_specifier
+ 		{
+			if(YFLAG){
+				outY << "specifier_qualifier_list : type_specifier;" << endl;
+			}
+		}
 	| type_specifier specifier_qualifier_list
+ 		{
+			if(YFLAG){
+				outY << "specifier_qualifier_list : type_specifier specifier_qualifier_list;" << endl;
+			}
+		}
 	| type_qualifier
+ 		{
+			if(YFLAG){
+				outY << "specifier_qualifier_list : type_qualifier;" << endl;
+			}
+		}
 	| type_qualifier specifier_qualifier_list
+ 		{
+			if(YFLAG){
+				outY << "specifier_qualifier_list : type_qualifier specifier_qualifier_list;" << endl;
+			}
+		}
 	;
 
 struct_declarator_list
 	: struct_declarator
+ 		{
+			if(YFLAG){
+				outY << "struct_declarator_list : struct_declarator;" << endl;
+			}
+		}
 	| struct_declarator_list COMMA struct_declarator
+ 		{
+			if(YFLAG){
+				outY << "struct_declarator_list : struct_declarator_list COMMA struct_declarator;" << endl;
+			}
+		}
 	;
 
 struct_declarator
 	: declarator
+ 		{
+			if(YFLAG){
+				outY << "struct_declarator : declarator;" << endl;
+			}
+		}
 	| COLON constant_expression
+ 		{
+			if(YFLAG){
+				outY << "struct_declarator : COLON constant_expression;" << endl;
+			}
+		}
 	| declarator COLON constant_expression
+ 		{
+			if(YFLAG){
+				outY << "struct_declarator : declarator COLON constant_expression;" << endl;
+			}
+		}
 	;
 
 enum_specifier
 	: ENUM LCURL enumerator_list RCURL
+ 		{
+			if(YFLAG){
+				outY << "enum_specifier : ENUM LCURL enumerator_list RCURL;" << endl;
+			}
+		}
 	| ENUM identifier LCURL enumerator_list RCURL
+ 		{
+			if(YFLAG){
+				outY << "enum_specifier : ENUM identifier LCURL enumerator_list RCURL;" << endl;
+			}
+		}
 	| ENUM identifier
+ 		{
+			if(YFLAG){
+				outY << "enum_specifier : ENUM identifier;" << endl;
+			}
+		}
 	;
 
 enumerator_list
 	: enumerator
+ 		{
+			if(YFLAG){
+				outY << "enumerator_list : enumerator;" << endl;
+			}
+		}
 	| enumerator_list COMMA enumerator
+ 		{
+			if(YFLAG){
+				outY << "enumerator_list : enumerator_list COMMA enumerator;" << endl;
+			}
+		}
 	;
 
 enumerator
 	: identifier
+ 		{
+			if(YFLAG){
+				outY << "enumerator : identifier;" << endl;
+			}
+		}
 	| identifier ASSIGN constant_expression
+ 		{
+			if(YFLAG){
+				outY << "enumerator : identifier ASSIGN constant_expression;" << endl;
+			}
+		}
 	;
 
 declarator

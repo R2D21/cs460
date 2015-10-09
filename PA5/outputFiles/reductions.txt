@@ -2,7 +2,7 @@ declaration_specifiers : type_specifier;
 declaration : declaration_specifiers init_declarator_list SEMI;
 
 external_declaration : declaration;
-translation_unit : external declaration;
+translation_unit : external_declaration;
 0->0declaration_specifiers : type_specifier;
 declaration : declaration_specifiers init_declarator_list SEMI;
 
@@ -18,4 +18,3 @@ declaration : declaration_specifiers init_declarator_list SEMI;
 
 external_declaration : declaration;
 translation_unit : translation_unit external_declaration;
-declaration_specifiers : type_specifier;
