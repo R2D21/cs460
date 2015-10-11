@@ -64,7 +64,8 @@ string name: The name of the identifier to be added to the current scope
 level. 
 */
 void symbolTable::insertNewSymbol(string name, int line){
-	symbolTableEntry* newEntry = new symbolTableEntry(line); // empty for now 
+	symbolTableEntry* newEntry = new symbolTableEntry(line); // empty for now
+	newEntry->setIdentifierName(name); 
 	bst* currentVars = &table[table.size() - 1]; 
 	currentVars->insert(entry(name, *newEntry));
 }

@@ -1,4 +1,6 @@
-int x;
-int yyy;
-int z;
-int w = 'a';
+int a = 7;
+int main(){
+	{
+	int x = 0;
+	}
+}

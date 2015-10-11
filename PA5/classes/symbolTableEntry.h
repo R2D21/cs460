@@ -26,14 +26,19 @@ class symbolTableEntry {
         void setIdentifierType();
         string getIdentifierType();
         void setIdentifierName(string name);
-        string getIdentifierName(); 
+        string getIdentifierName() const; 
         void setLineNumber(int);
         int getLineNumber() const;
+        void setValue(int x); 
+
+        // destructor
+        ~symbolTableEntry(); 
 
 	private:
         // symbol table entry data members 
         string identifierType; 
         string identifierName;
+        int value; 
         int lineNum;
 };
 

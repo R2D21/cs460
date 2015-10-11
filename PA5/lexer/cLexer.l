@@ -261,22 +261,29 @@ identifier [a-zA-Z][a-zA-z0-9]*
 					string newEntry(yytext);
 					table.insertNewSymbol(newEntry, yylineno);
 					cout << "Just inserted: " << newEntry << endl;
-					/*
 					colPosition += strlen(yytext);
+					symbolTableEntry* entry = table.searchTopOfStack(newEntry);
+					yylval.entry = entry; 
+					cout << "FROM YYLVAL: " << yylval.entry->getIdentifierName() << endl; /* setting this pointer to NULL? main? */
+					/*
 					yylval.sVal = new char[25]; where is this deallocated? 
-					strcpy(yylval.sVal, yytext);   */
+					strcpy(yylval.sVal, yytext); 
+					delete []yylval.sVal;
+					yylval.sVal = NULL; */
 					return IDENTIFIER; 				
 				}
 {number}		{
 					if(LFLAG){
 						outL << "< INTEGER_CONSTANT >";
 					}
+					yylval.numVal = atof(yytext);
 					return INTEGER_CONSTANT; 						
 				}
 {decimal}		{
 					if(LFLAG){
 						outL << "< FLOATING_CONSTANT >";
 					}
+					yylval.numVal = atof(yytext);
 					return FLOATING_CONSTANT; 		
 				}
 "'"[a-zA-Z]"'"	{
@@ -538,7 +545,9 @@ identifier [a-zA-Z][a-zA-z0-9]*
 "{"				{
 					if(LFLAG){
 						outL << "< { > ";
-					} 
+					}
+					cout << "PUSHING NEW LEVEL ONTO STACK" << endl;
+					table.pushLevelOn();   
 					return LCURL;
 				}
 ")"				{

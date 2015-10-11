@@ -12,6 +12,7 @@ table of our C compiler.
 #include "symbolTableEntry.h"
 
 symbolTableEntry::symbolTableEntry() {
+	value = 0; 
 	cout << "New symbol table entry." << endl;
 }
 
@@ -22,4 +23,20 @@ symbolTableEntry::symbolTableEntry(int lineNumber) {
 
 int symbolTableEntry::getLineNumber() const{
 	return lineNum;
+}
+
+void symbolTableEntry::setIdentifierName(string name) {
+	identifierName = name; 
+}
+
+string symbolTableEntry::getIdentifierName() const {
+	return identifierName; 
+}
+
+symbolTableEntry::~symbolTableEntry() {
+	cout << "Symbol table entry destructor." << endl; 
+}
+
+void symbolTableEntry::setValue(int x) {
+	value = x; 
 }
