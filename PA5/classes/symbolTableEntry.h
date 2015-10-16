@@ -24,6 +24,24 @@ typedef struct {
     int dataType;
     std::string formalParam; 
 } parameter;  
+<<<<<<< HEAD
+=======
+
+// used for returning the type and value of an identifier
+/*
+typedef struct {
+    int dataType;
+    union vals {
+        char _char;
+        short _short;
+        int _int;
+        long _long;
+        float _float; 
+        double _double; 
+    };
+    vals value;
+} dataValue;  */
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 
 class symbolTableEntry {
     public:
@@ -36,7 +54,12 @@ class symbolTableEntry {
         int getIdentifierType() const;
         void setIdentifierName(std::string name);
         std::string getIdentifierName() const;
+<<<<<<< HEAD
         void setIdentifierValue(dVal data, int token);
+=======
+        //void setIdentifierValue(void* value, int token);
+        void setIdentifierValue(dVal temp, int token);
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
         dVal getIdentifierValue() const;  
 
         // functions needed if entry is a function

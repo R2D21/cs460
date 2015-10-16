@@ -371,8 +371,13 @@ static void yy_fatal_error (yyconst char msg[]  );
 	*yy_cp = '\0'; \
 	(yy_c_buf_p) = yy_cp;
 
+<<<<<<< HEAD
 #define YY_NUM_RULES 86
 #define YY_END_OF_BUFFER 87
+=======
+#define YY_NUM_RULES 85
+#define YY_END_OF_BUFFER 86
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 /* This struct is not used in this scanner,
    but its presence is necessary. */
 struct yy_trans_info
@@ -380,6 +385,7 @@ struct yy_trans_info
 	flex_int32_t yy_verify;
 	flex_int32_t yy_nxt;
 	};
+<<<<<<< HEAD
 static yyconst flex_int16_t yy_accept[206] =
     {   0,
         0,    0,   87,   85,   84,   83,   73,   85,   63,   67,
@@ -405,6 +411,33 @@ static yyconst flex_int16_t yy_accept[206] =
        26,   33,   33,   33,   33,    7,   33,   27,   33,   33,
 
         6,   19,   29,   31,    0
+=======
+static yyconst flex_int16_t yy_accept[205] =
+    {   0,
+        0,    0,   86,   84,   83,   73,   84,   63,   67,   84,
+       75,   78,   61,   59,   66,   60,   72,   62,   34,   65,
+       64,   81,   68,   82,   74,   33,   76,   79,   71,   33,
+       33,   33,   33,   33,   33,   33,   33,   33,   33,   33,
+       33,   33,   33,   33,   77,   70,   80,   69,   46,    0,
+       37,   51,   47,   56,    0,   49,   39,   52,   40,   53,
+       38,   50,    0,   34,   41,   43,   45,   44,   42,   33,
+       57,   33,   33,   33,   33,   33,   33,    8,   33,   33,
+       33,   33,   33,   33,   16,   33,   33,   33,   33,   33,
+       33,   33,   33,   33,   33,   33,   58,   48,   36,   35,
+
+       54,   55,   33,   33,   33,   33,   33,   33,   33,   33,
+       33,   33,   33,   14,   33,   17,   33,   33,   33,   33,
+       33,   33,   33,   33,   33,   33,   33,   33,   33,   33,
+       33,    1,   33,    3,    4,   33,   33,   33,   33,   10,
+       11,   33,   33,   15,   18,   33,   33,   33,   33,   33,
+       33,   33,   33,   33,   33,   33,   30,   33,   33,    2,
+        5,   33,   33,   33,   33,   13,   33,   33,   21,   33,
+       33,   33,   33,   33,   33,   28,   33,   33,   32,   33,
+       33,    9,   12,   33,   20,   22,   23,   24,   25,   26,
+       33,   33,   33,   33,    7,   33,   27,   33,   33,    6,
+
+       19,   29,   31,    0
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     } ;
 
 static yyconst flex_int32_t yy_ec[256] =
@@ -412,6 +445,7 @@ static yyconst flex_int32_t yy_ec[256] =
         1,    1,    1,    1,    1,    1,    1,    1,    1,    2,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
+<<<<<<< HEAD
         1,    3,    4,    5,    1,    1,    6,    7,    8,    9,
        10,   11,   12,   13,   14,   15,   16,   17,   17,   17,
        17,   17,   17,   17,   17,   17,   17,   18,   19,   20,
@@ -423,6 +457,19 @@ static yyconst flex_int32_t yy_ec[256] =
        33,   34,   35,   36,   37,   24,   38,   39,   40,   41,
        42,   43,   24,   44,   45,   46,   47,   48,   49,   50,
        51,   52,   53,   54,   55,   56,    1,    1,    1,    1,
+=======
+        1,    1,    3,    4,    1,    1,    5,    6,    7,    8,
+        9,   10,   11,   12,   13,   14,   15,   16,   16,   16,
+       16,   16,   16,   16,   16,   16,   16,   17,   18,   19,
+       20,   21,   22,    1,   23,   23,   23,   23,   23,   23,
+       23,   23,   23,   23,   23,   23,   23,   23,   23,   23,
+       23,   23,   23,   23,   23,   23,   23,   23,   23,   23,
+       24,   25,   26,   27,   25,   25,   28,   29,   30,   31,
+
+       32,   33,   34,   35,   36,   23,   37,   38,   39,   40,
+       41,   42,   23,   43,   44,   45,   46,   47,   48,   49,
+       50,   51,   52,   53,   54,   55,    1,    1,    1,    1,
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
@@ -439,6 +486,7 @@ static yyconst flex_int32_t yy_ec[256] =
         1,    1,    1,    1,    1
     } ;
 
+<<<<<<< HEAD
 static yyconst flex_int32_t yy_meta[57] =
     {   0,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
@@ -538,12 +586,114 @@ static yyconst flex_int16_t yy_nxt[277] =
     } ;
 
 static yyconst flex_int16_t yy_chk[277] =
+=======
+static yyconst flex_int32_t yy_meta[56] =
+    {   0,
+        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
+        1,    1,    1,    1,    1,    2,    1,    1,    1,    1,
+        1,    1,    3,    2,    2,    2,    2,    3,    3,    3,
+        3,    3,    3,    3,    3,    3,    3,    3,    3,    3,
+        3,    3,    3,    3,    3,    3,    3,    3,    3,    3,
+        3,    1,    1,    1,    1
+    } ;
+
+static yyconst flex_int16_t yy_base[208] =
+    {   0,
+        0,    0,  218,  219,  219,  197,  212,  195,   50,    0,
+      219,  219,  194,   46,  219,   47,  219,  193,   45,  219,
+      219,   43,  192,   44,  219,    0,  219,  219,  191,  164,
+      166,   41,   39,   34,   37,  167,   44,  166,  174,   50,
+      155,  164,  162,  167,  219,   38,  219,  219,  219,  197,
+      219,  219,  219,  219,  193,  219,  219,  219,  219,  219,
+      219,  219,  183,   65,  178,  219,  219,  219,  177,    0,
+      219,  151,  163,  150,  165,  152,  158,  144,  145,  142,
+      142,  145,  142,  139,    0,  138,  142,   54,  140,   39,
+       59,  144,  137,   53,   56,  142,  219,  219,  219,  161,
+
+      219,  219,  135,  147,  142,  130,   56,  144,  142,  138,
+      130,  136,  139,    0,  125,    0,  131,  128,  117,  119,
+      121,  128,  114,  112,  112,  124,  114,  118,  122,  124,
+      113,    0,  113,    0,    0,  104,  112,  101,  108,    0,
+        0,  102,   99,    0,    0,   99,   99,   96,  108,   98,
+      102,  107,  106,  104,   94,   99,    0,   87,   99,    0,
+        0,   90,   91,   96,   87,    0,   81,   85,    0,   93,
+       90,   92,   76,   85,   87,    0,   78,   81,    0,   70,
+       70,    0,    0,   82,    0,    0,    0,    0,    0,    0,
+       80,   80,   73,   78,    0,   66,    0,   77,   64,    0,
+
+        0,    0,    0,  219,  102,   90,  104
+    } ;
+
+static yyconst flex_int16_t yy_def[208] =
+    {   0,
+      204,    1,  204,  204,  204,  204,  205,  204,  204,  206,
+      204,  204,  204,  204,  204,  204,  204,  204,  204,  204,
+      204,  204,  204,  204,  204,  207,  204,  204,  204,  207,
+      207,  207,  207,  207,  207,  207,  207,  207,  207,  207,
+      207,  207,  207,  207,  204,  204,  204,  204,  204,  205,
+      204,  204,  204,  204,  204,  204,  204,  204,  204,  204,
+      204,  204,  204,  204,  204,  204,  204,  204,  204,  207,
+      204,  207,  207,  207,  207,  207,  207,  207,  207,  207,
+      207,  207,  207,  207,  207,  207,  207,  207,  207,  207,
+      207,  207,  207,  207,  207,  207,  204,  204,  204,  204,
+
+      204,  204,  207,  207,  207,  207,  207,  207,  207,  207,
+      207,  207,  207,  207,  207,  207,  207,  207,  207,  207,
+      207,  207,  207,  207,  207,  207,  207,  207,  207,  207,
+      207,  207,  207,  207,  207,  207,  207,  207,  207,  207,
+      207,  207,  207,  207,  207,  207,  207,  207,  207,  207,
+      207,  207,  207,  207,  207,  207,  207,  207,  207,  207,
+      207,  207,  207,  207,  207,  207,  207,  207,  207,  207,
+      207,  207,  207,  207,  207,  207,  207,  207,  207,  207,
+      207,  207,  207,  207,  207,  207,  207,  207,  207,  207,
+      207,  207,  207,  207,  207,  207,  207,  207,  207,  207,
+
+      207,  207,  207,    0,  204,  204,  204
+    } ;
+
+static yyconst flex_int16_t yy_nxt[275] =
+    {   0,
+        4,    5,    6,    7,    8,    9,   10,   11,   12,   13,
+       14,   15,   16,   17,   18,   19,   20,   21,   22,   23,
+       24,   25,   26,   27,    4,   28,   29,   30,   31,   32,
+       33,   34,   35,   36,   26,   37,   26,   38,   26,   26,
+       26,   26,   39,   40,   41,   42,   43,   44,   26,   26,
+       26,   45,   46,   47,   48,   53,   57,   97,   63,   59,
+       64,   65,   66,   68,   69,   58,   60,   61,   74,   54,
+       77,   79,  121,   80,   82,   75,   85,   83,   63,   78,
+       64,   76,   81,   86,   89,   90,  123,  118,  127,  122,
+       98,  129,   55,  130,   91,  203,  128,   92,  119,  136,
+
+      137,  124,   50,   50,   50,   70,   70,  202,  201,  200,
+      199,  198,  197,  196,  195,  194,  193,  192,  191,  190,
+      189,  188,  187,  186,  185,  184,  183,  182,  181,  180,
+      179,  178,  177,  176,  175,  174,  173,  172,  171,  170,
+      169,  168,  167,  166,  165,  164,  163,  162,  161,  160,
+      159,  158,  157,  156,  155,  154,  153,  152,  151,  150,
+      149,  148,  147,  146,  145,  144,  143,  142,  141,  140,
+      139,  138,  135,  134,  133,  132,  100,  131,  126,  125,
+      120,  117,  116,  115,  114,  113,  112,  111,  110,  109,
+      108,  107,  106,  105,  104,  103,  102,  101,  100,   99,
+
+       51,   96,   95,   94,   93,   88,   87,   84,   73,   72,
+       71,   67,   62,   56,   52,   51,   49,  204,    3,  204,
+      204,  204,  204,  204,  204,  204,  204,  204,  204,  204,
+      204,  204,  204,  204,  204,  204,  204,  204,  204,  204,
+      204,  204,  204,  204,  204,  204,  204,  204,  204,  204,
+      204,  204,  204,  204,  204,  204,  204,  204,  204,  204,
+      204,  204,  204,  204,  204,  204,  204,  204,  204,  204,
+      204,  204,  204,  204
+    } ;
+
+static yyconst flex_int16_t yy_chk[275] =
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {   0,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
+<<<<<<< HEAD
         1,    1,    1,    1,    1,    1,   10,   15,   47,   20,
        17,   20,   23,   23,   25,   25,   15,   17,   17,   33,
        10,   34,   35,   91,   35,   36,   33,   38,   36,   65,
@@ -569,6 +719,33 @@ static yyconst flex_int16_t yy_chk[277] =
       205,  205,  205,  205,  205,  205,  205,  205,  205,  205,
       205,  205,  205,  205,  205,  205,  205,  205,  205,  205,
       205,  205,  205,  205,  205,  205
+=======
+        1,    1,    1,    1,    1,    9,   14,   46,   19,   16,
+       19,   22,   22,   24,   24,   14,   16,   16,   32,    9,
+       33,   34,   90,   34,   35,   32,   37,   35,   64,   33,
+       64,   32,   34,   37,   40,   40,   91,   88,   94,   90,
+       46,   95,  206,   95,   40,  199,   94,   40,   88,  107,
+
+      107,   91,  205,  205,  205,  207,  207,  198,  196,  194,
+      193,  192,  191,  184,  181,  180,  178,  177,  175,  174,
+      173,  172,  171,  170,  168,  167,  165,  164,  163,  162,
+      159,  158,  156,  155,  154,  153,  152,  151,  150,  149,
+      148,  147,  146,  143,  142,  139,  138,  137,  136,  133,
+      131,  130,  129,  128,  127,  126,  125,  124,  123,  122,
+      121,  120,  119,  118,  117,  115,  113,  112,  111,  110,
+      109,  108,  106,  105,  104,  103,  100,   96,   93,   92,
+       89,   87,   86,   84,   83,   82,   81,   80,   79,   78,
+       77,   76,   75,   74,   73,   72,   69,   65,   63,   55,
+
+       50,   44,   43,   42,   41,   39,   38,   36,   31,   30,
+       29,   23,   18,   13,    8,    7,    6,    3,  204,  204,
+      204,  204,  204,  204,  204,  204,  204,  204,  204,  204,
+      204,  204,  204,  204,  204,  204,  204,  204,  204,  204,
+      204,  204,  204,  204,  204,  204,  204,  204,  204,  204,
+      204,  204,  204,  204,  204,  204,  204,  204,  204,  204,
+      204,  204,  204,  204,  204,  204,  204,  204,  204,  204,
+      204,  204,  204,  204
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     } ;
 
 static yy_state_type yy_last_accepting_state;
@@ -625,12 +802,19 @@ Tokens have been declared by Bison and are included in the file
 	int colPosition = 0;
 	int tabCount = 0; 
 	symbolTable table;
+<<<<<<< HEAD
 	std::string currentSourceCodeLine = ""; 
+=======
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 	std::vector<std::string> sourceCode;  
 /* token definitions */
 /* tell flex to read only one input file - THIS COULD CHANGE */
 /* rules and actions */
+<<<<<<< HEAD
 #line 634 "lex.yy.c"
+=======
+#line 633 "lex.yy.c"
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 
 #define INITIAL 0
 
@@ -817,10 +1001,17 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
     
+<<<<<<< HEAD
 #line 59 "../lexer/cLexer.l"
 
 
 #line 824 "lex.yy.c"
+=======
+#line 58 "../lexer/cLexer.l"
+
+
+#line 823 "lex.yy.c"
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 
 	if ( !(yy_init) )
 		{
@@ -873,13 +1064,21 @@ yy_match:
 			while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 				{
 				yy_current_state = (int) yy_def[yy_current_state];
+<<<<<<< HEAD
 				if ( yy_current_state >= 206 )
+=======
+				if ( yy_current_state >= 205 )
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 					yy_c = yy_meta[(unsigned int) yy_c];
 				}
 			yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
 			++yy_cp;
 			}
+<<<<<<< HEAD
 		while ( yy_base[yy_current_state] != 220 );
+=======
+		while ( yy_base[yy_current_state] != 219 );
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 
 yy_find_action:
 		yy_act = yy_accept[yy_current_state];
@@ -905,198 +1104,311 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 61 "../lexer/cLexer.l"
+=======
+#line 60 "../lexer/cLexer.l"
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 {
 					if(LFLAG){
 						outL << "< AUTO >";
 					}
+<<<<<<< HEAD
 					std::string strTemp(yytext);
    					currentSourceCodeLine += strTemp;
+=======
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 					return AUTO; 
 				}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 69 "../lexer/cLexer.l"
+=======
+#line 66 "../lexer/cLexer.l"
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 {
 					if(LFLAG){
 						outL << "< BREAK >";
 					}
+<<<<<<< HEAD
 					std::string strTemp(yytext);
    					currentSourceCodeLine += strTemp;
+=======
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 					return BREAK; 
 				}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 77 "../lexer/cLexer.l"
+=======
+#line 72 "../lexer/cLexer.l"
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 {
 					if(LFLAG){
 						outL << " < CASE >";
 					}
+<<<<<<< HEAD
 					std::string strTemp(yytext);
    					currentSourceCodeLine += strTemp;
+=======
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 					return CASE; 
 				}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 85 "../lexer/cLexer.l"
+=======
+#line 78 "../lexer/cLexer.l"
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 {
 					if(LFLAG){
 						outL << "< CHAR >";
 					}
+<<<<<<< HEAD
 					std::string strTemp(yytext);
    					currentSourceCodeLine += strTemp;
+=======
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 					return CHAR; 
 				}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 93 "../lexer/cLexer.l"
+=======
+#line 84 "../lexer/cLexer.l"
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 {
 					if(LFLAG){
 						outL << "< CONST >";
 					}
+<<<<<<< HEAD
 					std::string strTemp(yytext);
    					currentSourceCodeLine += strTemp;
+=======
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 					return CONST; 
 				}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 101 "../lexer/cLexer.l"
+=======
+#line 90 "../lexer/cLexer.l"
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 {
 					if(LFLAG){
 						outL << "< CONTINUE >";
 					}
+<<<<<<< HEAD
 					std::string strTemp(yytext);
    					currentSourceCodeLine += strTemp;
+=======
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 					return CONTINUE; 
 				}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 109 "../lexer/cLexer.l"
+=======
+#line 96 "../lexer/cLexer.l"
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 {
 					if(LFLAG){
 						outL << "< DEFAULT >";
 					}
+<<<<<<< HEAD
 					std::string strTemp(yytext);
    					currentSourceCodeLine += strTemp;
+=======
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 					return DEFAULT; 
 				}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 117 "../lexer/cLexer.l"
+=======
+#line 102 "../lexer/cLexer.l"
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 {
 					if(LFLAG){
 						outL << "< DO >";
 					}
+<<<<<<< HEAD
 					std::string strTemp(yytext);
    					currentSourceCodeLine += strTemp;
+=======
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 					return DO; 
 				}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 125 "../lexer/cLexer.l"
+=======
+#line 108 "../lexer/cLexer.l"
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 {
 					if(LFLAG){
 						outL << "< DOUBLE >";
 					}
+<<<<<<< HEAD
 					std::string strTemp(yytext);
    					currentSourceCodeLine += strTemp;
+=======
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 					return DOUBLE; 
 				}	
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 133 "../lexer/cLexer.l"
+=======
+#line 114 "../lexer/cLexer.l"
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 {
 					if(LFLAG){
 						outL << "< ELSE >";
 					}
+<<<<<<< HEAD
 					std::string strTemp(yytext);
    					currentSourceCodeLine += strTemp;
+=======
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 					return ELSE; 
 				}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 141 "../lexer/cLexer.l"
+=======
+#line 120 "../lexer/cLexer.l"
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 {
 					if(LFLAG){
 						outL << "< ENUM >";
 					}
+<<<<<<< HEAD
 					std::string strTemp(yytext);
    					currentSourceCodeLine += strTemp;
+=======
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 					return ENUM; 
 				}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 149 "../lexer/cLexer.l"
+=======
+#line 126 "../lexer/cLexer.l"
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 {
 					if(LFLAG){
 						outL << "< EXTERN >";
 					}
+<<<<<<< HEAD
 					std::string strTemp(yytext);
    					currentSourceCodeLine += strTemp;
+=======
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 					return EXTERN; 
 				}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 157 "../lexer/cLexer.l"
+=======
+#line 132 "../lexer/cLexer.l"
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 {
 					if(LFLAG){
 						outL << "< FLOAT >";
 					}
+<<<<<<< HEAD
 					std::string strTemp(yytext);
    					currentSourceCodeLine += strTemp;
+=======
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 					return FLOAT; 
 				}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 165 "../lexer/cLexer.l"
+=======
+#line 138 "../lexer/cLexer.l"
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 {
 					if(LFLAG){
 						outL << "< FOR >";
 					}
+<<<<<<< HEAD
 					std::string strTemp(yytext);
    					currentSourceCodeLine += strTemp;
+=======
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 					return FOR; 
 				}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 173 "../lexer/cLexer.l"
+=======
+#line 144 "../lexer/cLexer.l"
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 {
 					if(LFLAG){
 						outL << "< GOTO >";
 					}
+<<<<<<< HEAD
 					std::string strTemp(yytext);
    					currentSourceCodeLine += strTemp;
+=======
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 					return GOTO; 
 				}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 181 "../lexer/cLexer.l"
+=======
+#line 150 "../lexer/cLexer.l"
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 {
 					if(LFLAG){
 						outL << "< IF >";
 					}
+<<<<<<< HEAD
 					std::string strTemp(yytext);
    					currentSourceCodeLine += strTemp;
+=======
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 					return IF;  
 				}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 189 "../lexer/cLexer.l"
 {
 					if(LFLAG){
@@ -1104,156 +1416,252 @@ YY_RULE_SETUP
 					}
 					std::string strTemp(yytext);
    					currentSourceCodeLine += strTemp;
+=======
+#line 156 "../lexer/cLexer.l"
+{
+					if(LFLAG){
+						outL << "< INT >" << std::endl;
+						std::cout << "INT" << std::endl;
+					}
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 					return INT; 	
 				}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 197 "../lexer/cLexer.l"
+=======
+#line 163 "../lexer/cLexer.l"
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 {
 					if(LFLAG){
 						outL << "< LONG >";
 					}
+<<<<<<< HEAD
 					std::string strTemp(yytext);
    					currentSourceCodeLine += strTemp;
+=======
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 					return LONG; 
 				}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 205 "../lexer/cLexer.l"
+=======
+#line 169 "../lexer/cLexer.l"
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 {
 					if(LFLAG){
 						outL << "< REGISTER >";
 					}
+<<<<<<< HEAD
 					std::string strTemp(yytext);
    					currentSourceCodeLine += strTemp;
+=======
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 					return REGISTER; 
 				}
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 213 "../lexer/cLexer.l"
+=======
+#line 175 "../lexer/cLexer.l"
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 {
 					if(LFLAG){
 						outL << "< RETURN >";
 					}
+<<<<<<< HEAD
 					std::string strTemp(yytext);
    					currentSourceCodeLine += strTemp;
+=======
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 					return RETURN; 
 				}
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 221 "../lexer/cLexer.l"
+=======
+#line 181 "../lexer/cLexer.l"
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 {
 					if(LFLAG){
 						outL << "< SHORT >";
 					}
+<<<<<<< HEAD
 					std::string strTemp(yytext);
    					currentSourceCodeLine += strTemp;
+=======
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 					return SHORT; 
 				}
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 229 "../lexer/cLexer.l"
+=======
+#line 187 "../lexer/cLexer.l"
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 {
 					if(LFLAG){
 						outL << "< SIGNED >";
 					}
+<<<<<<< HEAD
 					std::string strTemp(yytext);
    					currentSourceCodeLine += strTemp;
+=======
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 					return SIGNED; 
 				}
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 237 "../lexer/cLexer.l"
+=======
+#line 193 "../lexer/cLexer.l"
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 {
 					if(LFLAG){
 						outL << "< SIZEOF >";
 					}
+<<<<<<< HEAD
 					std::string strTemp(yytext);
    					currentSourceCodeLine += strTemp;
+=======
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 					return SIZEOF; 
 				}	
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 245 "../lexer/cLexer.l"
+=======
+#line 199 "../lexer/cLexer.l"
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 {
 					if(LFLAG){
 						outL << "< STATIC >";
 					}
+<<<<<<< HEAD
 					std::string strTemp(yytext);
    					currentSourceCodeLine += strTemp;
+=======
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 					return STATIC; 
 				}
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 253 "../lexer/cLexer.l"
+=======
+#line 205 "../lexer/cLexer.l"
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 {
 					if(LFLAG){
 						outL << "< STRUCT >";
 					}
+<<<<<<< HEAD
 					std::string strTemp(yytext);
    					currentSourceCodeLine += strTemp;
+=======
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 					return STRUCT; 
 				}
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 261 "../lexer/cLexer.l"
+=======
+#line 211 "../lexer/cLexer.l"
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 {
 					if(LFLAG){
 						outL << "< SWITCH >";
 					}
+<<<<<<< HEAD
 					std::string strTemp(yytext);
    					currentSourceCodeLine += strTemp;
+=======
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 					return SWITCH; 
 				}
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 269 "../lexer/cLexer.l"
+=======
+#line 217 "../lexer/cLexer.l"
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 {
 					if(LFLAG){
 						outL << "< TYPEDEF >";
 					}
+<<<<<<< HEAD
 					std::string strTemp(yytext);
    					currentSourceCodeLine += strTemp;
+=======
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 					return TYPEDEF; 
 				}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 277 "../lexer/cLexer.l"
+=======
+#line 223 "../lexer/cLexer.l"
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 {
 					if(LFLAG){
 						outL << "< UNION >";
 					}
+<<<<<<< HEAD
 					std::string strTemp(yytext);
    					currentSourceCodeLine += strTemp;
+=======
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 					return UNION; 
 				}
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 285 "../lexer/cLexer.l"
+=======
+#line 229 "../lexer/cLexer.l"
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 {
 					if(LFLAG){
 						outL << "< UNSIGNED >";
 					}
+<<<<<<< HEAD
 					std::string strTemp(yytext);
    					currentSourceCodeLine += strTemp;
+=======
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 					return UNSIGNED; 
 				}
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 293 "../lexer/cLexer.l"
+=======
+#line 235 "../lexer/cLexer.l"
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 {
 					if(LFLAG){
 						outL << "< VOID >";
@@ -1263,7 +1671,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 299 "../lexer/cLexer.l"
+=======
+#line 241 "../lexer/cLexer.l"
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 {
 					if(LFLAG){
 						outL << "< VOLATILE >";
@@ -1273,7 +1685,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 305 "../lexer/cLexer.l"
+=======
+#line 247 "../lexer/cLexer.l"
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 {
 					if(LFLAG){
 						outL << "< WHILE >";
@@ -1283,7 +1699,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 311 "../lexer/cLexer.l"
+=======
+#line 253 "../lexer/cLexer.l"
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 {
 					if(LFLAG){
 						outL << "< IDENTIFIER >";
@@ -1303,7 +1723,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 327 "../lexer/cLexer.l"
+=======
+#line 269 "../lexer/cLexer.l"
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 {
 					if(LFLAG){
 						outL << "< INTEGER_CONSTANT >";
@@ -1311,6 +1735,10 @@ YY_RULE_SETUP
 					temp = new dVal;
 					temp->dataType = INT;
 					temp->value._int = atoi(yytext);
+<<<<<<< HEAD
+=======
+					std::cout << "hi" << std::endl; 
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 					yylval.val = temp;
 					temp = NULL;  
 					return INTEGER_CONSTANT; 						
@@ -1318,31 +1746,48 @@ YY_RULE_SETUP
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 338 "../lexer/cLexer.l"
+=======
+#line 281 "../lexer/cLexer.l"
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 {
 					if(LFLAG){
 						outL << "< FLOATING_CONSTANT >";
 					}
+<<<<<<< HEAD
 					temp = new dVal;
 					temp->dataType = FLOAT;
 					temp->value._float = atof(yytext);
 					yylval.val = temp;
 					temp = NULL;  
+=======
+					/*
+					yylval.dVal.dataType = FLOAT;
+					yylval.dVal.value._float = atof(yytext); */
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 					return FLOATING_CONSTANT; 		
 				}
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 349 "../lexer/cLexer.l"
+=======
+#line 290 "../lexer/cLexer.l"
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 {
 					if(LFLAG){
 						outL << "< CHARACTER_CONSTANT >";
 					}
+<<<<<<< HEAD
 					temp = new dVal;
 					temp->dataType = CHAR;
 					temp->value._char = yytext[1];
 					yylval.val = temp;
 					temp = NULL;  
+=======
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 					return CHARACTER_CONSTANT; 		
 				}
 	YY_BREAK
@@ -1357,7 +1802,11 @@ YY_RULE_SETUP
 case 37:
 /* rule 37 can match eol */
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 368 "../lexer/cLexer.l"
+=======
+#line 304 "../lexer/cLexer.l"
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 {
 					std::cout << "string literal" << std::endl; 
 					/* yytext??*/
@@ -1369,7 +1818,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 376 "../lexer/cLexer.l"
+=======
+#line 312 "../lexer/cLexer.l"
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 {
 					if(LFLAG){
 						outL << "< -> > ";
@@ -1379,7 +1832,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 382 "../lexer/cLexer.l"
+=======
+#line 318 "../lexer/cLexer.l"
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 {
 					if(LFLAG){
 						outL << "< ++ > ";
@@ -1389,7 +1846,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 388 "../lexer/cLexer.l"
+=======
+#line 324 "../lexer/cLexer.l"
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 {
 					if(LFLAG){
 						outL << "< -- > ";
@@ -1399,7 +1860,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 394 "../lexer/cLexer.l"
+=======
+#line 330 "../lexer/cLexer.l"
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 {
 					if(LFLAG){
 						outL << "< << > ";
@@ -1409,7 +1874,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 400 "../lexer/cLexer.l"
+=======
+#line 336 "../lexer/cLexer.l"
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 {
 					if(LFLAG){
 						outL << "< -> > ";
@@ -1419,7 +1888,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 406 "../lexer/cLexer.l"
+=======
+#line 342 "../lexer/cLexer.l"
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 {
 					if(LFLAG){
 						outL << "< <= > ";
@@ -1429,7 +1902,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 412 "../lexer/cLexer.l"
+=======
+#line 348 "../lexer/cLexer.l"
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 {
 					if(LFLAG){
 						outL << "< >= > ";
@@ -1439,7 +1916,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 418 "../lexer/cLexer.l"
+=======
+#line 354 "../lexer/cLexer.l"
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 {
 					if(LFLAG){
 						outL << "< == > ";
@@ -1449,7 +1930,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 424 "../lexer/cLexer.l"
+=======
+#line 360 "../lexer/cLexer.l"
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 {
 					if(LFLAG){
 						outL << "< != >";
@@ -1459,7 +1944,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 430 "../lexer/cLexer.l"
+=======
+#line 366 "../lexer/cLexer.l"
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 {
 					if(LFLAG){
 						outL << "< && >";
@@ -1469,7 +1958,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 436 "../lexer/cLexer.l"
+=======
+#line 372 "../lexer/cLexer.l"
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 {
 					if(LFLAG){
 						outL << "< || >";
@@ -1479,7 +1972,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 442 "../lexer/cLexer.l"
+=======
+#line 378 "../lexer/cLexer.l"
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 {
 					if(LFLAG){
 						outL << "< *= >";
@@ -1489,7 +1986,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 448 "../lexer/cLexer.l"
+=======
+#line 384 "../lexer/cLexer.l"
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 {
 					if(LFLAG){
 						outL << "< /= >";
@@ -1499,7 +2000,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 454 "../lexer/cLexer.l"
+=======
+#line 390 "../lexer/cLexer.l"
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 {
 					if(LFLAG){
 						outL << "< %= >";
@@ -1509,7 +2014,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 460 "../lexer/cLexer.l"
+=======
+#line 396 "../lexer/cLexer.l"
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 {
 					if(LFLAG){
 						outL << "< += >";
@@ -1519,7 +2028,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 466 "../lexer/cLexer.l"
+=======
+#line 402 "../lexer/cLexer.l"
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 {
 					if(LFLAG){
 						outL << "< -= >";
@@ -1529,7 +2042,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 54:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 472 "../lexer/cLexer.l"
+=======
+#line 408 "../lexer/cLexer.l"
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 {
 					if(LFLAG){
 						outL << "< <<= >";
@@ -1539,7 +2056,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 55:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 478 "../lexer/cLexer.l"
+=======
+#line 414 "../lexer/cLexer.l"
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 {
 					if(LFLAG){
 						outL << "< >>= >";
@@ -1549,7 +2070,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 56:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 484 "../lexer/cLexer.l"
+=======
+#line 420 "../lexer/cLexer.l"
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 {
 					if(LFLAG){
 						outL << "< &= >";
@@ -1559,7 +2084,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 57:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 490 "../lexer/cLexer.l"
+=======
+#line 426 "../lexer/cLexer.l"
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 {
 					if(LFLAG){
 						outL << "< ^= >";
@@ -1569,7 +2098,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 58:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 496 "../lexer/cLexer.l"
+=======
+#line 432 "../lexer/cLexer.l"
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 {
 					if(LFLAG){
 						outL << "< |= >";
@@ -1579,7 +2112,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 59:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 502 "../lexer/cLexer.l"
+=======
+#line 438 "../lexer/cLexer.l"
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 {
 					if(LFLAG){
 						outL << "< + > ";
@@ -1589,7 +2126,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 60:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 508 "../lexer/cLexer.l"
+=======
+#line 444 "../lexer/cLexer.l"
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 {
 					if(LFLAG){
 						outL << "< - > ";
@@ -1599,7 +2140,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 61:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 514 "../lexer/cLexer.l"
+=======
+#line 450 "../lexer/cLexer.l"
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 {
 					if(LFLAG){
 						outL << "< * > ";
@@ -1609,7 +2154,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 62:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 520 "../lexer/cLexer.l"
+=======
+#line 456 "../lexer/cLexer.l"
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 {
 					if(LFLAG){
 						outL << "< / > ";
@@ -1619,7 +2168,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 63:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 526 "../lexer/cLexer.l"
+=======
+#line 462 "../lexer/cLexer.l"
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 {
 					if(LFLAG){
 						outL << "< % > ";
@@ -1629,7 +2182,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 64:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 532 "../lexer/cLexer.l"
+=======
+#line 468 "../lexer/cLexer.l"
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 {
 					if(LFLAG){
 						outL << "< ; > ";
@@ -1639,7 +2196,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 65:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 538 "../lexer/cLexer.l"
+=======
+#line 474 "../lexer/cLexer.l"
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 {
 					if(LFLAG){
 						outL << "< : > ";
@@ -1649,7 +2210,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 66:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 544 "../lexer/cLexer.l"
+=======
+#line 480 "../lexer/cLexer.l"
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 {
 					if(LFLAG){
 						outL << "< , > ";
@@ -1659,7 +2224,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 67:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 550 "../lexer/cLexer.l"
+=======
+#line 486 "../lexer/cLexer.l"
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 {
 					if(LFLAG){
 						outL << "< & > ";
@@ -1669,17 +2238,29 @@ YY_RULE_SETUP
 	YY_BREAK
 case 68:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 556 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< = > ";
 					}					
+=======
+#line 492 "../lexer/cLexer.l"
+{
+					if(LFLAG){
+						outL << "< = > ";
+					} 
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 					return ASSIGN;
 				}
 	YY_BREAK
 case 69:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 562 "../lexer/cLexer.l"
+=======
+#line 498 "../lexer/cLexer.l"
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 {
 					if(LFLAG){
 						outL << "< ~ > ";
@@ -1689,7 +2270,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 70:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 568 "../lexer/cLexer.l"
+=======
+#line 504 "../lexer/cLexer.l"
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 {
 					if(LFLAG){
 						outL << "< | > ";
@@ -1699,7 +2284,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 71:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 574 "../lexer/cLexer.l"
+=======
+#line 510 "../lexer/cLexer.l"
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 {
 					if(LFLAG){
 						outL << "< ^ > ";
@@ -1709,7 +2298,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 72:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 580 "../lexer/cLexer.l"
+=======
+#line 516 "../lexer/cLexer.l"
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 {
 					if(LFLAG){
 						outL << "< . > ";
@@ -1719,7 +2312,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 73:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 586 "../lexer/cLexer.l"
+=======
+#line 522 "../lexer/cLexer.l"
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 {
 					if(LFLAG){
 						outL << "< ! > ";
@@ -1729,7 +2326,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 74:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 592 "../lexer/cLexer.l"
+=======
+#line 528 "../lexer/cLexer.l"
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 {
 					if(LFLAG){
 						outL << "< ? > ";
@@ -1739,7 +2340,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 75:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 598 "../lexer/cLexer.l"
+=======
+#line 534 "../lexer/cLexer.l"
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 {
 					if(LFLAG){
 						outL << "< ( > ";
@@ -1749,7 +2354,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 76:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 604 "../lexer/cLexer.l"
+=======
+#line 540 "../lexer/cLexer.l"
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 {
 					if(LFLAG){
 						outL << "< [ > ";
@@ -1759,7 +2368,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 77:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 610 "../lexer/cLexer.l"
+=======
+#line 546 "../lexer/cLexer.l"
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 {
 					if(LFLAG){
 						outL << "< { > ";
@@ -1771,7 +2384,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 78:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 618 "../lexer/cLexer.l"
+=======
+#line 554 "../lexer/cLexer.l"
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 {
 					if(LFLAG){
 						outL << "< ) > ";
@@ -1781,7 +2398,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 79:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 624 "../lexer/cLexer.l"
+=======
+#line 560 "../lexer/cLexer.l"
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 {
 					if(LFLAG){
 						outL << "< ] > ";
@@ -1791,7 +2412,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 80:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 630 "../lexer/cLexer.l"
+=======
+#line 566 "../lexer/cLexer.l"
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 {
 					if(LFLAG){
 						outL << "< } > ";
@@ -1801,7 +2426,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 81:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 636 "../lexer/cLexer.l"
+=======
+#line 572 "../lexer/cLexer.l"
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 {
 					if(LFLAG){
 						outL << "< < > ";
@@ -1811,7 +2440,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 82:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 642 "../lexer/cLexer.l"
+=======
+#line 578 "../lexer/cLexer.l"
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 {
 					if(LFLAG){
 						outL << "< > > ";
@@ -1820,6 +2453,7 @@ YY_RULE_SETUP
 				}
 	YY_BREAK
 case 83:
+<<<<<<< HEAD
 YY_RULE_SETUP
 #line 648 "../lexer/cLexer.l"
 {
@@ -1832,11 +2466,18 @@ YY_RULE_SETUP
 #line 651 "../lexer/cLexer.l"
 {
 					std::cout << "NEWLINE" << std::endl; 
+=======
+/* rule 83 can match eol */
+YY_RULE_SETUP
+#line 584 "../lexer/cLexer.l"
+{
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 					if(LFLAG){
 						outL << "< NEWLINE >" << std::endl;
 					}
 					yylineno++; 
 					colPosition = 0;
+<<<<<<< HEAD
 					sourceCode.push_back(currentSourceCodeLine);
 					std::cout << "Current source code line: " << currentSourceCodeLine << std::endl; 
 					currentSourceCodeLine = ""; 
@@ -1846,6 +2487,14 @@ YY_RULE_SETUP
 case 85:
 YY_RULE_SETUP
 #line 663 "../lexer/cLexer.l"
+=======
+					//cout << "newline" << endl;  
+				}
+	YY_BREAK
+case 84:
+YY_RULE_SETUP
+#line 592 "../lexer/cLexer.l"
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 {
 
 					/*cout << "ERROR?" << endl; */
@@ -1853,12 +2502,21 @@ YY_RULE_SETUP
 					/*yyerror("Unknown token..");*/
 				}		
 	YY_BREAK
+<<<<<<< HEAD
 case 86:
 YY_RULE_SETUP
 #line 669 "../lexer/cLexer.l"
 ECHO;
 	YY_BREAK
 #line 1862 "lex.yy.c"
+=======
+case 85:
+YY_RULE_SETUP
+#line 598 "../lexer/cLexer.l"
+ECHO;
+	YY_BREAK
+#line 1787 "lex.yy.c"
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2150,7 +2808,11 @@ static int yy_get_next_buffer (void)
 		while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 			{
 			yy_current_state = (int) yy_def[yy_current_state];
+<<<<<<< HEAD
 			if ( yy_current_state >= 206 )
+=======
+			if ( yy_current_state >= 205 )
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 				yy_c = yy_meta[(unsigned int) yy_c];
 			}
 		yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
@@ -2178,11 +2840,19 @@ static int yy_get_next_buffer (void)
 	while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 		{
 		yy_current_state = (int) yy_def[yy_current_state];
+<<<<<<< HEAD
 		if ( yy_current_state >= 206 )
 			yy_c = yy_meta[(unsigned int) yy_c];
 		}
 	yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
 	yy_is_jam = (yy_current_state == 205);
+=======
+		if ( yy_current_state >= 205 )
+			yy_c = yy_meta[(unsigned int) yy_c];
+		}
+	yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
+	yy_is_jam = (yy_current_state == 204);
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 
 	return yy_is_jam ? 0 : yy_current_state;
 }
@@ -2856,7 +3526,11 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
+<<<<<<< HEAD
 #line 669 "../lexer/cLexer.l"
+=======
+#line 598 "../lexer/cLexer.l"
+>>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 
 
 
