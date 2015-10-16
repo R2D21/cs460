@@ -1,4 +1,0 @@
-type_specifier : INT;
-declaration_specifiers : type_specifier;
-direct_declarator : identifier;
-declarator : direct_declarator;
