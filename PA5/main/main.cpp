@@ -26,10 +26,24 @@ extern symbolTable table;
 int main(int argc, char** argv) {
 	// #todo - add compiler flags 
 
+	bool fileSpecificed = false;
+	string filename;
+
 	// read input file
 	yyin = fopen(argv[1], "r");
 
 	for(int i=1; i < argc; i++){
+		
+		if( (string) argv[i] == "-o" ){
+			if(i+1 < argc){
+				filename = argv[i+1];
+			}
+			else{
+				cout << "Please specify output file:";
+				cin >> filename;
+			}
+			fileSpecificed = true;
+		}
 		if( (string) argv[i] == "-l" ){
 			LFLAG = true;
 		}
@@ -38,12 +52,26 @@ int main(int argc, char** argv) {
 		}
 	}
 
+
+
 	// check if 
 	if (LFLAG){
-		outL.open("../outputFiles/tokens.txt", std::ofstream::out);
+		if(fileSpecificed){
+			filename = "../outputFiles/" + filename + "_token.txt";
+		}
+		else{
+			filename = "../outputFiles/tokens.txt";
+		}
+		outL.open(filename.c_str(), std::ofstream::out);
 	}
 	if (YFLAG){
-		outY.open("../outputFiles/reductions.txt", std::ofstream::out);
+		if(fileSpecificed){
+			filename = "../outputFiles/" + filename + "_reductions.txt";
+		}
+		else{
+			filename = "../outputFiles/reductions.txt";
+		}
+		outY.open(filename.c_str(), std::ofstream::out);
 	}
 
 	cout << "Main program - compiler driver." << endl;
