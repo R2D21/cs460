@@ -1,7 +1,7 @@
 # Name: Renee Iinuma, Kyle Lee, and Wesley Kepke
 # File: KRW_Makefile
 # Created: September 28, 2015
-# Last Modified: October 1, 2015
+# Last Modified: October 15, 2015
 
 # This is the makefile for the front end of our ANSI C compiler.
 
@@ -14,7 +14,8 @@ FLEX = flex
 BISON = bison
 LIBS = -L/usr/local/lib -lfl
 OBJS = ../lexer/lex.yy.o ../parser/cParser.tab.o ../main/main.o \
-	../classes/symbolTable.o ../classes/symbolTableEntry.o \
+		../classes/symbolTable.o ../classes/symbolTableEntry.o \
+		../classes/scope.o
 
 # Targets, dependencies, and rules
 all: ../bin/krwCompiler
@@ -23,15 +24,19 @@ all: ../bin/krwCompiler
 	$(CC) $(LFLAGS) -o $@ $(OBJS) $(LIBS)
 
 ../main/main.o: ../main/main.cpp
-	$(CC) $(CFLAGS) ../main/main.cpp -o $@  
+	$(CC) $(CFLAGS) $< -o $@  
 
 ../classes/symbolTableEntry.o: ../classes/symbolTableEntry.cpp \
-				../classes/symbolTableEntry.h
+								../classes/symbolTableEntry.h
 	$(CC) $(CFLAGS) $< -o $@
 
 ../classes/symbolTable.o: ../classes/symbolTable.cpp \
-				../classes/symbolTable.h \
-				../classes/symbolTableEntry.h
+							../classes/symbolTable.h \
+							../classes/symbolTableEntry.o
+	$(CC) $(CFLAGS) $< -o $@
+
+../classes/scope.o: ../classes/scope.cpp ../classes/scope.h \
+					../classes/symbolTableEntry.o
 	$(CC) $(CFLAGS) $< -o $@
 
 ../lexer/lex.yy.c: ../lexer/cLexer.l ../parser/cParser.tab.c

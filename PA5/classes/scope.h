@@ -6,56 +6,41 @@ Last Modified: October 2, 2015
 Class: CS 460 (Compiler Construction)
 
 This is the header file for the scope class of our C compiler.
-
-??
 */
-
 
 // header guards
 #ifndef SCOPE_H
 #define SCOPE_H
 
 // includes
+#include <iostream>
 #include "symbolTableEntry.h"
-#include <fstream>
 #include <map>
-#include <deque>
-using namespace std;
 
-// symbol table and bst typedefs to reduce keystrokes 
-typedef map<string, symbolTableEntry> bst; 
-typedef bst::iterator bstItr;
+// symbol table and typedefs to reduce keystrokes 
+typedef std::map<std::string, symbolTableEntry> Bst; 
+typedef Bst::iterator bstItr;
 
 // class definition 
 class scope {
     public:
         // constructors
         scope();
-        scope(int scopeLevel, int outerS, bst varsMap);
-/*
-        // symbol table functions 
-        void insertNewSymbol(symbolTableEntry newSymbolTableEntry);
-        symbolTableEntry* searchForSymbol(int& levelSymbolWasFound); // todo: parameters and return type TBD
+        scope(int scopeLevel, int outerS, Bst bstMap);
 
-        void searchTopLevelOnly(); // todo: parameters and return type TBD
-
-        void pushLevelOnSymbolTable();
-        void popLevelOffSymbolTable(); 
-
-		symbolTableEntry* searchForSymbolAtTopOfStack(string symbolToSearch); 
-
-        void writeSymbolTableContentsToFile();
-*/
-        bst* getVars();
-        int getScopeLevel();
-        int getOuterScope();
-	// destructor 
+        // class functions 
+        Bst* getBst();
+        int getScopeLevel() const;
+        int getOuterScope() const;
+	
+        // destructor 
         ~scope();
+
     private:
         // scope data members 
         int scopeLevel;
         int outerScope;
-        bst vars;  
+        Bst bst; 
 
 };
 

@@ -2,31 +2,22 @@
 Name: Renee Iinuma, Kyle Lee, and Wesley Kepke. 
 File: symbolTable.cpp
 Created: September 27, 2015
-Last Modified: October 4, 2015
+Last Modified: October 15, 2015
 Class: CS 460 (Compiler Construction)
 
-This is the implementation file for the symbol table of our C compiler.
-
-We are using the C++ STL for our symbol table (a stack of BSTs). 
-More specifically, we are using a deque (used as a stack) of maps (the maps
-are responsible for mapping a string (the identifier name) to 
-"symbolTableEntry" objects). A "symbolTableEntry" object is an object that we
-created and contains all associated information of identifiers (type, scope, 
-etc.).    
+This is the implementation file for the symbol table of our C compiler.  
 */
 
 // includes
 #include "symbolTable.h"
-
-// function implementations
 
 /*
 Function: symbolTable() (constructor) 
 
 Description: Allows for instantiation of a new symbol table object. 
 */
-symbolTable::symbolTable(){
-	cout << "New symbol table!" << endl; 
+symbolTable::symbolTable() {
+	// new level is pushed on in the constructor for global scope
 	pushLevelOn(); 
 }
 
@@ -35,72 +26,131 @@ Function: pushLevelOn()
 
 Description: This function pushes a new scope level onto the stack. 
 */
-void symbolTable::pushLevelOn(){
-	bst* newTree = new bst();
-	table.push_back(*newTree);
+void symbolTable::pushLevelOn() {
+	Bst* newTree = new Bst();
+	scope* newScope = new scope(table.size(), 0, *newTree);
+	table.push_back(*newScope);
+}
 
+/*
+Function: pushLevelOn()
+
+Description: This function pushes a new scope level onto the stack and
+allows the caller to specify an outer scope. 
+*/
+void symbolTable::pushLevelOn(int outer) {
+	Bst* newTree = new Bst();
+	scope* newScope = new scope(table.size(), outer, *newTree);
+	table.push_back(*newScope);
 }
 
 /*
 Function: popLevelOff()
 
-Description: This function pops a scope level off of the stack (assuming) 
-there is a level to pop off. 
+Description: This function pops a scope level off of the stack (assuming 
+there is a level to pop off). 
 */
-void symbolTable::popLevelOff(){
+void symbolTable::popLevelOff() {
 	if (table.size() > 0){
 		table.pop_back();
 	}
 }
 
 /*
-Function: insertNewSymbol(string name)
+Function: insertNewSymbol(std::string name, int line)
 
 Description: This function will add a new entry to the current scope level
 on the stack. 
 
 Parameters:
-string name: The name of the identifier to be added to the current scope 
+std::string name: The name of the identifier to be added to the current scope 
 level. 
+int line: The line number that the associated identifier is located at in the
+source program. 
 */
-void symbolTable::insertNewSymbol(string name, int line){
-	symbolTableEntry* newEntry = new symbolTableEntry(line); // empty for now 
-	bst* currentVars = &table[table.size() - 1]; 
+void symbolTable::insertNewSymbol(std::string name, int line) {
+	symbolTableEntry* newEntry = new symbolTableEntry(name, line);
+	std::cout << name << std::endl; 
+	Bst* currentVars = table[table.size() - 1].getBst();
 	currentVars->insert(entry(name, *newEntry));
 }
 
 /*
-Function: symbolTableEntry* searchForSymbol(string symbolToSearch, int& levelSymbolWasFound) const
+Function: symbolTableEntry* searchForSymbol(std::string symbolToSearch, 
+											int& levelSymbolWasFound)
+Return type: symbolTableEntry*
 
-Description: This function will search the symbol table for the desired symbol and return a pointer
-to the corresponding symbol table entry. 
+Description: This function will search the symbol table for the desired 
+symbol and return a pointer to the corresponding symbol table entry. 
+
+This function replies on the function searchHelper() to search for the
+symbol. 
+
+Parameters:
+std::string symbolToSearch: The name of the identifier to be searched for.
+int& levelSymbolWasFound: Will contain the scope level where symbolToSearch
+was located. 
 */
-symbolTableEntry* symbolTable::searchForSymbol(string symbolToSearch, int& levelSymbolWasFound){
+symbolTableEntry* symbolTable::searchForSymbol(std::string symbolToSearch, 
+												int& levelSymbolWasFound) {
 	if(table.size() == 0){
 		levelSymbolWasFound = -1;
 		return NULL;
 	}
-
-	symTblItr stackItr;
-	bstItr treeItr;
-	int currentLevel;
-
-	for(currentLevel = table.size()-1; currentLevel >= 0; currentLevel--){
-		for(treeItr = table[currentLevel].begin(); treeItr != table[currentLevel].end(); treeItr++){
-			// check for the desired symbol
-			if (symbolToSearch == treeItr->first) {
-				levelSymbolWasFound = currentLevel;
-				return &(treeItr->second); 
-			}
-		}
-	}
-
-	levelSymbolWasFound = -1;
-	return NULL;
+	// recursively search the other scopes to see if the symbol can be located
+	return searchHelper(symbolToSearch, levelSymbolWasFound, table.size()-1);
 }
 
 /*
-Function: searchForSymbol(somethingHere)
+Function: symbolTableEntry* searchHelper(std::string symbolToSearch, 
+											int& levelSymbolWasFound,
+											int searchLevel)
+Return type: symbolTableEntry*
+
+Description: This function will search through the binary seach tree at a 
+specific scope level. If the identifier is not located within the current
+binary search tree, the function will recursively check the outer scope levels
+to see if the identifier can be located. 
+
+Parameters:
+std::string symbolToSearch: The name of the identifier to be searched for.
+int& levelSymbolWasFound: Will contain the scope level where symbolToSearch
+was located.
+int searchLevel: Used to resursively check the outer scope levels of a given
+scope.  
+*/
+symbolTableEntry* symbolTable::searchHelper(std::string symbolToSearch, 
+											int&levelSymbolWasFound, 
+											int searchLevel){
+	// variables
+	Bst* searchBST = table[searchLevel].getBst();
+	bstItr scopeItr;
+
+	// iterate through the top BST in the symbol table
+	for (scopeItr = searchBST->begin(); scopeItr != searchBST->end(); scopeItr++) {
+		// check for the desired symbol
+		if (symbolToSearch == scopeItr->first) {
+			levelSymbolWasFound = searchLevel;
+			return &(scopeItr->second); 
+		}
+	}
+
+	// if identifier not found and in global scope, there is nowhere else
+	// to search
+	if(searchLevel == 0){
+		levelSymbolWasFound = -1;
+		return NULL;
+	}
+
+	// check next outer scope
+	else{
+		return searchHelper(symbolToSearch, levelSymbolWasFound, 
+							table[searchLevel].getOuterScope());
+	}
+}
+
+/*
+Function: searchForSymbol(std::string symbolToSearch)
 Return type: symbolTableEntry*
 
 Description: This function will only search the top of the symbol table
@@ -109,52 +159,54 @@ table entry's data will be returned. Otherwise, if the function was unable
 to locate the symbol table entry or if the symbol table is empty, the 
 function will return NULL. 
 */
-symbolTableEntry* symbolTable::searchTopOfStack(string symbolToSearch){
+symbolTableEntry* symbolTable::searchTopOfStack(std::string symbolToSearch) {
 	// check if symbol table is empty
 	if (table.size() == 0) {
 		return NULL; 
 	}
-	
+
 	// variables
-	//symTblItr firstBST = table[table.size() - 1]; 
+	Bst* topBST = table[table.size()-1].getBst();
 	bstItr scopeItr;
 
 	// iterate through the top BST in the symbol table
-	for (scopeItr = table[table.size() - 1].begin(); 
-			scopeItr != table[table.size() - 1].end(); scopeItr++) {
+	for (scopeItr = topBST->begin(); scopeItr != topBST->end(); scopeItr++) {
 		// check for the desired symbol
 		if (symbolToSearch == scopeItr->first) {
+			std::cout << "sToS: " << scopeItr->second.getIdentifierName() << std::endl;
 			return &(scopeItr->second); 
 		}
 	}
-
 	return NULL; 
 }
 
 /*
-Function: writeSymbolTableContentsToFile()
-Return type: void
+Function: writeToFile()
 
 Description: Will write the contents of the symbol table to a file that
 will be located in the "outputFiles" directory.  
 */
-void symbolTable::writeToFile() const{
+void symbolTable::writeToFile(){
 	// variables
-	constSymTblItr stackItr;
-	constBstItr treeItr;
-	int currentLevel;
- 
-	ofstream outFile;
-	outFile.open("../outputFiles/symbolTableContents.txt", ofstream::out); 
-	int scopeLevel = table.size(); 
- 	if(scopeLevel == -1){
-		outFile << "Symbol table is empty!" << endl;
+	bstItr bstItr; 
+	symTblItr symbolTableItr; 
+	Bst* currentBst;
+	std::ofstream outFile;
+	outFile.open("../outputFiles/symbolTableContents.txt", std::ofstream::out); 
+	int scopeLevel = table.size() - 1;  
+
+	if(scopeLevel == -1){
+		outFile << "Symbol table is empty!" << std::endl;
 	}
 
-	for(currentLevel = table.size()-1; currentLevel >= 0; currentLevel--){
-		outFile << "Scope Level " << currentLevel << ":" << endl;
-		for(treeItr = table[currentLevel].begin(); treeItr != table[currentLevel].end(); treeItr++){
-			outFile << "\tVariable: " << treeItr->first << endl;
+	else {
+		for (symbolTableItr = table.begin(); symbolTableItr != table.end(); symbolTableItr++) {
+			currentBst = symbolTableItr->getBst();
+			outFile << "Scope Level " << symbolTableItr->getScopeLevel() << " in Scope ";
+			outFile << symbolTableItr->getOuterScope() << std::endl;
+			for (bstItr = currentBst->begin(); bstItr != currentBst->end(); bstItr++) {
+				outFile << "\tVariable: " << bstItr->first << std::endl;
+			}
 		}
 	}
 
@@ -162,25 +214,38 @@ void symbolTable::writeToFile() const{
 	outFile.close(); 	
 }
 
-void symbolTable::writeToScreen() const{
-	int scopeLevel = table.size(); 
- 	if(scopeLevel == -1){
-		cout << "Symbol table is empty!" << endl;
+/*
+Function: writeToFile()
+
+Description: Will write the contents of the symbol table to the output stream. 
+*/
+void symbolTable::writeToScreen() {
+	// variables
+	bstItr bstItr; 
+	symTblItr symbolTableItr; 
+	Bst* currentBst;
+	int scopeLevel = table.size() - 1; 
+
+	if(scopeLevel == -1){
+		std::cout << "Symbol table is empty!" << std::endl;
 	}
 
-	constSymTblItr stackItr;
-	constBstItr treeItr;
-	int currentLevel;
-
-	for(currentLevel = table.size()-1; currentLevel >= 0; currentLevel--){
-		cout << "Scope Level " << currentLevel << ":" << endl;
-		for(treeItr = table[currentLevel].begin(); treeItr != table[currentLevel].end(); treeItr++){
-			cout << "\tVariable: " << treeItr->first;
-			cout << " at Line " << (treeItr->second).getLineNumber() << endl;
+	else {
+		for (symbolTableItr = table.begin(); symbolTableItr != table.end(); symbolTableItr++) {
+			currentBst = symbolTableItr->getBst();
+			std::cout << "Scope Level " << symbolTableItr->getScopeLevel() << " in Scope ";
+			std::cout << symbolTableItr->getOuterScope() << std::endl;
+			for (bstItr = currentBst->begin(); bstItr != currentBst->end(); bstItr++) {
+				std::cout << "\tVariable: " << bstItr->first << std::endl;
+			}
 		}
 	}
 }
 
+/*
+Function: ~symbolTable() (destructor)
+
+Description: The destructor for a symbol table object.  
+*/
 symbolTable::~symbolTable(){
-	//cout << "Destroy symbol table" << endl;
 }

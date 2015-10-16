@@ -1,4 +1,2 @@
-int x;
-int yyy;
-int z;
-int w = 'a';
+int a = 45;
+int x = 40;

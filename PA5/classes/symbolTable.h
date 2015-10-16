@@ -7,12 +7,13 @@ Class: CS 460 (Compiler Construction)
 
 This is the header file for the symbol table of our C compiler.
 
-We are using the C++ STL for our symbol table (a stack of BSTs). 
-More specifically, we are using a deque (used as a stack) of maps (the maps
-are responsible for mapping a string (the identifier name) to 
-"symbolTableEntry" objects). A "symbolTableEntry" object is an object that we
-created and contains all associated information of identifiers (type, scope, 
-etc.).    
+We are using the C++ STL for our symbol table (a stack of "scope" objects). 
+More specifically, we are using a deque (used as a stack) of "scope" objects.
+Each "scope" object contains an integer representing the value of the current 
+scope as well as a binary search tree which maps strings (identifier names) 
+to "symbolTableEntry" objects. A "symbolTableEntry" object is an object that we
+created and contains all associated information of identifiers (type, value, 
+etc.). 
 */
 
 // header guards
@@ -20,19 +21,16 @@ etc.).
 #define SYMBOL_TABLE_H
 
 // includes
-#include "symbolTableEntry.h"
+#include "scope.h"
 #include <fstream>
-#include <map>
 #include <deque>
-using namespace std;
 
-// symbol table and bst typedefs to reduce keystrokes 
-typedef map<string, symbolTableEntry> bst; 
-typedef bst::iterator bstItr;
-typedef bst::const_iterator constBstItr;
-typedef deque<bst> symTbl;  
+// symbol table and typedefs to reduce keystrokes 
+typedef Bst::iterator bstItr;
+typedef Bst::const_iterator constBstItr;
+typedef std::deque<scope> symTbl;  
 typedef symTbl::iterator symTblItr; 
-typedef pair<string, symbolTableEntry> entry;
+typedef std::pair<std::string, symbolTableEntry> entry;
 typedef symTbl::const_iterator constSymTblItr;
 
 // class definition 
@@ -43,18 +41,19 @@ class symbolTable {
 
         // symbol table functions 
         void pushLevelOn();
+        void pushLevelOn(int outer);
         void popLevelOff(); 
-        void insertNewSymbol(string name, int line);
-        symbolTableEntry* searchForSymbol(string symbolToSearch, int& levelSymbolWasFound);
-        symbolTableEntry* searchTopOfStack(string symbolToSearch); 
-        void writeToFile() const;
-        void writeToScreen() const;
+        void insertNewSymbol(std::string name, int line);
+        symbolTableEntry* searchForSymbol(std::string symbolToSearch, int& levelSymbolWasFound);
+        symbolTableEntry* searchTopOfStack(std::string symbolToSearch); 
+        void writeToFile();
+        void writeToScreen();
 
 	   // destructor 
         ~symbolTable();
 
     private:
-        // symbol table data members 
+        symbolTableEntry* searchHelper(std::string symbolToSearch, int&levelSymbolWasFound, int searchLevel);
         symTbl table;
 };
 
