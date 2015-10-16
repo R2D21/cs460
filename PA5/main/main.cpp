@@ -2,7 +2,7 @@
 Name: Renee Iinuma, Kyle Lee, and Wesley Kepke. 
 File: symbolTable.cpp
 Created: September 28, 2015
-Last Modified: September 28, 2015
+Last Modified: October 16, 2015
 Class: CS 460 (Compiler Construction)
 
 This is the main file for the front end of our ANSI C compiler. 
@@ -44,11 +44,21 @@ int main(int argc, char** argv) {
 			}
 			fileSpecificed = true;
 		}
+		/*
 		if( (string) argv[i] == "-l" ){
 			LFLAG = true;
 		}
 		if( (string) argv[i] == "-y" ){
 			YFLAG = true;
+		}*/
+		if(((string)argv[i]).find("-d") != string::npos)
+		{
+			if( ((string)argv[i]).find("l") != string::npos){
+				LFLAG = true;
+			}
+			if( ((string)argv[i]).find("y") != string::npos){
+				YFLAG = true;
+			}
 		}
 	}
 
