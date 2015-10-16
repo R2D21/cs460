@@ -2,7 +2,7 @@
 Name: Renee Iinuma, Kyle Lee, and Wesley Kepke. 
 File: symbolTable.cpp
 Created: September 28, 2015
-Last Modified: September 28, 2015
+Last Modified: October 15, 2015
 Class: CS 460 (Compiler Construction)
 
 This is the input file to Bison that will be used in the front end of our
@@ -50,6 +50,9 @@ the token declarations that will be used in the lexer.
 	    vals value;
 	} dVal;
 }
+
+/* inform bison that there will be 1 shift-reduce error */
+%expect 1
 
 /* Since we can get away without redefining the type of YYSTYPE, 
 yylval will remain as an integer in this program. */
@@ -132,6 +135,9 @@ external_declaration
 		}
 	;
 
+/*
+Have stuff for going into the symbol table here. 
+*/
 function_definition
 	: declarator compound_statement
 		{
@@ -159,6 +165,9 @@ function_definition
 		}
 	;
 
+/*
+
+*/
 declaration
 	: declaration_specifiers SEMI
 		{
@@ -1659,7 +1668,8 @@ void yyerror(const char* s) {
 void write(const dVal& param) {
 	switch(param.dataType) {
 		case CHAR:
-			std::cout << param.value._char << std::endl; 
+			//std::cout << "trying to write char" << std::endl; 
+ 			std::cout << param.value._char << std::endl; 
 			break;
 
 		case SHORT:
@@ -1667,6 +1677,7 @@ void write(const dVal& param) {
 			break;
 
 		case INT:
+			std::cout << "trying to write int" << std::endl;
 			std::cout << param.value._int << std::endl; 
 			break;
 

@@ -107,81 +107,42 @@ incoming value to the correct component of the union.
 
 Descrition: Sets the value of a corresponding identifier. 
 */
-/*void symbolTableEntry::setIdentifierValue(void* value, int token) {
+void symbolTableEntry::setIdentifierValue(dVal data, int token){
 	switch(token) {
 		case CHAR:
 			dataInfo.dataType = CHAR;
-			dataInfo.value._char = *(static_cast<char*>(value._char));
+			dataInfo.value._char = data.value._char;
 			break;
 
 		case SHORT:
 			dataInfo.dataType = SHORT;
-			dataInfo.value._short = *(static_cast<short*>(value));
+			dataInfo.value._short = data.value._short;
 			break;
 
 		case INT:
 			std::cout << "here" << std::endl; 
 			dataInfo.dataType = INT;
-			dataInfo.value._int = *(static_cast<int*>(value._int));
+			dataInfo.value._int = data.value._int;
 
   
-			std::cout << "Value inside setIdentifierValue: " << dataInfo.value._int << std::endl; 
+			std::cout << "Value inside setIdentifierValue (INT): " << dataInfo.value._int << std::endl; 
 			break;
 
 		case LONG:
 			dataInfo.dataType = LONG;
-			dataInfo.value._long = *(static_cast<long*>(value));
+			dataInfo.value._long = data.value._long;
 			break;
 
 		case FLOAT:
 			dataInfo.dataType = FLOAT;
-			dataInfo.value._float = *(static_cast<float*>(value));
-			break;
-
-		case DOUBLE:
-			dataInfo.dataType = DOUBLE;
-			dataInfo.value._double = *(static_cast<double*>(value));
-			break;
-
-		default:
-			dataInfo.dataType = -1; 
-	}
-}*/
-
-void symbolTableEntry::setIdentifierValue(dVal temp, int token){
-	std::cout << "in set" << std::endl;
-		switch(token) {
-		case CHAR:
-			dataInfo.dataType = CHAR;
-			dataInfo.value._char = temp.value._char;
-			break;
-
-		case SHORT:
-			dataInfo.dataType = SHORT;
-			//dataInfo.value._short = temp.value._char;
-			break;
-
-		case INT:
-			std::cout << "here" << std::endl; 
-			dataInfo.dataType = INT;
-			dataInfo.value._int = temp.value._int;
-
-  
-			std::cout << "Value inside setIdentifierValue: " << dataInfo.value._int << std::endl; 
-			break;
-
-		case LONG:
-			dataInfo.dataType = LONG;
-			//dataInfo.value._long = *(static_cast<long*>(value));
-			break;
-
-		case FLOAT:
-			dataInfo.dataType = FLOAT;
+			dataInfo.value._float = data.value._float;
+			std::cout << "Value inside setIdentifierValue (FLOAT): " << dataInfo.value._float << std::endl;
 			//dataInfo.value._float = *(static_cast<float*>(value));
 			break;
 
 		case DOUBLE:
 			dataInfo.dataType = DOUBLE;
+			dataInfo.value._double = data.value._double;
 			//dataInfo.value._double = *(static_cast<double*>(value));
 			break;
 

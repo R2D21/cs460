@@ -38,6 +38,7 @@ Tokens have been declared by Bison and are included in the file
 	int colPosition = 0;
 	int tabCount = 0; 
 	symbolTable table;
+	std::string currentSourceCodeLine = ""; 
 	std::vector<std::string> sourceCode;  
 %}
 
@@ -55,181 +56,238 @@ identifier [a-zA-Z][a-zA-z0-9]*
 %option noyywrap
 
 /* rules and actions */
-%%
+%% 
 
 "auto"			{
 					if(LFLAG){
 						outL << "< AUTO >";
 					}
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return AUTO; 
 				}
 "break"			{
 					if(LFLAG){
 						outL << "< BREAK >";
 					}
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return BREAK; 
 				}
 "case"			{
 					if(LFLAG){
 						outL << " < CASE >";
 					}
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return CASE; 
 				}
 "char"			{
 					if(LFLAG){
 						outL << "< CHAR >";
 					}
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return CHAR; 
 				}
 "const"			{
 					if(LFLAG){
 						outL << "< CONST >";
 					}
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return CONST; 
 				}
 "continue"		{
 					if(LFLAG){
 						outL << "< CONTINUE >";
 					}
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return CONTINUE; 
 				}
 "default"		{
 					if(LFLAG){
 						outL << "< DEFAULT >";
 					}
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return DEFAULT; 
 				}
 "do"			{
 					if(LFLAG){
 						outL << "< DO >";
 					}
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return DO; 
 				}
 "double"		{
 					if(LFLAG){
 						outL << "< DOUBLE >";
 					}
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return DOUBLE; 
 				}	
 "else"			{
 					if(LFLAG){
 						outL << "< ELSE >";
 					}
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return ELSE; 
 				}
 "enum"			{
 					if(LFLAG){
 						outL << "< ENUM >";
 					}
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return ENUM; 
 				}
 "extern"		{
 					if(LFLAG){
 						outL << "< EXTERN >";
 					}
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return EXTERN; 
 				}
 "float"			{
 					if(LFLAG){
 						outL << "< FLOAT >";
 					}
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return FLOAT; 
 				}
 "for"			{
 					if(LFLAG){
 						outL << "< FOR >";
 					}
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return FOR; 
 				}
 "goto"			{
 					if(LFLAG){
 						outL << "< GOTO >";
 					}
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return GOTO; 
 				}
 "if"			{
 					if(LFLAG){
 						outL << "< IF >";
 					}
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return IF;  
 				}
 "int"			{
 					if(LFLAG){
 						outL << "< INT >" << std::endl;
-						std::cout << "INT" << std::endl;
 					}
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return INT; 	
 				}
 "long"			{
 					if(LFLAG){
 						outL << "< LONG >";
 					}
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return LONG; 
 				}
 "register"		{
 					if(LFLAG){
 						outL << "< REGISTER >";
 					}
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return REGISTER; 
 				}
 "return"		{
 					if(LFLAG){
 						outL << "< RETURN >";
 					}
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return RETURN; 
 				}
 "short"			{
 					if(LFLAG){
 						outL << "< SHORT >";
 					}
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return SHORT; 
 				}
 "signed"		{
 					if(LFLAG){
 						outL << "< SIGNED >";
 					}
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return SIGNED; 
 				}
 "sizeof"		{
 					if(LFLAG){
 						outL << "< SIZEOF >";
 					}
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return SIZEOF; 
 				}	
 "static"		{
 					if(LFLAG){
 						outL << "< STATIC >";
 					}
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return STATIC; 
 				}
 "struct"		{
 					if(LFLAG){
 						outL << "< STRUCT >";
 					}
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return STRUCT; 
 				}
 "switch"		{
 					if(LFLAG){
 						outL << "< SWITCH >";
 					}
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return SWITCH; 
 				}
 "typedef"		{
 					if(LFLAG){
 						outL << "< TYPEDEF >";
 					}
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return TYPEDEF; 
 				}
 "union"			{
 					if(LFLAG){
 						outL << "< UNION >";
 					}
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return UNION; 
 				}
 "unsigned"		{
 					if(LFLAG){
 						outL << "< UNSIGNED >";
 					}
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return UNSIGNED; 
 				}
 "void"			{
@@ -273,7 +331,6 @@ identifier [a-zA-Z][a-zA-z0-9]*
 					temp = new dVal;
 					temp->dataType = INT;
 					temp->value._int = atoi(yytext);
-					std::cout << "hi" << std::endl; 
 					yylval.val = temp;
 					temp = NULL;  
 					return INTEGER_CONSTANT; 						
@@ -282,15 +339,22 @@ identifier [a-zA-Z][a-zA-z0-9]*
 					if(LFLAG){
 						outL << "< FLOATING_CONSTANT >";
 					}
-					/*
-					yylval.dVal.dataType = FLOAT;
-					yylval.dVal.value._float = atof(yytext); */
+					temp = new dVal;
+					temp->dataType = FLOAT;
+					temp->value._float = atof(yytext);
+					yylval.val = temp;
+					temp = NULL;  
 					return FLOATING_CONSTANT; 		
 				}
 "'"[a-zA-Z]"'"	{
 					if(LFLAG){
 						outL << "< CHARACTER_CONSTANT >";
 					}
+					temp = new dVal;
+					temp->dataType = CHAR;
+					temp->value._char = yytext[1];
+					yylval.val = temp;
+					temp = NULL;  
 					return CHARACTER_CONSTANT; 		
 				}
 				/* don't know what this is 
@@ -492,7 +556,7 @@ identifier [a-zA-Z][a-zA-z0-9]*
 "="				{
 					if(LFLAG){
 						outL << "< = > ";
-					} 
+					}					
 					return ASSIGN;
 				}
 "~"				{
@@ -581,12 +645,19 @@ identifier [a-zA-Z][a-zA-z0-9]*
 					} 
 					return GTHAN;
 				}
+{blankspace}	{
+					colPosition += yyleng;
+				}
 {newline}		{
+					std::cout << "NEWLINE" << std::endl; 
 					if(LFLAG){
 						outL << "< NEWLINE >" << std::endl;
 					}
 					yylineno++; 
 					colPosition = 0;
+					sourceCode.push_back(currentSourceCodeLine);
+					std::cout << "Current source code line: " << currentSourceCodeLine << std::endl; 
+					currentSourceCodeLine = ""; 
 					//cout << "newline" << endl;  
 				}
 .				{
