@@ -1,7 +1,7 @@
 /*
 File: cLexer.l
 Created: September 27, 2015
-Last Modified: October, 2015
+Last Modified: October 15, 2015
 Class: CS 460 (Compiler Construction)
 
 This is the input file to Flex that will be used in the front end of our
@@ -9,41 +9,36 @@ compiler.
 
 The lexer is responsible for two main tasks:
 1. Scan for tokens and pass these tokens to the parser for syntax analysis.
-2. Place all of the appropriate identifier data into the symbol table. 
+2. Place as much information into the symbol table as possible. Some of tihis
+responsibility is left to the parser. 
 
 Tokens have been declared by Bison and are included in the file 
 "cParser.tab.h."
-
-We are using the C++ STL for our symbol table (a stack of BSTs). 
-More specifically, we are using a deque (used as a stack) of maps (the maps
-are responsible for mapping a string (the identifier name) to 
-"symbolTableEntry" objects). A "symbolTableEntry" object is an object that we
-created and contains all associated information of identifiers (type, scope, 
-etc.).  
 */
 
 /* lexer definitions */
 %{
 	/* includes */
 	#include <iostream>
-	#include <map>
 	#include <string>
-	#include <deque>
 	#include "stdlib.h"
 	#include <climits>
+	#include <fstream>
 	#include "../parser/cParser.tab.h"
 	#include "../classes/symbolTable.h"
-	using namespace std; 
 
 	/* externs */
 	extern bool LFLAG; 
-	extern ofstream outL; 
+	extern std::ofstream outL; 
 	extern void yyerror(const char* errorMsg);
+	bool inInsertMode = true; // false => "lookup mode"
+	dVal* temp = NULL; 
 
 	/* variables */
 	int colPosition = 0;
 	int tabCount = 0; 
-	symbolTable table; 
+	symbolTable table;
+	std::vector<std::string> sourceCode;  
 %}
 
 /* token definitions */
@@ -160,7 +155,8 @@ identifier [a-zA-Z][a-zA-z0-9]*
 				}
 "int"			{
 					if(LFLAG){
-						outL << "< INT >";
+						outL << "< INT >" << std::endl;
+						std::cout << "INT" << std::endl;
 					}
 					return INT; 	
 				}
@@ -258,32 +254,37 @@ identifier [a-zA-Z][a-zA-z0-9]*
 					if(LFLAG){
 						outL << "< IDENTIFIER >";
 					}
-					string newEntry(yytext);
+
+					std::string newEntry(yytext);
 					table.insertNewSymbol(newEntry, yylineno);
-					cout << "Just inserted: " << newEntry << endl;
+					std::cout << "Just inserted: " << newEntry << std::endl;
 					colPosition += strlen(yytext);
 					symbolTableEntry* entry = table.searchTopOfStack(newEntry);
+					std::cout << "name: " << entry->getIdentifierName() << std::endl; 
 					yylval.entry = entry; 
-					cout << "FROM YYLVAL: " << yylval.entry->getIdentifierName() << endl; /* setting this pointer to NULL? main? */
-					/*
-					yylval.sVal = new char[25]; where is this deallocated? 
-					strcpy(yylval.sVal, yytext); 
-					delete []yylval.sVal;
-					yylval.sVal = NULL; */
+					std::cout << "FROM YYLVAL: ";
+					std::cout << yylval.entry->getIdentifierName() << std::endl;
 					return IDENTIFIER; 				
 				}
 {number}		{
 					if(LFLAG){
 						outL << "< INTEGER_CONSTANT >";
 					}
-					yylval.numVal = atof(yytext);
+					temp = new dVal;
+					temp->dataType = INT;
+					temp->value._int = atoi(yytext);
+					std::cout << "hi" << std::endl; 
+					yylval.val = temp;
+					temp = NULL;  
 					return INTEGER_CONSTANT; 						
 				}
 {decimal}		{
 					if(LFLAG){
 						outL << "< FLOATING_CONSTANT >";
 					}
-					yylval.numVal = atof(yytext);
+					/*
+					yylval.dVal.dataType = FLOAT;
+					yylval.dVal.value._float = atof(yytext); */
 					return FLOATING_CONSTANT; 		
 				}
 "'"[a-zA-Z]"'"	{
@@ -301,7 +302,7 @@ identifier [a-zA-Z][a-zA-z0-9]*
 }
 			*/
 \"[^\"]*\"	{
-					cout << "string literal" << endl; 
+					std::cout << "string literal" << std::endl; 
 					/* yytext??*/
 					if(LFLAG){
 						outL << "< STRING_LITERAL > ";
@@ -546,7 +547,7 @@ identifier [a-zA-Z][a-zA-z0-9]*
 					if(LFLAG){
 						outL << "< { > ";
 					}
-					cout << "PUSHING NEW LEVEL ONTO STACK" << endl;
+					std::cout << "PUSHING NEW LEVEL ONTO STACK" << std::endl;
 					table.pushLevelOn();   
 					return LCURL;
 				}
@@ -582,7 +583,7 @@ identifier [a-zA-Z][a-zA-z0-9]*
 				}
 {newline}		{
 					if(LFLAG){
-						outL << "< NEWLINE >" << endl;
+						outL << "< NEWLINE >" << std::endl;
 					}
 					yylineno++; 
 					colPosition = 0;

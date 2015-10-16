@@ -39,6 +39,23 @@
 #if YYDEBUG
 extern int yydebug;
 #endif
+/* "%code requires" blocks.  */
+#line 39 "../parser/cParser.y" /* yacc.c:1909  */
+
+	typedef struct {
+	    int dataType;
+	    typedef union {
+	        char _char;
+	        short _short;
+	        int _int;
+	        long _long;
+	        float _float; 
+	        double _double;        
+	    } vals;
+	    vals value;
+	} dVal;
+
+#line 59 "cParser.tab.h" /* yacc.c:1909  */
 
 /* Token type.  */
 #ifndef YYTOKENTYPE
@@ -139,13 +156,13 @@ extern int yydebug;
 typedef union YYSTYPE YYSTYPE;
 union YYSTYPE
 {
-#line 40 "../parser/cParser.y" /* yacc.c:1909  */
+#line 56 "../parser/cParser.y" /* yacc.c:1909  */
 
 	char* sVal;
-	float numVal;
+	dVal* val;
 	class symbolTableEntry* entry; 
 
-#line 149 "cParser.tab.h" /* yacc.c:1909  */
+#line 166 "cParser.tab.h" /* yacc.c:1909  */
 };
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1

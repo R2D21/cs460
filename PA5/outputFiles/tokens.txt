@@ -1,4 +1,1 @@
-< INT >< IDENTIFIER >< ; > < NEWLINE >
-< INT >< IDENTIFIER >< ; > < NEWLINE >
-< INT >< IDENTIFIER >< ; > < NEWLINE >
-< INT >< IDENTIFIER >< = > < CHARACTER_CONSTANT >< ; > < NEWLINE >
+< INT >
