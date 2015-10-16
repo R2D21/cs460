@@ -188,8 +188,7 @@ identifier [a-zA-Z][a-zA-z0-9]*
 				}
 "int"			{
 					if(LFLAG){
-						outL << "< INT >" << std::endl;
-						std::cout << "INT" << std::endl;
+						outL << "< INT >";
 					}
 					std::string strTemp(yytext);
    					currentSourceCodeLine += strTemp;
@@ -295,18 +294,24 @@ identifier [a-zA-Z][a-zA-z0-9]*
 					if(LFLAG){
 						outL << "< VOID >";
 					}
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return VOID; 
 				}
 "volatile"		{
 					if(LFLAG){
 						outL << "< VOLATILE >";
 					}
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return VOLATILE; 
 				}
 "while"			{
 					if(LFLAG){
 						outL << "< WHILE >";
 					}
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return WHILE; 
 				}
 {identifier}	{
@@ -315,6 +320,7 @@ identifier [a-zA-Z][a-zA-z0-9]*
 					}
 
 					std::string newEntry(yytext);
+					currentSourceCodeLine += newEntry;
 					table.insertNewSymbol(newEntry, yylineno);
 					std::cout << "Just inserted: " << newEntry << std::endl;
 					colPosition += strlen(yytext);
@@ -329,6 +335,8 @@ identifier [a-zA-Z][a-zA-z0-9]*
 					if(LFLAG){
 						outL << "< INTEGER_CONSTANT >";
 					}
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					temp = new dVal;
 					temp->dataType = INT;
 					temp->value._int = atoi(yytext);
@@ -341,6 +349,8 @@ identifier [a-zA-Z][a-zA-z0-9]*
 					if(LFLAG){
 						outL << "< FLOATING_CONSTANT >";
 					}
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					temp = new dVal;
 					temp->dataType = FLOAT;
 					temp->value._float = atof(yytext);
@@ -355,6 +365,8 @@ identifier [a-zA-Z][a-zA-z0-9]*
 					if(LFLAG){
 						outL << "< CHARACTER_CONSTANT >";
 					}
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					temp = new dVal;
 					temp->dataType = CHAR;
 					temp->value._char = yytext[1];
@@ -376,246 +388,328 @@ identifier [a-zA-Z][a-zA-z0-9]*
 					if(LFLAG){
 						outL << "< STRING_LITERAL > ";
 					}
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return STRING_LITERAL;
 				}
 "->"			{
 					if(LFLAG){
 						outL << "< -> > ";
 					}
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return PTR_OP;
 				}
 "++"			{
 					if(LFLAG){
 						outL << "< ++ > ";
 					}
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return INC_OP;
 				}
 "--"			{
 					if(LFLAG){
 						outL << "< -- > ";
 					}
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return DEC_OP;
 				}
 "<<"			{
 					if(LFLAG){
 						outL << "< << > ";
 					}
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return LEFT_OP;
 				}
 ">>"			{
 					if(LFLAG){
 						outL << "< -> > ";
 					}
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return RIGHT_OP;
 				}
 "<="			{
 					if(LFLAG){
 						outL << "< <= > ";
 					}
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return LE_OP;
 				}
 ">="			{
 					if(LFLAG){
 						outL << "< >= > ";
 					}
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return GE_OP;
 				}
 "=="			{
 					if(LFLAG){
 						outL << "< == > ";
 					}
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return EQ_OP;
 				}
 "!="			{
 					if(LFLAG){
 						outL << "< != >";
 					}
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return NE_OP;
 				}
 "&&"			{
 					if(LFLAG){
 						outL << "< && >";
 					}
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return AND_OP;
 				}
 "||"			{
 					if(LFLAG){
 						outL << "< || >";
 					}
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return OR_OP;
 				}
 "*="			{
 					if(LFLAG){
 						outL << "< *= >";
 					}
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return MUL_ASSIGN;
 				}
 "/="			{
 					if(LFLAG){
 						outL << "< /= >";
 					}
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return DIV_ASSIGN;
 				}
 "%="			{
 					if(LFLAG){
 						outL << "< %= >";
 					}
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return MOD_ASSIGN;
 				}
 "+="			{
 					if(LFLAG){
 						outL << "< += >";
 					}
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return ADD_ASSIGN;
 				}
 "-="			{
 					if(LFLAG){
 						outL << "< -= >";
 					}
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return SUB_ASSIGN;
 				}
 "<<="			{
 					if(LFLAG){
 						outL << "< <<= >";
 					}
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return LEFT_ASSIGN;
 				}
 ">>="			{
 					if(LFLAG){
 						outL << "< >>= >";
 					}
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return RIGHT_ASSIGN;
 				}
 "&="			{
 					if(LFLAG){
 						outL << "< &= >";
 					}
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return AND_ASSIGN;
 				}
 "^="			{
 					if(LFLAG){
 						outL << "< ^= >";
 					}
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return XOR_ASSIGN;
 				}
 "|="			{
 					if(LFLAG){
 						outL << "< |= >";
 					}
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return XOR_ASSIGN;
 				}
 "+"				{
 					if(LFLAG){
 						outL << "< + > ";
 					} 
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return PLUS;
 				}
 "-"				{
 					if(LFLAG){
 						outL << "< - > ";
 					} 
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return MINUS;
 				}
 "*"				{
 					if(LFLAG){
 						outL << "< * > ";
 					} 
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return MULT;
 				}
 "/"				{
 					if(LFLAG){
 						outL << "< / > ";
 					} 
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return DIV;
 				}
 "%"				{
 					if(LFLAG){
 						outL << "< % > ";
 					} 
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return MOD;
 				}
 ";"				{
 					if(LFLAG){
 						outL << "< ; > ";
 					} 
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return SEMI;
 				}
 ":"				{
 					if(LFLAG){
 						outL << "< : > ";
 					} 
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return COLON;
 				}
 ","				{
 					if(LFLAG){
 						outL << "< , > ";
 					} 
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return COMMA;
 				}
 "&"				{
 					if(LFLAG){
 						outL << "< & > ";
 					} 
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return AMP;
 				}
 "="				{
 					if(LFLAG){
 						outL << "< = > ";
 					}					
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return ASSIGN;
 				}
 "~"				{
 					if(LFLAG){
 						outL << "< ~ > ";
 					} 
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return TILDE;
 				}
 "|"				{
 					if(LFLAG){
 						outL << "< | > ";
 					} 
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return PIPE;
 				}
 "^"				{
 					if(LFLAG){
 						outL << "< ^ > ";
 					} 
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return CARROT;
 				}
 "."				{
 					if(LFLAG){
 						outL << "< . > ";
 					} 
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return DOT;
 				}
 "!"				{
 					if(LFLAG){
 						outL << "< ! > ";
 					} 
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return BANG;
 				}
 "?"				{
 					if(LFLAG){
 						outL << "< ? > ";
 					} 
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return QUESTION;
 				}
 "("				{
 					if(LFLAG){
 						outL << "< ( > ";
 					} 
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return LPAREN;
 				}
 "["				{
 					if(LFLAG){
 						outL << "< [ > ";
 					} 
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return LBRACK;
 				}
 "{"				{
 					if(LFLAG){
 						outL << "< { > ";
 					}
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					std::cout << "PUSHING NEW LEVEL ONTO STACK" << std::endl;
 					table.pushLevelOn();   
 					return LCURL;
@@ -624,49 +718,66 @@ identifier [a-zA-Z][a-zA-z0-9]*
 					if(LFLAG){
 						outL << "< ) > ";
 					} 
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return RPAREN;
 				}
 "]"				{
 					if(LFLAG){
 						outL << "< ] > ";
 					} 
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return RBRACK;
 				}
 "}"				{
 					if(LFLAG){
 						outL << "< } > ";
 					} 
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return RCURL;
 				}
 "<"				{
 					if(LFLAG){
 						outL << "< < > ";
 					} 
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return LTHAN;
 				}
 ">"				{
 					if(LFLAG){
 						outL << "< > > ";
 					} 
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return GTHAN;
 				}
 {blankspace}	{
 					colPosition += yyleng;
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 				}
 {newline}		{
-					std::cout << "NEWLINE" << std::endl; 
 					if(LFLAG){
 						outL << "< NEWLINE >" << std::endl;
+						outL << "Line #" << yylineno << ": ";
+						outL << currentSourceCodeLine << std::endl;
+						outL << "=================================================================" << std::endl;
 					}
 					yylineno++; 
 					colPosition = 0;
 					sourceCode.push_back(currentSourceCodeLine);
-					std::cout << "Current source code line: " << currentSourceCodeLine << std::endl; 
-					currentSourceCodeLine = ""; 
-					//cout << "newline" << endl;  
+					currentSourceCodeLine = "";  
 				}
 .				{
-
+					if(LFLAG){
+						outL << "< NEWLINE >" << std::endl;
+						outL << "Line #" << yylineno << ": ";
+						outL << currentSourceCodeLine << std::endl;
+						outL << "=================================================================" << std::endl;
+					}
 					/*cout << "ERROR?" << endl; */
 					/* found an illegal token, why does this output*/
 					/*yyerror("Unknown token..");*/

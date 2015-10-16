@@ -1100,8 +1100,7 @@ YY_RULE_SETUP
 #line 189 "../lexer/cLexer.l"
 {
 					if(LFLAG){
-						outL << "< INT >" << std::endl;
-						std::cout << "INT" << std::endl;
+						outL << "< INT >";
 					}
 					std::string strTemp(yytext);
    					currentSourceCodeLine += strTemp;
@@ -1110,7 +1109,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 198 "../lexer/cLexer.l"
+#line 197 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< LONG >";
@@ -1122,7 +1121,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 206 "../lexer/cLexer.l"
+#line 205 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< REGISTER >";
@@ -1134,7 +1133,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 214 "../lexer/cLexer.l"
+#line 213 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< RETURN >";
@@ -1146,7 +1145,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 222 "../lexer/cLexer.l"
+#line 221 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< SHORT >";
@@ -1158,7 +1157,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 230 "../lexer/cLexer.l"
+#line 229 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< SIGNED >";
@@ -1170,7 +1169,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 238 "../lexer/cLexer.l"
+#line 237 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< SIZEOF >";
@@ -1182,7 +1181,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 246 "../lexer/cLexer.l"
+#line 245 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< STATIC >";
@@ -1194,7 +1193,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 254 "../lexer/cLexer.l"
+#line 253 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< STRUCT >";
@@ -1206,7 +1205,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 262 "../lexer/cLexer.l"
+#line 261 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< SWITCH >";
@@ -1218,7 +1217,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 270 "../lexer/cLexer.l"
+#line 269 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< TYPEDEF >";
@@ -1230,7 +1229,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 278 "../lexer/cLexer.l"
+#line 277 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< UNION >";
@@ -1242,7 +1241,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 286 "../lexer/cLexer.l"
+#line 285 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< UNSIGNED >";
@@ -1254,43 +1253,50 @@ YY_RULE_SETUP
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 294 "../lexer/cLexer.l"
+#line 293 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< VOID >";
 					}
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return VOID; 
 				}
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 300 "../lexer/cLexer.l"
+#line 301 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< VOLATILE >";
 					}
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return VOLATILE; 
 				}
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 306 "../lexer/cLexer.l"
+#line 309 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< WHILE >";
 					}
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return WHILE; 
 				}
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 312 "../lexer/cLexer.l"
+#line 317 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< IDENTIFIER >";
 					}
 
 					std::string newEntry(yytext);
+					currentSourceCodeLine += newEntry;
 					table.insertNewSymbol(newEntry, yylineno);
 					std::cout << "Just inserted: " << newEntry << std::endl;
 					colPosition += strlen(yytext);
@@ -1304,11 +1310,13 @@ YY_RULE_SETUP
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 328 "../lexer/cLexer.l"
+#line 334 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< INTEGER_CONSTANT >";
 					}
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					temp = new dVal;
 					temp->dataType = INT;
 					temp->value._int = atoi(yytext);
@@ -1320,11 +1328,13 @@ YY_RULE_SETUP
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 340 "../lexer/cLexer.l"
+#line 348 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< FLOATING_CONSTANT >";
 					}
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					temp = new dVal;
 					temp->dataType = FLOAT;
 					temp->value._float = atof(yytext);
@@ -1338,11 +1348,13 @@ YY_RULE_SETUP
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 354 "../lexer/cLexer.l"
+#line 364 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< CHARACTER_CONSTANT >";
 					}
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					temp = new dVal;
 					temp->dataType = CHAR;
 					temp->value._char = yytext[1];
@@ -1362,413 +1374,495 @@ YY_RULE_SETUP
 case 37:
 /* rule 37 can match eol */
 YY_RULE_SETUP
-#line 373 "../lexer/cLexer.l"
+#line 385 "../lexer/cLexer.l"
 {
 					std::cout << "string literal" << std::endl; 
 					/* yytext??*/
 					if(LFLAG){
 						outL << "< STRING_LITERAL > ";
 					}
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return STRING_LITERAL;
 				}
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 381 "../lexer/cLexer.l"
+#line 395 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< -> > ";
 					}
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return PTR_OP;
 				}
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 387 "../lexer/cLexer.l"
+#line 403 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< ++ > ";
 					}
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return INC_OP;
 				}
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 393 "../lexer/cLexer.l"
+#line 411 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< -- > ";
 					}
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return DEC_OP;
 				}
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 399 "../lexer/cLexer.l"
+#line 419 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< << > ";
 					}
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return LEFT_OP;
 				}
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 405 "../lexer/cLexer.l"
+#line 427 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< -> > ";
 					}
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return RIGHT_OP;
 				}
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 411 "../lexer/cLexer.l"
+#line 435 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< <= > ";
 					}
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return LE_OP;
 				}
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 417 "../lexer/cLexer.l"
+#line 443 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< >= > ";
 					}
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return GE_OP;
 				}
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 423 "../lexer/cLexer.l"
+#line 451 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< == > ";
 					}
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return EQ_OP;
 				}
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 429 "../lexer/cLexer.l"
+#line 459 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< != >";
 					}
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return NE_OP;
 				}
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 435 "../lexer/cLexer.l"
+#line 467 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< && >";
 					}
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return AND_OP;
 				}
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 441 "../lexer/cLexer.l"
+#line 475 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< || >";
 					}
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return OR_OP;
 				}
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
-#line 447 "../lexer/cLexer.l"
+#line 483 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< *= >";
 					}
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return MUL_ASSIGN;
 				}
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
-#line 453 "../lexer/cLexer.l"
+#line 491 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< /= >";
 					}
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return DIV_ASSIGN;
 				}
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
-#line 459 "../lexer/cLexer.l"
+#line 499 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< %= >";
 					}
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return MOD_ASSIGN;
 				}
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
-#line 465 "../lexer/cLexer.l"
+#line 507 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< += >";
 					}
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return ADD_ASSIGN;
 				}
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
-#line 471 "../lexer/cLexer.l"
+#line 515 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< -= >";
 					}
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return SUB_ASSIGN;
 				}
 	YY_BREAK
 case 54:
 YY_RULE_SETUP
-#line 477 "../lexer/cLexer.l"
+#line 523 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< <<= >";
 					}
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return LEFT_ASSIGN;
 				}
 	YY_BREAK
 case 55:
 YY_RULE_SETUP
-#line 483 "../lexer/cLexer.l"
+#line 531 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< >>= >";
 					}
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return RIGHT_ASSIGN;
 				}
 	YY_BREAK
 case 56:
 YY_RULE_SETUP
-#line 489 "../lexer/cLexer.l"
+#line 539 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< &= >";
 					}
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return AND_ASSIGN;
 				}
 	YY_BREAK
 case 57:
 YY_RULE_SETUP
-#line 495 "../lexer/cLexer.l"
+#line 547 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< ^= >";
 					}
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return XOR_ASSIGN;
 				}
 	YY_BREAK
 case 58:
 YY_RULE_SETUP
-#line 501 "../lexer/cLexer.l"
+#line 555 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< |= >";
 					}
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return XOR_ASSIGN;
 				}
 	YY_BREAK
 case 59:
 YY_RULE_SETUP
-#line 507 "../lexer/cLexer.l"
+#line 563 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< + > ";
 					} 
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return PLUS;
 				}
 	YY_BREAK
 case 60:
 YY_RULE_SETUP
-#line 513 "../lexer/cLexer.l"
+#line 571 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< - > ";
 					} 
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return MINUS;
 				}
 	YY_BREAK
 case 61:
 YY_RULE_SETUP
-#line 519 "../lexer/cLexer.l"
+#line 579 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< * > ";
 					} 
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return MULT;
 				}
 	YY_BREAK
 case 62:
 YY_RULE_SETUP
-#line 525 "../lexer/cLexer.l"
+#line 587 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< / > ";
 					} 
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return DIV;
 				}
 	YY_BREAK
 case 63:
 YY_RULE_SETUP
-#line 531 "../lexer/cLexer.l"
+#line 595 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< % > ";
 					} 
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return MOD;
 				}
 	YY_BREAK
 case 64:
 YY_RULE_SETUP
-#line 537 "../lexer/cLexer.l"
+#line 603 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< ; > ";
 					} 
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return SEMI;
 				}
 	YY_BREAK
 case 65:
 YY_RULE_SETUP
-#line 543 "../lexer/cLexer.l"
+#line 611 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< : > ";
 					} 
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return COLON;
 				}
 	YY_BREAK
 case 66:
 YY_RULE_SETUP
-#line 549 "../lexer/cLexer.l"
+#line 619 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< , > ";
 					} 
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return COMMA;
 				}
 	YY_BREAK
 case 67:
 YY_RULE_SETUP
-#line 555 "../lexer/cLexer.l"
+#line 627 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< & > ";
 					} 
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return AMP;
 				}
 	YY_BREAK
 case 68:
 YY_RULE_SETUP
-#line 561 "../lexer/cLexer.l"
+#line 635 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< = > ";
 					}					
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return ASSIGN;
 				}
 	YY_BREAK
 case 69:
 YY_RULE_SETUP
-#line 567 "../lexer/cLexer.l"
+#line 643 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< ~ > ";
 					} 
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return TILDE;
 				}
 	YY_BREAK
 case 70:
 YY_RULE_SETUP
-#line 573 "../lexer/cLexer.l"
+#line 651 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< | > ";
 					} 
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return PIPE;
 				}
 	YY_BREAK
 case 71:
 YY_RULE_SETUP
-#line 579 "../lexer/cLexer.l"
+#line 659 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< ^ > ";
 					} 
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return CARROT;
 				}
 	YY_BREAK
 case 72:
 YY_RULE_SETUP
-#line 585 "../lexer/cLexer.l"
+#line 667 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< . > ";
 					} 
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return DOT;
 				}
 	YY_BREAK
 case 73:
 YY_RULE_SETUP
-#line 591 "../lexer/cLexer.l"
+#line 675 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< ! > ";
 					} 
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return BANG;
 				}
 	YY_BREAK
 case 74:
 YY_RULE_SETUP
-#line 597 "../lexer/cLexer.l"
+#line 683 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< ? > ";
 					} 
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return QUESTION;
 				}
 	YY_BREAK
 case 75:
 YY_RULE_SETUP
-#line 603 "../lexer/cLexer.l"
+#line 691 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< ( > ";
 					} 
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return LPAREN;
 				}
 	YY_BREAK
 case 76:
 YY_RULE_SETUP
-#line 609 "../lexer/cLexer.l"
+#line 699 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< [ > ";
 					} 
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return LBRACK;
 				}
 	YY_BREAK
 case 77:
 YY_RULE_SETUP
-#line 615 "../lexer/cLexer.l"
+#line 707 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< { > ";
 					}
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					std::cout << "PUSHING NEW LEVEL ONTO STACK" << std::endl;
 					table.pushLevelOn();   
 					return LCURL;
@@ -1776,83 +1870,100 @@ YY_RULE_SETUP
 	YY_BREAK
 case 78:
 YY_RULE_SETUP
-#line 623 "../lexer/cLexer.l"
+#line 717 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< ) > ";
 					} 
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return RPAREN;
 				}
 	YY_BREAK
 case 79:
 YY_RULE_SETUP
-#line 629 "../lexer/cLexer.l"
+#line 725 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< ] > ";
 					} 
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return RBRACK;
 				}
 	YY_BREAK
 case 80:
 YY_RULE_SETUP
-#line 635 "../lexer/cLexer.l"
+#line 733 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< } > ";
 					} 
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return RCURL;
 				}
 	YY_BREAK
 case 81:
 YY_RULE_SETUP
-#line 641 "../lexer/cLexer.l"
+#line 741 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< < > ";
 					} 
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return LTHAN;
 				}
 	YY_BREAK
 case 82:
 YY_RULE_SETUP
-#line 647 "../lexer/cLexer.l"
+#line 749 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< > > ";
 					} 
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 					return GTHAN;
 				}
 	YY_BREAK
 case 83:
 YY_RULE_SETUP
-#line 653 "../lexer/cLexer.l"
+#line 757 "../lexer/cLexer.l"
 {
 					colPosition += yyleng;
+					std::string strTemp(yytext);
+   					currentSourceCodeLine += strTemp;
 				}
 	YY_BREAK
 case 84:
 /* rule 84 can match eol */
 YY_RULE_SETUP
-#line 656 "../lexer/cLexer.l"
+#line 762 "../lexer/cLexer.l"
 {
-					std::cout << "NEWLINE" << std::endl; 
 					if(LFLAG){
 						outL << "< NEWLINE >" << std::endl;
+						outL << "Line #" << yylineno << ": ";
+						outL << currentSourceCodeLine << std::endl;
+						outL << "=================================================================" << std::endl;
 					}
 					yylineno++; 
 					colPosition = 0;
 					sourceCode.push_back(currentSourceCodeLine);
-					std::cout << "Current source code line: " << currentSourceCodeLine << std::endl; 
-					currentSourceCodeLine = ""; 
-					//cout << "newline" << endl;  
+					currentSourceCodeLine = "";  
 				}
 	YY_BREAK
 case 85:
 YY_RULE_SETUP
-#line 668 "../lexer/cLexer.l"
+#line 774 "../lexer/cLexer.l"
 {
-
+					if(LFLAG){
+						outL << "< NEWLINE >" << std::endl;
+						outL << "Line #" << yylineno << ": ";
+						outL << currentSourceCodeLine << std::endl;
+						outL << "=================================================================" << std::endl;
+					}
 					/*cout << "ERROR?" << endl; */
 					/* found an illegal token, why does this output*/
 					/*yyerror("Unknown token..");*/
@@ -1860,10 +1971,10 @@ YY_RULE_SETUP
 	YY_BREAK
 case 86:
 YY_RULE_SETUP
-#line 674 "../lexer/cLexer.l"
+#line 785 "../lexer/cLexer.l"
 ECHO;
 	YY_BREAK
-#line 1867 "lex.yy.c"
+#line 1978 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2861,7 +2972,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 674 "../lexer/cLexer.l"
+#line 785 "../lexer/cLexer.l"
 
 
 
