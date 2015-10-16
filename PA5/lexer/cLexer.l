@@ -38,10 +38,7 @@ Tokens have been declared by Bison and are included in the file
 	int colPosition = 0;
 	int tabCount = 0; 
 	symbolTable table;
-<<<<<<< HEAD
 	std::string currentSourceCodeLine = ""; 
-=======
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 	std::vector<std::string> sourceCode;  
 %}
 
@@ -192,10 +189,7 @@ identifier [a-zA-Z][a-zA-z0-9]*
 "int"			{
 					if(LFLAG){
 						outL << "< INT >" << std::endl;
-<<<<<<< HEAD
-=======
 						std::cout << "INT" << std::endl;
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 					}
 					std::string strTemp(yytext);
    					currentSourceCodeLine += strTemp;
@@ -338,10 +332,7 @@ identifier [a-zA-Z][a-zA-z0-9]*
 					temp = new dVal;
 					temp->dataType = INT;
 					temp->value._int = atoi(yytext);
-<<<<<<< HEAD
-=======
 					std::cout << "hi" << std::endl; 
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 					yylval.val = temp;
 					temp = NULL;  
 					return INTEGER_CONSTANT; 						
@@ -350,17 +341,14 @@ identifier [a-zA-Z][a-zA-z0-9]*
 					if(LFLAG){
 						outL << "< FLOATING_CONSTANT >";
 					}
-<<<<<<< HEAD
 					temp = new dVal;
 					temp->dataType = FLOAT;
 					temp->value._float = atof(yytext);
 					yylval.val = temp;
 					temp = NULL;  
-=======
 					/*
 					yylval.dVal.dataType = FLOAT;
 					yylval.dVal.value._float = atof(yytext); */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 					return FLOATING_CONSTANT; 		
 				}
 "'"[a-zA-Z]"'"	{

@@ -51,12 +51,9 @@ the token declarations that will be used in the lexer.
 	} dVal;
 }
 
-<<<<<<< HEAD
 /* inform bison that there will be 1 shift-reduce error */
 %expect 1
 
-=======
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 /* Since we can get away without redefining the type of YYSTYPE, 
 yylval will remain as an integer in this program. */
 %union {
@@ -1671,12 +1668,9 @@ void yyerror(const char* s) {
 void write(const dVal& param) {
 	switch(param.dataType) {
 		case CHAR:
-<<<<<<< HEAD
 			//std::cout << "trying to write char" << std::endl; 
  			std::cout << param.value._char << std::endl; 
-=======
-			std::cout << param.value._char << std::endl; 
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
+			std::cout << param.value._char << std::endl;
 			break;
 
 		case SHORT:
@@ -1684,10 +1678,7 @@ void write(const dVal& param) {
 			break;
 
 		case INT:
-<<<<<<< HEAD
 			std::cout << "trying to write int" << std::endl;
-=======
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 			std::cout << param.value._int << std::endl; 
 			break;
 

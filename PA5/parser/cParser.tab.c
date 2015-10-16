@@ -224,11 +224,7 @@ extern int yydebug;
 typedef union YYSTYPE YYSTYPE;
 union YYSTYPE
 {
-<<<<<<< HEAD
 #line 59 "../parser/cParser.y" /* yacc.c:355  */
-=======
-#line 56 "../parser/cParser.y" /* yacc.c:355  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 
 	char* sVal;
 	dVal* val;
@@ -555,7 +551,6 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
-<<<<<<< HEAD
        0,   108,   108,   115,   124,   130,   142,   148,   154,   160,
      172,   178,   187,   193,   202,   208,   214,   220,   226,   232,
      241,   247,   253,   259,   265,   274,   280,   286,   292,   298,
@@ -579,31 +574,6 @@ static const yytype_uint16 yyrline[] =
     1490,  1496,  1502,  1508,  1514,  1523,  1529,  1535,  1541,  1547,
     1553,  1559,  1565,  1574,  1580,  1586,  1592,  1601,  1607,  1616,
     1622,  1628,  1634,  1643,  1652
-=======
-       0,   105,   105,   112,   121,   127,   136,   142,   148,   154,
-     163,   169,   178,   184,   193,   199,   205,   211,   217,   223,
-     232,   238,   244,   250,   256,   265,   271,   277,   283,   289,
-     295,   301,   307,   313,   319,   325,   331,   340,   346,   355,
-     361,   367,   376,   382,   391,   397,   406,   412,   421,   427,
-     445,   454,   460,   466,   472,   481,   487,   496,   502,   508,
-     517,   523,   529,   538,   544,   553,   559,   568,   574,   583,
-     589,   595,   601,   607,   613,   619,   628,   634,   640,   646,
-     655,   661,   670,   676,   685,   691,   700,   706,   712,   721,
-     727,   736,   742,   748,   757,   763,   772,   778,   787,   793,
-     799,   808,   815,   821,   827,   833,   839,   845,   851,   857,
-     866,   872,   878,   884,   890,   896,   905,   911,   917,   926,
-     932,   941,   947,   953,   959,   968,   974,   983,   989,   995,
-    1004,  1010,  1016,  1022,  1028,  1034,  1040,  1046,  1052,  1058,
-    1067,  1073,  1079,  1085,  1091,  1100,  1106,  1115,  1121,  1130,
-    1136,  1142,  1148,  1154,  1160,  1166,  1172,  1178,  1184,  1190,
-    1199,  1205,  1214,  1223,  1229,  1238,  1244,  1253,  1259,  1268,
-    1274,  1283,  1289,  1298,  1304,  1310,  1319,  1325,  1331,  1337,
-    1343,  1352,  1358,  1364,  1373,  1379,  1385,  1394,  1400,  1406,
-    1412,  1421,  1427,  1436,  1442,  1448,  1454,  1460,  1466,  1475,
-    1481,  1487,  1493,  1499,  1505,  1514,  1520,  1526,  1532,  1538,
-    1544,  1550,  1556,  1565,  1571,  1577,  1583,  1592,  1598,  1607,
-    1613,  1619,  1625,  1634,  1643
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 };
 #endif
 
@@ -1923,11 +1893,7 @@ yyreduce:
   switch (yyn)
     {
         case 2:
-<<<<<<< HEAD
 #line 109 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 106 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "translation_unit : external_declaration;" << std::endl;
@@ -1938,11 +1904,7 @@ yyreduce:
     break;
 
   case 3:
-<<<<<<< HEAD
 #line 116 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 113 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "translation_unit : translation_unit external_declaration;" << std::endl;
@@ -1952,11 +1914,7 @@ yyreduce:
     break;
 
   case 4:
-<<<<<<< HEAD
 #line 125 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 122 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "external_declaration : function_definition;" << std::endl;
@@ -1966,11 +1924,7 @@ yyreduce:
     break;
 
   case 5:
-<<<<<<< HEAD
 #line 131 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 128 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "external_declaration : declaration;" << std::endl;
@@ -1980,11 +1934,7 @@ yyreduce:
     break;
 
   case 6:
-<<<<<<< HEAD
 #line 143 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 137 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "function_definition : declarator compound_statement;" << std::endl;
@@ -1994,11 +1944,7 @@ yyreduce:
     break;
 
   case 7:
-<<<<<<< HEAD
 #line 149 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 143 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "function_definition : declarator declaration_list compound_statement;" << std::endl;
@@ -2008,11 +1954,7 @@ yyreduce:
     break;
 
   case 8:
-<<<<<<< HEAD
 #line 155 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 149 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "function_definition : declaration_specifiers declarator compound_statement;" << std::endl;
@@ -2022,11 +1964,7 @@ yyreduce:
     break;
 
   case 9:
-<<<<<<< HEAD
 #line 161 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 155 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "function_definition : declaration_specifiers declarator declaration_list compound_statement;" << std::endl;
@@ -2036,11 +1974,7 @@ yyreduce:
     break;
 
   case 10:
-<<<<<<< HEAD
 #line 173 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 164 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "declaration : declaration_specifiers SEMI;" << std::endl << std::endl;
@@ -2050,11 +1984,7 @@ yyreduce:
     break;
 
   case 11:
-<<<<<<< HEAD
 #line 179 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 170 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "declaration : declaration_specifiers init_declarator_list SEMI;" << std::endl << std::endl;
@@ -2064,11 +1994,7 @@ yyreduce:
     break;
 
   case 12:
-<<<<<<< HEAD
 #line 188 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 179 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "declaration_list : declaration;" << std::endl;
@@ -2078,11 +2004,7 @@ yyreduce:
     break;
 
   case 13:
-<<<<<<< HEAD
 #line 194 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 185 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "declaration_list : declaration_list declaration;" << std::endl;
@@ -2092,11 +2014,7 @@ yyreduce:
     break;
 
   case 14:
-<<<<<<< HEAD
 #line 203 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 194 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "declaration_specifiers : storage_class_specifier;" << std::endl;
@@ -2106,11 +2024,7 @@ yyreduce:
     break;
 
   case 15:
-<<<<<<< HEAD
 #line 209 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 200 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "declaration_specifiers : storage_class_specifier declaration_specifiers;" << std::endl;
@@ -2120,11 +2034,7 @@ yyreduce:
     break;
 
   case 16:
-<<<<<<< HEAD
 #line 215 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 206 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "declaration_specifiers : type_specifier;" << std::endl;
@@ -2134,11 +2044,7 @@ yyreduce:
     break;
 
   case 17:
-<<<<<<< HEAD
 #line 221 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 212 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "declaration_specifiers : type_specifier declaration_specifiers;" << std::endl;
@@ -2148,11 +2054,7 @@ yyreduce:
     break;
 
   case 18:
-<<<<<<< HEAD
 #line 227 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 218 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "declaration_specifiers : type_qualifier;" << std::endl;
@@ -2162,11 +2064,7 @@ yyreduce:
     break;
 
   case 19:
-<<<<<<< HEAD
 #line 233 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 224 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "declaration_specifiers : type_qualifier declaration_specifiers;" << std::endl;
@@ -2176,11 +2074,7 @@ yyreduce:
     break;
 
   case 20:
-<<<<<<< HEAD
 #line 242 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 233 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "storage_class_specifier : AUTO;" << std::endl;
@@ -2190,11 +2084,7 @@ yyreduce:
     break;
 
   case 21:
-<<<<<<< HEAD
 #line 248 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 239 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "storage_class_specifier : REGISTER;" << std::endl;
@@ -2204,11 +2094,7 @@ yyreduce:
     break;
 
   case 22:
-<<<<<<< HEAD
 #line 254 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 245 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "storage_class_specifier : STATIC;" << std::endl;
@@ -2218,11 +2104,7 @@ yyreduce:
     break;
 
   case 23:
-<<<<<<< HEAD
 #line 260 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 251 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "storage_class_specifier : EXTERN;" << std::endl;
@@ -2232,11 +2114,7 @@ yyreduce:
     break;
 
   case 24:
-<<<<<<< HEAD
 #line 266 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 257 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "storage_class_specifier : TYPEDEF;" << std::endl;
@@ -2246,11 +2124,7 @@ yyreduce:
     break;
 
   case 25:
-<<<<<<< HEAD
 #line 275 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 266 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "type_specifier : VOID;" << std::endl;
@@ -2260,11 +2134,7 @@ yyreduce:
     break;
 
   case 26:
-<<<<<<< HEAD
 #line 281 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 272 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "type_specifier : CHAR;" << std::endl;
@@ -2274,11 +2144,7 @@ yyreduce:
     break;
 
   case 27:
-<<<<<<< HEAD
 #line 287 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 278 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "type_specifier : SHORT;" << std::endl;
@@ -2288,11 +2154,7 @@ yyreduce:
     break;
 
   case 28:
-<<<<<<< HEAD
 #line 293 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 284 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "type_specifier : INT;" << std::endl;
@@ -2302,11 +2164,7 @@ yyreduce:
     break;
 
   case 29:
-<<<<<<< HEAD
 #line 299 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 290 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "type_specifier : LONG;" << std::endl;
@@ -2316,11 +2174,7 @@ yyreduce:
     break;
 
   case 30:
-<<<<<<< HEAD
 #line 305 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 296 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "type_specifier : FLOAT;" << std::endl;
@@ -2330,11 +2184,7 @@ yyreduce:
     break;
 
   case 31:
-<<<<<<< HEAD
 #line 311 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 302 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "type_specifier : DOUBLE;" << std::endl;
@@ -2344,11 +2194,7 @@ yyreduce:
     break;
 
   case 32:
-<<<<<<< HEAD
 #line 317 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 308 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "type_specifier : SIGNED;" << std::endl;
@@ -2358,11 +2204,7 @@ yyreduce:
     break;
 
   case 33:
-<<<<<<< HEAD
 #line 323 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 314 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "type_specifier : UNSIGNED;" << std::endl;
@@ -2372,11 +2214,7 @@ yyreduce:
     break;
 
   case 34:
-<<<<<<< HEAD
 #line 329 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 320 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "type_specifier : struct_or_union_specifier;" << std::endl;
@@ -2386,11 +2224,7 @@ yyreduce:
     break;
 
   case 35:
-<<<<<<< HEAD
 #line 335 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 326 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "type_specifier : enum_specifier;" << std::endl;
@@ -2400,11 +2234,7 @@ yyreduce:
     break;
 
   case 36:
-<<<<<<< HEAD
 #line 341 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 332 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "type_specifier : TYPEDEF_NAME;" << std::endl;
@@ -2414,11 +2244,7 @@ yyreduce:
     break;
 
   case 37:
-<<<<<<< HEAD
 #line 350 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 341 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "type_qualifier : CONST;" << std::endl;
@@ -2428,11 +2254,7 @@ yyreduce:
     break;
 
   case 38:
-<<<<<<< HEAD
 #line 356 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 347 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "type_qualifier : VOLATILE;" << std::endl;
@@ -2442,11 +2264,7 @@ yyreduce:
     break;
 
   case 39:
-<<<<<<< HEAD
 #line 365 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 356 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "struct_or_union_specifier : struct_or_union identifier LCURL struct_declaration_list RCURL;" << std::endl;
@@ -2456,11 +2274,7 @@ yyreduce:
     break;
 
   case 40:
-<<<<<<< HEAD
 #line 371 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 362 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "struct_or_union_specifier : struct_or_union LCURL struct_declaration_list RCURL;" << std::endl;
@@ -2470,11 +2284,7 @@ yyreduce:
     break;
 
   case 41:
-<<<<<<< HEAD
 #line 377 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 368 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "struct_or_union_specifier : struct_or_union identifier;" << std::endl;
@@ -2484,11 +2294,7 @@ yyreduce:
     break;
 
   case 42:
-<<<<<<< HEAD
 #line 386 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 377 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "struct_or_union : STRUCT;" << std::endl;
@@ -2498,11 +2304,7 @@ yyreduce:
     break;
 
   case 43:
-<<<<<<< HEAD
 #line 392 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 383 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "struct_or_union : UNION;" << std::endl;
@@ -2512,11 +2314,7 @@ yyreduce:
     break;
 
   case 44:
-<<<<<<< HEAD
 #line 401 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 392 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "struct_declaration_list : struct_declaration;" << std::endl;
@@ -2526,11 +2324,7 @@ yyreduce:
     break;
 
   case 45:
-<<<<<<< HEAD
 #line 407 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 398 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "struct_declaration_list : struct_declaration_list struct_declaration;" << std::endl;
@@ -2540,11 +2334,7 @@ yyreduce:
     break;
 
   case 46:
-<<<<<<< HEAD
 #line 416 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 407 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "init_declarator_list : init_declarator;" << std::endl;
@@ -2554,11 +2344,7 @@ yyreduce:
     break;
 
   case 47:
-<<<<<<< HEAD
 #line 422 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 413 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "init_declarator_list : init_declarator_list COMMA init_declarator;" << std::endl;
@@ -2568,11 +2354,7 @@ yyreduce:
     break;
 
   case 48:
-<<<<<<< HEAD
 #line 431 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 422 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "init_declarator : declarator;" << std::endl;
@@ -2582,11 +2364,7 @@ yyreduce:
     break;
 
   case 49:
-<<<<<<< HEAD
 #line 437 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 428 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
  			/*std::cout << "$$: " << $$.sVal << std::endl;*/
  			std::cout << "$1 (declarator): " << (yyvsp[-2].entry)->getIdentifierName() << std::endl;
@@ -2605,11 +2383,7 @@ yyreduce:
     break;
 
   case 50:
-<<<<<<< HEAD
 #line 455 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 446 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "struct_declaration : specifier_qualifier_list struct_declarator_list SEMI;" << std::endl << std::endl;
@@ -2619,11 +2393,7 @@ yyreduce:
     break;
 
   case 51:
-<<<<<<< HEAD
 #line 464 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 455 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "specifier_qualifier_list : type_specifier;" << std::endl;
@@ -2633,11 +2403,7 @@ yyreduce:
     break;
 
   case 52:
-<<<<<<< HEAD
 #line 470 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 461 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "specifier_qualifier_list : type_specifier specifier_qualifier_list;" << std::endl;
@@ -2647,11 +2413,7 @@ yyreduce:
     break;
 
   case 53:
-<<<<<<< HEAD
 #line 476 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 467 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "specifier_qualifier_list : type_qualifier;" << std::endl;
@@ -2661,11 +2423,7 @@ yyreduce:
     break;
 
   case 54:
-<<<<<<< HEAD
 #line 482 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 473 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "specifier_qualifier_list : type_qualifier specifier_qualifier_list;" << std::endl;
@@ -2675,11 +2433,7 @@ yyreduce:
     break;
 
   case 55:
-<<<<<<< HEAD
 #line 491 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 482 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "struct_declarator_list : struct_declarator;" << std::endl;
@@ -2689,11 +2443,7 @@ yyreduce:
     break;
 
   case 56:
-<<<<<<< HEAD
 #line 497 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 488 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "struct_declarator_list : struct_declarator_list COMMA struct_declarator;" << std::endl;
@@ -2703,11 +2453,7 @@ yyreduce:
     break;
 
   case 57:
-<<<<<<< HEAD
 #line 506 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 497 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "struct_declarator : declarator;" << std::endl;
@@ -2717,11 +2463,7 @@ yyreduce:
     break;
 
   case 58:
-<<<<<<< HEAD
 #line 512 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 503 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "struct_declarator : COLON constant_expression;" << std::endl;
@@ -2731,11 +2473,7 @@ yyreduce:
     break;
 
   case 59:
-<<<<<<< HEAD
 #line 518 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 509 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "struct_declarator : declarator COLON constant_expression;" << std::endl;
@@ -2745,11 +2483,7 @@ yyreduce:
     break;
 
   case 60:
-<<<<<<< HEAD
 #line 527 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 518 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "enum_specifier : ENUM LCURL enumerator_list RCURL;" << std::endl;
@@ -2759,11 +2493,7 @@ yyreduce:
     break;
 
   case 61:
-<<<<<<< HEAD
 #line 533 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 524 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "enum_specifier : ENUM identifier LCURL enumerator_list RCURL;" << std::endl;
@@ -2773,11 +2503,7 @@ yyreduce:
     break;
 
   case 62:
-<<<<<<< HEAD
 #line 539 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 530 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "enum_specifier : ENUM identifier;" << std::endl;
@@ -2787,11 +2513,7 @@ yyreduce:
     break;
 
   case 63:
-<<<<<<< HEAD
 #line 548 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 539 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "enumerator_list : enumerator;" << std::endl;
@@ -2801,11 +2523,7 @@ yyreduce:
     break;
 
   case 64:
-<<<<<<< HEAD
 #line 554 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 545 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "enumerator_list : enumerator_list COMMA enumerator;" << std::endl;
@@ -2815,11 +2533,7 @@ yyreduce:
     break;
 
   case 65:
-<<<<<<< HEAD
 #line 563 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 554 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "enumerator : identifier;" << std::endl;
@@ -2829,11 +2543,7 @@ yyreduce:
     break;
 
   case 66:
-<<<<<<< HEAD
 #line 569 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 560 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "enumerator : identifier ASSIGN constant_expression;" << std::endl;
@@ -2843,11 +2553,7 @@ yyreduce:
     break;
 
   case 67:
-<<<<<<< HEAD
 #line 578 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 569 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "declarator : direct_declarator;" << std::endl;
@@ -2857,11 +2563,7 @@ yyreduce:
     break;
 
   case 68:
-<<<<<<< HEAD
 #line 584 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 575 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "declarator : pointer direct_declarator;" << std::endl;
@@ -2871,11 +2573,7 @@ yyreduce:
     break;
 
   case 69:
-<<<<<<< HEAD
 #line 593 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 584 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "direct_declarator : identifier;" << std::endl;
@@ -2885,11 +2583,7 @@ yyreduce:
     break;
 
   case 70:
-<<<<<<< HEAD
 #line 599 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 590 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "direct_declarator : LPAREN declarator RPAREN;" << std::endl;
@@ -2899,11 +2593,7 @@ yyreduce:
     break;
 
   case 71:
-<<<<<<< HEAD
 #line 605 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 596 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "direct_declarator : direct_declarator LBRACK RBRACK;" << std::endl;
@@ -2913,11 +2603,7 @@ yyreduce:
     break;
 
   case 72:
-<<<<<<< HEAD
 #line 611 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 602 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "direct_declarator : direct_declarator LBRACK constant_expression RBRACK;" << std::endl;
@@ -2927,11 +2613,7 @@ yyreduce:
     break;
 
   case 73:
-<<<<<<< HEAD
 #line 617 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 608 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "direct_declarator : direct_declarator LPAREN RPAREN;" << std::endl;
@@ -2941,11 +2623,7 @@ yyreduce:
     break;
 
   case 74:
-<<<<<<< HEAD
 #line 623 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 614 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "direct_declarator : direct_declarator LPAREN parameter_type_list RPAREN;" << std::endl;
@@ -2955,11 +2633,7 @@ yyreduce:
     break;
 
   case 75:
-<<<<<<< HEAD
 #line 629 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 620 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "direct_declarator : direct_declarator LPAREN identifier_list RPAREN;" << std::endl;
@@ -2969,11 +2643,7 @@ yyreduce:
     break;
 
   case 76:
-<<<<<<< HEAD
 #line 638 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 629 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "pointer : MULT;" << std::endl;
@@ -2983,11 +2653,7 @@ yyreduce:
     break;
 
   case 77:
-<<<<<<< HEAD
 #line 644 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 635 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "pointer : MULT type_qualifier_list;" << std::endl;
@@ -2997,11 +2663,7 @@ yyreduce:
     break;
 
   case 78:
-<<<<<<< HEAD
 #line 650 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 641 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "pointer : MULT pointer;" << std::endl;
@@ -3011,11 +2673,7 @@ yyreduce:
     break;
 
   case 79:
-<<<<<<< HEAD
 #line 656 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 647 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "pointer : MULT type_qualifier_list pointer;" << std::endl;
@@ -3025,11 +2683,7 @@ yyreduce:
     break;
 
   case 80:
-<<<<<<< HEAD
 #line 665 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 656 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "type_qualifier_list : type_qualifier;" << std::endl;
@@ -3039,11 +2693,7 @@ yyreduce:
     break;
 
   case 81:
-<<<<<<< HEAD
 #line 671 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 662 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "type_qualifier_list : type_qualifier_list type_qualifier;" << std::endl;
@@ -3053,11 +2703,7 @@ yyreduce:
     break;
 
   case 82:
-<<<<<<< HEAD
 #line 680 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 671 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "parameter_type_list : parameter_list;" << std::endl;
@@ -3067,11 +2713,7 @@ yyreduce:
     break;
 
   case 83:
-<<<<<<< HEAD
 #line 686 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 677 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "parameter_type_list : parameter_list COMMA ELIPSIS;" << std::endl;
@@ -3081,11 +2723,7 @@ yyreduce:
     break;
 
   case 84:
-<<<<<<< HEAD
 #line 695 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 686 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "parameter_list : parameter_declaration;" << std::endl;
@@ -3095,11 +2733,7 @@ yyreduce:
     break;
 
   case 85:
-<<<<<<< HEAD
 #line 701 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 692 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "parameter_list : parameter_list COMMA parameter_declaration;" << std::endl;
@@ -3109,11 +2743,7 @@ yyreduce:
     break;
 
   case 86:
-<<<<<<< HEAD
 #line 710 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 701 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "parameter_declaration : declaration_specifiers declarator;" << std::endl;
@@ -3123,11 +2753,7 @@ yyreduce:
     break;
 
   case 87:
-<<<<<<< HEAD
 #line 716 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 707 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "parameter_declaration : declaration_specifiers;" << std::endl;
@@ -3137,11 +2763,7 @@ yyreduce:
     break;
 
   case 88:
-<<<<<<< HEAD
 #line 722 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 713 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "parameter_declaration : declaration_specifiers abstract_declarator;" << std::endl;
@@ -3151,11 +2773,7 @@ yyreduce:
     break;
 
   case 89:
-<<<<<<< HEAD
 #line 731 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 722 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "identifier_list : identifier;" << std::endl;
@@ -3165,11 +2783,7 @@ yyreduce:
     break;
 
   case 90:
-<<<<<<< HEAD
 #line 737 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 728 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "identifier_list : identifier_list COMMA identifier;" << std::endl;
@@ -3179,11 +2793,7 @@ yyreduce:
     break;
 
   case 91:
-<<<<<<< HEAD
 #line 746 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 737 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "initializer : assignment_expression;" << std::endl;
@@ -3193,11 +2803,7 @@ yyreduce:
     break;
 
   case 92:
-<<<<<<< HEAD
 #line 752 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 743 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "initializer : LCURL initializer_list RCURL;" << std::endl;
@@ -3207,11 +2813,7 @@ yyreduce:
     break;
 
   case 93:
-<<<<<<< HEAD
 #line 758 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 749 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "initializer : LCURL initializer_list COMMA RCURL;" << std::endl;
@@ -3221,11 +2823,7 @@ yyreduce:
     break;
 
   case 94:
-<<<<<<< HEAD
 #line 767 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 758 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "initializer_list : initializer;" << std::endl;
@@ -3235,11 +2833,7 @@ yyreduce:
     break;
 
   case 95:
-<<<<<<< HEAD
 #line 773 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 764 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "initializer_list : initializer_list COMMA initializer;" << std::endl;
@@ -3249,11 +2843,7 @@ yyreduce:
     break;
 
   case 96:
-<<<<<<< HEAD
 #line 782 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 773 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "type_name : specifier_qualifier_list;" << std::endl;
@@ -3263,11 +2853,7 @@ yyreduce:
     break;
 
   case 97:
-<<<<<<< HEAD
 #line 788 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 779 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "type_name : specifier_qualifier_list abstract_declarator;" << std::endl;
@@ -3277,11 +2863,7 @@ yyreduce:
     break;
 
   case 98:
-<<<<<<< HEAD
 #line 797 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 788 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "abstract_declarator : pointer;" << std::endl;
@@ -3291,11 +2873,7 @@ yyreduce:
     break;
 
   case 99:
-<<<<<<< HEAD
 #line 803 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 794 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "abstract_declarator : direct_abstract_declarator;" << std::endl;
@@ -3305,11 +2883,7 @@ yyreduce:
     break;
 
   case 100:
-<<<<<<< HEAD
 #line 809 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 800 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "abstract_declarator : pointer direct_abstract_declarator;" << std::endl;
@@ -3319,11 +2893,7 @@ yyreduce:
     break;
 
   case 101:
-<<<<<<< HEAD
 #line 818 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 809 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "direct_abstract_declarator : LPAREN abstract_declarator RPAREN;" << std::endl;
@@ -3333,11 +2903,7 @@ yyreduce:
     break;
 
   case 102:
-<<<<<<< HEAD
 #line 825 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 816 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "direct_abstract_declarator : LBRACK RBRACK;" << std::endl;
@@ -3347,11 +2913,7 @@ yyreduce:
     break;
 
   case 103:
-<<<<<<< HEAD
 #line 831 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 822 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "direct_abstract_declarator : LBRACK constant_expression RBRACK;" << std::endl;
@@ -3361,11 +2923,7 @@ yyreduce:
     break;
 
   case 104:
-<<<<<<< HEAD
 #line 837 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 828 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "direct_abstract_declarator : direct_abstract_declarator LBRACK RBRACK;" << std::endl;
@@ -3375,11 +2933,7 @@ yyreduce:
     break;
 
   case 105:
-<<<<<<< HEAD
 #line 843 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 834 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "direct_abstract_declarator : direct_abstract_declarator LBRACK constant_expression;" << std::endl;
@@ -3389,11 +2943,7 @@ yyreduce:
     break;
 
   case 106:
-<<<<<<< HEAD
 #line 849 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 840 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "direct_abstract_declarator : LPAREN RPAREN;" << std::endl;
@@ -3403,11 +2953,7 @@ yyreduce:
     break;
 
   case 107:
-<<<<<<< HEAD
 #line 855 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 846 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "direct_abstract_declarator : LPAREN parameter_type_list RPAREN;" << std::endl;
@@ -3417,11 +2963,7 @@ yyreduce:
     break;
 
   case 108:
-<<<<<<< HEAD
 #line 861 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 852 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "direct_abstract_declarator : direct_abstract_declarator LPAREN RPAREN;" << std::endl;
@@ -3431,11 +2973,7 @@ yyreduce:
     break;
 
   case 109:
-<<<<<<< HEAD
 #line 867 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 858 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "direct_abstract_declarator : direct_abstract_declarator LPAREN parameter_type_list RPAREN;" << std::endl;
@@ -3445,11 +2983,7 @@ yyreduce:
     break;
 
   case 110:
-<<<<<<< HEAD
 #line 876 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 867 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "statement : labeled_statement;" << std::endl;
@@ -3459,11 +2993,7 @@ yyreduce:
     break;
 
   case 111:
-<<<<<<< HEAD
 #line 882 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 873 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "statement : compound_statement;" << std::endl;
@@ -3473,11 +3003,7 @@ yyreduce:
     break;
 
   case 112:
-<<<<<<< HEAD
 #line 888 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 879 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "statement : expression_statement;" << std::endl;
@@ -3487,11 +3013,7 @@ yyreduce:
     break;
 
   case 113:
-<<<<<<< HEAD
 #line 894 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 885 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "statement : selection_statement;" << std::endl;
@@ -3501,11 +3023,7 @@ yyreduce:
     break;
 
   case 114:
-<<<<<<< HEAD
 #line 900 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 891 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "statement : iteration_statement;" << std::endl;
@@ -3515,11 +3033,7 @@ yyreduce:
     break;
 
   case 115:
-<<<<<<< HEAD
 #line 906 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 897 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "statement : jump_statement;" << std::endl;
@@ -3529,11 +3043,7 @@ yyreduce:
     break;
 
   case 116:
-<<<<<<< HEAD
 #line 915 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 906 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "labeled_statement : identifier COLON statement;" << std::endl;
@@ -3543,11 +3053,7 @@ yyreduce:
     break;
 
   case 117:
-<<<<<<< HEAD
 #line 921 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 912 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "labeled_statement : CASE constant_expression COLON statement;" << std::endl;
@@ -3557,11 +3063,7 @@ yyreduce:
     break;
 
   case 118:
-<<<<<<< HEAD
 #line 927 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 918 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "labeled_statement : DEFAULT COLON statement;" << std::endl;
@@ -3571,11 +3073,7 @@ yyreduce:
     break;
 
   case 119:
-<<<<<<< HEAD
 #line 936 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 927 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "expression_statement : SEMI;" << std::endl;
@@ -3585,11 +3083,7 @@ yyreduce:
     break;
 
   case 120:
-<<<<<<< HEAD
 #line 942 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 933 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "expression_statement : expression SEMI;" << std::endl;
@@ -3599,11 +3093,7 @@ yyreduce:
     break;
 
   case 121:
-<<<<<<< HEAD
 #line 951 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 942 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "compound_statement : LCURL RCURL;" << std::endl;
@@ -3613,11 +3103,7 @@ yyreduce:
     break;
 
   case 122:
-<<<<<<< HEAD
 #line 957 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 948 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "compound_statement : LCURL statement_list RCURL;" << std::endl;
@@ -3627,11 +3113,7 @@ yyreduce:
     break;
 
   case 123:
-<<<<<<< HEAD
 #line 963 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 954 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "compound_statement : LCURL declaration_list RCURL;" << std::endl;
@@ -3641,11 +3123,7 @@ yyreduce:
     break;
 
   case 124:
-<<<<<<< HEAD
 #line 969 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 960 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "compound_statement : LCURL declaration_list statement_list RCURL;" << std::endl;
@@ -3655,11 +3133,7 @@ yyreduce:
     break;
 
   case 125:
-<<<<<<< HEAD
 #line 978 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 969 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "statement_list : statement;" << std::endl;
@@ -3669,11 +3143,7 @@ yyreduce:
     break;
 
   case 126:
-<<<<<<< HEAD
 #line 984 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 975 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "statement_list : statement_list statement;" << std::endl;
@@ -3683,11 +3153,7 @@ yyreduce:
     break;
 
   case 127:
-<<<<<<< HEAD
 #line 993 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 984 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "selection_statement : IF LPAREN expression RPAREN statement;" << std::endl;
@@ -3697,11 +3163,7 @@ yyreduce:
     break;
 
   case 128:
-<<<<<<< HEAD
 #line 999 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 990 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "selection_statement : IF LPAREN expression RPAREN statement ELSE statement;" << std::endl;
@@ -3711,11 +3173,7 @@ yyreduce:
     break;
 
   case 129:
-<<<<<<< HEAD
 #line 1005 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 996 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "selection_statement : SWITCH LPAREN expression RPAREN statement;" << std::endl;
@@ -3725,11 +3183,7 @@ yyreduce:
     break;
 
   case 130:
-<<<<<<< HEAD
 #line 1014 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1005 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "iteration_statement : WHILE LPAREN expression RPAREN statement;" << std::endl;
@@ -3739,11 +3193,7 @@ yyreduce:
     break;
 
   case 131:
-<<<<<<< HEAD
 #line 1020 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1011 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "iteration_statement : DO statement WHILE LPAREN expression RPAREN SEMI;" << std::endl;
@@ -3753,11 +3203,7 @@ yyreduce:
     break;
 
   case 132:
-<<<<<<< HEAD
 #line 1026 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1017 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "iteration_statement : FOR LPAREN SEMI SEMI RPAREN statement;" << std::endl;
@@ -3767,11 +3213,7 @@ yyreduce:
     break;
 
   case 133:
-<<<<<<< HEAD
 #line 1032 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1023 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "iteration_statement : FOR LPAREN SEMI SEMI expression RPAREN statement;" << std::endl;
@@ -3781,11 +3223,7 @@ yyreduce:
     break;
 
   case 134:
-<<<<<<< HEAD
 #line 1038 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1029 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "iteration_statement : FOR LPAREN SEMI expression SEMI RPAREN statement;" << std::endl;
@@ -3795,11 +3233,7 @@ yyreduce:
     break;
 
   case 135:
-<<<<<<< HEAD
 #line 1044 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1035 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "iteration_statement : FOR LPAREN SEMI expression SEMI expression RPAREN statement;" << std::endl;
@@ -3809,11 +3243,7 @@ yyreduce:
     break;
 
   case 136:
-<<<<<<< HEAD
 #line 1050 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1041 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "iteration_statement : FOR LPAREN expression SEMI SEMI RPAREN statement;" << std::endl;
@@ -3823,11 +3253,7 @@ yyreduce:
     break;
 
   case 137:
-<<<<<<< HEAD
 #line 1056 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1047 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "iteration_statement : FOR LPAREN expression SEMI SEMI expression RPAREN statement;" << std::endl;
@@ -3837,11 +3263,7 @@ yyreduce:
     break;
 
   case 138:
-<<<<<<< HEAD
 #line 1062 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1053 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "iteration_statement : FOR LPAREN expression SEMI expression SEMI RPAREN statement;" << std::endl;
@@ -3851,11 +3273,7 @@ yyreduce:
     break;
 
   case 139:
-<<<<<<< HEAD
 #line 1068 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1059 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "iteration_statement : FOR LPAREN expression SEMI expression SEMI expression RPAREN statement;" << std::endl;
@@ -3865,11 +3283,7 @@ yyreduce:
     break;
 
   case 140:
-<<<<<<< HEAD
 #line 1077 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1068 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "jump_statement : GOTO identifier SEMI;" << std::endl;
@@ -3879,11 +3293,7 @@ yyreduce:
     break;
 
   case 141:
-<<<<<<< HEAD
 #line 1083 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1074 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "jump_statement : CONTINUE SEMI;" << std::endl;
@@ -3893,11 +3303,7 @@ yyreduce:
     break;
 
   case 142:
-<<<<<<< HEAD
 #line 1089 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1080 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "jump_statement : BREAK SEMI;" << std::endl;
@@ -3907,11 +3313,7 @@ yyreduce:
     break;
 
   case 143:
-<<<<<<< HEAD
 #line 1095 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1086 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "jump_statement : RETURN SEMI;" << std::endl;
@@ -3921,11 +3323,7 @@ yyreduce:
     break;
 
   case 144:
-<<<<<<< HEAD
 #line 1101 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1092 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "jump_statement : RETURN expression SEMI;" << std::endl;
@@ -3935,11 +3333,7 @@ yyreduce:
     break;
 
   case 145:
-<<<<<<< HEAD
 #line 1110 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1101 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "expression : assignment_expression;" << std::endl;
@@ -3949,11 +3343,7 @@ yyreduce:
     break;
 
   case 146:
-<<<<<<< HEAD
 #line 1116 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1107 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "expression : expression COMMA assignment_expression;" << std::endl;
@@ -3963,11 +3353,7 @@ yyreduce:
     break;
 
   case 147:
-<<<<<<< HEAD
 #line 1125 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1116 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "assignment_expression : conditional_expression;" << std::endl;
@@ -3977,11 +3363,7 @@ yyreduce:
     break;
 
   case 148:
-<<<<<<< HEAD
 #line 1131 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1122 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "assignment_expression : unary_expression assignment_operator assignment_expression;" << std::endl;
@@ -3991,11 +3373,7 @@ yyreduce:
     break;
 
   case 149:
-<<<<<<< HEAD
 #line 1140 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1131 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "assignment_operator : ASSIGN;" << std::endl;
@@ -4005,11 +3383,7 @@ yyreduce:
     break;
 
   case 150:
-<<<<<<< HEAD
 #line 1146 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1137 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "assignment_operator : MUL_ASSIGN;" << std::endl;
@@ -4019,11 +3393,7 @@ yyreduce:
     break;
 
   case 151:
-<<<<<<< HEAD
 #line 1152 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1143 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "assignment_operator : DIV_ASSIGN;" << std::endl;
@@ -4033,11 +3403,7 @@ yyreduce:
     break;
 
   case 152:
-<<<<<<< HEAD
 #line 1158 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1149 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "assignment_operator : MOD_ASSIGN;" << std::endl;
@@ -4047,11 +3413,7 @@ yyreduce:
     break;
 
   case 153:
-<<<<<<< HEAD
 #line 1164 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1155 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "assignment_operator : ADD_ASSIGN;" << std::endl;
@@ -4061,11 +3423,7 @@ yyreduce:
     break;
 
   case 154:
-<<<<<<< HEAD
 #line 1170 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1161 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "assignment_operator : SUB_ASSIGN;" << std::endl;
@@ -4075,11 +3433,7 @@ yyreduce:
     break;
 
   case 155:
-<<<<<<< HEAD
 #line 1176 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1167 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "assignment_operator : LEFT_ASSIGN;" << std::endl;
@@ -4089,11 +3443,7 @@ yyreduce:
     break;
 
   case 156:
-<<<<<<< HEAD
 #line 1182 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1173 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "assignment_operator : RIGHT_ASSIGN;" << std::endl;
@@ -4103,11 +3453,7 @@ yyreduce:
     break;
 
   case 157:
-<<<<<<< HEAD
 #line 1188 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1179 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "assignment_operator : AND_ASSIGN;" << std::endl;
@@ -4117,11 +3463,7 @@ yyreduce:
     break;
 
   case 158:
-<<<<<<< HEAD
 #line 1194 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1185 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "assignment_operator : XOR_ASSIGN;" << std::endl;
@@ -4131,11 +3473,7 @@ yyreduce:
     break;
 
   case 159:
-<<<<<<< HEAD
 #line 1200 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1191 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "assignment_operator : OR_ASSIGN;" << std::endl;
@@ -4145,11 +3483,7 @@ yyreduce:
     break;
 
   case 160:
-<<<<<<< HEAD
 #line 1209 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1200 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "conditional_expression : logical_or_expression;" << std::endl;
@@ -4159,11 +3493,7 @@ yyreduce:
     break;
 
   case 161:
-<<<<<<< HEAD
 #line 1215 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1206 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "conditional_expression : logical_or_expression QUESTION expression COLON conditional_expression;" << std::endl;
@@ -4173,11 +3503,7 @@ yyreduce:
     break;
 
   case 162:
-<<<<<<< HEAD
 #line 1224 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1215 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "constant_expression : conditional_expression;" << std::endl;
@@ -4187,11 +3513,7 @@ yyreduce:
     break;
 
   case 163:
-<<<<<<< HEAD
 #line 1233 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1224 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "logical_or_expression : logical_and_expression;" << std::endl;
@@ -4201,11 +3523,7 @@ yyreduce:
     break;
 
   case 164:
-<<<<<<< HEAD
 #line 1239 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1230 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "logical_or_expression : logical_or_expression OR_OP logical_and_expression;" << std::endl;
@@ -4215,11 +3533,7 @@ yyreduce:
     break;
 
   case 165:
-<<<<<<< HEAD
 #line 1248 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1239 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "logical_and_expression : inclusive_or_expression;" << std::endl;
@@ -4229,11 +3543,7 @@ yyreduce:
     break;
 
   case 166:
-<<<<<<< HEAD
 #line 1254 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1245 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "logical_and_expression : logical_and_expression AND_OP inclusive_or_expression;" << std::endl;
@@ -4243,11 +3553,7 @@ yyreduce:
     break;
 
   case 167:
-<<<<<<< HEAD
 #line 1263 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1254 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "inclusive_or_expression : exclusive_or_expression;" << std::endl;
@@ -4257,11 +3563,7 @@ yyreduce:
     break;
 
   case 168:
-<<<<<<< HEAD
 #line 1269 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1260 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "inclusive_or_expression : inclusive_or_expression PIPE exclusive_or_expression;" << std::endl;
@@ -4271,11 +3573,7 @@ yyreduce:
     break;
 
   case 169:
-<<<<<<< HEAD
 #line 1278 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1269 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "exclusive_or_expression : and_expression;" << std::endl;
@@ -4285,11 +3583,7 @@ yyreduce:
     break;
 
   case 170:
-<<<<<<< HEAD
 #line 1284 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1275 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "exclusive_or_expression : exclusive_or_expression CARROT and_expression;" << std::endl;
@@ -4299,11 +3593,7 @@ yyreduce:
     break;
 
   case 171:
-<<<<<<< HEAD
 #line 1293 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1284 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "and_expression : equality_expression;" << std::endl;
@@ -4313,11 +3603,7 @@ yyreduce:
     break;
 
   case 172:
-<<<<<<< HEAD
 #line 1299 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1290 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "and_expression : and_expression AMP equality_expression;" << std::endl;
@@ -4327,11 +3613,7 @@ yyreduce:
     break;
 
   case 173:
-<<<<<<< HEAD
 #line 1308 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1299 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "equality_expression : relational_expression;" << std::endl;
@@ -4341,11 +3623,7 @@ yyreduce:
     break;
 
   case 174:
-<<<<<<< HEAD
 #line 1314 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1305 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "equality_expression : equality_expression EQ_OP relational_expression;" << std::endl;
@@ -4355,11 +3633,7 @@ yyreduce:
     break;
 
   case 175:
-<<<<<<< HEAD
 #line 1320 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1311 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "equality_expression : equality_expression NE_OP relational_expression;" << std::endl;
@@ -4369,11 +3643,7 @@ yyreduce:
     break;
 
   case 176:
-<<<<<<< HEAD
 #line 1329 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1320 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "relational_expression : shift_expression;" << std::endl;
@@ -4383,11 +3653,7 @@ yyreduce:
     break;
 
   case 177:
-<<<<<<< HEAD
 #line 1335 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1326 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "relational_expression : relational_expression LTHAN shift_expression;" << std::endl;
@@ -4397,11 +3663,7 @@ yyreduce:
     break;
 
   case 178:
-<<<<<<< HEAD
 #line 1341 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1332 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "relational_expression : relational_expression GTHAN shift_expression;" << std::endl;
@@ -4411,11 +3673,7 @@ yyreduce:
     break;
 
   case 179:
-<<<<<<< HEAD
 #line 1347 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1338 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "relational_expression : relational_expression LE_OP shift_expression;" << std::endl;
@@ -4425,11 +3683,7 @@ yyreduce:
     break;
 
   case 180:
-<<<<<<< HEAD
 #line 1353 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1344 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "relational_expression : relational_expression GE_OP shift_expression;" << std::endl;
@@ -4439,11 +3693,7 @@ yyreduce:
     break;
 
   case 181:
-<<<<<<< HEAD
 #line 1362 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1353 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "shift_expression : additive_expression;" << std::endl;
@@ -4453,11 +3703,7 @@ yyreduce:
     break;
 
   case 182:
-<<<<<<< HEAD
 #line 1368 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1359 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "shift_expression : shift_expression LEFT_OP additive_expression;" << std::endl;
@@ -4467,11 +3713,7 @@ yyreduce:
     break;
 
   case 183:
-<<<<<<< HEAD
 #line 1374 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1365 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "shift_expression : shift_expression RIGHT_OP additive_expression;" << std::endl;
@@ -4481,11 +3723,7 @@ yyreduce:
     break;
 
   case 184:
-<<<<<<< HEAD
 #line 1383 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1374 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "additive_expression : multiplicative_expression;" << std::endl;
@@ -4495,11 +3733,7 @@ yyreduce:
     break;
 
   case 185:
-<<<<<<< HEAD
 #line 1389 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1380 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "additive_expression : additive_expression PLUS multiplicative_expression;" << std::endl;
@@ -4509,11 +3743,7 @@ yyreduce:
     break;
 
   case 186:
-<<<<<<< HEAD
 #line 1395 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1386 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "additive_expression : additive_expression MINUS multiplicative_expression;" << std::endl;
@@ -4523,11 +3753,7 @@ yyreduce:
     break;
 
   case 187:
-<<<<<<< HEAD
 #line 1404 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1395 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "multiplicative_expression : cast_expression;" << std::endl;
@@ -4537,11 +3763,7 @@ yyreduce:
     break;
 
   case 188:
-<<<<<<< HEAD
 #line 1410 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1401 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "multiplicative_expression : multiplicative_expression MULT cast_expression;" << std::endl;
@@ -4551,11 +3773,7 @@ yyreduce:
     break;
 
   case 189:
-<<<<<<< HEAD
 #line 1416 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1407 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "multiplicative_expression : multiplicative_expression DIV cast_expression;" << std::endl;
@@ -4565,11 +3783,7 @@ yyreduce:
     break;
 
   case 190:
-<<<<<<< HEAD
 #line 1422 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1413 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "multiplicative_expression : multiplicative_expression MOD cast_expression;" << std::endl;
@@ -4579,11 +3793,7 @@ yyreduce:
     break;
 
   case 191:
-<<<<<<< HEAD
 #line 1431 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1422 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "cast_expression : unary_expression;" << std::endl;
@@ -4593,11 +3803,7 @@ yyreduce:
     break;
 
   case 192:
-<<<<<<< HEAD
 #line 1437 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1428 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "cast_expression : LPAREN type_name RPAREN cast_expression;" << std::endl;
@@ -4607,11 +3813,7 @@ yyreduce:
     break;
 
   case 193:
-<<<<<<< HEAD
 #line 1446 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1437 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "unary_expression : postfix_expression;" << std::endl;
@@ -4621,11 +3823,7 @@ yyreduce:
     break;
 
   case 194:
-<<<<<<< HEAD
 #line 1452 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1443 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "unary_expression : INC_OP unary_expression;" << std::endl;
@@ -4635,11 +3833,7 @@ yyreduce:
     break;
 
   case 195:
-<<<<<<< HEAD
 #line 1458 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1449 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "unary_expression : DEC_OP unary_expression;" << std::endl;
@@ -4649,11 +3843,7 @@ yyreduce:
     break;
 
   case 196:
-<<<<<<< HEAD
 #line 1464 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1455 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "unary_expression : unary_operator cast_expression;" << std::endl;
@@ -4663,11 +3853,7 @@ yyreduce:
     break;
 
   case 197:
-<<<<<<< HEAD
 #line 1470 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1461 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "unary_expression : SIZEOF unary_expression;" << std::endl;
@@ -4677,11 +3863,7 @@ yyreduce:
     break;
 
   case 198:
-<<<<<<< HEAD
 #line 1476 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1467 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "unary_expression : SIZEOF LPAREN type_name RPAREN;" << std::endl;
@@ -4691,11 +3873,7 @@ yyreduce:
     break;
 
   case 199:
-<<<<<<< HEAD
 #line 1485 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1476 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "unary_operator : AMP;" << std::endl;
@@ -4705,11 +3883,7 @@ yyreduce:
     break;
 
   case 200:
-<<<<<<< HEAD
 #line 1491 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1482 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "unary_operator : MULT;" << std::endl;
@@ -4719,11 +3893,7 @@ yyreduce:
     break;
 
   case 201:
-<<<<<<< HEAD
 #line 1497 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1488 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "unary_operator : PLUS;" << std::endl;
@@ -4733,11 +3903,7 @@ yyreduce:
     break;
 
   case 202:
-<<<<<<< HEAD
 #line 1503 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1494 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "unary_operator : MINUS;" << std::endl;
@@ -4747,11 +3913,7 @@ yyreduce:
     break;
 
   case 203:
-<<<<<<< HEAD
 #line 1509 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1500 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "unary_operator : TILDE;" << std::endl;
@@ -4761,11 +3923,7 @@ yyreduce:
     break;
 
   case 204:
-<<<<<<< HEAD
 #line 1515 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1506 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "unary_operator : BANG;" << std::endl;
@@ -4775,11 +3933,7 @@ yyreduce:
     break;
 
   case 205:
-<<<<<<< HEAD
 #line 1524 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1515 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "postfix_expression : primary_expression;" << std::endl;
@@ -4789,11 +3943,7 @@ yyreduce:
     break;
 
   case 206:
-<<<<<<< HEAD
 #line 1530 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1521 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "postfix_expression : postfix_expression LBRACK expression RBRACK;" << std::endl;
@@ -4803,11 +3953,7 @@ yyreduce:
     break;
 
   case 207:
-<<<<<<< HEAD
 #line 1536 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1527 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "postfix_expression : postfix_expression LPAREN RPAREN;" << std::endl;
@@ -4817,11 +3963,7 @@ yyreduce:
     break;
 
   case 208:
-<<<<<<< HEAD
 #line 1542 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1533 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "postfix_expression : primary_expression LPAREN argument_expression_list RPAREN;" << std::endl;
@@ -4831,11 +3973,7 @@ yyreduce:
     break;
 
   case 209:
-<<<<<<< HEAD
 #line 1548 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1539 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "postfix_expression : postfix_expression DOT identifier;" << std::endl;
@@ -4845,11 +3983,7 @@ yyreduce:
     break;
 
   case 210:
-<<<<<<< HEAD
 #line 1554 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1545 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "postfix_expression : postfix_expression PTR_OP identifier;" << std::endl;
@@ -4859,11 +3993,7 @@ yyreduce:
     break;
 
   case 211:
-<<<<<<< HEAD
 #line 1560 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1551 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "postfix_expression : postfix_expression INC_OP;" << std::endl;
@@ -4873,11 +4003,7 @@ yyreduce:
     break;
 
   case 212:
-<<<<<<< HEAD
 #line 1566 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1557 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "postfix_expression : postfix_expression DEC_OP;" << std::endl;
@@ -4887,11 +4013,7 @@ yyreduce:
     break;
 
   case 213:
-<<<<<<< HEAD
 #line 1575 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1566 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "primary_expression : identifier;" << std::endl;
@@ -4901,11 +4023,7 @@ yyreduce:
     break;
 
   case 214:
-<<<<<<< HEAD
 #line 1581 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1572 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "primary_expression : constant;" << std::endl;
@@ -4915,11 +4033,7 @@ yyreduce:
     break;
 
   case 215:
-<<<<<<< HEAD
 #line 1587 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1578 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "primary_expression : string;" << std::endl;
@@ -4929,11 +4043,7 @@ yyreduce:
     break;
 
   case 216:
-<<<<<<< HEAD
 #line 1593 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1584 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "primary_expression : LPAREN expression RPAREN;" << std::endl;
@@ -4943,11 +4053,7 @@ yyreduce:
     break;
 
   case 217:
-<<<<<<< HEAD
 #line 1602 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1593 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "argument_expression_list : assignment_expression;" << std::endl;
@@ -4957,11 +4063,7 @@ yyreduce:
     break;
 
   case 218:
-<<<<<<< HEAD
 #line 1608 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1599 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "argument_expression_list : argument_expression_list COMMA assignment_expression;" << std::endl;
@@ -4971,11 +4073,7 @@ yyreduce:
     break;
 
   case 219:
-<<<<<<< HEAD
 #line 1617 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1608 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "constant : INTEGER_CONSTANT;" << std::endl;
@@ -4985,11 +4083,7 @@ yyreduce:
     break;
 
   case 220:
-<<<<<<< HEAD
 #line 1623 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1614 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "constant : CHARACTER_CONSTANT;" << std::endl;
@@ -4999,11 +4093,7 @@ yyreduce:
     break;
 
   case 221:
-<<<<<<< HEAD
 #line 1629 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1620 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "constant : FLOATING_CONSTANT;" << std::endl;
@@ -5013,11 +4103,7 @@ yyreduce:
     break;
 
   case 222:
-<<<<<<< HEAD
 #line 1635 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1626 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "constant : ENUMERATION_CONSTANT;" << std::endl;
@@ -5027,11 +4113,7 @@ yyreduce:
     break;
 
   case 223:
-<<<<<<< HEAD
 #line 1644 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1635 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     {
 			if(YFLAG){
 				outY << "string : STRING_LITERAL;" << std::endl;
@@ -5041,11 +4123,7 @@ yyreduce:
     break;
 
   case 224:
-<<<<<<< HEAD
 #line 1652 "../parser/cParser.y" /* yacc.c:1646  */
-=======
-#line 1643 "../parser/cParser.y" /* yacc.c:1646  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
     { std::cout << "IDENTIFIER: ";
 					std::cout << (yyvsp[0].entry)->getIdentifierName() << std::endl; }
 #line 4130 "cParser.tab.c" /* yacc.c:1646  */
@@ -5280,11 +4358,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-<<<<<<< HEAD
 #line 1655 "../parser/cParser.y" /* yacc.c:1906  */
-=======
-#line 1646 "../parser/cParser.y" /* yacc.c:1906  */
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
  /* end of ANSI C grammar and actions */
 
 /* user code */
@@ -5301,12 +4375,9 @@ void yyerror(const char* s) {
 void write(const dVal& param) {
 	switch(param.dataType) {
 		case CHAR:
-<<<<<<< HEAD
 			//std::cout << "trying to write char" << std::endl; 
  			std::cout << param.value._char << std::endl; 
-=======
-			std::cout << param.value._char << std::endl; 
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
+			std::cout << param.value._char << std::endl;
 			break;
 
 		case SHORT:
@@ -5314,10 +4385,7 @@ void write(const dVal& param) {
 			break;
 
 		case INT:
-<<<<<<< HEAD
 			std::cout << "trying to write int" << std::endl;
-=======
->>>>>>> ffd37d3a3fabba50f56eb005b3dea5d31e41a238
 			std::cout << param.value._int << std::endl; 
 			break;
 
