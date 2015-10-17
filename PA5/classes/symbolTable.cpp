@@ -27,9 +27,13 @@ Function: pushLevelOn()
 Description: This function pushes a new scope level onto the stack. 
 */
 void symbolTable::pushLevelOn() {
+	std::cout << "1" << std::endl; 
 	Bst* newTree = new Bst();
-	scope* newScope = new scope(table.size(), 0, *newTree);
+	std::cout << "2" << std::endl; 
+	scope* newScope = new scope(table.size(), table.size() - 1, *newTree);
+	std::cout << "3" << std::endl; 
 	table.push_back(*newScope);
+	std::cout << "4" << std::endl; 
 }
 
 /*
@@ -68,11 +72,12 @@ level.
 int line: The line number that the associated identifier is located at in the
 source program. 
 */
-void symbolTable::insertNewSymbol(std::string name, int line) {
+symbolTableEntry* symbolTable::insertNewSymbol(std::string name, int line) {
 	symbolTableEntry* newEntry = new symbolTableEntry(name, line);
 	std::cout << name << std::endl; 
 	Bst* currentVars = table[table.size() - 1].getBst();
 	currentVars->insert(entry(name, *newEntry));
+	return newEntry; 
 }
 
 /*
@@ -173,7 +178,7 @@ symbolTableEntry* symbolTable::searchTopOfStack(std::string symbolToSearch) {
 	for (scopeItr = topBST->begin(); scopeItr != topBST->end(); scopeItr++) {
 		// check for the desired symbol
 		if (symbolToSearch == scopeItr->first) {
-			std::cout << "sToS: " << scopeItr->second.getIdentifierName() << std::endl;
+			//std::cout << "sToS: " << scopeItr->second.getIdentifierName() << std::endl;
 			return &(scopeItr->second); 
 		}
 	}

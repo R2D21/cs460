@@ -101,8 +101,8 @@ std::string symbolTableEntry::getIdentifierName() const {
 Function: setIdentifierValue(void* value, int token)
 
 Parameters:
-void* value: The incoming data value. This could essentially be of 
-any type. 
+dVal data: The incoming object for out data. This object contains a specifier
+as to what the datatype of the value is and the actual value itself. 
 int token: The incoming token value which will be used to assign the
 incoming value to the correct component of the union.  
 
@@ -144,6 +144,40 @@ void symbolTableEntry::setIdentifierValue(dVal data, int token){
 			dataInfo.dataType = -1; 
 	}
 }
+
+/*
+Function: printIdentifierValue()
+
+Descrition: Prints the value of a corresponding identifier. 
+*/
+void symbolTableEntry::printIdentifierValue() const {
+	switch(dataInfo.dataType) {
+		case CHAR: 
+ 			std::cout << dataInfo.value._char << std::endl; 
+			break;
+
+		case SHORT:
+			std::cout << dataInfo.value._short << std::endl; 
+			break;
+
+		case INT:
+			std::cout << dataInfo.value._int << std::endl; 
+			break;
+
+		case LONG:
+			std::cout << dataInfo.value._long << std::endl; 
+			break;
+
+		case FLOAT:
+			std::cout << dataInfo.value._float << std::endl; 
+			break;
+
+		case DOUBLE:
+			std::cout << dataInfo.value._double << std::endl; 
+			break; 
+	}
+}
+
 /*
 Function: getIdentifierValue() const
 
@@ -212,6 +246,20 @@ the associated identifier was located on.
 int symbolTableEntry::getLineNumber() const {
 	return lineNum; 
 }
+
+/*
+Function: getLineNumber() const
+
+Descrition: This function will return the line number that
+the associated identifier was located on. 
+*/
+/*
+std::string symbolTableEntry::getLineNumber() const {
+	
+	char numberStr[20];
+	itoa(lineNum, numStr, 10); 
+	return to_string(lineNum);
+} */
 
 /*
 Function: ~symbolTableEntry() (desctuctor)

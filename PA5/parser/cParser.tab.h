@@ -40,7 +40,7 @@
 extern int yydebug;
 #endif
 /* "%code requires" blocks.  */
-#line 39 "../parser/cParser.y" /* yacc.c:1909  */
+#line 40 "../parser/cParser.y" /* yacc.c:1909  */
 
 	typedef struct {
 	    int dataType;
@@ -65,8 +65,8 @@ extern int yydebug;
     IDENTIFIER = 258,
     INTEGER_CONSTANT = 259,
     FLOATING_CONSTANT = 260,
-    CHARACTER_CONSTANT = 261,
-    ENUMERATION_CONSTANT = 262,
+    ENUMERATION_CONSTANT = 261,
+    CHARACTER_CONSTANT = 262,
     STRING_LITERAL = 263,
     SIZEOF = 264,
     PTR_OP = 265,
@@ -156,7 +156,7 @@ extern int yydebug;
 typedef union YYSTYPE YYSTYPE;
 union YYSTYPE
 {
-#line 59 "../parser/cParser.y" /* yacc.c:1909  */
+#line 60 "../parser/cParser.y" /* yacc.c:1909  */
 
 	char* sVal;
 	dVal* val;

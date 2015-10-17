@@ -24,15 +24,16 @@ the token declarations that will be used in the lexer.
 	#include <fstream>
 	#include <iostream>
 	#include "../classes/symbolTableEntry.h"
+	#include "../classes/symbolTable.h"
 
 	int yylex(void);
 	void yyerror(const char* errorMsg);
-	void write(const dVal& param);
 	extern int yylineno;
 	extern int colPosition;  
 	extern bool YFLAG; 
 	extern std::ofstream outY;
 	extern bool inInsertMode;
+	extern symbolTable table; 
 %}
 /* end of declarations and definitions */
 
@@ -64,8 +65,8 @@ yylval will remain as an integer in this program. */
 
 /* start of tokens for ANSI C grammar */
 %token <entry> IDENTIFIER
-%token <val> INTEGER_CONSTANT FLOATING_CONSTANT
-%token <val> CHARACTER_CONSTANT ENUMERATION_CONSTANT 
+%token <val> INTEGER_CONSTANT FLOATING_CONSTANT ENUMERATION_CONSTANT 
+%token <entry> CHARACTER_CONSTANT 
 %token STRING_LITERAL 
 %token SIZEOF
 %token PTR_OP 
@@ -100,6 +101,7 @@ yylval will remain as an integer in this program. */
 %type <val> initializer     /* this could be anything? */
 %type <entry> identifier
 %type <entry> declarator
+%type <entry> primary_expression
 /* end of tokens for ANSI C grammar */ 
 
 /* start of ANSI C grammar and actions */
@@ -440,9 +442,9 @@ init_declarator
  			//std::cout << "$2 (assign): " << $2 << std::endl;
  			//std::cout << "$3 (initializer): " << $3 << std::endl; 
  			$1->setIdentifierValue(*($3), $3->dataType);
- 			dVal temp = $1->getIdentifierValue(); 
+ 			//dVal temp = $1->getIdentifierValue(); 
  			std::cout << "Value returned from symbol table entry: ";
- 			write(temp);
+ 			$1->printIdentifierValue(); 
  			std::cout << std::endl; 
 			if(YFLAG){
 				outY << "init_declarator : declarator ASSIGN initializer;" << std::endl;
@@ -947,29 +949,65 @@ expression_statement
 	;
 
 compound_statement
-	: LCURL RCURL
+	: LCURL RCURL 
  		{
 			if(YFLAG){
 				outY << "compound_statement : LCURL RCURL;" << std::endl;
 			}
 		}						
-	| LCURL statement_list RCURL
+	| LCURL open_curl set_lookup statement_list RCURL close_curl
  		{
 			if(YFLAG){
 				outY << "compound_statement : LCURL statement_list RCURL;" << std::endl;
 			}
 		}					
-	| LCURL declaration_list RCURL	
+	| LCURL set_insert_push declaration_list RCURL set_lookup_pop	
  		{
 			if(YFLAG){
 				outY << "compound_statement : LCURL declaration_list RCURL;" << std::endl;
 			}
 		}				
-	| LCURL declaration_list statement_list RCURL
- 		{
-			if(YFLAG){
+	| LCURL set_insert_push declaration_list set_lookup statement_list RCURL set_lookup_pop {
+		  if(YFLAG){
 				outY << "compound_statement : LCURL declaration_list statement_list RCURL;" << std::endl;
-			}
+	      }
+	    } 
+	;
+
+set_insert_push
+	:	{
+		table.pushLevelOn();
+		inInsertMode = true;
+		std::cout << "insert mode and push" << std::endl; 
+		}
+	;
+
+set_lookup_pop
+	:	{
+		table.popLevelOff(); 
+		inInsertMode = false; 
+		std::cout << "lookup mode and pop" << std::endl; 
+		}
+	;
+
+set_lookup
+	:	{
+		inInsertMode = false; 
+		std::cout << "lookup mode" << std::endl; 
+		}
+	;
+
+open_curl
+	:  {
+		table.pushLevelOn();
+		std::cout << "push only" << std::endl; 
+	   }
+	;
+
+close_curl
+	:	{
+		table.popLevelOff();  
+		std::cout << "pop only" << std::endl; 
 		}
 	;
 
@@ -1573,6 +1611,10 @@ postfix_expression
 primary_expression
 	: identifier
  		{
+ 			/*
+ 			symbolTableEntry* tempPtr = table.searchTopOfStack($1->getIdentifierName());
+ 			dVal tempData = tempPtr->getIdentifierValue(); */
+
 			if(YFLAG){
 				outY << "primary_expression : identifier;" << std::endl;
 			}
@@ -1618,9 +1660,14 @@ constant
 			if(YFLAG){
 				outY << "constant : INTEGER_CONSTANT;" << std::endl;
 			}
+
 		}
 	| CHARACTER_CONSTANT
  		{
+ 			/*
+ 			std::string tempName = $1->getIdentifierName(); 
+ 			symbolTableEntry* tempPtr = table.searchTopOfStack(tempName); */
+
 			if(YFLAG){
 				outY << "constant : CHARACTER_CONSTANT;" << std::endl;
 			}
@@ -1663,35 +1710,4 @@ void yyerror(const char* s) {
 	std::cout << "^" << std::endl; 
 	std::cout << "Error on line #" << yylineno << ": " << s << std::endl;
 	exit(-1);
-}
-
-void write(const dVal& param) {
-	switch(param.dataType) {
-		case CHAR:
-			//std::cout << "trying to write char" << std::endl; 
- 			std::cout << param.value._char << std::endl; 
-			std::cout << param.value._char << std::endl;
-			break;
-
-		case SHORT:
-			std::cout << param.value._short << std::endl; 
-			break;
-
-		case INT:
-			std::cout << "trying to write int" << std::endl;
-			std::cout << param.value._int << std::endl; 
-			break;
-
-		case LONG:
-			std::cout << param.value._long << std::endl; 
-			break;
-
-		case FLOAT:
-			std::cout << param.value._float << std::endl; 
-			break;
-
-		case DOUBLE:
-			std::cout << param.value._double << std::endl; 
-			break; 
-	}
 }

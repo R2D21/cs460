@@ -37,7 +37,8 @@ class symbolTableEntry {
         void setIdentifierName(std::string name);
         std::string getIdentifierName() const;
         void setIdentifierValue(dVal data, int token);
-        dVal getIdentifierValue() const;  
+        dVal getIdentifierValue() const;
+        void printIdentifierValue() const;   
 
         // functions needed if entry is a function
         bool isFunction() const;
@@ -47,6 +48,7 @@ class symbolTableEntry {
 
         // other functions 
         int getLineNumber() const;
+        //std::string getLineNumber() const; 
 
         // destructor
         ~symbolTableEntry(); 

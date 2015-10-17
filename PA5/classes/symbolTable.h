@@ -43,7 +43,7 @@ class symbolTable {
         void pushLevelOn();
         void pushLevelOn(int outer);
         void popLevelOff(); 
-        void insertNewSymbol(std::string name, int line);
+        symbolTableEntry* insertNewSymbol(std::string name, int line);
         symbolTableEntry* searchForSymbol(std::string symbolToSearch, int& levelSymbolWasFound);
         symbolTableEntry* searchTopOfStack(std::string symbolToSearch); 
         void writeToFile();

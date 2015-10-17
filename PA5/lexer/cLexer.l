@@ -21,8 +21,8 @@ Tokens have been declared by Bison and are included in the file
 	/* includes */
 	#include <iostream>
 	#include <string>
-	#include "stdlib.h"
 	#include <climits>
+	#include <stdlib.h>
 	#include <fstream>
 	#include "../parser/cParser.tab.h"
 	#include "../classes/symbolTable.h"
@@ -31,7 +31,7 @@ Tokens have been declared by Bison and are included in the file
 	extern bool LFLAG; 
 	extern std::ofstream outL; 
 	extern void yyerror(const char* errorMsg);
-	bool inInsertMode = true; // false => "lookup mode"
+	bool inInsertMode = false; // false => "lookup mode"
 	dVal* temp = NULL; 
 
 	/* variables */
@@ -321,15 +321,48 @@ identifier [a-zA-Z][a-zA-z0-9]*
 
 					std::string newEntry(yytext);
 					currentSourceCodeLine += newEntry;
-					table.insertNewSymbol(newEntry, yylineno);
-					std::cout << "Just inserted: " << newEntry << std::endl;
-					colPosition += strlen(yytext);
-					symbolTableEntry* entry = table.searchTopOfStack(newEntry);
-					std::cout << "name: " << entry->getIdentifierName() << std::endl; 
-					yylval.entry = entry; 
-					std::cout << "FROM YYLVAL: ";
-					std::cout << yylval.entry->getIdentifierName() << std::endl;
-					return IDENTIFIER; 				
+					symbolTableEntry* searchResult;
+					int level;
+
+					if (inInsertMode) {
+						searchResult = table.searchTopOfStack(newEntry);
+
+						if (searchResult != NULL) {
+							//std::cout << "found top " << std::endl;
+							char lineNum[15];
+							//itoa(searchResult->getLineNumber(), lineNum, 10); 
+							sprintf(lineNum, "%d", searchResult->getLineNumber());
+							newEntry = "Variable " + newEntry + " has already been declared here: \n";
+							newEntry += "\tLine " + (std::string)lineNum + ": " + sourceCode[searchResult->getLineNumber() - 1] + "\n";
+							yyerror(newEntry.c_str());
+						}
+
+						else if( (searchResult =  table.searchForSymbol(newEntry, level)) != NULL){
+							char lineNum[15];
+							sprintf(lineNum, "%d", searchResult->getLineNumber());
+							std::cout << "WARNING: Variable " << newEntry << " shadows a previously declared identifier here: \n";
+							std::cout << "\tLine " + (std::string)lineNum + ": " + sourceCode[searchResult->getLineNumber() - 1] + "\n";
+						}
+						else{
+							//std::cout << "not found" << std::endl;
+							searchResult = table.insertNewSymbol(newEntry, yylineno); 
+							std::cout << "Just inserted: " << newEntry << std::endl;
+							colPosition += strlen(yytext);
+							yylval.entry = searchResult;
+							return IDENTIFIER;
+						}
+					}
+					else{
+						searchResult = table.searchForSymbol(newEntry, level);
+						if(searchResult == NULL){
+							newEntry = "ERROR: " + newEntry + " was not declared in this scope.";
+							yyerror(newEntry.c_str());
+						}
+						else{
+							yylval.entry = searchResult;
+							return IDENTIFIER;
+						}
+					}
 				}
 {number}		{
 					if(LFLAG){
