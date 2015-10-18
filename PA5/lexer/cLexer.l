@@ -31,15 +31,16 @@ Tokens have been declared by Bison and are included in the file
 	extern bool LFLAG; 
 	extern std::ofstream outL; 
 	extern void yyerror(const char* errorMsg);
-	bool inInsertMode = true; // false => "lookup mode"
-	dVal* temp = NULL; 
 
 	/* variables */
+	bool inInsertMode = true; // false => "lookup mode"
+	dVal* temp = NULL; 
 	int colPosition = 0;
 	int tabCount = 0; 
 	symbolTable table;
 	std::string currentSourceCodeLine = ""; 
-	std::vector<std::string> sourceCode;  
+	std::vector<std::string> sourceCode;
+	std::vector<int> typeSpecifiers;   
 %}
 
 /* token definitions */
@@ -88,6 +89,7 @@ identifier [a-zA-Z][a-zA-z0-9]*
 					}
 					std::string strTemp(yytext);
    					currentSourceCodeLine += strTemp;
+   					typeSpecifiers.push_back(CHAR); 
 					return CHAR; 
 				}
 "const"			{
@@ -128,6 +130,7 @@ identifier [a-zA-Z][a-zA-z0-9]*
 					}
 					std::string strTemp(yytext);
    					currentSourceCodeLine += strTemp;
+   					typeSpecifiers.push_back(DOUBLE);
 					return DOUBLE; 
 				}	
 "else"			{
@@ -160,6 +163,7 @@ identifier [a-zA-Z][a-zA-z0-9]*
 					}
 					std::string strTemp(yytext);
    					currentSourceCodeLine += strTemp;
+   					typeSpecifiers.push_back(FLOAT);
 					return FLOAT; 
 				}
 "for"			{
@@ -192,6 +196,7 @@ identifier [a-zA-Z][a-zA-z0-9]*
 					}
 					std::string strTemp(yytext);
    					currentSourceCodeLine += strTemp;
+   					typeSpecifiers.push_back(INT);
 					return INT; 	
 				}
 "long"			{
@@ -200,6 +205,7 @@ identifier [a-zA-Z][a-zA-z0-9]*
 					}
 					std::string strTemp(yytext);
    					currentSourceCodeLine += strTemp;
+   					typeSpecifiers.push_back(LONG);
 					return LONG; 
 				}
 "register"		{
@@ -224,6 +230,7 @@ identifier [a-zA-Z][a-zA-z0-9]*
 					}
 					std::string strTemp(yytext);
    					currentSourceCodeLine += strTemp;
+   					typeSpecifiers.push_back(SHORT);
 					return SHORT; 
 				}
 "signed"		{
@@ -296,6 +303,7 @@ identifier [a-zA-Z][a-zA-z0-9]*
 					}
 					std::string strTemp(yytext);
    					currentSourceCodeLine += strTemp;
+   					typeSpecifiers.push_back(VOID);
 					return VOID; 
 				}
 "volatile"		{
@@ -341,13 +349,21 @@ identifier [a-zA-Z][a-zA-z0-9]*
 							std::cout << "WARNING: Variable " << newEntry << " shadows a previously declared identifier here: \n";
 							std::cout << "\tLine " + (std::string)lineNum + ": " + sourceCode[searchResult->getLineNumber() - 1] + "\n";
 							searchResult = table.insertNewSymbol(newEntry, yylineno);
-							yylval.entry = searchResult;							
+							if(!searchResult->setIdentifierType(typeSpecifiers)){
+								yyerror("Error: Don't do that!");
+							}
+							yylval.entry = searchResult;
+							typeSpecifiers.clear();							
 							return IDENTIFIER;
 						}
 						else{
-							searchResult = table.insertNewSymbol(newEntry, yylineno); 
+							searchResult = table.insertNewSymbol(newEntry, yylineno);
+							if(!searchResult->setIdentifierType(typeSpecifiers)){
+								yyerror("Error: Don't do that!");
+							} 
 							colPosition += strlen(yytext);
 							yylval.entry = searchResult;
+							typeSpecifiers.clear();				
 							return IDENTIFIER;
 						}
 					}
@@ -747,6 +763,7 @@ identifier [a-zA-Z][a-zA-z0-9]*
 					if(LFLAG){
 						outL << "< ) > ";
 					} 
+					typeSpecifiers.clear();
 					std::string strTemp(yytext);
    					currentSourceCodeLine += strTemp;
 					return RPAREN;

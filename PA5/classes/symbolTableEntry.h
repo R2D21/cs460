@@ -19,6 +19,17 @@ of our ANSI C compiler.
 #include <iostream>
 #include <map>
 #include "../parser/cParser.tab.h" // used for token values
+enum Type{
+    CHAR_T,
+    DOUBLE_T,
+    FLOAT_T,
+    INT_T,
+    LONG_T,
+    LONG_LONG_T,
+    LONG_DOUBLE_T,
+    SHORT_T,
+    VOID_T
+};
 
 // used for function parameters
 typedef struct {
@@ -36,7 +47,8 @@ class symbolTableEntry {
         symbolTableEntry(std::string name, int lineNumber);
         
         // symbol table object functions
-        void setIdentifierType(int token);
+        bool setIdentifierType(std::vector<int> type);
+        bool isValid(std::vector<int> type) const;
         int getIdentifierType() const;
         void setIdentifierName(std::string name);
         std::string getIdentifierName() const;
@@ -66,6 +78,7 @@ class symbolTableEntry {
         std::string identifierName;  
         dVal dataInfo; 
         std::vector<parameter> parameters;
+        std::vector<int> identifierType;
         std::map<std::vector<int>, int> validTypes; 
 };
 

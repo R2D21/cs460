@@ -1,5 +1,5 @@
-int a = 5;
+long long int a = 5;
 void main(void) {
-	double signed x; 
-	int signed y;
+	long long int x; 
+	long long short long y;
 }

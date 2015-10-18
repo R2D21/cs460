@@ -108,7 +108,6 @@ yylval will remain as an integer in this program. */
 %%
 start_unit
 	:	translation_unit	{	std::cout << "FINISHED THE PROGRAM" << std::endl; 
-								std::cout << table.getTableSize() << std::endl; 
 								table.popLevelOff();}
 	;
 

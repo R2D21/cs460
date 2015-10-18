@@ -27,9 +27,75 @@ symbolTableEntry::symbolTableEntry() {
 	identifierName = "";
 	dataInfo.dataType = -1; 
 
-	std::vector<int> validType (CHAR);
-	validTypes.insert(pair(validType, 1));
+	// populate the map for each symbol table entry
+	// ex: "long long, long int, etc."
+	std::vector<int> validType;
 
+	// char
+	validType.push_back(CHAR);
+	validTypes.insert(pair(validType, CHAR_T));
+	validType.clear();
+
+	// double
+	validType.push_back(DOUBLE);
+	validTypes.insert(pair(validType, DOUBLE_T));
+	validType.clear();
+
+	// float
+	validType.push_back(FLOAT);
+	validTypes.insert(pair(validType, FLOAT_T));
+	validType.clear();
+
+	// int 
+	validType.push_back(INT);
+	validTypes.insert(pair(validType, INT_T));
+	validType.clear();
+
+	// long
+	validType.push_back(LONG);
+	validTypes.insert(pair(validType, LONG_T));
+	validType.clear();
+
+	// long int
+	validType.push_back(LONG);
+	validType.push_back(INT);
+	validTypes.insert(pair(validType, LONG_T));
+	validType.clear();
+
+	// long long
+	validType.push_back(LONG);
+	validType.push_back(LONG);
+	validTypes.insert(pair(validType, LONG_LONG_T));
+	validType.clear();	
+
+	// long long int
+	validType.push_back(LONG);
+	validType.push_back(LONG);
+	validType.push_back(INT);
+	validTypes.insert(pair(validType, LONG_LONG_T));
+	validType.clear();
+
+	// long double
+	validType.push_back(LONG);
+	validType.push_back(DOUBLE);
+	validTypes.insert(pair(validType, LONG_DOUBLE_T));
+	validType.clear();
+
+	// short
+	validType.push_back(SHORT);
+	validTypes.insert(pair(validType, SHORT_T));
+	validType.clear();	
+
+	// short int
+	validType.push_back(SHORT);
+	validType.push_back(INT);
+	validTypes.insert(pair(validType, SHORT_T));
+	validType.clear();	
+
+	// void
+	validType.push_back(VOID);
+	validTypes.insert(pair(validType, VOID_T));
+	validType.clear();	
 }
 
 /*
@@ -38,7 +104,7 @@ Function: symbolTableEntry(int lineNumber) (constructor)
 Parameters:
 int lineNumber: The line number that the identifier is located at. 
 
-Description: Allows for instantiation of a new symbol table entry object 
+Description: Allows for instantiation of a new symbol table entry object (
 with a specified line number. 
 */
 symbolTableEntry::symbolTableEntry(std::string name, int lineNumber) {
@@ -50,6 +116,76 @@ symbolTableEntry::symbolTableEntry(std::string name, int lineNumber) {
 	isSigned = false;
 	isUnsigned = false; 
 	dataInfo.dataType = -1;	
+
+	// populate the map for each symbol table entry
+	// ex: "long long, long int, etc."
+	std::vector<int> validType;
+
+	// char
+	validType.push_back(CHAR);
+	validTypes.insert(pair(validType, CHAR_T));
+	validType.clear();
+
+	// double
+	validType.push_back(DOUBLE);
+	validTypes.insert(pair(validType, DOUBLE_T));
+	validType.clear();
+
+	// float
+	validType.push_back(FLOAT);
+	validTypes.insert(pair(validType, FLOAT_T));
+	validType.clear();
+
+	// int 
+	validType.push_back(INT);
+	validTypes.insert(pair(validType, INT_T));
+	validType.clear();
+
+	// long
+	validType.push_back(LONG);
+	validTypes.insert(pair(validType, LONG_T));
+	validType.clear();
+
+	// long int
+	validType.push_back(LONG);
+	validType.push_back(INT);
+	validTypes.insert(pair(validType, LONG_T));
+	validType.clear();
+
+	// long long
+	validType.push_back(LONG);
+	validType.push_back(LONG);
+	validTypes.insert(pair(validType, LONG_LONG_T));
+	validType.clear();	
+
+	// long long int
+	validType.push_back(LONG);
+	validType.push_back(LONG);
+	validType.push_back(INT);
+	validTypes.insert(pair(validType, LONG_LONG_T));
+	validType.clear();
+
+	// long double
+	validType.push_back(LONG);
+	validType.push_back(DOUBLE);
+	validTypes.insert(pair(validType, LONG_DOUBLE_T));
+	validType.clear();
+
+	// short
+	validType.push_back(SHORT);
+	validTypes.insert(pair(validType, SHORT_T));
+	validType.clear();	
+
+	// short int
+	validType.push_back(SHORT);
+	validType.push_back(INT);
+	validTypes.insert(pair(validType, SHORT_T));
+	validType.clear();	
+
+	// void
+	validType.push_back(VOID);
+	validTypes.insert(pair(validType, VOID_T));
+	validType.clear();	
 }
 
 /*
@@ -62,8 +198,20 @@ of the current symbol.
 Description: Allows the caller to specify the type of the symbol
 table entry.  
 */
-void symbolTableEntry::setIdentifierType(int token) {
-	dataInfo.dataType = token; 
+bool symbolTableEntry::setIdentifierType(std::vector<int> type) {
+	std::map<std::vector<int> , int>::iterator mapItr;
+
+	mapItr = validTypes.find(type);
+	if(mapItr != validTypes.end()){
+		dataInfo.dataType = mapItr->second;
+		identifierType = type;
+		return true;
+
+	}
+	else{
+		return false;
+		
+	}
 }
 
 /*
