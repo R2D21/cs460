@@ -31,7 +31,7 @@ Tokens have been declared by Bison and are included in the file
 	extern bool LFLAG; 
 	extern std::ofstream outL; 
 	extern void yyerror(const char* errorMsg);
-	bool inInsertMode = false; // false => "lookup mode"
+	bool inInsertMode = true; // false => "lookup mode"
 	dVal* temp = NULL; 
 
 	/* variables */
@@ -326,11 +326,8 @@ identifier [a-zA-Z][a-zA-z0-9]*
 
 					if (inInsertMode) {
 						searchResult = table.searchTopOfStack(newEntry);
-
 						if (searchResult != NULL) {
-							//std::cout << "found top " << std::endl;
 							char lineNum[15];
-							//itoa(searchResult->getLineNumber(), lineNum, 10); 
 							sprintf(lineNum, "%d", searchResult->getLineNumber());
 							newEntry = "Variable " + newEntry + " has already been declared here: \n";
 							newEntry += "\tLine " + (std::string)lineNum + ": " + sourceCode[searchResult->getLineNumber() - 1] + "\n";
@@ -338,15 +335,17 @@ identifier [a-zA-Z][a-zA-z0-9]*
 						}
 
 						else if( (searchResult =  table.searchForSymbol(newEntry, level)) != NULL){
+
 							char lineNum[15];
 							sprintf(lineNum, "%d", searchResult->getLineNumber());
 							std::cout << "WARNING: Variable " << newEntry << " shadows a previously declared identifier here: \n";
 							std::cout << "\tLine " + (std::string)lineNum + ": " + sourceCode[searchResult->getLineNumber() - 1] + "\n";
+							searchResult = table.insertNewSymbol(newEntry, yylineno);
+							yylval.entry = searchResult;							
+							return IDENTIFIER;
 						}
 						else{
-							//std::cout << "not found" << std::endl;
 							searchResult = table.insertNewSymbol(newEntry, yylineno); 
-							std::cout << "Just inserted: " << newEntry << std::endl;
 							colPosition += strlen(yytext);
 							yylval.entry = searchResult;
 							return IDENTIFIER;
@@ -372,8 +371,7 @@ identifier [a-zA-Z][a-zA-z0-9]*
    					currentSourceCodeLine += strTemp;
 					temp = new dVal;
 					temp->dataType = INT;
-					temp->value._int = atoi(yytext);
-					std::cout << "hi" << std::endl; 
+					temp->value._int = atoi(yytext); 
 					yylval.val = temp;
 					temp = NULL;  
 					return INTEGER_CONSTANT; 						
@@ -743,8 +741,6 @@ identifier [a-zA-Z][a-zA-z0-9]*
 					}
 					std::string strTemp(yytext);
    					currentSourceCodeLine += strTemp;
-					std::cout << "PUSHING NEW LEVEL ONTO STACK" << std::endl;
-					table.pushLevelOn();   
 					return LCURL;
 				}
 ")"				{
@@ -803,6 +799,9 @@ identifier [a-zA-Z][a-zA-z0-9]*
 					colPosition = 0;
 					sourceCode.push_back(currentSourceCodeLine);
 					currentSourceCodeLine = "";  
+				}
+"!!S"			{
+					table.writeToScreen(); 
 				}
 .				{
 					if(LFLAG){

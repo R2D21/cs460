@@ -94,7 +94,7 @@ yylval will remain as an integer in this program. */
 
 %token CASE DEFAULT IF ELSE SWITCH WHILE DO FOR GOTO CONTINUE BREAK RETURN
 
-%start translation_unit
+%start start_unit
 
 %type <entry> translation_unit 
 %type <entry> init_declarator
@@ -105,7 +105,13 @@ yylval will remain as an integer in this program. */
 /* end of tokens for ANSI C grammar */ 
 
 /* start of ANSI C grammar and actions */
-%%		 
+%%
+start_unit
+	:	translation_unit	{	std::cout << "FINISHED THE PROGRAM" << std::endl; 
+								std::cout << table.getTableSize() << std::endl; 
+								table.popLevelOff();}
+	;
+
 translation_unit
 	: external_declaration
 		{
@@ -874,7 +880,7 @@ direct_abstract_declarator
 	;
 
 statement
-	: labeled_statement
+	:  labeled_statement
  		{
 			if(YFLAG){
 				outY << "statement : labeled_statement;" << std::endl;
@@ -948,6 +954,7 @@ expression_statement
 		}
 	;
 
+
 compound_statement
 	: LCURL RCURL 
  		{
@@ -957,7 +964,7 @@ compound_statement
 		}						
 	| LCURL open_curl set_lookup statement_list RCURL close_curl
  		{
-			if(YFLAG){
+ 			if(YFLAG){
 				outY << "compound_statement : LCURL statement_list RCURL;" << std::endl;
 			}
 		}					
@@ -976,17 +983,20 @@ compound_statement
 
 set_insert_push
 	:	{
+
+		std::cout << "Table goes from size " << table.getTableSize();
 		table.pushLevelOn();
+		std::cout << " to " << table.getTableSize() << std::endl; 
 		inInsertMode = true;
-		std::cout << "insert mode and push" << std::endl; 
 		}
 	;
 
 set_lookup_pop
 	:	{
+		std::cout << "Table goes from size " << table.getTableSize();
 		table.popLevelOff(); 
-		inInsertMode = false; 
-		std::cout << "lookup mode and pop" << std::endl; 
+		std::cout << " to " << table.getTableSize() << std::endl; 
+		inInsertMode = false;  
 		}
 	;
 
@@ -999,15 +1009,15 @@ set_lookup
 
 open_curl
 	:  {
+		std::cout << "Table goes from size " << table.getTableSize();
 		table.pushLevelOn();
-		std::cout << "push only" << std::endl; 
+		std::cout << " to " << table.getTableSize() << std::endl;  
 	   }
 	;
 
 close_curl
 	:	{
 		table.popLevelOff();  
-		std::cout << "pop only" << std::endl; 
 		}
 	;
 
@@ -1696,8 +1706,7 @@ string
 	;
 
 identifier
-	: IDENTIFIER { std::cout << "IDENTIFIER: ";
-					std::cout << $1->getIdentifierName() << std::endl; }
+	: IDENTIFIER { std::cout << $1->getIdentifierName() << std::endl; }
 	;
 %% /* end of ANSI C grammar and actions */
 

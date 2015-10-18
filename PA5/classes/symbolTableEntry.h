@@ -17,6 +17,7 @@ of our ANSI C compiler.
 #include <string>
 #include <vector>
 #include <iostream>
+#include <map>
 #include "../parser/cParser.tab.h" // used for token values
 
 // used for function parameters
@@ -24,6 +25,9 @@ typedef struct {
     int dataType;
     std::string formalParam; 
 } parameter;  
+
+// typdefs
+typedef std::pair<std::vector<int>, int> pair;
 
 class symbolTableEntry {
     public:
@@ -61,7 +65,8 @@ class symbolTableEntry {
         bool isUnsigned; 
         std::string identifierName;  
         dVal dataInfo; 
-        std::vector<parameter> parameters;    
+        std::vector<parameter> parameters;
+        std::map<std::vector<int>, int> validTypes; 
 };
 
 #endif // SYMBOL_TABLE_ENTRY_H

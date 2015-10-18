@@ -27,13 +27,17 @@ Function: pushLevelOn()
 Description: This function pushes a new scope level onto the stack. 
 */
 void symbolTable::pushLevelOn() {
-	std::cout << "1" << std::endl; 
+	//std::cout << "1" << std::endl; 
 	Bst* newTree = new Bst();
-	std::cout << "2" << std::endl; 
-	scope* newScope = new scope(table.size(), table.size() - 1, *newTree);
-	std::cout << "3" << std::endl; 
+	//std::cout << "2" << std::endl; 
+	int outer = table.size()-1;
+	if(outer == -1){
+		outer = 0;
+	}
+	scope* newScope = new scope(table.size(), outer, *newTree);
+	//std::cout << "3" << std::endl; 
 	table.push_back(*newScope);
-	std::cout << "4" << std::endl; 
+	//std::cout << "4" << std::endl; 
 }
 
 /*
@@ -209,8 +213,13 @@ void symbolTable::writeToFile(){
 			currentBst = symbolTableItr->getBst();
 			outFile << "Scope Level " << symbolTableItr->getScopeLevel() << " in Scope ";
 			outFile << symbolTableItr->getOuterScope() << std::endl;
-			for (bstItr = currentBst->begin(); bstItr != currentBst->end(); bstItr++) {
-				outFile << "\tVariable: " << bstItr->first << std::endl;
+			if (currentBst->empty() ) {
+				outFile << "\tNo identifiers in this scope." << std::endl; 
+			}
+			else {
+				for (bstItr = currentBst->begin(); bstItr != currentBst->end(); bstItr++) {
+					outFile << "\tVariable: " << bstItr->first << std::endl;
+				}
 			}
 		}
 	}
@@ -240,11 +249,25 @@ void symbolTable::writeToScreen() {
 			currentBst = symbolTableItr->getBst();
 			std::cout << "Scope Level " << symbolTableItr->getScopeLevel() << " in Scope ";
 			std::cout << symbolTableItr->getOuterScope() << std::endl;
-			for (bstItr = currentBst->begin(); bstItr != currentBst->end(); bstItr++) {
-				std::cout << "\tVariable: " << bstItr->first << std::endl;
+			if (currentBst->empty() ) {
+				std::cout << "\tNo identifiers in this scope." << std::endl; 
+			}
+			else {
+				for (bstItr = currentBst->begin(); bstItr != currentBst->end(); bstItr++) {
+					std::cout << "\tVariable: " << bstItr->first << std::endl;
+				}
 			}
 		}
 	}
+}
+
+/*
+Function: getTableSize() const
+
+Description: Returns the size of the symbol table to the caller. 
+*/
+int symbolTable::getTableSize() const {
+	return table.size();
 }
 
 /*
@@ -253,4 +276,5 @@ Function: ~symbolTable() (destructor)
 Description: The destructor for a symbol table object.  
 */
 symbolTable::~symbolTable(){
+	popLevelOff(); 
 }

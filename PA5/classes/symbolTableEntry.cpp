@@ -12,6 +12,7 @@ table of our C compiler.
 // includes
 #include "symbolTableEntry.h"
 
+
 /*
 Function: symbolTableEntry() (constructor) 
 
@@ -24,7 +25,11 @@ symbolTableEntry::symbolTableEntry() {
 	isSigned = false;
 	isUnsigned = false; 
 	identifierName = "";
-	dataInfo.dataType = -1;   
+	dataInfo.dataType = -1; 
+
+	std::vector<int> validType (CHAR);
+	validTypes.insert(pair(validType, 1));
+
 }
 
 /*

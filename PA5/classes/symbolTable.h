@@ -48,6 +48,7 @@ class symbolTable {
         symbolTableEntry* searchTopOfStack(std::string symbolToSearch); 
         void writeToFile();
         void writeToScreen();
+        int getTableSize() const; 
 
 	   // destructor 
         ~symbolTable();
