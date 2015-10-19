@@ -1,4 +1,8 @@
 long long int a = 5;
+// hello my name is cool
+/* this is a test
+second line */
 void main(void) {
-	long int x= "daisjfalsdajf;asdfjweiryrsssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss843894i;knfesdxcnubi;ntlkrshhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhfdcvxyghiuljknrgedvzxc h;ilknm,.3wefsczxuoijlkerfdscxucijlk";
+	//hi
+	long long int x= 1;
 }

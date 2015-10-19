@@ -24,6 +24,7 @@ Tokens have been declared by Bison and are included in the file
 	#include <climits>
 	#include <stdlib.h>
 	#include <fstream>
+	#include <algorithm>
 	#include "../parser/cParser.tab.h"
 	#include "../classes/symbolTable.h"
 
@@ -849,15 +850,24 @@ identifier [a-zA-Z][a-zA-Z0-9]*
 						outL << currentSourceCodeLine << std::endl;
 						outL << "=================================================================" << std::endl;
 					
-						sourceCode.push_back(currentSourceCodeLine);
-						currentSourceCodeLine = "";  
+
 					}
+					sourceCode.push_back(currentSourceCodeLine);
+					currentSourceCodeLine = "";  
 					yylineno++; 
 					colPosition = 0;
 					endline = true;
 				}
 "!!S"			{
 					table.writeToScreen(); 
+				}
+
+"/*"[^"*/"]*"*/"	{	
+					std::string comment(yytext);
+					yylineno += std::count(comment.begin(), comment.end(), '\n');
+
+				}
+"//"(.)*		{
 				}
 .				{
 						std::string token(yytext);

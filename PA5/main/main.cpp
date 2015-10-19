@@ -91,8 +91,7 @@ int main(int argc, char** argv) {
 
 	yyparse();  
 
-	cout << "Front end complete - writing symbol table..." << endl;
-	table.writeToScreen(); 
+	cout << "Parse complete " << endl;
 
 	if (LFLAG) {
 		if(!endline){
