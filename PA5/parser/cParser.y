@@ -44,12 +44,9 @@ the token declarations that will be used in the lexer.
 	    int dataType;
 	    typedef union {
 	        char _char;
-	        short _short;
-	        int _int;
-	        long _long;
-	        float _float; 
-	        double _double;     
-	        char _test[256];   
+	        long long _number;
+	        double _decimal;     
+	        char _str[256];   
 	    } vals;
 	    vals value;
 	} dVal;

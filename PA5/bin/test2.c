@@ -3,7 +3,7 @@ long long int a = 5;
 /* this is a test
 second line */
 
-int foo(int w, int e, int s);
+int foo(int w, int e, long long long s);
 
 void main(void) {
 	//hi

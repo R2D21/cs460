@@ -23,6 +23,7 @@ Tokens have been declared by Bison and are included in the file
 	#include <string>
 	#include <climits>
 	#include <stdlib.h>
+	#include <cstdlib>
 	#include <fstream>
 	#include <algorithm>
 	#include "../parser/cParser.tab.h"
@@ -414,8 +415,8 @@ identifier [a-zA-Z][a-zA-Z0-9]*
 					std::string strTemp(yytext);
    					currentSourceCodeLine += strTemp;
 					temp = new dVal;
-					temp->dataType = INT;
-					temp->value._int = atoi(yytext); 
+					temp->dataType = LONG_LONG_T;
+					temp->value._number = atoll(yytext); 
 					yylval.val = temp;
 					temp = NULL;  
 					return INTEGER_CONSTANT; 						
@@ -427,13 +428,10 @@ identifier [a-zA-Z][a-zA-Z0-9]*
 					std::string strTemp(yytext);
    					currentSourceCodeLine += strTemp;
 					temp = new dVal;
-					temp->dataType = FLOAT;
-					temp->value._float = atof(yytext);
+					temp->dataType = DOUBLE;
+					temp->value._decimal = strtod(yytext, NULL);
 					yylval.val = temp;
 					temp = NULL;  
-					/*
-					yylval.dVal.dataType = FLOAT;
-					yylval.dVal.value._float = atof(yytext); */
 					return FLOATING_CONSTANT; 		
 				}
 "'"[a-zA-Z]"'"	{
