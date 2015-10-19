@@ -34,6 +34,8 @@ the token declarations that will be used in the lexer.
 	extern std::ofstream outY;
 	extern bool inInsertMode;
 	extern symbolTable table; 
+	std::vector<parameter> funcParams;
+	void assignParams(symbolTableEntry* entry, std::vector<parameter> params); 
 %}
 /* end of declarations and definitions */
 
@@ -103,6 +105,8 @@ yylval will remain as an integer in this program. */
 %type <entry> identifier
 %type <entry> declarator
 %type <entry> primary_expression
+%type <entry> parameter_declaration
+%type <entry> direct_declarator
 /* end of tokens for ANSI C grammar */ 
 
 /* start of ANSI C grammar and actions */
@@ -620,14 +624,22 @@ direct_declarator
 				outY << "direct_declarator : direct_declarator LPAREN RPAREN;" << std::endl;
 			}
 		}
-	| direct_declarator LPAREN parameter_type_list RPAREN
+	| direct_declarator LPAREN set_insert_push parameter_type_list RPAREN
  		{
-			if(YFLAG){
+ 			std::string idName = $1->getIdentifierName();
+ 			std::cout << "ID Name: " << idName << " has ";
+ 			std::cout << $1->getNumberOfParams() << " parameters." << std::endl;  
+ 			assignParams($1, funcParams);
+ 			std::cout << "PRINTING FUNCTION PARAMETERS LOLZ HUEHUE" << std::endl;
+ 			$1->viewParams();  
+ 			funcParams.clear(); 
+ 			if(YFLAG){
 				outY << "direct_declarator : direct_declarator LPAREN parameter_type_list RPAREN;" << std::endl;
 			}
 		}
 	| direct_declarator LPAREN identifier_list RPAREN
  		{
+
 			if(YFLAG){
 				outY << "direct_declarator : direct_declarator LPAREN identifier_list RPAREN;" << std::endl;
 			}
@@ -694,12 +706,37 @@ parameter_type_list
 parameter_list
 	: parameter_declaration
  		{
-			if(YFLAG){
+ 			/*
+ 			std::cout << "==========================================================" << std::endl;
+ 			std::cout << "ID Type: " << $1->getIdentifierType() << std::endl;
+ 			std::cout << "ID Name: ";
+ 			std::string temp = $1->getIdentifierName(); 
+ 			std::cout << temp << std::endl;
+ 			std::cout << "==========================================================" << std::endl; 
+ 			std::cout << "parameter_list : parameter_declaration;" << std::endl;
+  			parameter tempParam;
+ 			tempParam.dataType = $1->getIdentifierType();
+ 			tempParam.formalParam = temp; 
+ 			funcParams.push_back(tempParam); */
+ 			if(YFLAG){
 				outY << "parameter_list : parameter_declaration;" << std::endl;
 			}
 		}	
 	| parameter_list COMMA parameter_declaration
  		{
+ 			/*
+ 			std::cout << "==========================================================" << std::endl;
+			std::cout << "ID Type: " << $3->getIdentifierType() << std::endl;
+ 			std::cout << "ID Name: ";
+ 			std::string temp = $3->getIdentifierName(); 
+ 			std::cout << temp << std::endl;
+ 			parameter tempParam;
+ 			tempParam.dataType = $3->getIdentifierType();
+ 			tempParam.formalParam = temp; 
+ 			funcParams.push_back(tempParam);
+ 			std::cout << "==========================================================" << std::endl; 
+ 			
+ 			std::cout << "parameter_list : parameter_list COMMA parameter_declaration;!!!!!" << std::endl; */
 			if(YFLAG){
 				outY << "parameter_list : parameter_list COMMA parameter_declaration;" << std::endl;
 			}
@@ -709,6 +746,11 @@ parameter_list
 parameter_declaration
 	: declaration_specifiers declarator
  		{
+ 			std::cout << "I'm here: parameter_declaration : declaration_specifiers declarator;" << std::endl;
+ 			parameter tempParam;
+ 			tempParam.dataType = $2->getIdentifierType();
+ 			tempParam.formalParam = $2->getIdentifierName(); 
+ 			funcParams.push_back(tempParam); 
 			if(YFLAG){
 				outY << "parameter_declaration : declaration_specifiers declarator;" << std::endl;
 			}
@@ -1701,4 +1743,12 @@ void yyerror(const char* s) {
 
 	std::cout << s << std::endl;
 	exit(-1);
+}
+
+void assignParams(symbolTableEntry* entry, std::vector<parameter> params) {
+	if (entry != NULL) {
+		for(unsigned int i = 0; i < params.size(); i++) {
+			entry->addParameter(params[i]);
+		}
+	}
 }

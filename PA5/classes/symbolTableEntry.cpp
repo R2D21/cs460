@@ -338,8 +338,8 @@ Descrition: Returns an object of type "dVal", which is an object that
 contains an indicator as to which component in the union the corresponding
 value is located. 
 */
-dVal symbolTableEntry::getIdentifierValue() const {
-	return dataInfo; 
+std::vector<int> symbolTableEntry::getIdentifierValue() const {
+	return identifierType; 
 } 
 
 /*
@@ -374,11 +374,15 @@ parameter in the function.
 Description: Allows the caller to add a formal parameter to
 the symbol table entry. 
 */
-void symbolTableEntry::addParameter(int token, std::string formalParameter) {
+void symbolTableEntry::addParameter(const parameter& type) {
+	parameters.push_back(type);
+
+
+	/*
 	parameter temp;
 	temp.dataType = token;
 	temp.formalParam = formalParameter;
-	parameters[parameters.size()] = temp; 
+	parameters[parameters.size()] = temp; */
 }
 
 /*
@@ -388,6 +392,18 @@ Description: Returns the number of parameters for a function.
 */
 int symbolTableEntry::getNumberOfParams() const {
 	return parameters.size(); 
+}
+
+/*
+Function: 
+
+
+*/
+void symbolTableEntry::viewParams() const {
+	for(unsigned int i = 0; i < parameters.size(); i++) {
+		std::cout << "Formal Parameter: " << parameters[i].formalParam << std::endl;
+		std::cout << "Parameter Type: " << parameters[i].dataType << std::endl;
+	}
 }
 
 /*

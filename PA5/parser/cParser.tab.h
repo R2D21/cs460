@@ -40,7 +40,7 @@
 extern int yydebug;
 #endif
 /* "%code requires" blocks.  */
-#line 40 "../parser/cParser.y" /* yacc.c:1909  */
+#line 42 "../parser/cParser.y" /* yacc.c:1909  */
 
 	typedef struct {
 	    int dataType;
@@ -157,7 +157,7 @@ extern int yydebug;
 typedef union YYSTYPE YYSTYPE;
 union YYSTYPE
 {
-#line 61 "../parser/cParser.y" /* yacc.c:1909  */
+#line 63 "../parser/cParser.y" /* yacc.c:1909  */
 
 	char* sVal;
 	dVal* val;

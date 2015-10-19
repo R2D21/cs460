@@ -48,19 +48,21 @@ class symbolTableEntry {
         
         // symbol table object functions
         bool setIdentifierType(std::vector<int> type);
-        bool isValid(std::vector<int> type) const;
-        int getIdentifierType() const;
+        bool isValid(std::vector<int> type) const; // not implemented
+        int getIdentifierType() const; // double check this
         void setIdentifierName(std::string name);
         std::string getIdentifierName() const;
-        void setIdentifierValue(dVal data, int token);
-        dVal getIdentifierValue() const;
-        void printIdentifierValue() const;   
+        void setIdentifierValue(dVal data, int token); // double check this
+        std::vector<int> getIdentifierValue() const; // double check this
+
+        void printIdentifierValue() const; // double check this
 
         // functions needed if entry is a function
         bool isFunction() const;
         void setFunction();
-        void addParameter(int token, std::string formalParameter);
-        int getNumberOfParams() const; 
+        void addParameter(const parameter& type);
+        int getNumberOfParams() const;
+        void viewParams() const;  
 
         // other functions 
         int getLineNumber() const;
@@ -78,7 +80,7 @@ class symbolTableEntry {
         std::string identifierName;  
         dVal dataInfo; 
         std::vector<parameter> parameters;
-        std::vector<int> identifierType;
+        std::vector<int> identifierType;       // here 
         std::map<std::vector<int>, int> validTypes; 
 };
 
