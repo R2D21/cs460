@@ -47,7 +47,7 @@ extern int yydebug;
 	    typedef union {
 	        char _char;
 	        long long _number;
-	        double _decimal;     
+	        long double _decimal;     
 	        char _str[256];   
 	    } vals;
 	    vals value;

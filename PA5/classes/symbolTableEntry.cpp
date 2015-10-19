@@ -26,6 +26,7 @@ symbolTableEntry::symbolTableEntry() {
 	isUnsigned = false; 
 	identifierName = "";
 	dataInfo.dataType = -1; 
+	numPtrs = 0;
 
 	// populate the map for each symbol table entry
 	// ex: "long long, long int, etc."
@@ -116,6 +117,7 @@ symbolTableEntry::symbolTableEntry(std::string name, int lineNumber) {
 	isSigned = false;
 	isUnsigned = false; 
 	dataInfo.dataType = -1;	
+	numPtrs = 0;
 
 	// populate the map for each symbol table entry
 	// ex: "long long, long int, etc."
@@ -261,36 +263,23 @@ incoming value to the correct component of the union.
 
 Descrition: Sets the value of a corresponding identifier. 
 */
-void symbolTableEntry::setIdentifierValue(dVal data, int token){
-		switch(token) {
-		case CHAR:
-			dataInfo.dataType = CHAR;
+void symbolTableEntry::setIdentifierValue(dVal data){
+		switch(dataInfo.dataType) {
+		case LONG_LONG_T:
+		case LONG_T:
+		case INT_T:
+		case SHORT_T:
+			dataInfo.value._number = data.value._number;
+			break;
+
+		case FLOAT_T:
+		case DOUBLE_T:
+		case LONG_DOUBLE_T:
+			dataInfo.value._decimal = data.value._decimal;
+			break;
+
+		case CHAR_T:
 			dataInfo.value._char = data.value._char;
-			break;
-
-		case SHORT:
-			dataInfo.dataType = SHORT;
-			dataInfo.value._short = data.value._short;
-			break;
-
-		case INT:
-			dataInfo.dataType = INT;
-			dataInfo.value._int = data.value._int;
-			break;
-
-		case LONG:
-			dataInfo.dataType = LONG;
-			dataInfo.value._long = data.value._long;
-			break;
-
-		case FLOAT:
-			dataInfo.dataType = FLOAT;
-			dataInfo.value._float = data.value._float;
-			break;
-
-		case DOUBLE:
-			dataInfo.dataType = DOUBLE;
-			dataInfo.value._double = data.value._double;
 			break;
 
 		default:
@@ -305,29 +294,26 @@ Descrition: Prints the value of a corresponding identifier.
 */
 void symbolTableEntry::printIdentifierValue() const {
 	switch(dataInfo.dataType) {
-		case CHAR: 
- 			std::cout << dataInfo.value._char << std::endl; 
+		case LONG_LONG_T:
+		case LONG_T:
+		case INT_T:
+		case SHORT_T:
+ 			std::cout << dataInfo.value._number << std::endl; 
 			break;
 
-		case SHORT:
-			std::cout << dataInfo.value._short << std::endl; 
+		case FLOAT_T:
+		case DOUBLE_T:
+		case LONG_DOUBLE_T:
+			std::cout << dataInfo.value._decimal << std::endl; 
 			break;
 
-		case INT:
-			std::cout << dataInfo.value._int << std::endl; 
+		case CHAR_T:
+			std::cout << dataInfo.value._char << std::endl; 
 			break;
 
-		case LONG:
-			std::cout << dataInfo.value._long << std::endl; 
+		case VOID_T:
+			std::cout << "void" << std::endl; 
 			break;
-
-		case FLOAT:
-			std::cout << dataInfo.value._float << std::endl; 
-			break;
-
-		case DOUBLE:
-			std::cout << dataInfo.value._double << std::endl; 
-			break; 
 	}
 }
 
@@ -392,6 +378,19 @@ Description: Returns the number of parameters for a function.
 */
 int symbolTableEntry::getNumberOfParams() const {
 	return parameters.size(); 
+}
+
+/*
+Function: setNumPtrs(int number)
+
+Description: Returns the number of parameters for a function. 
+*/
+void symbolTableEntry::setNumPtrs(int number){
+	numPtrs += number;
+}
+
+int symbolTableEntry::getNumPtrs() const{
+	return numPtrs;
 }
 
 /*

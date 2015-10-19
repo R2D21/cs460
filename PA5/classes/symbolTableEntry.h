@@ -52,9 +52,8 @@ class symbolTableEntry {
         int getIdentifierType() const; // double check this
         void setIdentifierName(std::string name);
         std::string getIdentifierName() const;
-        void setIdentifierValue(dVal data, int token); // double check this
+        void setIdentifierValue(dVal data); // double check this
         std::vector<int> getIdentifierValue() const; // double check this
-
         void printIdentifierValue() const; // double check this
 
         // functions needed if entry is a function
@@ -62,6 +61,8 @@ class symbolTableEntry {
         void setFunction();
         void addParameter(const parameter& type);
         int getNumberOfParams() const;
+        void setNumPtrs(int number);
+        int getNumPtrs() const;
         void viewParams() const;  
 
         // other functions 
@@ -77,6 +78,7 @@ class symbolTableEntry {
         bool isFunc;
         bool isSigned;
         bool isUnsigned; 
+        int numPtrs;
         std::string identifierName;  
         dVal dataInfo; 
         std::vector<parameter> parameters;

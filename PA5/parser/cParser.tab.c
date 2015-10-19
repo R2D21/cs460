@@ -118,7 +118,7 @@ extern int yydebug;
 	    typedef union {
 	        char _char;
 	        long long _number;
-	        double _decimal;     
+	        long double _decimal;     
 	        char _str[256];   
 	    } vals;
 	    vals value;
@@ -2337,7 +2337,7 @@ yyreduce:
   case 50:
 #line 446 "../parser/cParser.y" /* yacc.c:1646  */
     {
- 			(yyvsp[-2].entry)->setIdentifierValue(*((yyvsp[0].val)), (yyvsp[0].val)->dataType);
+ 			(yyvsp[-2].entry)->setIdentifierValue(*((yyvsp[0].val)));
 
 			if(YFLAG){
 				outY << "init_declarator : declarator ASSIGN initializer;" << std::endl;

@@ -45,7 +45,7 @@ the token declarations that will be used in the lexer.
 	    typedef union {
 	        char _char;
 	        long long _number;
-	        double _decimal;     
+	        long double _decimal;     
 	        char _str[256];   
 	    } vals;
 	    vals value;
@@ -444,7 +444,7 @@ init_declarator
 		}
 	| declarator ASSIGN initializer
  		{
- 			$1->setIdentifierValue(*($3), $3->dataType);
+ 			$1->setIdentifierValue(*($3));
 
 			if(YFLAG){
 				outY << "init_declarator : declarator ASSIGN initializer;" << std::endl;

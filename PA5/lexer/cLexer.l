@@ -50,6 +50,7 @@ Tokens have been declared by Bison and are included in the file
 	bool endline = false;
 	bool tab = false;
 	bool space = false;
+	int numStar = 0;
 %}
 
 /* token definitions */
@@ -367,6 +368,9 @@ identifier [a-zA-Z][a-zA-Z0-9]*
 							std::cout << "WARNING: Variable " << newEntry << " shadows a previously declared identifier here: \n";
 							std::cout << "\tLine " + (std::string)lineNum + ": " + sourceCode[searchResult->getLineNumber() - 1] + "\n";
 							searchResult = table.insertNewSymbol(newEntry, yylineno);
+							searchResult->setNumPtrs(numStar);
+							numStar = 0;
+
 							if(!searchResult->setIdentifierType(typeSpecifiers)){
 								char lineNum[15];
 								sprintf(lineNum, "%d", yylineno);
@@ -381,6 +385,8 @@ identifier [a-zA-Z][a-zA-Z0-9]*
 						}
 						else{
 							searchResult = table.insertNewSymbol(newEntry, yylineno);
+							searchResult->setNumPtrs(numStar);
+							numStar = 0;
 
 							if(!searchResult->setIdentifierType(typeSpecifiers)){
 								char lineNum[15];
@@ -429,7 +435,7 @@ identifier [a-zA-Z][a-zA-Z0-9]*
    					currentSourceCodeLine += strTemp;
 					temp = new dVal;
 					temp->dataType = DOUBLE;
-					temp->value._decimal = strtod(yytext, NULL);
+					temp->value._decimal = strtold(yytext, NULL);
 					yylval.val = temp;
 					temp = NULL;  
 					return FLOATING_CONSTANT; 		
@@ -656,7 +662,8 @@ identifier [a-zA-Z][a-zA-Z0-9]*
 "*"				{
 					if(LFLAG){
 						outL << "< * > ";
-					} 
+					}
+					numStar++;
 					std::string strTemp(yytext);
    					currentSourceCodeLine += strTemp;
 					return MULT;
