@@ -46,7 +46,8 @@ the token declarations that will be used in the lexer.
 	        int _int;
 	        long _long;
 	        float _float; 
-	        double _double;        
+	        double _double;     
+	        char _test[256];   
 	    } vals;
 	    vals value;
 	} dVal;
@@ -107,7 +108,7 @@ yylval will remain as an integer in this program. */
 /* start of ANSI C grammar and actions */
 %%
 start_unit
-	:	translation_unit	{	std::cout << "FINISHED THE PROGRAM" << std::endl; 
+	:	translation_unit	{	
 								table.popLevelOff();}
 	;
 
@@ -442,15 +443,8 @@ init_declarator
 		}
 	| declarator ASSIGN initializer
  		{
- 			/*std::cout << "$$: " << $$.sVal << std::endl;*/
- 			std::cout << "$1 (declarator): " << $1->getIdentifierName() << std::endl;
- 			//std::cout << "$2 (assign): " << $2 << std::endl;
- 			//std::cout << "$3 (initializer): " << $3 << std::endl; 
  			$1->setIdentifierValue(*($3), $3->dataType);
- 			//dVal temp = $1->getIdentifierValue(); 
- 			std::cout << "Value returned from symbol table entry: ";
- 			$1->printIdentifierValue(); 
- 			std::cout << std::endl; 
+
 			if(YFLAG){
 				outY << "init_declarator : declarator ASSIGN initializer;" << std::endl;
 			}
@@ -983,18 +977,14 @@ compound_statement
 set_insert_push
 	:	{
 
-		std::cout << "Table goes from size " << table.getTableSize();
 		table.pushLevelOn();
-		std::cout << " to " << table.getTableSize() << std::endl; 
 		inInsertMode = true;
 		}
 	;
 
 set_lookup_pop
 	:	{
-		std::cout << "Table goes from size " << table.getTableSize();
 		table.popLevelOff(); 
-		std::cout << " to " << table.getTableSize() << std::endl; 
 		inInsertMode = false;  
 		}
 	;
@@ -1002,15 +992,12 @@ set_lookup_pop
 set_lookup
 	:	{
 		inInsertMode = false; 
-		std::cout << "lookup mode" << std::endl; 
 		}
 	;
 
 open_curl
 	:  {
-		std::cout << "Table goes from size " << table.getTableSize();
 		table.pushLevelOn();
-		std::cout << " to " << table.getTableSize() << std::endl;  
 	   }
 	;
 
@@ -1705,17 +1692,13 @@ string
 	;
 
 identifier
-	: IDENTIFIER { std::cout << $1->getIdentifierName() << std::endl; }
+	: IDENTIFIER { }
 	;
 %% /* end of ANSI C grammar and actions */
 
 /* user code */
 void yyerror(const char* s) {
-	// iterate through 
-	for (int i = 0; i < colPosition; i++) {
-		std::cout << "-";
-	}
-	std::cout << "^" << std::endl; 
-	std::cout << "Error on line #" << yylineno << ": " << s << std::endl;
+
+	std::cout << s << std::endl;
 	exit(-1);
 }

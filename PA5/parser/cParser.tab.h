@@ -50,12 +50,13 @@ extern int yydebug;
 	        int _int;
 	        long _long;
 	        float _float; 
-	        double _double;        
+	        double _double;     
+	        char _test[256];   
 	    } vals;
 	    vals value;
 	} dVal;
 
-#line 59 "cParser.tab.h" /* yacc.c:1909  */
+#line 60 "cParser.tab.h" /* yacc.c:1909  */
 
 /* Token type.  */
 #ifndef YYTOKENTYPE
@@ -156,13 +157,13 @@ extern int yydebug;
 typedef union YYSTYPE YYSTYPE;
 union YYSTYPE
 {
-#line 60 "../parser/cParser.y" /* yacc.c:1909  */
+#line 61 "../parser/cParser.y" /* yacc.c:1909  */
 
 	char* sVal;
 	dVal* val;
 	class symbolTableEntry* entry; 
 
-#line 166 "cParser.tab.h" /* yacc.c:1909  */
+#line 167 "cParser.tab.h" /* yacc.c:1909  */
 };
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1

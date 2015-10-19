@@ -1,5 +1,4 @@
 long long int a = 5;
 void main(void) {
-	long long int x; 
-	long long short long y;
+	long int x= "daisjfalsdajf;asdfjweiryrsssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss843894i;knfesdxcnubi;ntlkrshhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhfdcvxyghiuljknrgedvzxc h;ilknm,.3wefsczxuoijlkerfdscxucijlk";
 }

@@ -27,6 +27,10 @@ Tokens have been declared by Bison and are included in the file
 	#include "../parser/cParser.tab.h"
 	#include "../classes/symbolTable.h"
 
+
+	#define MAX_ID_LEN 64
+	#define MAX_STR_LEN 256
+
 	/* externs */
 	extern bool LFLAG; 
 	extern std::ofstream outL; 
@@ -41,6 +45,9 @@ Tokens have been declared by Bison and are included in the file
 	std::string currentSourceCodeLine = ""; 
 	std::vector<std::string> sourceCode;
 	std::vector<int> typeSpecifiers;   
+	bool endline = false;
+	bool tab = false;
+	bool space = false;
 %}
 
 /* token definitions */
@@ -51,13 +58,15 @@ digit	[0-9]
 number	{digit}+
 decimal	{digit}+"."{digit}+
 character [a-zA-Z]+
-identifier [a-zA-Z][a-zA-z0-9]*
+identifier [a-zA-Z][a-zA-Z0-9]*
 
 /* tell flex to read only one input file - THIS COULD CHANGE */
 %option noyywrap
 
 /* rules and actions */
 %% 
+ endline = false;
+ space = false;
 
 "auto"			{
 					if(LFLAG){
@@ -327,6 +336,13 @@ identifier [a-zA-Z][a-zA-z0-9]*
 						outL << "< IDENTIFIER >";
 					}
 
+					if(yyleng > MAX_ID_LEN){
+						std::string error = "WARNING: Identifier ";
+						error += yytext + (std::string)" exceeds maximum name length";
+						std::cout << error << std::endl;
+					}
+
+
 					std::string newEntry(yytext);
 					currentSourceCodeLine += newEntry;
 					symbolTableEntry* searchResult;
@@ -350,7 +366,12 @@ identifier [a-zA-Z][a-zA-z0-9]*
 							std::cout << "\tLine " + (std::string)lineNum + ": " + sourceCode[searchResult->getLineNumber() - 1] + "\n";
 							searchResult = table.insertNewSymbol(newEntry, yylineno);
 							if(!searchResult->setIdentifierType(typeSpecifiers)){
-								yyerror("Error: Don't do that!");
+								char lineNum[15];
+								sprintf(lineNum, "%d", yylineno);
+								std::string error = "ERROR: Invalid data type used here:\n";
+								error += "\tLine #" + (std::string)lineNum + (std::string)": ";
+								error += currentSourceCodeLine;
+								yyerror(error.c_str());
 							}
 							yylval.entry = searchResult;
 							typeSpecifiers.clear();							
@@ -358,8 +379,14 @@ identifier [a-zA-Z][a-zA-z0-9]*
 						}
 						else{
 							searchResult = table.insertNewSymbol(newEntry, yylineno);
+
 							if(!searchResult->setIdentifierType(typeSpecifiers)){
-								yyerror("Error: Don't do that!");
+								char lineNum[15];
+								sprintf(lineNum, "%d", yylineno);
+								std::string error = "ERROR: Invalid data type used here:\n";
+								error += "\tLine #" + (std::string)lineNum + (std::string)": ";
+								error += currentSourceCodeLine;
+								yyerror(error.c_str());
 							} 
 							colPosition += strlen(yytext);
 							yylval.entry = searchResult;
@@ -430,11 +457,15 @@ identifier [a-zA-Z][a-zA-z0-9]*
 }
 			*/
 \"[^\"]*\"	{
-					std::cout << "string literal" << std::endl; 
-					/* yytext??*/
+					
 					if(LFLAG){
 						outL << "< STRING_LITERAL > ";
 					}
+					if( yyleng > MAX_STR_LEN ){
+						std::string error = "WARNING: String ";
+						error += yytext + (std::string)" exceeds maximum string length";
+						std::cout << error << std:: endl;
+					}/*TODO*/
 					std::string strTemp(yytext);
    					currentSourceCodeLine += strTemp;
 					return STRING_LITERAL;
@@ -801,9 +832,15 @@ identifier [a-zA-Z][a-zA-z0-9]*
 					return GTHAN;
 				}
 {blankspace}	{
+					space = true;
 					colPosition += yyleng;
 					std::string strTemp(yytext);
    					currentSourceCodeLine += strTemp;
+				}
+{tab}			{
+
+					colPosition ++;
+					currentSourceCodeLine += ' ';
 				}
 {newline}		{
 					if(LFLAG){
@@ -811,25 +848,27 @@ identifier [a-zA-Z][a-zA-z0-9]*
 						outL << "Line #" << yylineno << ": ";
 						outL << currentSourceCodeLine << std::endl;
 						outL << "=================================================================" << std::endl;
+					
+						sourceCode.push_back(currentSourceCodeLine);
+						currentSourceCodeLine = "";  
 					}
 					yylineno++; 
 					colPosition = 0;
-					sourceCode.push_back(currentSourceCodeLine);
-					currentSourceCodeLine = "";  
+					endline = true;
 				}
 "!!S"			{
 					table.writeToScreen(); 
 				}
 .				{
-					if(LFLAG){
-						outL << "< NEWLINE >" << std::endl;
-						outL << "Line #" << yylineno << ": ";
-						outL << currentSourceCodeLine << std::endl;
-						outL << "=================================================================" << std::endl;
-					}
-					/*cout << "ERROR?" << endl; */
-					/* found an illegal token, why does this output*/
-					/*yyerror("Unknown token..");*/
+						std::string token(yytext);
+						std::string error = (std::string) "ERROR: Unexpected character " + token;
+						error += " here:" + (std::string)"\n";
+						error += currentSourceCodeLine + token + (std::string)"\n";
+						for(unsigned int i = 0; i < currentSourceCodeLine.length(); i++){
+							error += "-";
+						}
+						error += "^";
+						yyerror(error.c_str());
 				}		
 %%
 

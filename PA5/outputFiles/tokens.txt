@@ -1,19 +1,12 @@
-< INT >< IDENTIFIER >< = > < INTEGER_CONSTANT >< ; > < NEWLINE >
-Line #1: int a = 5;
+< LONG >< LONG >< INT >< IDENTIFIER >< = > < INTEGER_CONSTANT >< ; > < NEWLINE >
+Line #1: long long int a = 5;
 =================================================================
 < VOID >< IDENTIFIER >< ( > < VOID >< ) > < { > < NEWLINE >
 Line #2: void main(void) {
 =================================================================
-< NEWLINE >
-Line #3: 
-=================================================================
-< DOUBLE >< SIGNED >< IDENTIFIER >< ; > < NEWLINE >
-Line #3: double signed x; 
-=================================================================
-< NEWLINE >
-Line #4: 
-=================================================================
-< INT >< SIGNED >< IDENTIFIER >< ; > < NEWLINE >
-Line #4: int signed y;
+< LONG >< INT >< IDENTIFIER >< = > < STRING_LITERAL > < ; > < NEWLINE >
+Line #3:  long int x= "daisjfalsdajf;asdfjweiryrsssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss843894i;knfesdxcnubi;ntlkrshhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhfdcvxyghiuljknrgedvzxc h;ilknm,.3wefsczxuoijlkerfdscxucijlk";
 =================================================================
 < } > 
+Line #4: }
+=================================================================

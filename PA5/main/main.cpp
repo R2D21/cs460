@@ -22,6 +22,9 @@ bool YFLAG = false;
 ofstream outL;
 ofstream outY;
 extern symbolTable table; 
+extern std::string currentSourceCodeLine; 
+extern int yylineno;
+extern bool endline;
 
 int main(int argc, char** argv) {
 	// #todo - add compiler flags 
@@ -92,6 +95,12 @@ int main(int argc, char** argv) {
 	table.writeToScreen(); 
 
 	if (LFLAG) {
+		if(!endline){
+			outL << endl << "Line #" << yylineno << ": " << currentSourceCodeLine << endl;
+			outL << "=================================================================" << std::endl;
+					
+		}
+
 		outL.close();
 	}
 	if( YFLAG ){
