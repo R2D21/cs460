@@ -22,6 +22,7 @@ symbolTableEntry::symbolTableEntry() {
 	// none of the following info has been determined yet
 	lineNum = -1;
 	isFunc = false;
+	isArray = false; 
 	isSigned = false;
 	isUnsigned = false; 
 	identifierName = "";
@@ -109,14 +110,14 @@ Description: Allows for instantiation of a new symbol table entry object (
 with a specified line number. 
 */
 symbolTableEntry::symbolTableEntry(std::string name, int lineNumber) {
-	identifierName = name;
-	lineNum = lineNumber;
-
 	// none of the following info has been determined yet
+	lineNum = lineNumber;
 	isFunc = false;
+	isArray = false; 
 	isSigned = false;
 	isUnsigned = false; 
-	dataInfo.dataType = -1;	
+	identifierName = name;
+	dataInfo.dataType = -1; 
 	numPtrs = 0;
 
 	// populate the map for each symbol table entry
@@ -406,6 +407,37 @@ void symbolTableEntry::viewParams() const {
 }
 
 /*
+Function: addArrayDimension(int size)
+
+Parameters:
+int size: The size of the new array dimension. 
+
+Description: Will create a new dimension for the array based on the size passed
+to the function.  
+*/
+void symbolTableEntry::addArrayDimension(int size) {
+	if (isArray) {arrayDimensions.push_back(size);}
+}
+
+/*
+Function: setArray()
+
+Description: Assigns the current symbol table entry to be identified as an array.
+*/
+void symbolTableEntry::setArray() {
+	isArray = true; 
+}
+
+/*
+Function: getArrayDimensions() const
+
+Description: Returns a vector filled with the sizes of the array dimensions.
+*/
+std::vector<int> symbolTableEntry::getArrayDimensions() const {
+	return arrayDimensions; 
+} 
+
+/*
 Function: getLineNumber() const
 
 Descrition: This function will return the line number that
@@ -414,6 +446,15 @@ the associated identifier was located on.
 int symbolTableEntry::getLineNumber() const {
 	return lineNum; 
 }
+
+/*
+
+
+*/
+int symbolTableEntry::getNumArrDims() const {
+	if (isArray) {return arrayDimensions.size();}
+	else return 0; 
+} 
 
 /*
 Function: getLineNumber() const

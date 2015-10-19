@@ -104,6 +104,7 @@ yylval will remain as an integer in this program. */
 %type <entry> primary_expression
 %type <entry> parameter_declaration
 %type <entry> direct_declarator
+%type <val> constant_expression
 /* end of tokens for ANSI C grammar */ 
 
 /* start of ANSI C grammar and actions */
@@ -578,6 +579,7 @@ enumerator
 declarator
 	: direct_declarator
  		{
+ 			{$$ = $1;}
 			if(YFLAG){
 				outY << "declarator : direct_declarator;" << std::endl;
 			}
@@ -593,6 +595,7 @@ declarator
 direct_declarator
 	: identifier
  		{
+ 			{$$ = $1;}
 			if(YFLAG){
 				outY << "direct_declarator : identifier;" << std::endl;
 			}
@@ -611,6 +614,21 @@ direct_declarator
 		}
 	| direct_declarator LBRACK constant_expression RBRACK
  		{
+ 			std::cout << "Array! Name is ";
+ 			std::string nameTemp = $1->getIdentifierName(); 
+ 			std::cout << nameTemp << std::endl;
+ 			$1->setArray();
+ 			//std::cout << "ARRAY'S DIMENSION IS: " << $3->value._number << std::endl;  
+ 			$1->addArrayDimension($3->value._number); 
+
+ 			std::vector<int> tempVector = $1->getArrayDimensions(); 
+
+ 			std::cout << "NUmber of Dimensions: " << $1->getNumArrDims() << std::endl; 
+
+
+ 			
+ 			std::cout << "0: " << tempVector[0] << std::endl;
+ 			std::cout << "1: " << tempVector[1] << std::endl; 
 			if(YFLAG){
 				outY << "direct_declarator : direct_declarator LBRACK constant_expression RBRACK;" << std::endl;
 			}
@@ -624,9 +642,9 @@ direct_declarator
 	| direct_declarator LPAREN set_insert_push parameter_type_list RPAREN
  		{
  			std::string idName = $1->getIdentifierName();
+ 			assignParams($1, funcParams);
  			std::cout << "ID Name: " << idName << " has ";
  			std::cout << $1->getNumberOfParams() << " parameters." << std::endl;  
- 			assignParams($1, funcParams);
  			std::cout << "PRINTING FUNCTION PARAMETERS LOLZ HUEHUE" << std::endl;
  			$1->viewParams();  
  			funcParams.clear(); 
@@ -985,7 +1003,6 @@ expression_statement
 			}
 		}
 	;
-
 
 compound_statement
 	: LCURL RCURL 
@@ -1595,13 +1612,13 @@ unary_operator
 postfix_expression
 	: primary_expression
  		{
-			if(YFLAG){
+ 			if(YFLAG){
 				outY << "postfix_expression : primary_expression;" << std::endl;
 			}
 		}
 	| postfix_expression LBRACK expression RBRACK
  		{
-			if(YFLAG){
+ 			if(YFLAG){
 				outY << "postfix_expression : postfix_expression LBRACK expression RBRACK;" << std::endl;
 			}
 		}
@@ -1731,7 +1748,7 @@ string
 	;
 
 identifier
-	: IDENTIFIER { }
+	: IDENTIFIER {$$ = $1;}
 	;
 %% /* end of ANSI C grammar and actions */
 

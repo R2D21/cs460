@@ -65,6 +65,12 @@ class symbolTableEntry {
         int getNumPtrs() const;
         void viewParams() const;  
 
+        // functions needed if entry is an array
+        void addArrayDimension(int size);
+        void setArray(); 
+        std::vector<int> getArrayDimensions() const;
+        int getNumArrDims() const;  
+
         // other functions 
         int getLineNumber() const;
         //std::string getLineNumber() const; 
@@ -76,6 +82,7 @@ class symbolTableEntry {
         // symbol table entry data members
         int lineNum;
         bool isFunc;
+        bool isArray; 
         bool isSigned;
         bool isUnsigned; 
         int numPtrs;
@@ -83,6 +90,7 @@ class symbolTableEntry {
         dVal dataInfo; 
         std::vector<parameter> parameters;
         std::vector<int> identifierType;       // here 
+        std::vector<int> arrayDimensions;
         std::map<std::vector<int>, int> validTypes; 
 };
 

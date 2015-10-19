@@ -361,7 +361,7 @@ identifier [a-zA-Z][a-zA-Z0-9]*
 							yyerror(newEntry.c_str());
 						}
 
-						else if( (searchResult =  table.searchForSymbol(newEntry, level)) != NULL){
+						else if( (searchResult = table.searchForSymbol(newEntry, level)) != NULL){
 
 							char lineNum[15];
 							sprintf(lineNum, "%d", searchResult->getLineNumber());
