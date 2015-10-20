@@ -107,7 +107,7 @@ yylval will remain as an integer in this program. */
 %type <val> constant_expression
 %type <val> additive_expression
 %type <val> multiplicative_expression
-
+%type <val> cast_expression
 /* end of tokens for ANSI C grammar */ 
 
 /* start of ANSI C grammar and actions */
@@ -185,25 +185,25 @@ declaration
 	: declaration_specifiers SEMI
 		{
 			if(YFLAG){
-				outY << "declaration : declaration_specifiers SEMI;" << std::endl << std::endl;
+				outY << "declaration : declaration_specifiers SEMI;" << std::endl;
 			}
 		}
 	| declaration_specifiers init_declarator_list SEMI
 		{
 			if(YFLAG){
-				outY << "declaration : declaration_specifiers init_declarator_list SEMI;" << std::endl << std::endl;
+				outY << "declaration : declaration_specifiers init_declarator_list SEMI;" << std::endl;
 			}
 		}
 	;
 
 declaration_list
-	: declaration
+	: set_insert declaration set_lookup
 		{
 			if(YFLAG){
 				outY << "declaration_list : declaration;" << std::endl;
 			}
 		}
-	| declaration_list declaration
+	| declaration_list set_insert declaration set_lookup
 		{
 			if(YFLAG){
 				outY << "declaration_list : declaration_list declaration;" << std::endl;
@@ -446,10 +446,9 @@ init_declarator
 				outY << "init_declarator : declarator;" << std::endl;
 			}
 		}
-	| declarator ASSIGN initializer
+	| declarator ASSIGN set_lookup initializer set_insert
  		{
- 			$1->setIdentifierValue(*($3));
-
+ 			$1->setIdentifierValue(*($4));
 			if(YFLAG){
 				outY << "init_declarator : declarator ASSIGN initializer;" << std::endl;
 			}
@@ -460,7 +459,7 @@ struct_declaration
 	: specifier_qualifier_list struct_declarator_list SEMI
  		{
 			if(YFLAG){
-				outY << "struct_declaration : specifier_qualifier_list struct_declarator_list SEMI;" << std::endl << std::endl;
+				outY << "struct_declaration : specifier_qualifier_list struct_declarator_list SEMI;" << std::endl;
 			}
 		}
 	;
@@ -627,11 +626,13 @@ direct_declarator
  			std::vector<int> tempVector = $1->getArrayDimensions(); 
 
  			std::cout << "NUmber of Dimensions: " << $1->getNumArrDims() << std::endl; 
-
+ 			for(int i = 0; i < $1->getNumArrDims(); i++) {
+ 				std::cout << tempVector[i] << std::endl; 
+ 			}
 
  			
- 			std::cout << "0: " << tempVector[0] << std::endl;
- 			std::cout << "1: " << tempVector[1] << std::endl; 
+ 			/*std::cout << "0: " << tempVector[0] << std::endl;
+ 			std::cout << "1: " << tempVector[1] << std::endl; */
 			if(YFLAG){
 				outY << "direct_declarator : direct_declarator LBRACK constant_expression RBRACK;" << std::endl;
 			}
@@ -654,8 +655,9 @@ direct_declarator
  			if(YFLAG){
 				outY << "direct_declarator : direct_declarator LPAREN parameter_type_list RPAREN;" << std::endl;
 			}
+	
 		}
-	| direct_declarator LPAREN identifier_list RPAREN
+	| direct_declarator LPAREN set_lookup identifier_list RPAREN set_insert
  		{
 
 			if(YFLAG){
@@ -764,7 +766,6 @@ parameter_list
 parameter_declaration
 	: declaration_specifiers declarator
  		{
- 			std::cout << "I'm here: parameter_declaration : declaration_specifiers declarator;" << std::endl;
  			parameter tempParam;
  			tempParam.dataType = $2->getIdentifierType();
  			tempParam.formalParam = $2->getIdentifierName(); 
@@ -1051,6 +1052,12 @@ set_lookup_pop
 set_lookup
 	:	{
 		inInsertMode = false; 
+		}
+	;
+
+set_insert
+	:	{
+		inInsertMode = true; 
 		}
 	;
 
@@ -1480,22 +1487,14 @@ additive_expression
 		}
 	| additive_expression PLUS multiplicative_expression
  		{
- 			long long sum = $1->value._number + $3->value._number;
- 			if (sum < 1) {
- 				yyerror("Error: Result of addition in array subscript is less than 1.");
- 			}
- 			$$->value._number = sum;
+ 			$$->value._number = $1->value._number + $3->value._number;
 			if(YFLAG){
 				outY << "additive_expression : additive_expression PLUS multiplicative_expression;" << std::endl;
 			}
 		}
 	| additive_expression MINUS multiplicative_expression
  		{
-  			long long difference = $1->value._number - $3->value._number;
- 			if (difference < 1) {
- 				yyerror("Error: Result of subtraction in array subscript is less than one.");
- 			}
- 			$$->value._number = difference;
+ 			$$->value._number = $1->value._number - $3->value._number;
 			if(YFLAG){
 				outY << "additive_expression : additive_expression MINUS multiplicative_expression;" << std::endl;
 			}
@@ -1511,18 +1510,24 @@ multiplicative_expression
 		}
 	| multiplicative_expression MULT cast_expression
  		{
+ 		 	$$->value._number = $1->value._number * $3->value._number;
 			if(YFLAG){
 				outY << "multiplicative_expression : multiplicative_expression MULT cast_expression;" << std::endl;
 			}
 		}
 	| multiplicative_expression DIV cast_expression
  		{
+ 			if ($3->value._number == 0) {
+ 				yyerror("Unable to divide by 0");
+ 			}
+ 			$$->value._number = $1->value._number / $3->value._number;
 			if(YFLAG){
 				outY << "multiplicative_expression : multiplicative_expression DIV cast_expression;" << std::endl;
 			}
 		}
 	| multiplicative_expression MOD cast_expression
  		{
+ 			$$->value._number = $1->value._number % $3->value._number;
 			if(YFLAG){
 				outY << "multiplicative_expression : multiplicative_expression MOD cast_expression;" << std::endl;
 			}
