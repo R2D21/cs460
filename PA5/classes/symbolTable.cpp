@@ -81,7 +81,13 @@ symbolTableEntry* symbolTable::insertNewSymbol(std::string name, int line) {
 	std::cout << name << std::endl; 
 	Bst* currentVars = table[table.size() - 1].getBst();
 	currentVars->insert(entry(name, *newEntry));
-	return newEntry; 
+	bstItr bitr = currentVars->find(name);
+	if(bitr != currentVars->end()){
+		return &bitr->second; 
+	}
+	else{
+		return NULL;
+	}
 }
 
 /*
@@ -182,7 +188,6 @@ symbolTableEntry* symbolTable::searchTopOfStack(std::string symbolToSearch) {
 	for (scopeItr = topBST->begin(); scopeItr != topBST->end(); scopeItr++) {
 		// check for the desired symbol
 		if (symbolToSearch == scopeItr->first) {
-			//std::cout << "sToS: " << scopeItr->second.getIdentifierName() << std::endl;
 			return &(scopeItr->second); 
 		}
 	}
@@ -211,6 +216,9 @@ void symbolTable::writeToFile(){
 	else {
 		for (symbolTableItr = table.begin(); symbolTableItr != table.end(); symbolTableItr++) {
 			currentBst = symbolTableItr->getBst();
+			for( int i = 0; i <= symbolTableItr->getScopeLevel(); i++ ){
+				outFile << "\t";
+			}
 			outFile << "Scope Level " << symbolTableItr->getScopeLevel() << " in Scope ";
 			outFile << symbolTableItr->getOuterScope() << std::endl;
 			if (currentBst->empty() ) {
@@ -218,7 +226,12 @@ void symbolTable::writeToFile(){
 			}
 			else {
 				for (bstItr = currentBst->begin(); bstItr != currentBst->end(); bstItr++) {
+					for( int i = 0; i < symbolTableItr->getScopeLevel(); i++ ){
+						outFile << "\t";
+					}
+				
 					outFile << "\tVariable: " << bstItr->first << std::endl;
+					outFile << "\t\tType: " << bstItr->second.getTypeStr() << std:: endl;
 				}
 			}
 		}
@@ -247,6 +260,9 @@ void symbolTable::writeToScreen() {
 	else {
 		for (symbolTableItr = table.begin(); symbolTableItr != table.end(); symbolTableItr++) {
 			currentBst = symbolTableItr->getBst();
+			for( int i = 0; i <= symbolTableItr->getScopeLevel(); i++ ){
+				std::cout << "\t";
+			}
 			std::cout << "Scope Level " << symbolTableItr->getScopeLevel() << " in Scope ";
 			std::cout << symbolTableItr->getOuterScope() << std::endl;
 			if (currentBst->empty() ) {
@@ -254,7 +270,15 @@ void symbolTable::writeToScreen() {
 			}
 			else {
 				for (bstItr = currentBst->begin(); bstItr != currentBst->end(); bstItr++) {
+					for( int i = 0; i < symbolTableItr->getScopeLevel(); i++ ){
+						std::cout << "\t";
+					}
+				
 					std::cout << "\tVariable: " << bstItr->first << std::endl;
+					for( int i = 0; i < symbolTableItr->getScopeLevel(); i++ ){
+						std::cout << "\t";
+					}
+					std::cout << "\tType: " << bstItr->second.getTypeStr() << std:: endl;
 				}
 			}
 		}

@@ -60,6 +60,8 @@ class symbolTableEntry {
         std::vector<int> getIdentifierValue() const; // double check this
         void printIdentifierValue() const; // double check this
 
+        std::string getTypeStr() const;
+
         // functions needed if entry is a function
         bool isFunction() const;
         void setFunction();
@@ -95,7 +97,7 @@ class symbolTableEntry {
         std::vector<parameter> parameters;
         std::vector<int> identifierType;       // here 
         std::vector<int> arrayDimensions;
-        std::map<std::vector<int>, int> validTypes; 
+        //std::map<std::vector<int>, int> validTypes; 
 
         // symbol table entry private functions
         std::string intTypeToStr(int someType) const; 

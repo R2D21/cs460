@@ -48,9 +48,8 @@ symbolTableEntry::symbolTableEntry(std::string name, int lineNumber) {
 	isSigned = false;
 	isUnsigned = false; 
 	identifierName = name;
-	dataInfo.dataType = -1; 
+	dataInfo.dataType = -2; 
 	numPtrs = 0;
-
 }
 
 /*
@@ -196,6 +195,10 @@ void symbolTableEntry::printIdentifierValue() const {
 			std::cout << "void" << std::endl; 
 			break;
 	}
+}
+
+std::string symbolTableEntry::getTypeStr() const{
+	return intTypeToStr( dataInfo.dataType );
 }
 
 /*
@@ -376,6 +379,7 @@ to a string object.
 */
 std::string symbolTableEntry::intTypeToStr(int someType) const {
 	std::string str; 
+	
 	switch(someType) {
 		case CHAR_T:
 			str = "char";
