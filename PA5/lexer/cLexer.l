@@ -375,6 +375,7 @@ identifier [a-zA-Z][a-zA-Z0-9]*
 					int level;
 
 					if (inInsertMode) {
+						std::cout << "in insert mode with " << yytext << std::endl;
 						searchResult = table.searchTopOfStack(newEntry);
 						if (searchResult != NULL) {
 							char lineNum[15];
@@ -388,7 +389,7 @@ identifier [a-zA-Z][a-zA-Z0-9]*
 							yyerror(newEntry.c_str());
 						}
 
-						else if( (searchResult = table.searchForSymbol(newEntry, level)) != NULL){
+						if( (searchResult = table.searchForSymbol(newEntry, level)) != NULL){
 							char lineNum[15];
 							sprintf(lineNum, "%d", yylineno);
 							newEntry += "WARNING: Variable " + newEntry + " declared here: \n";
@@ -399,7 +400,7 @@ identifier [a-zA-Z][a-zA-Z0-9]*
 							newEntry += "\tLine " + (std::string)lineNum + ": " + sourceCode[searchResult->getLineNumber() - 1] + "\n";
 							searchResult->setNumPtrs(numStar);
 							numStar = 0;
-
+							std::cout << newEntry << std::endl;
 							if(!searchResult->setIdentifierType(typeSpecifiers) && (typeSpecifiers.size() != 0)){
 								char lineNum[15];
 								sprintf(lineNum, "%d", yylineno);
@@ -433,6 +434,7 @@ identifier [a-zA-Z][a-zA-Z0-9]*
 						}
 					}
 					else{
+						std::cout << "in lookup mode with " << yytext << std::endl;
 						searchResult = table.searchForSymbol(newEntry, level);
 						if(searchResult == NULL){
 							newEntry = "ERROR: " + newEntry + " was not declared in this scope.";

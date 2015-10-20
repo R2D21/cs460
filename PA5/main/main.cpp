@@ -42,8 +42,7 @@ int main(int argc, char** argv) {
 	while( fin.good() ){	
 		fin.getline(str, 256);
 		sourceCode.push_back((string)str);
-		cout << sourceCode[i];
-		i++;
+		
 	}
 	fin.close();
 
