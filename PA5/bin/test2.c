@@ -5,7 +5,7 @@ second line */
 
 //int foo(int w, int e, long long s);
 
-int arrFunc(long long arr[4][5]);
+int arrFunc(long long arr[4 - 7][8 * 3]);
 
 //void main(void) {
 	//hi

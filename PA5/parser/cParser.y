@@ -105,6 +105,9 @@ yylval will remain as an integer in this program. */
 %type <entry> parameter_declaration
 %type <entry> direct_declarator
 %type <val> constant_expression
+%type <val> additive_expression
+%type <val> multiplicative_expression
+
 /* end of tokens for ANSI C grammar */ 
 
 /* start of ANSI C grammar and actions */
@@ -1477,12 +1480,22 @@ additive_expression
 		}
 	| additive_expression PLUS multiplicative_expression
  		{
+ 			long long sum = $1->value._number + $3->value._number;
+ 			if (sum < 1) {
+ 				yyerror("Error: Result of addition in array subscript is less than 1.");
+ 			}
+ 			$$->value._number = sum;
 			if(YFLAG){
 				outY << "additive_expression : additive_expression PLUS multiplicative_expression;" << std::endl;
 			}
 		}
 	| additive_expression MINUS multiplicative_expression
  		{
+  			long long difference = $1->value._number - $3->value._number;
+ 			if (difference < 1) {
+ 				yyerror("Error: Result of subtraction in array subscript is less than one.");
+ 			}
+ 			$$->value._number = difference;
 			if(YFLAG){
 				outY << "additive_expression : additive_expression MINUS multiplicative_expression;" << std::endl;
 			}
