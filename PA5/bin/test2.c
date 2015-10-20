@@ -4,11 +4,11 @@
 second line */
 
 //int foo(int w, int e, long long s);
-
-int arrFunc(long long arr[4 - 7][8 * 3]);
+int arrFunc(long long arr[7][8 * 3]);
 
 //void main(void) {
 	//hi
-	//long long int x= 1;
+
+	long long int x = (long long short) 1;
 	//int arr[10][20][40]; 
 //}

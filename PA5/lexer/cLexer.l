@@ -38,6 +38,7 @@ Tokens have been declared by Bison and are included in the file
 	extern std::ofstream outL; 
 	extern void yyerror(const char* errorMsg);
 
+
 	/* variables */
 	bool inInsertMode = true; // false => "lookup mode"
 	dVal* temp = NULL; 
@@ -51,6 +52,9 @@ Tokens have been declared by Bison and are included in the file
 	bool tab = false;
 	bool space = false;
 	int numStar = 0;
+
+	/* functions */
+	int isValidType(std::vector<int> type);
 %}
 
 /* token definitions */
@@ -380,7 +384,7 @@ identifier [a-zA-Z][a-zA-Z0-9]*
 								yyerror(error.c_str());
 							}
 							yylval.entry = searchResult;
-							typeSpecifiers.clear();							
+							typeSpecifiers.clear();						
 							return IDENTIFIER;
 						}
 						else{
@@ -398,7 +402,7 @@ identifier [a-zA-Z][a-zA-Z0-9]*
 							} 
 							colPosition += strlen(yytext);
 							yylval.entry = searchResult;
-							typeSpecifiers.clear();				
+							typeSpecifiers.clear();			
 							return IDENTIFIER;
 						}
 					}
@@ -800,9 +804,22 @@ identifier [a-zA-Z][a-zA-Z0-9]*
 					if(LFLAG){
 						outL << "< ) > ";
 					} 
+					if(typeSpecifiers.size() != 0){
+						if(isValidType(typeSpecifiers) == -1){
+							char lineNum[15];
+							sprintf(lineNum, "%d", yylineno);
+							std::string error = "ERROR: Invalid data type used here:\n";
+							error += "\tLine #" + (std::string)lineNum + (std::string)": ";
+							error += currentSourceCodeLine;
+							yyerror(error.c_str());
+
+						}
+					}
+
 					typeSpecifiers.clear();
 					std::string strTemp(yytext);
    					currentSourceCodeLine += strTemp;
+
 					return RPAREN;
 				}
 "]"				{
@@ -888,3 +905,87 @@ identifier [a-zA-Z][a-zA-Z0-9]*
 %%
 
 /* user code: none for now I think.. */
+
+int isValidType(std::vector<int> type){
+
+	// populate the map for each symbol table entry
+	// ex: "long long, long int, etc."
+	std::map<std::vector<int>, int> validTypes; 
+	std::map<std::vector<int> , int>::iterator mapItr;
+
+	std::vector<int> validType;
+
+	// char
+	validType.push_back(CHAR);
+	validTypes.insert(pair(validType, CHAR_T));
+	validType.clear();
+
+	// double
+	validType.push_back(DOUBLE);
+	validTypes.insert(pair(validType, DOUBLE_T));
+	validType.clear();
+
+	// float
+	validType.push_back(FLOAT);
+	validTypes.insert(pair(validType, FLOAT_T));
+	validType.clear();
+
+	// int 
+	validType.push_back(INT);
+	validTypes.insert(pair(validType, INT_T));
+	validType.clear();
+
+	// long
+	validType.push_back(LONG);
+	validTypes.insert(pair(validType, LONG_T));
+	validType.clear();
+
+	// long int
+	validType.push_back(LONG);
+	validType.push_back(INT);
+	validTypes.insert(pair(validType, LONG_T));
+	validType.clear();
+
+	// long long
+	validType.push_back(LONG);
+	validType.push_back(LONG);
+	validTypes.insert(pair(validType, LONG_LONG_T));
+	validType.clear();	
+
+	// long long int
+	validType.push_back(LONG);
+	validType.push_back(LONG);
+	validType.push_back(INT);
+	validTypes.insert(pair(validType, LONG_LONG_T));
+	validType.clear();
+
+	// long double
+	validType.push_back(LONG);
+	validType.push_back(DOUBLE);
+	validTypes.insert(pair(validType, LONG_DOUBLE_T));
+	validType.clear();
+
+	// short
+	validType.push_back(SHORT);
+	validTypes.insert(pair(validType, SHORT_T));
+	validType.clear();	
+
+	// short int
+	validType.push_back(SHORT);
+	validType.push_back(INT);
+	validTypes.insert(pair(validType, SHORT_T));
+	validType.clear();	
+
+	// void
+	validType.push_back(VOID);
+	validTypes.insert(pair(validType, VOID_T));
+	validType.clear();	
+
+
+
+	mapItr = validTypes.find(type);
+	if(mapItr != validTypes.end()){
+		return mapItr->second;
+	}
+	return -1;
+}

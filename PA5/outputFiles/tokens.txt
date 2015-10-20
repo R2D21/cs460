@@ -13,24 +13,19 @@ Line #5:
 < NEWLINE >
 Line #6: 
 =================================================================
-< NEWLINE >
-Line #7: 
+< INT >< IDENTIFIER >< ( > < LONG >< LONG >< IDENTIFIER >< [ > < INTEGER_CONSTANT >< ] > < [ > < INTEGER_CONSTANT >< * > < INTEGER_CONSTANT >< ] > < ) > < ; > < NEWLINE >
+Line #7: int arrFunc(long long arr[7][8 * 3]);
 =================================================================
-< INT >< IDENTIFIER >< ( > < INT >< IDENTIFIER >< [ > < INTEGER_CONSTANT >< ] > < [ > < INTEGER_CONSTANT >< ] > < ) > < ; > < NEWLINE >
-Line #8: int arrFunc(int arr[4][5]);
+< NEWLINE >
+Line #8: 
 =================================================================
 < NEWLINE >
 Line #9: 
 =================================================================
 < NEWLINE >
-Line #10: 
+Line #10:  
 =================================================================
 < NEWLINE >
-Line #11:  
+Line #11: 
 =================================================================
-< NEWLINE >
-Line #12:  
-=================================================================
-< NEWLINE >
-Line #13:  
-=================================================================
+< LONG >< LONG >< INT >< IDENTIFIER >< = > < ( > < LONG >< LONG >< SHORT >< ) > 

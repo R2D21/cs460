@@ -40,6 +40,8 @@ typedef struct {
 // typdefs
 typedef std::pair<std::vector<int>, int> pair;
 
+extern int isValidType(std::vector<int> type);
+
 class symbolTableEntry {
     public:
         // constructors
