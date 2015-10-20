@@ -35,7 +35,10 @@ Tokens have been declared by Bison and are included in the file
 
 	/* externs */
 	extern bool LFLAG; 
+	extern bool YFLAG;
 	extern std::ofstream outL; 
+
+	extern std::ofstream outY; 
 	extern void yyerror(const char* errorMsg);
 
 
@@ -46,12 +49,13 @@ Tokens have been declared by Bison and are included in the file
 	int tabCount = 0; 
 	symbolTable table;
 	std::string currentSourceCodeLine = ""; 
-	std::vector<std::string> sourceCode;
+	extern std::vector<std::string> sourceCode;
 	std::vector<int> typeSpecifiers;   
 	bool endline = false;
 	bool tab = false;
 	bool space = false;
 	int numStar = 0;
+	bool linePrinted = false;
 
 	/* functions */
 	int isValidType(std::vector<int> type);
@@ -74,6 +78,21 @@ identifier [a-zA-Z][a-zA-Z0-9]*
 %% 
  endline = false;
  space = false;
+ /*
+ if( (LFLAG || YFLAG) && !linePrinted){
+		
+		if(LFLAG){
+			outL << std::endl << "=================================================================" << std::endl;
+			outL << "Line #" << yylineno << ": " << std::endl;
+			outL << sourceCode[yylineno-1] << std::endl;
+		}
+		if(YFLAG){
+			outY << std::endl <<"=================================================================" << std::endl;
+			outY << "Line #" << yylineno << ": " << std::endl;
+			outY << sourceCode[yylineno-1] << std::endl;
+		}
+		linePrinted = true;
+ }*/
 
 "auto"			{
 					if(LFLAG){
@@ -359,28 +378,34 @@ identifier [a-zA-Z][a-zA-Z0-9]*
 						searchResult = table.searchTopOfStack(newEntry);
 						if (searchResult != NULL) {
 							char lineNum[15];
+							sprintf(lineNum, "%d", yylineno);
+							newEntry += "ERROR: Redeclaration of Variable " + newEntry + " declared here: \n";
+							newEntry += "\tLine " + (std::string)lineNum + (std::string)": " + sourceCode[yylineno - 1] + "\n";
+
 							sprintf(lineNum, "%d", searchResult->getLineNumber());
-							newEntry = "Variable " + newEntry + " has already been declared here: \n";
+							newEntry += "Previously declared here: \n";
 							newEntry += "\tLine " + (std::string)lineNum + ": " + sourceCode[searchResult->getLineNumber() - 1] + "\n";
 							yyerror(newEntry.c_str());
 						}
 
 						else if( (searchResult = table.searchForSymbol(newEntry, level)) != NULL){
-
 							char lineNum[15];
+							sprintf(lineNum, "%d", yylineno);
+							newEntry += "WARNING: Variable " + newEntry + " declared here: \n";
+							newEntry += "\tLine " + (std::string)lineNum + (std::string)": " + sourceCode[yylineno - 1] + "\n";
+
 							sprintf(lineNum, "%d", searchResult->getLineNumber());
-							std::cout << "WARNING: Variable " << newEntry << " shadows a previously declared identifier here: \n";
-							std::cout << "\tLine " + (std::string)lineNum + ": " + sourceCode[searchResult->getLineNumber() - 1] + "\n";
-							searchResult = table.insertNewSymbol(newEntry, yylineno);
+							newEntry += "Shadows variable previously declared here: \n";
+							newEntry += "\tLine " + (std::string)lineNum + ": " + sourceCode[searchResult->getLineNumber() - 1] + "\n";
 							searchResult->setNumPtrs(numStar);
 							numStar = 0;
 
-							if(!searchResult->setIdentifierType(typeSpecifiers)){
+							if(!searchResult->setIdentifierType(typeSpecifiers) && (typeSpecifiers.size() != 0)){
 								char lineNum[15];
 								sprintf(lineNum, "%d", yylineno);
 								std::string error = "ERROR: Invalid data type used here:\n";
 								error += "\tLine #" + (std::string)lineNum + (std::string)": ";
-								error += currentSourceCodeLine;
+								error += sourceCode[yylineno-1];
 								yyerror(error.c_str());
 							}
 							yylval.entry = searchResult;
@@ -392,12 +417,13 @@ identifier [a-zA-Z][a-zA-Z0-9]*
 							searchResult->setNumPtrs(numStar);
 							numStar = 0;
 
-							if(!searchResult->setIdentifierType(typeSpecifiers)){
+							if(!searchResult->setIdentifierType(typeSpecifiers) && (typeSpecifiers.size() != 0)){
 								char lineNum[15];
 								sprintf(lineNum, "%d", yylineno);
+
 								std::string error = "ERROR: Invalid data type used here:\n";
 								error += "\tLine #" + (std::string)lineNum + (std::string)": ";
-								error += currentSourceCodeLine;
+								error += sourceCode[yylineno-1];
 								yyerror(error.c_str());
 							} 
 							colPosition += strlen(yytext);
@@ -466,7 +492,7 @@ identifier [a-zA-Z][a-zA-Z0-9]*
 					std::string strTemp(yytext);
    					currentSourceCodeLine += strTemp;
 					temp = new dVal;
-					temp->dataType = CHAR;
+					temp->dataType = CHAR_T;
 					temp->value._char = yytext[1];
 					yylval.val = temp;
 					temp = NULL;  
@@ -486,10 +512,13 @@ identifier [a-zA-Z][a-zA-Z0-9]*
 						outL << "< STRING_LITERAL > ";
 					}
 					if( yyleng > MAX_STR_LEN ){
-						std::string error = "WARNING: String ";
-						error += yytext + (std::string)" exceeds maximum string length";
+						std::string error = "WARNING: String exceeds maximum string length";
 						std::cout << error << std:: endl;
-					}/*TODO*/
+					}
+					temp = new dVal;
+					temp->dataType = CHAR_T;
+					strncpy(temp->value._str, yytext, 256);
+					yylval.val = temp;
 					std::string strTemp(yytext);
    					currentSourceCodeLine += strTemp;
 					return STRING_LITERAL;
@@ -819,16 +848,14 @@ identifier [a-zA-Z][a-zA-Z0-9]*
 					if(LFLAG){
 						outL << "< ) > ";
 					} 
-					if(typeSpecifiers.size() != 0){
-						if(isValidType(typeSpecifiers) == -1){
+					if(isValidType(typeSpecifiers) == -1 && (typeSpecifiers.size() != 0)){
 							char lineNum[15];
 							sprintf(lineNum, "%d", yylineno);
 							std::string error = "ERROR: Invalid data type used here:\n";
 							error += "\tLine #" + (std::string)lineNum + (std::string)": ";
-							error += currentSourceCodeLine;
+							error += sourceCode[yylineno-1];
 							yyerror(error.c_str());
 
-						}
 					}
 
 					typeSpecifiers.clear();
@@ -881,19 +908,22 @@ identifier [a-zA-Z][a-zA-Z0-9]*
 					currentSourceCodeLine += ' ';
 				}
 {newline}		{
-					if(LFLAG){
-						outL << "< NEWLINE >" << std::endl;
-						outL << "Line #" << yylineno << ": ";
-						outL << currentSourceCodeLine << std::endl;
-						outL << "=================================================================" << std::endl;
-					
 
-					}
-					sourceCode.push_back(currentSourceCodeLine);
+					//sourceCode.push_back(currentSourceCodeLine);
 					currentSourceCodeLine = "";  
 					yylineno++; 
 					colPosition = 0;
 					endline = true;
+					if(LFLAG){
+						outL << std::endl << "=================================================================" << std::endl;
+						outL << "Line #" << yylineno << ": " << std::endl;
+						outL << sourceCode[yylineno-1] << std::endl;
+					}
+					if(YFLAG){
+						outY << std::endl <<"=================================================================" << std::endl;
+						outY << "Line #" << yylineno << ": " << std::endl;
+						outY << sourceCode[yylineno-1] << std::endl;
+					}
 				}
 "!!S"			{
 					table.writeToScreen(); 

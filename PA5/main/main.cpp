@@ -21,10 +21,12 @@ bool LFLAG = false;
 bool YFLAG = false;
 ofstream outL;
 ofstream outY;
+
 extern symbolTable table; 
 extern std::string currentSourceCodeLine; 
 extern int yylineno;
 extern bool endline;
+vector<string> sourceCode;
 
 int main(int argc, char** argv) {
 	// #todo - add compiler flags 
@@ -33,8 +35,19 @@ int main(int argc, char** argv) {
 	string filename;
 
 	// read input file
-	yyin = fopen(argv[1], "r");
 
+	ifstream fin (argv[1]);
+	int i = 0;
+	char str[256];
+	while( fin.good() ){	
+		fin.getline(str, 256);
+		sourceCode.push_back((string)str);
+		cout << sourceCode[i];
+		i++;
+	}
+	fin.close();
+
+	yyin = fopen(argv[1], "r");
 	for(int i=1; i < argc; i++){
 		
 		if( (string) argv[i] == "-o" ){
@@ -87,6 +100,17 @@ int main(int argc, char** argv) {
 		outY.open(filename.c_str(), std::ofstream::out);
 	}
 
+	if(LFLAG){
+		outL << std::endl << "=================================================================" << std::endl;
+		outL << "Line #" << yylineno << ": " << std::endl;
+		outL << sourceCode[0] << std::endl;
+	}
+	if(YFLAG){
+		outY << std::endl <<"=================================================================" << std::endl;
+		outY << "Line #" << yylineno << ": " << std::endl;
+		outY << sourceCode[0] << std::endl;
+	}
+
 	cout << "Main program - compiler driver." << endl;
 
 	yyparse();  
@@ -94,11 +118,7 @@ int main(int argc, char** argv) {
 	cout << "Parse complete " << endl;
 
 	if (LFLAG) {
-		if(!endline){
-			outL << endl << "Line #" << yylineno << ": " << currentSourceCodeLine << endl;
-			outL << "=================================================================" << std::endl;
-					
-		}
+
 
 		outL.close();
 	}
