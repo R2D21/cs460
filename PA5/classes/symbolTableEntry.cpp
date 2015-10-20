@@ -402,7 +402,7 @@ Function:
 void symbolTableEntry::viewParams() const {
 	for(unsigned int i = 0; i < parameters.size(); i++) {
 		std::cout << "Formal Parameter: " << parameters[i].formalParam << std::endl;
-		std::cout << "Parameter Type: " << parameters[i].dataType << std::endl;
+		std::cout << "Parameter Type: " << intTypeToStr(parameters[i].dataType) << std::endl;
 	}
 }
 
@@ -483,4 +483,59 @@ symbolTableEntry::~symbolTableEntry() {
 	identifierName = "";
 	dataInfo.dataType = -1;
 	parameters.clear(); 
+}
+
+/*
+Function: intTypeToStr(Type someType) const
+
+Parameter:
+Type someType: An enumerated type (represents an integer). 
+
+Descrition: Takes in an enumerated type which will convert that type
+to a string object.  
+*/
+std::string symbolTableEntry::intTypeToStr(int someType) const {
+	std::string str; 
+	switch(someType) {
+		case CHAR_T:
+			str = "char";
+			break;
+
+		case DOUBLE_T:
+			str = "double";
+			break;
+
+		case FLOAT_T:
+			str = "float";
+			break;
+
+		case INT_T:
+			str = "int";
+			break;
+
+		case LONG_T:
+			str = "long";
+			break;
+
+		case LONG_LONG_T:
+			str = "long long";
+			break;
+
+		case LONG_DOUBLE_T:
+			str = "long double";
+			break;
+
+		case SHORT_T:
+			str = "short";
+			break;
+
+		case VOID_T:
+			str = "void";
+			break;
+
+		default:
+			str = "invalid type";
+			break;
+	}
+	return str; 
 }

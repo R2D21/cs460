@@ -92,6 +92,9 @@ class symbolTableEntry {
         std::vector<int> identifierType;       // here 
         std::vector<int> arrayDimensions;
         std::map<std::vector<int>, int> validTypes; 
+
+        // symbol table entry private functions
+        std::string intTypeToStr(int someType) const; 
 };
 
 #endif // SYMBOL_TABLE_ENTRY_H
