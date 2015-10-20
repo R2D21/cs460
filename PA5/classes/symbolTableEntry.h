@@ -18,7 +18,9 @@ of our ANSI C compiler.
 #include <vector>
 #include <iostream>
 #include <map>
+#include <climits>
 #include "../parser/cParser.tab.h" // used for token values
+
 enum Type{
     CHAR_T,
     DOUBLE_T,
@@ -54,7 +56,7 @@ class symbolTableEntry {
         int getIdentifierType() const; // double check this
         void setIdentifierName(std::string name);
         std::string getIdentifierName() const;
-        void setIdentifierValue(dVal data); // double check this
+        bool setIdentifierValue(dVal data); // double check this
         std::vector<int> getIdentifierValue() const; // double check this
         void printIdentifierValue() const; // double check this
 

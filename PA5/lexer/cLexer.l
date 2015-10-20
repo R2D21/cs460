@@ -423,6 +423,21 @@ identifier [a-zA-Z][a-zA-Z0-9]*
 						outL << "< INTEGER_CONSTANT >";
 					}
 					std::string strTemp(yytext);
+					std::string MAX_NUM = "18446744073709551615";
+
+					if( strTemp.length() > MAX_NUM.length() ){
+						std::string error = "ERROR: ";
+						error += strTemp + " exceeds maximum number value.\n";
+						yyerror(error.c_str());	
+					}
+					else if(strTemp.length() == MAX_NUM.length()){
+						if( strTemp > MAX_NUM ){
+						std::string error = "ERROR: ";
+						error += strTemp + " exceeds maximum number value.\n";
+						yyerror(error.c_str());							}
+					}
+					
+
    					currentSourceCodeLine += strTemp;
 					temp = new dVal;
 					temp->dataType = LONG_LONG_T;

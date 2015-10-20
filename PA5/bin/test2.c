@@ -9,6 +9,6 @@ int arrFunc(long long arr[7][8 * 3]);
 //void main(void) {
 	//hi
 
-	long long int x = (long long short) 1;
+	int x = 2147483647 ;
 	//int arr[10][20][40]; 
 //}

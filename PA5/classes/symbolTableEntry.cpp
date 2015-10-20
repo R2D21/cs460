@@ -125,12 +125,27 @@ incoming value to the correct component of the union.
 
 Descrition: Sets the value of a corresponding identifier. 
 */
-void symbolTableEntry::setIdentifierValue(dVal data){
+bool symbolTableEntry::setIdentifierValue(dVal data){
 		switch(dataInfo.dataType) {
 		case LONG_LONG_T:
+			dataInfo.value._number = data.value._number;
+			break;
 		case LONG_T:
+			if( data.value._number > LONG_MAX ){
+				return false;
+			}
+			dataInfo.value._number = data.value._number;
+			break;
 		case INT_T:
+			if( data.value._number > INT_MAX ){
+				return false;
+			}
+			dataInfo.value._number = data.value._number;
+			break;
 		case SHORT_T:
+			if( data.value._number > SHRT_MAX ){
+				return false;
+			}
 			dataInfo.value._number = data.value._number;
 			break;
 
@@ -141,12 +156,16 @@ void symbolTableEntry::setIdentifierValue(dVal data){
 			break;
 
 		case CHAR_T:
+			if( data.value._char > CHAR_MAX ){
+				return false;
+			}
 			dataInfo.value._char = data.value._char;
 			break;
 
 		default:
 			dataInfo.dataType = -1; 
 	}
+	return true;
 }
 
 /*
