@@ -643,7 +643,7 @@ direct_declarator
 				outY << "direct_declarator : direct_declarator LPAREN RPAREN;" << std::endl;
 			}
 		}
-	| direct_declarator LPAREN set_insert_push parameter_type_list RPAREN
+	| direct_declarator LPAREN set_insert_push parameter_type_list RPAREN set_lookup
  		{
  			std::string idName = $1->getIdentifierName();
  			assignParams($1, funcParams);
