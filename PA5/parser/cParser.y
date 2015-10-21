@@ -23,8 +23,10 @@ the token declarations that will be used in the lexer.
 	#include <climits>
 	#include <fstream>
 	#include <iostream>
+	#include <string.h>
 	#include "../classes/symbolTableEntry.h"
 	#include "../classes/symbolTable.h"
+	#include "../lexer/Escape_Sequences_Colors.h"
 
 	int yylex(void);
 	void yyerror(const char* errorMsg);
@@ -35,12 +37,18 @@ the token declarations that will be used in the lexer.
 	extern bool inInsertMode;
 	extern symbolTable table; 
 	std::vector<parameter> funcParams;
-	void assignParams(symbolTableEntry* entry, std::vector<parameter> params); 
+	std::vector<symbolTableEntry*> funcCallingParams; 
+	int unaryOperatorChosen = -1;
+
+	// functions needed by bison
+	void assignParams(symbolTableEntry* entry, std::vector<parameter> params);
+	//void applyUnaryOperator(void*& value, int unaryToken, symbolTableEntry* entry = NULL)
 %}
 /* end of declarations and definitions */
 
 %code requires {
 	typedef struct {
+		class symbolTableEntry* sEntry;
 	    int dataType;
 	    typedef union {
 	        char _char;
@@ -66,7 +74,7 @@ yylval will remain as an integer in this program. */
 /* start of tokens for ANSI C grammar */
 %token <entry> IDENTIFIER
 %token <val> INTEGER_CONSTANT FLOATING_CONSTANT ENUMERATION_CONSTANT 
-%token <entry> CHARACTER_CONSTANT 
+%token <val> CHARACTER_CONSTANT 
 %token STRING_LITERAL 
 %token SIZEOF
 %token PTR_OP 
@@ -101,13 +109,29 @@ yylval will remain as an integer in this program. */
 %type <val> initializer     /* this could be anything? */
 %type <entry> identifier
 %type <entry> declarator
-%type <entry> primary_expression
 %type <entry> parameter_declaration
 %type <entry> direct_declarator
+%type <val> constant
+
+	/* expressions */
 %type <val> constant_expression
+%type <val> assignment_expression
+%type <val> conditional_expression
+%type <val> logical_or_expression
+%type <val> logical_and_expression
+%type <val> inclusive_or_expression
+%type <val> exclusive_or_expression
+%type <val> and_expression
+%type <val> equality_expression
+%type <val> relational_expression
+%type <val> shift_expression
 %type <val> additive_expression
 %type <val> multiplicative_expression
 %type <val> cast_expression
+%type <val> unary_expression
+%type <val> postfix_expression
+%type <val> primary_expression
+
 /* end of tokens for ANSI C grammar */ 
 
 /* start of ANSI C grammar and actions */
@@ -447,8 +471,11 @@ init_declarator
 			}
 		}
 	| declarator ASSIGN set_lookup initializer set_insert
- 		{
- 			$1->setIdentifierValue(*($4));
+ 		{ 
+ 			if (!$1->setIdentifierValue(*($4))) {
+ 				std::cout << COLOR_NORMAL << COLOR_CYAN_NORMAL << "ERROR:" << COLOR_NORMAL << " Invalid assignment." << std::endl;
+ 				yyerror("");
+ 			}
 			if(YFLAG){
 				outY << "init_declarator : declarator ASSIGN initializer;" << std::endl;
 			}
@@ -616,23 +643,11 @@ direct_declarator
 		}
 	| direct_declarator LBRACK constant_expression RBRACK
  		{
- 			std::cout << "Array! Name is ";
- 			std::string nameTemp = $1->getIdentifierName(); 
- 			std::cout << nameTemp << std::endl;
+
  			$1->setArray();
- 			//std::cout << "ARRAY'S DIMENSION IS: " << $3->value._number << std::endl;  
  			$1->addArrayDimension($3->value._number); 
+			std::vector<int> tempVector = $1->getArrayDimensions(); 
 
- 			std::vector<int> tempVector = $1->getArrayDimensions(); 
-
- 			std::cout << "NUmber of Dimensions: " << $1->getNumArrDims() << std::endl; 
- 			for(int i = 0; i < $1->getNumArrDims(); i++) {
- 				std::cout << tempVector[i] << std::endl; 
- 			}
-
- 			
- 			/*std::cout << "0: " << tempVector[0] << std::endl;
- 			std::cout << "1: " << tempVector[1] << std::endl; */
 			if(YFLAG){
 				outY << "direct_declarator : direct_declarator LBRACK constant_expression RBRACK;" << std::endl;
 			}
@@ -643,14 +658,10 @@ direct_declarator
 				outY << "direct_declarator : direct_declarator LPAREN RPAREN;" << std::endl;
 			}
 		}
-	| direct_declarator LPAREN set_insert_push parameter_type_list RPAREN
+	| direct_declarator LPAREN set_insert_push parameter_type_list RPAREN close_curl
  		{
  			std::string idName = $1->getIdentifierName();
- 			assignParams($1, funcParams);
- 			std::cout << "ID Name: " << idName << " has ";
- 			std::cout << $1->getNumberOfParams() << " parameters." << std::endl;  
- 			std::cout << "PRINTING FUNCTION PARAMETERS LOLZ HUEHUE" << std::endl;
- 			$1->viewParams();  
+ 			assignParams($1, funcParams); 
  			funcParams.clear(); 
  			if(YFLAG){
 				outY << "direct_declarator : direct_declarator LPAREN parameter_type_list RPAREN;" << std::endl;
@@ -659,8 +670,7 @@ direct_declarator
 		}
 	| direct_declarator LPAREN set_lookup identifier_list RPAREN set_insert
  		{
-
-			if(YFLAG){
+ 			if(YFLAG){
 				outY << "direct_declarator : direct_declarator LPAREN identifier_list RPAREN;" << std::endl;
 			}
 		}
@@ -726,37 +736,12 @@ parameter_type_list
 parameter_list
 	: parameter_declaration
  		{
- 			/*
- 			std::cout << "==========================================================" << std::endl;
- 			std::cout << "ID Type: " << $1->getIdentifierType() << std::endl;
- 			std::cout << "ID Name: ";
- 			std::string temp = $1->getIdentifierName(); 
- 			std::cout << temp << std::endl;
- 			std::cout << "==========================================================" << std::endl; 
- 			std::cout << "parameter_list : parameter_declaration;" << std::endl;
-  			parameter tempParam;
- 			tempParam.dataType = $1->getIdentifierType();
- 			tempParam.formalParam = temp; 
- 			funcParams.push_back(tempParam); */
  			if(YFLAG){
 				outY << "parameter_list : parameter_declaration;" << std::endl;
 			}
 		}	
 	| parameter_list COMMA parameter_declaration
  		{
- 			/*
- 			std::cout << "==========================================================" << std::endl;
-			std::cout << "ID Type: " << $3->getIdentifierType() << std::endl;
- 			std::cout << "ID Name: ";
- 			std::string temp = $3->getIdentifierName(); 
- 			std::cout << temp << std::endl;
- 			parameter tempParam;
- 			tempParam.dataType = $3->getIdentifierType();
- 			tempParam.formalParam = temp; 
- 			funcParams.push_back(tempParam);
- 			std::cout << "==========================================================" << std::endl; 
- 			
- 			std::cout << "parameter_list : parameter_list COMMA parameter_declaration;!!!!!" << std::endl; */
 			if(YFLAG){
 				outY << "parameter_list : parameter_list COMMA parameter_declaration;" << std::endl;
 			}
@@ -791,6 +776,7 @@ parameter_declaration
 identifier_list
 	: identifier
  		{
+ 			
 			if(YFLAG){
 				outY << "identifier_list : identifier;" << std::endl;
 			}
@@ -1570,6 +1556,24 @@ unary_expression
 		}
 	| unary_operator cast_expression
  		{
+ 			if(unaryOperatorChosen == MINUS) { 
+	 			switch($2->dataType) {
+	 				case LONG_LONG_T:
+	 					$$->dataType = $2->dataType;
+	 					$$->value._number = $2->value._number * -1;  
+	 					break; 
+
+	 				case LONG_DOUBLE_T:
+	  					$$->dataType = $2->dataType;
+	 					$$->value._decimal = $2->value._decimal;   
+	 					break; 
+
+	 				default:
+	 					std::cout << "cast_expression is ???" << std::endl; 
+	 					break; 
+	 			}
+	 			unaryOperatorChosen = -1;
+	 		}
 			if(YFLAG){
 				outY << "unary_expression : unary_operator cast_expression;" << std::endl;
 			}
@@ -1591,36 +1595,42 @@ unary_expression
 unary_operator
 	: AMP
  		{
+ 			unaryOperatorChosen = AMP; 
 			if(YFLAG){
 				outY << "unary_operator : AMP;" << std::endl;
 			}
 		}
 	| MULT
  		{
+ 			unaryOperatorChosen = MULT;
 			if(YFLAG){
 				outY << "unary_operator : MULT;" << std::endl;
 			}
 		}
 	| PLUS
  		{
+ 			unaryOperatorChosen = PLUS;
 			if(YFLAG){
 				outY << "unary_operator : PLUS;" << std::endl;
 			}
 		}
 	| MINUS
  		{
+ 			unaryOperatorChosen = MINUS;
 			if(YFLAG){
 				outY << "unary_operator : MINUS;" << std::endl;
 			}
 		}
 	| TILDE
  		{
+ 			unaryOperatorChosen = TILDE;
 			if(YFLAG){
 				outY << "unary_operator : TILDE;" << std::endl;
 			}
 		}
 	| BANG
  		{
+ 			unaryOperatorChosen = BANG;
 			if(YFLAG){
 				outY << "unary_operator : BANG;" << std::endl;
 			}
@@ -1648,6 +1658,11 @@ postfix_expression
 		}
 	| postfix_expression LPAREN argument_expression_list RPAREN
  		{
+ 			if (!$1->sEntry->checkParams(funcCallingParams)) {
+ 				std::cout << COLOR_NORMAL << COLOR_CYAN_NORMAL << "ERROR:" << COLOR_NORMAL << " Invalid function arguments." << std::endl;
+ 				yyerror("");
+ 			}
+ 			funcCallingParams.clear();  
 			if(YFLAG){
 				outY << "postfix_expression : primary_expression LPAREN argument_expression_list RPAREN;" << std::endl;
 			}
@@ -1681,17 +1696,14 @@ postfix_expression
 primary_expression
 	: identifier
  		{
- 			/*
- 			symbolTableEntry* tempPtr = table.searchTopOfStack($1->getIdentifierName());
- 			dVal tempData = tempPtr->getIdentifierValue(); */
-
+ 			$$->sEntry = $1; 
 			if(YFLAG){
 				outY << "primary_expression : identifier;" << std::endl;
 			}
 		}
 	| constant
  		{
-			if(YFLAG){
+ 			if(YFLAG){
 				outY << "primary_expression : constant;" << std::endl;
 			}
 		}
@@ -1711,13 +1723,15 @@ primary_expression
 
 argument_expression_list
 	: assignment_expression
- 		{
+ 		{ 
+ 			funcCallingParams.push_back($1->sEntry);
 			if(YFLAG){
 				outY << "argument_expression_list : assignment_expression;" << std::endl;
 			}
 		}
 	| argument_expression_list COMMA assignment_expression
  		{
+ 			funcCallingParams.push_back($3->sEntry);
 			if(YFLAG){
 				outY << "argument_expression_list : argument_expression_list COMMA assignment_expression;" << std::endl;
 			}
@@ -1727,29 +1741,31 @@ argument_expression_list
 constant
 	: INTEGER_CONSTANT
  		{
-			if(YFLAG){
+ 			$$->value._number = $1->value._number; 
+ 			$$->dataType = LONG_LONG_T; 
+ 			if(YFLAG){
 				outY << "constant : INTEGER_CONSTANT;" << std::endl;
 			}
-
 		}
 	| CHARACTER_CONSTANT
  		{
- 			/*
- 			std::string tempName = $1->getIdentifierName(); 
- 			symbolTableEntry* tempPtr = table.searchTopOfStack(tempName); */
-
+ 			$$->value._char = $1->value._char;
+ 			$$->dataType = CHAR_T; 
 			if(YFLAG){
 				outY << "constant : CHARACTER_CONSTANT;" << std::endl;
 			}
 		}
 	| FLOATING_CONSTANT
  		{
+ 			$$->value._decimal = $1->value._decimal; 
+ 			$$->dataType = LONG_DOUBLE_T; 
 			if(YFLAG){
 				outY << "constant : FLOATING_CONSTANT;" << std::endl;
 			}
 		}
 	| ENUMERATION_CONSTANT
  		{
+ 			/* not sure what to do about this */
 			if(YFLAG){
 				outY << "constant : ENUMERATION_CONSTANT;" << std::endl;
 			}
@@ -1766,7 +1782,7 @@ string
 	;
 
 identifier
-	: IDENTIFIER {$$ = $1;}
+	: IDENTIFIER {	$$ = $1;}
 	;
 %% /* end of ANSI C grammar and actions */
 
