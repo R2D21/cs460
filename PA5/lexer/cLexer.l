@@ -530,14 +530,14 @@ identifier [a-zA-Z][a-zA-Z0-9]*
 						outL << "< STRING_LITERAL > ";
 					}
 					if( yyleng > MAX_STR_LEN ){
-						std::cout << COLOR_MAGENTA_NORMAL << "WARNING:" << COLOR_NORMAL << " String exceeds maximum string length";
+						yyerror("Too fucking long dude");
+						//std::cout << COLOR_MAGENTA_NORMAL << "WARNING:" << COLOR_NORMAL << " String exceeds maximum string length" << std::endl;
 					}
-					temp = new dVal;
-					temp->dataType = CHAR_T;
-					strncpy(temp->value._str, yytext, 256);
-					yylval.val = temp;
-					std::string strTemp(yytext);
-   					currentSourceCodeLine += strTemp;
+					dVal temp;
+					temp.dataType = CHAR_T;
+					strncpy(temp.value._str, yytext, 255);
+					temp.value._str[255]='\0';
+					yylval.val = &temp;
 					return STRING_LITERAL;
 				}
 "->"			{
