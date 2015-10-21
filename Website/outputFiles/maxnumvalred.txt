@@ -1,0 +1,26 @@
+
+=================================================================
+Line #1: 
+void main(void){
+type_specifier : VOID;
+declaration_specifiers : type_specifier;
+direct_declarator : identifier;
+type_specifier : VOID;
+declaration_specifiers : type_specifier;
+parameter_declaration : declaration_specifiers;
+parameter_list : parameter_declaration;
+parameter_type_list : parameter_list;
+direct_declarator : direct_declarator LPAREN parameter_type_list RPAREN;
+declarator : direct_declarator;
+
+=================================================================
+Line #2: 
+	unsigned long long notWes = 18446744073709551616;
+type_specifier : UNSIGNED;
+type_specifier : LONG;
+type_specifier : LONG;
+declaration_specifiers : type_specifier;
+declaration_specifiers : type_specifier declaration_specifiers;
+declaration_specifiers : type_specifier declaration_specifiers;
+direct_declarator : identifier;
+declarator : direct_declarator;

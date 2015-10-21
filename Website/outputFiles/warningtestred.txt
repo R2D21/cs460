@@ -1,0 +1,103 @@
+
+=================================================================
+Line #1: 
+int lee = 68;
+type_specifier : INT;
+declaration_specifiers : type_specifier;
+direct_declarator : identifier;
+declarator : direct_declarator;
+constant : INTEGER_CONSTANT;
+primary_expression : constant;
+postfix_expression : primary_expression;
+unary_expression : postfix_expression;
+cast_expression : unary_expression;
+multiplicative_expression : cast_expression;
+additive_expression : multiplicative_expression;
+shift_expression : additive_expression;
+relational_expression : shift_expression;
+equality_expression : relational_expression;
+and_expression : equality_expression;
+exclusive_or_expression : and_expression;
+inclusive_or_expression : exclusive_or_expression;
+logical_and_expression : inclusive_or_expression;
+logical_or_expression : logical_and_expression;
+conditional_expression : logical_or_expression;
+assignment_expression : conditional_expression;
+initializer : assignment_expression;
+init_declarator : declarator ASSIGN initializer;
+init_declarator_list : init_declarator;
+declaration : declaration_specifiers init_declarator_list SEMI;
+external_declaration : declaration;
+translation_unit : external_declaration;
+
+=================================================================
+Line #2: 
+void main(void){
+type_specifier : VOID;
+declaration_specifiers : type_specifier;
+direct_declarator : identifier;
+type_specifier : VOID;
+declaration_specifiers : type_specifier;
+parameter_declaration : declaration_specifiers;
+parameter_list : parameter_declaration;
+parameter_type_list : parameter_list;
+direct_declarator : direct_declarator LPAREN parameter_type_list RPAREN;
+declarator : direct_declarator;
+
+=================================================================
+Line #3: 
+	int whydoesthisidentifierhavemorethansixyfourcharacterswesandabgirlareinafightbecauseshehasnobeenshowinguptothegymatsixamwhichshowslackofdedication = 1;
+type_specifier : INT;
+declaration_specifiers : type_specifier;
+direct_declarator : identifier;
+declarator : direct_declarator;
+constant : INTEGER_CONSTANT;
+primary_expression : constant;
+postfix_expression : primary_expression;
+unary_expression : postfix_expression;
+cast_expression : unary_expression;
+multiplicative_expression : cast_expression;
+additive_expression : multiplicative_expression;
+shift_expression : additive_expression;
+relational_expression : shift_expression;
+equality_expression : relational_expression;
+and_expression : equality_expression;
+exclusive_or_expression : and_expression;
+inclusive_or_expression : exclusive_or_expression;
+logical_and_expression : inclusive_or_expression;
+logical_or_expression : logical_and_expression;
+conditional_expression : logical_or_expression;
+assignment_expression : conditional_expression;
+initializer : assignment_expression;
+init_declarator : declarator ASSIGN initializer;
+init_declarator_list : init_declarator;
+declaration : declaration_specifiers init_declarator_list SEMI;
+declaration_list : declaration;
+
+=================================================================
+Line #4: 
+	
+
+=================================================================
+Line #5: 
+	int lee;
+type_specifier : INT;
+declaration_specifiers : type_specifier;
+direct_declarator : identifier;
+declarator : direct_declarator;
+init_declarator : declarator;
+init_declarator_list : init_declarator;
+declaration : declaration_specifiers init_declarator_list SEMI;
+declaration_list : declaration_list declaration;
+
+=================================================================
+Line #6: 
+
+
+=================================================================
+Line #7: 
+	char kepke = "thisisatesttoseeifthiswarningwillshowwhenourstringwillbeovertwohundredandfiftysixcharacterslongbutblahblahthissuckblahblahblahabgirlandwesblahblahblahnowholdupkanyeezyhahahadyeasdfasdfasdfasdfasdfadsfasdfasdfasdgasdgasdglhasdgklhasd;lghasd;
+type_specifier : CHAR;
+declaration_specifiers : type_specifier;
+direct_declarator : identifier;
+declarator : direct_declarator;
