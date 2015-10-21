@@ -296,5 +296,4 @@ Description: The destructor for a symbol table object.
 */
 symbolTable::~symbolTable(){
 	//table.clear(); 
-	std::cout << "sym tbl destr" << std::endl; 
 }

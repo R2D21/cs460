@@ -463,16 +463,24 @@ identifier [a-zA-Z][a-zA-Z0-9]*
 					std::string MAX_NUM = "18446744073709551615";
 
 					if( strTemp.length() > MAX_NUM.length() ){
+						char lineNum[15];
+						sprintf(lineNum, "%d", yylineno);
 						std::cout << COLOR_NORMAL;
 						std::cout << COLOR_CYAN_NORMAL << "ERROR: ";
 						std::cout << COLOR_NORMAL << COLOR_BOLD_RED_NORMAL << strTemp << COLOR_NORMAL << " exceeds maximum number value.\n";
+						std::cout << COLOR_GREEN_NORMAL << "\tLine #" << (std::string)lineNum << (std::string)": " << COLOR_NORMAL;
+						std::cout << COLOR_WHITE_NORMAL << sourceCode[yylineno-1] << COLOR_NORMAL << "\n";
 						yyerror("");	
 					}
 					else if(strTemp.length() == MAX_NUM.length()){
 						if( strTemp > MAX_NUM ){
+						char lineNum[15];
+						sprintf(lineNum, "%d", yylineno);
 						std::cout << COLOR_NORMAL;
 						std::cout << COLOR_CYAN_NORMAL << "ERROR: ";
 						std::cout << COLOR_NORMAL << COLOR_BOLD_RED_NORMAL << strTemp << COLOR_NORMAL << " exceeds maximum number value.\n";
+						std::cout << COLOR_GREEN_NORMAL << "\tLine #" << (std::string)lineNum << (std::string)": " << COLOR_NORMAL;
+						std::cout << COLOR_WHITE_NORMAL << sourceCode[yylineno-1] << COLOR_NORMAL << "\n";
 						yyerror("");							}
 					}
 					
@@ -938,7 +946,7 @@ identifier [a-zA-Z][a-zA-Z0-9]*
 						outY << sourceCode[yylineno-1] << std::endl;
 					}
 				}
-"!!S"			{
+"!!S"			{outY << "READ !!S" << std::endl;
 					table.writeToScreen(); 
 				}
 

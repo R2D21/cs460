@@ -472,7 +472,6 @@ init_declarator
 		}
 	| declarator ASSIGN set_lookup initializer set_insert
  		{ 
- 			std::cout << $4->value._number << std::endl; 
  			if (!$1->setIdentifierValue(*($4))) {
  				std::cout << COLOR_NORMAL << COLOR_CYAN_NORMAL << "ERROR:" << COLOR_NORMAL << " Invalid assignment." << std::endl;
  				yyerror("");
@@ -638,7 +637,7 @@ direct_declarator
 				outY << "direct_declarator : LPAREN declarator RPAREN;" << std::endl;
 			}
 		}
-	| direct_declarator LBRACK RBRACK
+	| direct_declarator LBRACK RBRACK 
  		{
 			if(YFLAG){
 				outY << "direct_declarator : direct_declarator LBRACK RBRACK;" << std::endl;
@@ -654,7 +653,7 @@ direct_declarator
 				outY << "direct_declarator : direct_declarator LBRACK constant_expression RBRACK;" << std::endl;
 			}
 		}
-	| direct_declarator LPAREN RPAREN
+	| direct_declarator LPAREN RPAREN set_insert
  		{
 			if(YFLAG){
 				outY << "direct_declarator : direct_declarator LPAREN RPAREN;" << std::endl;
@@ -1024,7 +1023,6 @@ compound_statement
 
 set_insert_push
 	:	{
-
 		table.pushLevelOn();
 		inInsertMode = true;
 		}
@@ -1476,16 +1474,14 @@ additive_expression
 	| additive_expression PLUS multiplicative_expression
  		{
  			if ($1->sEntry != NULL) {
- 				std::cout << $1->sEntry->getIdentifierName() << std::endl; 
- 				std::cout << "some variable" << std::endl; 
- 				std::cout << "$1 variable: " << $1->value._number << std::endl; 
- 				std::cout << "$3: " << $3->value._number << std::endl; 
- 				$$->value._number = $1->value._number + $3->value._number;
+ 				dVal dTemp = $1->sEntry->getIdentifierValue(); 
+ 				dTemp.value._number = dTemp.value._number + $3->value._number;
+ 				$$ = &dTemp; 
  			}
+
  			else {
- 				std::cout << "not some variable" << std::endl; 
  				$$->value._number = $1->value._number + $3->value._number;
- 			}
+ 			} 
 			if(YFLAG){
 				outY << "additive_expression : additive_expression PLUS multiplicative_expression;" << std::endl;
 			}
@@ -1508,7 +1504,9 @@ multiplicative_expression
 		}
 	| multiplicative_expression MULT cast_expression
  		{
- 		 	$$->value._number = $1->value._number * $3->value._number;
+ 			if ($1 != NULL && $3 != NULL) {
+ 		 		$$->value._number = $1->value._number * $3->value._number;
+ 		 	}
 			if(YFLAG){
 				outY << "multiplicative_expression : multiplicative_expression MULT cast_expression;" << std::endl;
 			}
@@ -1656,7 +1654,7 @@ postfix_expression
 				outY << "postfix_expression : primary_expression;" << std::endl;
 			}
 		}
-	| postfix_expression LBRACK expression RBRACK
+	| postfix_expression set_lookup LBRACK expression RBRACK
  		{
  			if(YFLAG){
 				outY << "postfix_expression : postfix_expression LBRACK expression RBRACK;" << std::endl;
@@ -1709,7 +1707,6 @@ primary_expression
 	: identifier
  		{
  			$$->sEntry = $1;
- 			std::cout << "p -> i: " << $$->sEntry->getIdentifierName() << std::endl;  
 			if(YFLAG){
 				outY << "primary_expression : identifier;" << std::endl;
 			}
@@ -1795,7 +1792,7 @@ string
 	;
 
 identifier
-	: IDENTIFIER {	$$ = $1;}
+	: IDENTIFIER {$$ = $1;}
 	;
 %% /* end of ANSI C grammar and actions */
 

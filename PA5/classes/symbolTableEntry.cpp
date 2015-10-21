@@ -217,8 +217,8 @@ Descrition: Returns an object of type "dVal", which is an object that
 contains an indicator as to which component in the union the corresponding
 value is located. 
 */
-std::vector<int> symbolTableEntry::getIdentifierValue() const {
-	return identifierType; 
+dVal symbolTableEntry::getIdentifierValue() const {
+	return dataInfo; 
 } 
 
 /*

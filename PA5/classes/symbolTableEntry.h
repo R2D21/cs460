@@ -58,7 +58,7 @@ class symbolTableEntry {
         void setIdentifierName(std::string name);
         std::string getIdentifierName() const;
         bool setIdentifierValue(dVal data); // double check this
-        std::vector<int> getIdentifierValue() const; // double check this
+        dVal getIdentifierValue() const; // double check this
         void printIdentifierValue() const; // double check this
 
         std::string getTypeStr() const;
