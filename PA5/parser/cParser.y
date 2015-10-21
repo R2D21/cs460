@@ -472,6 +472,7 @@ init_declarator
 		}
 	| declarator ASSIGN set_lookup initializer set_insert
  		{ 
+ 			std::cout << $4->value._number << std::endl; 
  			if (!$1->setIdentifierValue(*($4))) {
  				std::cout << COLOR_NORMAL << COLOR_CYAN_NORMAL << "ERROR:" << COLOR_NORMAL << " Invalid assignment." << std::endl;
  				yyerror("");
@@ -479,6 +480,8 @@ init_declarator
 			if(YFLAG){
 				outY << "init_declarator : declarator ASSIGN initializer;" << std::endl;
 			}
+			$1->printIdentifierValue(); 
+			$$ = $1;
 		}
 	;
 
@@ -643,7 +646,6 @@ direct_declarator
 		}
 	| direct_declarator LBRACK constant_expression RBRACK
  		{
-
  			$1->setArray();
  			$1->addArrayDimension($3->value._number); 
 			std::vector<int> tempVector = $1->getArrayDimensions(); 
@@ -658,7 +660,7 @@ direct_declarator
 				outY << "direct_declarator : direct_declarator LPAREN RPAREN;" << std::endl;
 			}
 		}
-	| direct_declarator LPAREN set_insert_push parameter_type_list RPAREN close_curl
+	| direct_declarator LPAREN set_insert_push parameter_type_list RPAREN set_lookup close_curl
  		{
  			std::string idName = $1->getIdentifierName();
  			assignParams($1, funcParams); 
@@ -1473,7 +1475,17 @@ additive_expression
 		}
 	| additive_expression PLUS multiplicative_expression
  		{
- 			$$->value._number = $1->value._number + $3->value._number;
+ 			if ($1->sEntry != NULL) {
+ 				std::cout << $1->sEntry->getIdentifierName() << std::endl; 
+ 				std::cout << "some variable" << std::endl; 
+ 				std::cout << "$1 variable: " << $1->value._number << std::endl; 
+ 				std::cout << "$3: " << $3->value._number << std::endl; 
+ 				$$->value._number = $1->value._number + $3->value._number;
+ 			}
+ 			else {
+ 				std::cout << "not some variable" << std::endl; 
+ 				$$->value._number = $1->value._number + $3->value._number;
+ 			}
 			if(YFLAG){
 				outY << "additive_expression : additive_expression PLUS multiplicative_expression;" << std::endl;
 			}
@@ -1696,7 +1708,8 @@ postfix_expression
 primary_expression
 	: identifier
  		{
- 			$$->sEntry = $1; 
+ 			$$->sEntry = $1;
+ 			std::cout << "p -> i: " << $$->sEntry->getIdentifierName() << std::endl;  
 			if(YFLAG){
 				outY << "primary_expression : identifier;" << std::endl;
 			}

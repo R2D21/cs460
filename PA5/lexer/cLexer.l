@@ -365,7 +365,8 @@ identifier [a-zA-Z][a-zA-Z0-9]*
 
 					if(yyleng > MAX_ID_LEN){
 						std::cout << COLOR_MAGENTA_NORMAL << "WARNING:" << COLOR_NORMAL << " Identifier ";
-						std::cout << COLOR_NORMAL << COLOR_BOLD_RED_NORMAL << yytext << COLOR_NORMAL << " exceeds maximum name length";
+						std::cout << COLOR_NORMAL << COLOR_BOLD_RED_NORMAL << yytext << COLOR_NORMAL;
+						std::cout << " exceeds maximum name length" << std::endl;
 					}
 
 
@@ -373,11 +374,6 @@ identifier [a-zA-Z][a-zA-Z0-9]*
 					currentSourceCodeLine += newEntry;
 					symbolTableEntry* searchResult;
 					int level;
-
-					/*
-					if (typeSpecifiers.size() == 0) {
-						inInsertMode = false; 
-					} */
 
 					if (inInsertMode) {
 						searchResult = table.searchTopOfStack(newEntry);
@@ -418,7 +414,6 @@ identifier [a-zA-Z][a-zA-Z0-9]*
 								std::cout << COLOR_NORMAL;
 								yyerror("");
 							}
-							std::cout << newEntry << std::endl; 
 							yylval.entry = searchResult;
 							typeSpecifiers.clear();						
 							return IDENTIFIER;
@@ -530,8 +525,8 @@ identifier [a-zA-Z][a-zA-Z0-9]*
 						outL << "< STRING_LITERAL > ";
 					}
 					if( yyleng > MAX_STR_LEN ){
-						yyerror("Too fucking long dude");
-						//std::cout << COLOR_MAGENTA_NORMAL << "WARNING:" << COLOR_NORMAL << " String exceeds maximum string length" << std::endl;
+						std::cout << COLOR_MAGENTA_NORMAL << "WARNING:" << COLOR_NORMAL << " String exceeds maximum string length" << std::endl;
+						yyerror("");
 					}
 					dVal temp;
 					temp.dataType = CHAR_T;

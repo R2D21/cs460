@@ -90,6 +90,10 @@ int symbolTableEntry::getIdentifierType() const {
 
 }
 
+std::vector<int> symbolTableEntry::getIdentifierType_Vector() const {
+	return identifierType; 
+}
+
 /*
 Function: setIdentifierName(std::string name)
 
@@ -109,7 +113,7 @@ Function: getIdentifierName() const
 Description: This function will return the name of the symbol
 table entry.  
 */
-std::string symbolTableEntry::getIdentifierName() const {
+std::string symbolTableEntry::getIdentifierName() const { 
 	return identifierName; 
 }
 
@@ -194,6 +198,11 @@ void symbolTableEntry::printIdentifierValue() const {
 		case VOID_T:
 			std::cout << "void" << std::endl; 
 			break;
+
+		default:
+			std::cout << "unknown type IS" << std::endl;
+			std::cout <<"\t" << dataInfo.dataType << std::endl; 
+			break;
 	}
 }
 
@@ -260,7 +269,7 @@ Function: getNumberOfParams() const
 
 Description: Returns the number of parameters for a function. 
 */
-int symbolTableEntry::getNumberOfParams() const {
+int symbolTableEntry::getNumParams() const {
 	return parameters.size(); 
 }
 
@@ -288,6 +297,33 @@ void symbolTableEntry::viewParams() const {
 		std::cout << "Parameter Type: " << intTypeToStr(parameters[i].dataType) << std::endl;
 	}
 }
+
+/*
+
+*/
+std::vector<parameter> symbolTableEntry::getParams() const {
+	return parameters; 
+} 
+
+/*
+Function:
+
+Description: 
+*/
+bool symbolTableEntry::checkParams(const std::vector<symbolTableEntry*>& callingParams) const {
+	if (callingParams.size() != parameters.size()) {
+		return false; 
+	}
+
+	std::vector<parameter> paramDataType;
+	for(unsigned int i = 0; i < callingParams.size(); i++) {
+		if (parameters[i].dataType != callingParams[i]->getIdentifierType()) {
+			return false; 
+		}
+	} 
+ 
+	return true; 
+} 
 
 /*
 Function: addArrayDimension(int size)
@@ -366,6 +402,7 @@ symbolTableEntry::~symbolTableEntry() {
 	identifierName = "";
 	dataInfo.dataType = -1;
 	parameters.clear(); 
+	arrayDimensions.clear();  
 }
 
 /*

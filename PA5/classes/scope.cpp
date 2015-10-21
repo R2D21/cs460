@@ -67,5 +67,6 @@ Description: Destructor for a scope entry.
 */
 scope::~scope(){
 	scopeLevel = 0;
-	outerScope = 0; 
+	outerScope = 0;
+	std::cout << "scope destr" << std::endl;  
 }

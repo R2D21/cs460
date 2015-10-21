@@ -1,8 +1,8 @@
 int lee = 68;
 void main(void){
-//	int whydoesthisidentifierhavemorethansixyfourcharacterswesandabgirlareinafightbecauseshehasnobeenshowinguptothegymatsixamwhichshowslackofdedication = 1;
+	int whydoesthisidentifierhavemorethansixyfourcharacterswesandabgirlareinafightbecauseshehasnobeenshowinguptothegymatsixamwhichshowslackofdedication = 1;
 	
-//	int lee;
+	int lee;
 
 	char kepke = "thisisatesttoseeifthiswarningwillshowwhenourstringwillbeovertwohundredandfiftysixcharacterslongbutblahblahthissuckblahblahblahabgirlandwesblahblahblahnowholdupkanyeezyhahahadyeasdfasdfasdfasdfasdfadsfasdfasdfasdgasdgasdglhasdgklhasd;lghasd;lkghasd;lghasd;lghs;dlaghs;aldgh;asldgh";
 }

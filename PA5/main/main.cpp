@@ -37,7 +37,6 @@ int main(int argc, char** argv) {
 	// read input file
 
 	ifstream fin (argv[1]);
-	int i = 0;
 	char str[256];
 	while( fin.good() ){	
 		fin.getline(str, 256);
@@ -59,13 +58,6 @@ int main(int argc, char** argv) {
 			}
 			fileSpecificed = true;
 		}
-		/*
-		if( (string) argv[i] == "-l" ){
-			LFLAG = true;
-		}
-		if( (string) argv[i] == "-y" ){
-			YFLAG = true;
-		}*/
 		if(((string)argv[i]).find("-d") != string::npos)
 		{
 			if( ((string)argv[i]).find("l") != string::npos){
@@ -76,8 +68,6 @@ int main(int argc, char** argv) {
 			}
 		}
 	}
-
-
 
 	// check if 
 	if (LFLAG){
@@ -114,15 +104,14 @@ int main(int argc, char** argv) {
 
 	yyparse();  
 
-	cout << "Parse complete " << endl;
+	cout << "Parse complete" << endl;
 
 	if (LFLAG) {
-
-
 		outL.close();
 	}
 	if( YFLAG ){
 		outY.close();
 	}
+
 	return 0; 
 } 

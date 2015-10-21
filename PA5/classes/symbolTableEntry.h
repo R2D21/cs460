@@ -54,6 +54,7 @@ class symbolTableEntry {
         bool setIdentifierType(std::vector<int> type);
         bool isValid(std::vector<int> type) const; // not implemented
         int getIdentifierType() const; // double check this
+        std::vector<int> getIdentifierType_Vector() const; 
         void setIdentifierName(std::string name);
         std::string getIdentifierName() const;
         bool setIdentifierValue(dVal data); // double check this
@@ -66,10 +67,12 @@ class symbolTableEntry {
         bool isFunction() const;
         void setFunction();
         void addParameter(const parameter& type);
-        int getNumberOfParams() const;
+        int getNumParams() const;
         void setNumPtrs(int number);
         int getNumPtrs() const;
-        void viewParams() const;  
+        void viewParams() const;
+        std::vector<parameter> getParams() const; 
+        bool checkParams(const std::vector<symbolTableEntry*>& callingParams) const;   
 
         // functions needed if entry is an array
         void addArrayDimension(int size);

@@ -26,18 +26,14 @@ Function: pushLevelOn()
 
 Description: This function pushes a new scope level onto the stack. 
 */
-void symbolTable::pushLevelOn() {
-	//std::cout << "1" << std::endl; 
+void symbolTable::pushLevelOn() { 
 	Bst* newTree = new Bst();
-	//std::cout << "2" << std::endl; 
 	int outer = table.size()-1;
 	if(outer == -1){
 		outer = 0;
 	}
 	scope* newScope = new scope(table.size(), outer, *newTree);
-	//std::cout << "3" << std::endl; 
 	table.push_back(*newScope);
-	//std::cout << "4" << std::endl; 
 }
 
 /*
@@ -78,7 +74,6 @@ source program.
 */
 symbolTableEntry* symbolTable::insertNewSymbol(std::string name, int line) {
 	symbolTableEntry* newEntry = new symbolTableEntry(name, line);
-	std::cout << name << std::endl; 
 	Bst* currentVars = table[table.size() - 1].getBst();
 	currentVars->insert(entry(name, *newEntry));
 	bstItr bitr = currentVars->find(name);
@@ -300,5 +295,6 @@ Function: ~symbolTable() (destructor)
 Description: The destructor for a symbol table object.  
 */
 symbolTable::~symbolTable(){
-	popLevelOff(); 
+	//table.clear(); 
+	std::cout << "sym tbl destr" << std::endl; 
 }
