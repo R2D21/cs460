@@ -26,6 +26,7 @@ Tokens have been declared by Bison and are included in the file
 	#include <cstdlib>
 	#include <fstream>
 	#include <algorithm>
+	#include "Escape_Sequences_Colors.h"
 	#include "../parser/cParser.tab.h"
 	#include "../classes/symbolTable.h"
 
@@ -363,9 +364,8 @@ identifier [a-zA-Z][a-zA-Z0-9]*
 					}
 
 					if(yyleng > MAX_ID_LEN){
-						std::string error = "WARNING: Identifier ";
-						error += yytext + (std::string)" exceeds maximum name length";
-						std::cout << error << std::endl;
+						std::cout << "WARNING: Identifier ";
+						std::cout << COLOR_NORMAL << COLOR_BOLD_RED_NORMAL << yytext << COLOR_NORMAL << " exceeds maximum name length";
 					}
 
 
@@ -384,33 +384,39 @@ identifier [a-zA-Z][a-zA-Z0-9]*
 						if (searchResult != NULL) {
 							char lineNum[15];
 							sprintf(lineNum, "%d", yylineno);
-							newEntry += "ERROR: Redeclaration of Variable " + newEntry + " declared here: \n";
-							newEntry += "\tLine " + (std::string)lineNum + (std::string)": " + sourceCode[yylineno - 1] + "\n";
+							std::cout << COLOR_NORMAL;
+							std::cout << "ERROR: Redeclaration of Variable " << COLOR_BOLD << COLOR_RED_NORMAL << newEntry << COLOR_NORMAL << " declared here: \n";
+							std::cout << COLOR_GREEN_NORMAL << "\tLine " << (std::string)lineNum << ": " << COLOR_NORMAL << COLOR_WHITE_NORMAL << sourceCode[yylineno - 1] << COLOR_NORMAL << "\n";
 
 							sprintf(lineNum, "%d", searchResult->getLineNumber());
-							newEntry += "Previously declared here: \n";
-							newEntry += "\tLine " + (std::string)lineNum + ": " + sourceCode[searchResult->getLineNumber() - 1] + "\n";
-							yyerror(newEntry.c_str());
+							std::cout << COLOR_NORMAL;
+							std::cout << "Previously declared here: \n";
+							std::cout << COLOR_GREEN_NORMAL << "\tLine " << (std::string)lineNum << ": " << COLOR_NORMAL << COLOR_WHITE_NORMAL << sourceCode[searchResult->getLineNumber() - 1] << COLOR_NORMAL << "\n";
+							yyerror("");
 						}
 
 						if( (searchResult = table.searchForSymbol(newEntry, level)) != NULL){
 							char lineNum[15];
 							sprintf(lineNum, "%d", yylineno);
-							newEntry += "WARNING: Variable " + newEntry + " declared here: \n";
-							newEntry += "\tLine " + (std::string)lineNum + (std::string)": " + sourceCode[yylineno - 1] + "\n";
+							std::cout << COLOR_NORMAL;
+							std::cout << "WARNING: Variable " << COLOR_BOLD << COLOR_RED_NORMAL <<  newEntry << COLOR_NORMAL << " declared here: \n";
+							std::cout << COLOR_GREEN_NORMAL << "\tLine " << (std::string)lineNum << ": " << COLOR_NORMAL << COLOR_WHITE_NORMAL << sourceCode[yylineno - 1] << COLOR_NORMAL << "\n";
 
 							sprintf(lineNum, "%d", searchResult->getLineNumber());
-							newEntry += "Shadows variable previously declared here: \n";
-							newEntry += "\tLine " + (std::string)lineNum + ": " + sourceCode[searchResult->getLineNumber() - 1] + "\n";
+							std::cout << COLOR_NORMAL;
+							std::cout << "Shadows variable previously declared here: \n";
+							std::cout << COLOR_GREEN_NORMAL << "\tLine " << (std::string)lineNum << ": " << COLOR_NORMAL << COLOR_WHITE_NORMAL << sourceCode[searchResult->getLineNumber() - 1] << COLOR_NORMAL << "\n";
 							searchResult->setNumPtrs(numStar);
 							numStar = 0;
 							if(!searchResult->setIdentifierType(typeSpecifiers) && (typeSpecifiers.size() != 0)){
 								char lineNum[15];
 								sprintf(lineNum, "%d", yylineno);
-								std::string error = "ERROR: Invalid data type used here:\n";
-								error += "\tLine #" + (std::string)lineNum + (std::string)": ";
-								error += sourceCode[yylineno-1];
-								yyerror(error.c_str());
+								std::cout << COLOR_NORMAL;
+								std::cout << "ERROR: Invalid data type used here:\n";
+								std::cout << COLOR_GREEN_NORMAL << "\tLine #" << (std::string)lineNum << (std::string)": " << COLOR_NORMAL;
+								std::cout << COLOR_WHITE_NORMAL << sourceCode[yylineno-1] << "\n";
+								std::cout << COLOR_NORMAL;
+								yyerror("");
 							}
 							std::cout << newEntry << std::endl; 
 							yylval.entry = searchResult;
@@ -426,10 +432,10 @@ identifier [a-zA-Z][a-zA-Z0-9]*
 								char lineNum[15];
 								sprintf(lineNum, "%d", yylineno);
 
-								std::string error = "ERROR: Invalid data type used here:\n";
-								error += "\tLine #" + (std::string)lineNum + (std::string)": ";
-								error += sourceCode[yylineno-1];
-								yyerror(error.c_str());
+								std::cout << "ERROR: Invalid data type used here:\n";
+								std::cout << COLOR_GREEN_NORMAL << "\tLine #" << (std::string)lineNum << (std::string)": " << COLOR_NORMAL;
+								std::cout << COLOR_WHITE_NORMAL << sourceCode[yylineno-1] << COLOR_NORMAL << "\n";
+								yyerror("");
 							} 
 							colPosition += strlen(yytext);
 							yylval.entry = searchResult;
@@ -440,8 +446,12 @@ identifier [a-zA-Z][a-zA-Z0-9]*
 					else{
 						searchResult = table.searchForSymbol(newEntry, level);
 						if(searchResult == NULL){
-							newEntry = "ERROR: " + newEntry + " was not declared in this scope.";
-							yyerror(newEntry.c_str());
+							char lineNum[15];
+							sprintf(lineNum, "%d", yylineno);
+							std::cout << "ERROR: " << COLOR_NORMAL << COLOR_BOLD_RED_NORMAL << newEntry << COLOR_NORMAL << " was not declared in this scope." << "\n";
+							std::cout << COLOR_GREEN_NORMAL << "\tLine #" << (std::string)lineNum << (std::string)": " << COLOR_NORMAL;
+							std::cout << COLOR_WHITE_NORMAL << sourceCode[yylineno-1] << COLOR_NORMAL << "\n";
+							yyerror("");
 						}
 						else{
 							yylval.entry = searchResult;
@@ -457,15 +467,15 @@ identifier [a-zA-Z][a-zA-Z0-9]*
 					std::string MAX_NUM = "18446744073709551615";
 
 					if( strTemp.length() > MAX_NUM.length() ){
-						std::string error = "ERROR: ";
-						error += strTemp + " exceeds maximum number value.\n";
-						yyerror(error.c_str());	
+						std::cout << "ERROR: ";
+						std::cout << COLOR_NORMAL << COLOR_BOLD_RED_NORMAL << strTemp << COLOR_NORMAL << " exceeds maximum number value.\n";
+						yyerror("");	
 					}
 					else if(strTemp.length() == MAX_NUM.length()){
 						if( strTemp > MAX_NUM ){
 						std::string error = "ERROR: ";
-						error += strTemp + " exceeds maximum number value.\n";
-						yyerror(error.c_str());							}
+						std::cout << COLOR_NORMAL << COLOR_BOLD_RED_NORMAL << strTemp << COLOR_NORMAL << " exceeds maximum number value.\n";
+						yyerror("");							}
 					}
 					
 
@@ -856,10 +866,11 @@ identifier [a-zA-Z][a-zA-Z0-9]*
 					if(isValidType(typeSpecifiers) == -1 && (typeSpecifiers.size() != 0)){
 							char lineNum[15];
 							sprintf(lineNum, "%d", yylineno);
-							std::string error = "ERROR: Invalid data type used here:\n";
-							error += "\tLine #" + (std::string)lineNum + (std::string)": ";
-							error += sourceCode[yylineno-1];
-							yyerror(error.c_str());
+							std::cout << "ERROR: Invalid data type used here:\n";
+							std::cout << COLOR_GREEN_NORMAL << "\tLine #" << (std::string)lineNum << (std::string)": " << COLOR_NORMAL;
+							std::cout << COLOR_WHITE_NORMAL << sourceCode[yylineno-1];
+					   		std::cout << COLOR_NORMAL;
+							yyerror("");
 
 					}
 
@@ -943,14 +954,29 @@ identifier [a-zA-Z][a-zA-Z0-9]*
 				}
 .				{
 						std::string token(yytext);
-						std::string error = (std::string) "ERROR: Unexpected character " + token;
-						error += " here:" + (std::string)"\n";
-						error += currentSourceCodeLine + token + (std::string)"\n";
-						for(unsigned int i = 0; i < currentSourceCodeLine.length(); i++){
-							error += "-";
+						char temp[256];
+						char lineNum[15];
+						strcpy(temp, sourceCode[yylineno-1].c_str());
+						sprintf(lineNum, "%d", yylineno);
+						int iter = 0;
+						std::cout << "ERROR: Unexpected character " << COLOR_NORMAL << COLOR_BOLD_RED_NORMAL << token << COLOR_NORMAL;
+						std::cout << " here:" << (std::string)"\n";
+						while(temp[iter] != '\0')
+						{
+							if( iter == 0 ){
+								std::cout << COLOR_GREEN_NORMAL << "\tLine #" << (std::string)lineNum << (std::string)": " << COLOR_NORMAL;
+							}
+							if(temp[iter] == yytext[0])
+							{
+								std::cout << COLOR_NORMAL << COLOR_BOLD_RED_NORMAL << token << COLOR_NORMAL;
+							}
+							else{
+								std::cout << COLOR_WHITE_NORMAL << temp[iter];
+							}
+							iter++;
 						}
-						error += "^";
-						yyerror(error.c_str());
+						std::cout << COLOR_NORMAL;
+						yyerror("");
 				}		
 %%
 
