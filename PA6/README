@@ -1,6 +1,1 @@
-This folder will contain the implementation for the symbol table of our 
-compiler.
-
-The symbol table will be a stack of binary search trees. 
-
-We are using the C++ STL to implement this functionality. 
+This folder contains the refactored implementation for the front end of catfishC. 
