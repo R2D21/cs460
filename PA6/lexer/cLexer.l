@@ -44,8 +44,8 @@ Tokens have been declared by Bison and are included in the file
 
 
 	/* variables */
+	node* nodeTemp = NULL; 
 	bool inInsertMode = true; // false => "lookup mode"
-	dVal* temp = NULL; 
 	int colPosition = 0;
 	int tabCount = 0; 
 	symbolTable table;
@@ -414,7 +414,7 @@ identifier [a-zA-Z][a-zA-Z0-9]*
 								std::cout << COLOR_NORMAL;
 								yyerror("");
 							}
-							yylval.entry = searchResult;
+							//yylval.n.entry = searchResult;
 							typeSpecifiers.clear();						
 							return IDENTIFIER;
 						}
@@ -433,7 +433,7 @@ identifier [a-zA-Z][a-zA-Z0-9]*
 								yyerror("");
 							} 
 							colPosition += strlen(yytext);
-							yylval.entry = searchResult;
+							//yylval.n.entry = searchResult;
 							typeSpecifiers.clear();			
 							return IDENTIFIER;
 						}
@@ -450,7 +450,7 @@ identifier [a-zA-Z][a-zA-Z0-9]*
 							yyerror("");
 						}
 						else{
-							yylval.entry = searchResult;
+							//yylval.n.entry = searchResult;
 							return IDENTIFIER;
 						}
 					}
@@ -484,13 +484,12 @@ identifier [a-zA-Z][a-zA-Z0-9]*
 						yyerror("");							}
 					}
 					
-
    					currentSourceCodeLine += strTemp;
-					temp = new dVal;
-					temp->dataType = LONG_LONG_T;
-					temp->value._number = atoll(yytext); 
-					yylval.val = temp;
-					temp = NULL;  
+   					nodeTemp = new node;
+   					nodeTemp->valType = LONG_LONG_T;
+   					nodeTemp->val._num = atoll(yytext); 
+					yylval.n = nodeTemp;
+					nodeTemp = NULL;  
 					return INTEGER_CONSTANT; 						
 				}
 {decimal}		{
@@ -499,11 +498,11 @@ identifier [a-zA-Z][a-zA-Z0-9]*
 					}
 					std::string strTemp(yytext);
    					currentSourceCodeLine += strTemp;
-					temp = new dVal;
-					temp->dataType = DOUBLE;
-					temp->value._decimal = strtold(yytext, NULL);
-					yylval.val = temp;
-					temp = NULL;  
+					nodeTemp = new node;
+   					nodeTemp->valType = LONG_DOUBLE_T;
+   					nodeTemp->val._dec = strtold(yytext, NULL);
+					yylval.n = nodeTemp;
+					nodeTemp = NULL;  
 					return FLOATING_CONSTANT; 		
 				}
 "'"[a-zA-Z]"'"	{
@@ -512,11 +511,11 @@ identifier [a-zA-Z][a-zA-Z0-9]*
 					}
 					std::string strTemp(yytext);
    					currentSourceCodeLine += strTemp;
-					temp = new dVal;
-					temp->dataType = CHAR_T;
-					temp->value._char = yytext[1];
-					yylval.val = temp;
-					temp = NULL;  
+   					nodeTemp = new node;
+   					nodeTemp->valType = CHAR_T;
+   					nodeTemp->val._char = yytext[1];;
+					yylval.n = nodeTemp;
+					nodeTemp = NULL;  
 					return CHARACTER_CONSTANT; 		
 				}
 				/* don't know what this is 
@@ -536,11 +535,13 @@ identifier [a-zA-Z][a-zA-Z0-9]*
 						std::cout << COLOR_MAGENTA_NORMAL << "WARNING:" << COLOR_NORMAL << " String exceeds maximum string length" << std::endl;
 						yyerror("");
 					}
-					dVal temp;
-					temp.dataType = CHAR_T;
-					strncpy(temp.value._str, yytext, 255);
-					temp.value._str[255]='\0';
-					yylval.val = &temp;
+
+   					nodeTemp = new node;
+   					nodeTemp->valType = STR_T;
+   					strncpy(nodeTemp->val._str, yytext, 255);
+					nodeTemp->val._str[255]='\0';
+					yylval.n = nodeTemp;
+					nodeTemp = NULL;  
 					return STRING_LITERAL;
 				}
 "->"			{

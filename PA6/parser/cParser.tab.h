@@ -40,21 +40,23 @@
 extern int yydebug;
 #endif
 /* "%code requires" blocks.  */
-#line 49 "../parser/cParser.y" /* yacc.c:1909  */
+#line 52 "../parser/cParser.y" /* yacc.c:1909  */
+
+	typedef union {
+		char _char;
+		long long _num;
+		long double _dec; // decimal
+		char _str[256];
+		class symbolTableEntry* _ste;   
+	} vals;
 
 	typedef struct {
-		class symbolTableEntry* sEntry;
-	    int dataType;
-	    typedef union {
-	        char _char;
-	        long long _number;
-	        long double _decimal;     
-	        char _str[256];   
-	    } vals;
-	    vals value;
-	} dVal;
+		int valType; 
+		vals val;
+		class astNode* astPtr;
+	} node;
 
-#line 58 "cParser.tab.h" /* yacc.c:1909  */
+#line 60 "cParser.tab.h" /* yacc.c:1909  */
 
 /* Token type.  */
 #ifndef YYTOKENTYPE
@@ -155,11 +157,9 @@ extern int yydebug;
 typedef union YYSTYPE YYSTYPE;
 union YYSTYPE
 {
-#line 68 "../parser/cParser.y" /* yacc.c:1909  */
+#line 71 "../parser/cParser.y" /* yacc.c:1909  */
 
-	char* sVal;
-	dVal* val;
-	class symbolTableEntry* entry; 
+	node* n;
 
 #line 165 "cParser.tab.h" /* yacc.c:1909  */
 };

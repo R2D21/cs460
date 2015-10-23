@@ -30,14 +30,17 @@ enum Type{
     LONG_LONG_T,
     LONG_DOUBLE_T,
     SHORT_T,
+    STR_T,
+    STE_T,
     VOID_T
 };
 
-// used for function parameters
-typedef struct {
-    int dataType;
-    std::string formalParam; 
-} parameter;  
+typedef union {
+    char _char;
+    long long _num;
+    long double _dec; // decimal
+    char _str[256];    
+} entryVals; 
 
 // typdefs
 typedef std::pair<std::vector<int>, int> pair;
@@ -57,8 +60,8 @@ class symbolTableEntry {
         std::vector<int> getIdentifierType_Vector() const; 
         void setIdentifierName(std::string name);
         std::string getIdentifierName() const;
-        bool setIdentifierValue(dVal data); // double check this
-        dVal getIdentifierValue() const; // double check this
+        bool setIdentifierValue(const node& src); // double check this
+        //node getIdentifierValue() const; // double check this
         void printIdentifierValue() const; // double check this
 
         std::string getTypeStr() const;
@@ -66,12 +69,12 @@ class symbolTableEntry {
         // functions needed if entry is a function
         bool isFunction() const;
         void setFunction();
-        void addParameter(const parameter& type);
+        void addParameter(int type);
         int getNumParams() const;
         void setNumPtrs(int number);
         int getNumPtrs() const;
         void viewParams() const;
-        std::vector<parameter> getParams() const; 
+        std::vector<int> getParams() const; 
         bool checkParams(const std::vector<symbolTableEntry*>& callingParams) const;   
 
         // functions needed if entry is an array
@@ -96,9 +99,9 @@ class symbolTableEntry {
         bool isSigned;
         bool isUnsigned; 
         int numPtrs;
+        entryVals entryVal; 
         std::string identifierName;  
-        dVal dataInfo; 
-        std::vector<parameter> parameters;
+        std::vector<int> parameters;
         std::vector<int> identifierType;       // here 
         std::vector<int> arrayDimensions;
         //std::map<std::vector<int>, int> validTypes; 

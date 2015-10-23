@@ -26,7 +26,6 @@ symbolTableEntry::symbolTableEntry() {
 	isSigned = false;
 	isUnsigned = false; 
 	identifierName = "";
-	dataInfo.dataType = -1; 
 	numPtrs = 0;
 
 }
@@ -48,7 +47,6 @@ symbolTableEntry::symbolTableEntry(std::string name, int lineNumber) {
 	isSigned = false;
 	isUnsigned = false; 
 	identifierName = name;
-	dataInfo.dataType = -2; 
 	numPtrs = 0;
 }
 
@@ -66,7 +64,7 @@ bool symbolTableEntry::setIdentifierType(std::vector<int> type) {
 	int typeNum = isValidType(type);
 
 	if(typeNum != -1){
-		dataInfo.dataType = typeNum;
+		//dataInfo.dataType = typeNum;
 		identifierType = type;
 		return true;
 
@@ -86,8 +84,8 @@ value which depends on what type of value is stored in the
 symbol table entry object. 
 */
 int symbolTableEntry::getIdentifierType() const {
-	return dataInfo.dataType; 
-
+	//return dataInfo.dataType; 
+	return 1;
 }
 
 std::vector<int> symbolTableEntry::getIdentifierType_Vector() const {
@@ -128,7 +126,8 @@ incoming value to the correct component of the union.
 
 Descrition: Sets the value of a corresponding identifier. 
 */
-bool symbolTableEntry::setIdentifierValue(dVal data){
+bool symbolTableEntry::setIdentifierValue(const node& src){
+		/*
 		switch(dataInfo.dataType) {
 		case LONG_LONG_T:
 			dataInfo.value._number = data.value._number;
@@ -168,7 +167,8 @@ bool symbolTableEntry::setIdentifierValue(dVal data){
 		default:
 			dataInfo.dataType = -1; 
 	}
-	return true;
+	*/
+	return true; 
 }
 
 /*
@@ -177,6 +177,7 @@ Function: printIdentifierValue()
 Descrition: Prints the value of a corresponding identifier. 
 */
 void symbolTableEntry::printIdentifierValue() const {
+	/*
 	switch(dataInfo.dataType) {
 		case LONG_LONG_T:
 		case LONG_T:
@@ -203,11 +204,11 @@ void symbolTableEntry::printIdentifierValue() const {
 			std::cout << "unknown type IS" << std::endl;
 			std::cout <<"\t" << dataInfo.dataType << std::endl; 
 			break;
-	}
+	} */
 }
 
 std::string symbolTableEntry::getTypeStr() const{
-	return intTypeToStr( dataInfo.dataType );
+	return ""; /*intTypeToStr( dataInfo.dataType ); */
 }
 
 /*
@@ -217,9 +218,10 @@ Descrition: Returns an object of type "dVal", which is an object that
 contains an indicator as to which component in the union the corresponding
 value is located. 
 */
-dVal symbolTableEntry::getIdentifierValue() const {
+/*
+node symbolTableEntry::getIdentifierValue() const {
 	return dataInfo; 
-} 
+} */
 
 /*
 Function: isFunction() const
@@ -253,7 +255,7 @@ parameter in the function.
 Description: Allows the caller to add a formal parameter to
 the symbol table entry. 
 */
-void symbolTableEntry::addParameter(const parameter& type) {
+void symbolTableEntry::addParameter(int type) {
 	parameters.push_back(type);
 
 
@@ -292,16 +294,17 @@ Function:
 
 */
 void symbolTableEntry::viewParams() const {
+	/*
 	for(unsigned int i = 0; i < parameters.size(); i++) {
 		std::cout << "Formal Parameter: " << parameters[i].formalParam << std::endl;
 		std::cout << "Parameter Type: " << intTypeToStr(parameters[i].dataType) << std::endl;
-	}
+	} */
 }
 
 /*
 
 */
-std::vector<parameter> symbolTableEntry::getParams() const {
+std::vector<int> symbolTableEntry::getParams() const {
 	return parameters; 
 } 
 
@@ -311,6 +314,7 @@ Function:
 Description: 
 */
 bool symbolTableEntry::checkParams(const std::vector<symbolTableEntry*>& callingParams) const {
+	/*
 	if (callingParams.size() != parameters.size()) {
 		return false; 
 	}
@@ -322,6 +326,7 @@ bool symbolTableEntry::checkParams(const std::vector<symbolTableEntry*>& calling
 		}
 	} 
  
+ 	*/
 	return true; 
 } 
 
@@ -409,7 +414,6 @@ symbolTableEntry::~symbolTableEntry() {
 	isSigned = false;
 	isUnsigned = false; 
 	identifierName = "";
-	dataInfo.dataType = -1;
 	parameters.clear(); 
 	arrayDimensions.clear();  
 }
