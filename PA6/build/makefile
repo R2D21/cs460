@@ -8,8 +8,8 @@
 # Macros
 CC = g++
 DEBUG = -g
-CFLAGS = -Wall -c $(DEBUG)
-LFLAGS = -Wall $(DEBUG)
+CFLAGS = -Wall -c $(DEBUG) -Wno-unused-function
+LFLAGS = -Wall $(DEBUG) -Wno-unused-function
 FLEX = flex
 BISON = bison
 LIBS = -L/usr/local/lib -lfl
