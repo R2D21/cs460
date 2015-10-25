@@ -84,8 +84,7 @@ value which depends on what type of value is stored in the
 symbol table entry object. 
 */
 int symbolTableEntry::getIdentifierType() const {
-	//return dataInfo.dataType; 
-	return 1;
+	return entryType;
 }
 
 std::vector<int> symbolTableEntry::getIdentifierType_Vector() const {
@@ -127,24 +126,66 @@ incoming value to the correct component of the union.
 Descrition: Sets the value of a corresponding identifier. 
 */
 bool symbolTableEntry::setIdentifierValue(const node& src){
-		/*
-		switch(dataInfo.dataType) {
+		
+	switch(entryType) {
 		case LONG_LONG_T:
+			if(src.valType == LONG_T || src.valType == INT_T || src.valType == SHORT_T  ){
+				// warning, up conversion
+			}
+			else if(src.valType == CHAR_T){
+				// warning, converting character to integer
+			}
+			else if(src.valType == FLOAT_T || src.valType == DOUBLE_T || src.valType == LONG_DOUBLE_T){
+				// warning, down conversion from float to long long
+			}
 			dataInfo.value._number = data.value._number;
 			break;
 		case LONG_T:
+			if(src.valType == INT_T || src.valType == SHORT_T  ){
+				// warning, up conversion
+			}
+			else if(src.valType == CHAR_T){
+				// warning, converting character to integer
+			}
+			else if(src.valType == FLOAT_T || src.valType == DOUBLE_T || src.valType == LONG_DOUBLE_T){
+				// warning, down conversion from float to long long
+			}
+			else if( src.valType == LONG_LONG_T ){
+				// warning???
+			}
 			if( data.value._number > LONG_MAX ){
 				return false;
 			}
 			dataInfo.value._number = data.value._number;
 			break;
 		case INT_T:
+			if(src.valType == SHORT_T  ){
+				// warning, up conversion
+			}
+			else if(src.valType == CHAR_T){
+				// warning, converting character to integer
+			}
+			else if(src.valType == FLOAT_T || src.valType == DOUBLE_T || src.valType == LONG_DOUBLE_T ){
+				// warning, down conversion from float to long long
+			}
+			else if(src.valType == LONG_T ||  src.valType == LONG_LONG_T ){
+				// warning???
+			}
 			if( data.value._number > INT_MAX ){
 				return false;
 			}
 			dataInfo.value._number = data.value._number;
 			break;
 		case SHORT_T:
+			if(src.valType == CHAR_T){
+				// warning, converting character to short
+			}
+			else if(src.valType == FLOAT_T || src.valType == DOUBLE_T || src.valType == LONG_DOUBLE_T){
+				// warning, down conversion from float to long long
+			}
+			else if(src.valType == INT_T || src.valType == LONG_T ||  src.valType == LONG_LONG_T ){
+				// warning???
+			}
 			if( data.value._number > SHRT_MAX ){
 				return false;
 			}
@@ -152,7 +193,25 @@ bool symbolTableEntry::setIdentifierValue(const node& src){
 			break;
 
 		case FLOAT_T:
+			if(src.valType == CHAR_T){
+				// warning, converting character to float?
+			}
+			else if(src.valType == DOUBLE_T || src.valType == LONG_DOUBLE_T){
+				// warning, down conversion from float to long long
+			}
+			else if(src.valType == INT_T || src.valType == LONG_T ||  src.valType == LONG_LONG_T ){
+				// warning???
+			}
+			if( data.value._number > SHRT_MAX ){
+				return false;
+			}
+			dataInfo.value._decimal = data.value._decimal;
+			break;
+
 		case DOUBLE_T:
+			dataInfo.value._decimal = data.value._decimal;
+			break;
+
 		case LONG_DOUBLE_T:
 			dataInfo.value._decimal = data.value._decimal;
 			break;
@@ -166,8 +225,8 @@ bool symbolTableEntry::setIdentifierValue(const node& src){
 
 		default:
 			dataInfo.dataType = -1; 
-	}
-	*/
+}
+	
 	return true; 
 }
 

@@ -104,6 +104,7 @@ class symbolTableEntry {
         bool isUnsigned; 
         int numPtrs;
         entryVals entryVal; 
+        int entryType;
         std::string identifierName;  
         std::vector<int> parameters;
         std::vector<int> identifierType;       // here 
