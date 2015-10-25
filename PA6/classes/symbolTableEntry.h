@@ -55,13 +55,17 @@ class symbolTableEntry {
         
         // symbol table object functions
         bool setIdentifierType(std::vector<int> type);
-        bool isValid(std::vector<int> type) const; // not implemented
+        std::vector<int> getIdentifierType_Vector() const;     // should differentiate these functions 
         int getIdentifierType() const; // double check this
-        std::vector<int> getIdentifierType_Vector() const; 
+
         void setIdentifierName(std::string name);
-        std::string getIdentifierName() const;
+        std::string getIdentifierName() const; 
+
         bool setIdentifierValue(const node& src); // double check this
         //node getIdentifierValue() const; // double check this
+
+        bool isValid(std::vector<int> type) const; // not implemented
+
         void printIdentifierValue() const; // double check this
 
         std::string getTypeStr() const;
