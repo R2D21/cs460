@@ -57,28 +57,26 @@ class symbolTableEntry {
         symbolTableEntry(); 
         symbolTableEntry(std::string name, int lineNumber);
         
-        // symbol table entry getter/setter functions
+        // basic functions
         bool setIdentifierType(std::vector<int> type);
         std::vector<int> getIdentifierType_Vector() const;
         int getIdentifierType_Enum() const;
         void setIdentifierName(std::string name);
         std::string getIdentifierName() const; 
         bool setIdentifierValue(const node& src);
-        node getIdentifierValue() const; 
-
-
-        
-
-        
-        
+        node* getIdentifierValue() const; 
+        void printIdentifierValue() const;
 
         
 
-        bool isValid(std::vector<int> type) const; // not implemented
+        
+        
 
-        void printIdentifierValue() const; // double check this
+        
 
-        std::string getTypeStr() const;
+
+
+        
 
         // functions needed if entry is a function
         bool isFunction() const;
@@ -99,6 +97,7 @@ class symbolTableEntry {
 
         // other functions 
         int getLineNumber() const;
+        std::string getTypeStr() const;
         void displayIdentifierAttributes() const; 
         //std::string getLineNumber() const; 
 
@@ -128,10 +127,8 @@ class symbolTableEntry {
         // attributes needed if entry is a function  
         bool isFunc;
         std::vector<int> parameters;
-
-        //std::map<std::vector<int>, int> validTypes; 
-
-        // symbol table entry private functions
+ 
+        // private functions - used only by members of the class
         std::string intTypeToStr(int someType) const; 
 };
 

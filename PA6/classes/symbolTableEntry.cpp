@@ -298,11 +298,12 @@ bool symbolTableEntry::setIdentifierValue(const node& src){
 			entryVal._char = src.val._char;
 			break;
 
-		// this case should never happen
+		// should only occur if the symbol table entry has not been
+		// assigned a data type
 		default:
-			std::cout << "Inside of setIdentifierValue() in the case that should";
-			std::cout << " never happen." << std::endl; 
-			break;
+			std::cout << "Inside of setIdentifierValue() in the case where";
+			std::cout << " the identifier does not have a data type." << std::endl; 
+			break;	
 	}
 
 	// the identifier has successfully been assigned a new value
@@ -310,40 +311,43 @@ bool symbolTableEntry::setIdentifierValue(const node& src){
 }
 
 /*
-Function: getIdentifierValue() 
+Function: getIdentifierValue() const
 
-Description: 
+Description: This function creates a new node object and initializes it to 
+contain both the data and an indicator as to the type of data. 
 */
-node symbolTableEntry::getIdentifierValue() const {
-	node n;
-	n.astPtr = NULL;
-	n.valType = entryType;
+node* symbolTableEntry::getIdentifierValue() const {
+	node* n = new node();
+	n->astPtr = NULL;
+	n->valType = entryType;
 	switch(entryType) {
 		case LONG_LONG_T:
 		case LONG_T:
 		case INT_T:
 		case SHORT_T:
-			n.val._num = entryVal._num;
+			n->val._num = entryVal._num;
 			break;
 
 		case FLOAT_T:
 		case DOUBLE_T:
 		case LONG_DOUBLE_T:
-			n.val._dec = entryVal._dec;
+			n->val._dec = entryVal._dec;
 			break;
 
 		case CHAR_T:
-			n.val._char = entryVal._char;
+			n->val._char = entryVal._char;
 			break;
 
 		case STR_T:
-			strcpy(n.val._str, entryVal._str);
+			strcpy(n->val._str, entryVal._str);
 			break;
 
-		// this case should never happen
+		// should only occur if the symbol table entry has not been
+		// assigned a data type
 		default:
-			std::cout << "Inside of getIdentifierValue() in the case that should";
-			std::cout << " never happen." << std::endl; 
+			std::cout << "Inside of getIdentifierValue() in the case where";
+			std::cout << " the identifier does not have a data type." << std::endl;
+			return NULL;  
 			break;		
 	}
 
@@ -351,39 +355,39 @@ node symbolTableEntry::getIdentifierValue() const {
 } 
 
 /*
-Function: printIdentifierValue()
+Function: printIdentifierValue() const
 
 Descrition: Prints the value of a corresponding identifier. 
 */
 void symbolTableEntry::printIdentifierValue() const {
-	/*
-	switch(dataInfo.dataType) {
+	switch(entryType) {
 		case LONG_LONG_T:
 		case LONG_T:
 		case INT_T:
 		case SHORT_T:
- 			std::cout << dataInfo.value._number << std::endl; 
+ 			std::cout << entryVal._num << std::endl; 
 			break;
 
 		case FLOAT_T:
 		case DOUBLE_T:
 		case LONG_DOUBLE_T:
-			std::cout << dataInfo.value._decimal << std::endl; 
+			std::cout << entryVal._dec << std::endl; 
 			break;
 
 		case CHAR_T:
-			std::cout << dataInfo.value._char << std::endl; 
+			std::cout << entryVal._char << std::endl; 
 			break;
 
 		case VOID_T:
-			std::cout << "void" << std::endl; 
+			std::cout << "Identifier is void and does not have a value";
+			std::cout << std::endl; 
 			break;
 
 		default:
-			std::cout << "unknown type IS" << std::endl;
-			std::cout <<"\t" << dataInfo.dataType << std::endl; 
+			std::cout << "Inside of printIdentifierValue() in the case where";
+			std::cout << " the identifier does not have a data type." << std::endl;
 			break;
-	} */
+	} 
 }
 
 std::string symbolTableEntry::getTypeStr() const{
