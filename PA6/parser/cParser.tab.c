@@ -67,7 +67,7 @@
 	#include <climits>
 	#include <fstream>
 	#include <iostream>
-	#include <string.h>
+	#include <string>
 	#include "../classes/symbolTableEntry.h"
 	#include "../classes/symbolTable.h"
 	#include "../lexer/Escape_Sequences_Colors.h"

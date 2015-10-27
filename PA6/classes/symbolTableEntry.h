@@ -2,7 +2,7 @@
 Name: Renee Iinuma, Kyle Lee, and Wesley Kepke. 
 File: symbolTableEntry.h
 Created: September 27, 2015
-Last Modified: October 22, 2015
+Last Modified: October 27, 2015
 Class: CS 460 (Compiler Construction)
 
 This is the header file for the objects that will reside in the symbol table
@@ -15,11 +15,12 @@ of our ANSI C compiler.
 
 // includes
 #include <string>
+#include <cstring>
 #include <vector>
 #include <iostream>
 #include <map>
 #include <climits>
-#include "../parser/cParser.tab.h" // used for token values
+#include "../parser/cParser.tab.h" // used for token values and other elements 
 
 // externs
 extern int isValidType(std::vector<int> type);
@@ -63,7 +64,7 @@ class symbolTableEntry {
         void setIdentifierName(std::string name);
         std::string getIdentifierName() const; 
         bool setIdentifierValue(const node& src);
-
+        node getIdentifierValue() const; 
 
 
         
@@ -72,7 +73,6 @@ class symbolTableEntry {
         
 
         
-        //node getIdentifierValue() const; // double check this
 
         bool isValid(std::vector<int> type) const; // not implemented
 

@@ -23,7 +23,7 @@ the token declarations that will be used in the lexer.
 	#include <climits>
 	#include <fstream>
 	#include <iostream>
-	#include <string.h>
+	#include <string>
 	#include "../classes/symbolTableEntry.h"
 	#include "../classes/symbolTable.h"
 	#include "../lexer/Escape_Sequences_Colors.h"

@@ -300,12 +300,55 @@ bool symbolTableEntry::setIdentifierValue(const node& src){
 
 		// this case should never happen
 		default:
+			std::cout << "Inside of setIdentifierValue() in the case that should";
+			std::cout << " never happen." << std::endl; 
 			break;
 	}
 
 	// the identifier has successfully been assigned a new value
 	return true; 
 }
+
+/*
+Function: getIdentifierValue() 
+
+Description: 
+*/
+node symbolTableEntry::getIdentifierValue() const {
+	node n;
+	n.astPtr = NULL;
+	n.valType = entryType;
+	switch(entryType) {
+		case LONG_LONG_T:
+		case LONG_T:
+		case INT_T:
+		case SHORT_T:
+			n.val._num = entryVal._num;
+			break;
+
+		case FLOAT_T:
+		case DOUBLE_T:
+		case LONG_DOUBLE_T:
+			n.val._dec = entryVal._dec;
+			break;
+
+		case CHAR_T:
+			n.val._char = entryVal._char;
+			break;
+
+		case STR_T:
+			strcpy(n.val._str, entryVal._str);
+			break;
+
+		// this case should never happen
+		default:
+			std::cout << "Inside of getIdentifierValue() in the case that should";
+			std::cout << " never happen." << std::endl; 
+			break;		
+	}
+
+	return n; 
+} 
 
 /*
 Function: printIdentifierValue()
