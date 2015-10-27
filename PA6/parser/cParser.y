@@ -2,7 +2,7 @@
 Name: Renee Iinuma, Kyle Lee, and Wesley Kepke. 
 File: symbolTable.cpp
 Created: September 28, 2015
-Last Modified: October 15, 2015
+Last Modified: October 27, 2015
 Class: CS 460 (Compiler Construction)
 
 This is the input file to Bison that will be used in the front end of our
@@ -102,9 +102,12 @@ yylval will remain as an integer in this program. */
 */
 
 
-/* start of tokens for ANSI C grammar */
+/* catfishC tokens */
 %token IDENTIFIER
-%token INTEGER_CONSTANT FLOATING_CONSTANT ENUMERATION_CONSTANT CHARACTER_CONSTANT 
+%token INTEGER_CONSTANT 
+%token FLOATING_CONSTANT 
+%token ENUMERATION_CONSTANT 
+%token CHARACTER_CONSTANT 
 %token STRING_LITERAL 
 %token SIZEOF
 %token PTR_OP 
@@ -115,7 +118,6 @@ yylval will remain as an integer in this program. */
 %token MUL_ASSIGN DIV_ASSIGN MOD_ASSIGN ADD_ASSIGN SUB_ASSIGN 
 %token LEFT_ASSIGN RIGHT_ASSIGN AND_ASSIGN XOR_ASSIGN OR_ASSIGN 
 %token TYPEDEF_NAME
-
 %token PLUS MINUS MULT DIV MOD
 %token SEMI COLON COMMA AMP
 %token ASSIGN TILDE PIPE CARROT DOT
@@ -123,15 +125,12 @@ yylval will remain as an integer in this program. */
 %token LPAREN LBRACK LCURL
 %token RPAREN RBRACK RCURL
 %token LTHAN GTHAN
-
-
-
 %token TYPEDEF EXTERN STATIC AUTO REGISTER
 %token CHAR SHORT INT LONG SIGNED UNSIGNED FLOAT DOUBLE CONST VOLATILE VOID
 %token STRUCT UNION ENUM ELIPSIS RANGE
-
 %token CASE DEFAULT IF ELSE SWITCH WHILE DO FOR GOTO CONTINUE BREAK RETURN
 
+/* catfishC starting left hand side */
 %start translation_unit
 
 /*

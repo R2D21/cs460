@@ -986,15 +986,26 @@ identifier [a-zA-Z][a-zA-Z0-9]*
 				}		
 %%
 
-/* user code: none for now I think.. */
+/* user code */
 
+/*
+Function: isValidType(std::vector<int> type)
+
+Description: This function will check to see if a supplied vector of 
+tokens matches any of the allowable datatypes in C. If the supplied vector
+contains an allowable data type, the function will return the enumerated
+integer of the associated data type. If the incoming vector contains tokens
+in an invalid order, the function will return -1. 
+
+Parameters:
+std::vector<int> type: This is the incoming vector of tokens that will be
+used to determine if the compiler has encountered a valid datatype. 
+*/
 int isValidType(std::vector<int> type){
-
 	// populate the map for each symbol table entry
 	// ex: "long long, long int, etc."
 	std::map<std::vector<int>, int> validTypes; 
 	std::map<std::vector<int> , int>::iterator mapItr;
-
 	std::vector<int> validType;
 
 	// char
@@ -1063,11 +1074,14 @@ int isValidType(std::vector<int> type){
 	validTypes.insert(pair(validType, VOID_T));
 	validType.clear();	
 
-
-
+	// search for the vector in the predefined map of data types
 	mapItr = validTypes.find(type);
 	if(mapItr != validTypes.end()){
+		// if found, return the enumerated integer used to identify the 
+		// data type
 		return mapItr->second;
 	}
+
+	// if unable to locate, indicate to the caller. 
 	return -1;
 }

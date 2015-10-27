@@ -2,7 +2,7 @@
 Name: Renee Iinuma, Kyle Lee, and Wesley Kepke. 
 File: symbolTableEntry.cpp
 Created: September 27, 2015
-Last Modified: October 22, 2015
+Last Modified: October 27, 2015
 Class: CS 460 (Compiler Construction)
 
 This is the implementation file for the objects that will reside in the symbol
@@ -12,22 +12,33 @@ table of our C compiler.
 // includes
 #include "symbolTableEntry.h"
 
-
 /*
 Function: symbolTableEntry() (constructor) 
 
-Description: Allows for instantiation of a new symbol table entry object. 
+Description: Allows for instantiation of a new symbol table entry object.
+All data attributes are initialized to default values.  
 */
 symbolTableEntry::symbolTableEntry() {
-	// none of the following info has been determined yet
+	// entry data info
+	entryType = -1;
+
+	// entry data attributes
+	identifierName = "";
+	identifierType.clear(); 
 	lineNum = -1;
-	isFunc = false;
-	isArray = false; 
 	isSigned = false;
 	isUnsigned = false; 
-	identifierName = "";
-	numPtrs = 0;
 
+	// entry pointer attributes
+	numPtrs = -1; 
+
+	// entry array attributes
+	isArray = false;
+	arrayDimensions.clear();  
+
+	// entry function attributes
+	isFunc = false;
+	parameters.clear(); 
 }
 
 /*
@@ -40,65 +51,80 @@ Description: Allows for instantiation of a new symbol table entry object (
 with a specified line number. 
 */
 symbolTableEntry::symbolTableEntry(std::string name, int lineNumber) {
-	// none of the following info has been determined yet
+	// entry data info
+	entryType = -1;
+
+	// entry data attributes
+	identifierName = name;
+	identifierType.clear();
 	lineNum = lineNumber;
-	isFunc = false;
-	isArray = false; 
 	isSigned = false;
 	isUnsigned = false; 
-	identifierName = name;
-	numPtrs = 0;
+
+	// entry pointer attributes
+	numPtrs = -1; 
+
+	// entry array attributes
+	isArray = false;
+	arrayDimensions.clear();
+	
+	// entry function attributes
+	isFunc = false;
+	parameters.clear();
 }
 
 /*
-Function: setIdentifierType()
+Function: setIdentifierType(std::vector<int> type)
 
 Parameters:
-int token: The token value is used to determine the data type
+std::vector<int> type: A vector of tokens is used to determine the data type
 of the current symbol. 
 
-Description: Allows the caller to specify the type of the symbol
-table entry.  
+Description: Allows the caller to specify the data type of the symbol
+table entry. This function will return false if the supplied vector contains
+an invalid data type. 
 */
 bool symbolTableEntry::setIdentifierType(std::vector<int> type) {
-	int typeNum = isValidType(type);
+	// check if the incoming vector contains a valid data type
+	entryType = isValidType(type);
 
-	if(typeNum != -1){
-		//dataInfo.dataType = typeNum;
+	if(entryType != -1){
 		identifierType = type;
 		return true;
+	}
 
-	}
-	else{
-		return false;
-		
-	}
+	else return false;
 }
 
 /*
-Function: getIdentifierType() const
-Return type: int (the token value of the symbol table entry type)
+Function: getIdentifierType_Vector() const
 
-Description: This function will return the corresponding token
-value which depends on what type of value is stored in the
-symbol table entry object. 
+Description: Returns to the caller the vectorized form of the entry
+data type/
 */
-int symbolTableEntry::getIdentifierType() const {
-	return entryType;
-}
-
 std::vector<int> symbolTableEntry::getIdentifierType_Vector() const {
 	return identifierType; 
+}
+
+/*
+Function: getIdentifierType_Enum() const
+
+Description: This function will return the corresponding token
+value which depends on what type of value is stored in the symbol 
+table entry object. 
+*/
+int symbolTableEntry::getIdentifierType_Enum() const {
+	return entryType;
 }
 
 /*
 Function: setIdentifierName(std::string name)
 
 Parameters:
-std::string name: The name of the new symbol table entry. 
+std::string name: The new name of the symbol table entry. 
 
-Description: Allows the caller to specify the name of the symbol
-table entry.  
+Description: Allows the caller to specify the name and/or rename 
+the symbol table entry.  
 */
 void symbolTableEntry::setIdentifierName(std::string name) {
 	identifierName = name; 
@@ -115,118 +141,169 @@ std::string symbolTableEntry::getIdentifierName() const {
 }
 
 /*
-Function: setIdentifierValue(void* value, int token)
+Function: setIdentifierValue(const node& src)
 
 Parameters:
-dVal data: The incoming object for out data. This object contains a specifier
-as to what the datatype of the value is and the actual value itself. 
-int token: The incoming token value which will be used to assign the
-incoming value to the correct component of the union.  
+const node& src: The incoming object for our data. This object contains 
+a specifier as to what the datatype of the value is and also includes
+the actual value itself.  
 
-Descrition: Sets the value of a corresponding identifier. 
+Description: Sets the value of a corresponding identifier. 
 */
 bool symbolTableEntry::setIdentifierValue(const node& src){
-		
+	// check the data type of the current identifier and continue processing 
 	switch(entryType) {
 		case LONG_LONG_T:
+			// warning, up conversion
 			if(src.valType == LONG_T || src.valType == INT_T || src.valType == SHORT_T  ){
-				// warning, up conversion
+				// cout statements here?
 			}
+
+			// warning, converting character to integer
 			else if(src.valType == CHAR_T){
-				// warning, converting character to integer
+				
 			}
+
+			// warning, down conversion from float to long long
 			else if(src.valType == FLOAT_T || src.valType == DOUBLE_T || src.valType == LONG_DOUBLE_T){
-				// warning, down conversion from float to long long
+				
 			}
-			dataInfo.value._number = data.value._number;
+
+			// assign src number to the symbol table entry 
+			entryVal._num = src.val._num;
 			break;
+
 		case LONG_T:
-			if(src.valType == INT_T || src.valType == SHORT_T  ){
-				// warning, up conversion
+			// warning, up conversion
+			if(src.valType == INT_T || src.valType == SHORT_T){
+				
 			}
+
+			// warning, converting character to integer
 			else if(src.valType == CHAR_T){
-				// warning, converting character to integer
+				
 			}
+
+			// warning, down conversion from float to long long
 			else if(src.valType == FLOAT_T || src.valType == DOUBLE_T || src.valType == LONG_DOUBLE_T){
-				// warning, down conversion from float to long long
+				
 			}
-			else if( src.valType == LONG_LONG_T ){
-				// warning???
+
+			// warning???
+			else if(src.valType == LONG_LONG_T){
+				
 			}
-			if( data.value._number > LONG_MAX ){
+
+			// checking overflow
+			if(src.val._num > LONG_MAX){
 				return false;
 			}
-			dataInfo.value._number = data.value._number;
+
+			// assign src number to symbol table entry 
+			entryVal._num = src.val._num;
 			break;
+
 		case INT_T:
+			// warning, up conversion
 			if(src.valType == SHORT_T  ){
-				// warning, up conversion
+				
 			}
+
+			// warning, converting character to integer
 			else if(src.valType == CHAR_T){
-				// warning, converting character to integer
+				
 			}
+
+			// warning, down conversion from float to long long
 			else if(src.valType == FLOAT_T || src.valType == DOUBLE_T || src.valType == LONG_DOUBLE_T ){
-				// warning, down conversion from float to long long
+				
 			}
+
+			// warning???
 			else if(src.valType == LONG_T ||  src.valType == LONG_LONG_T ){
-				// warning???
+				
 			}
-			if( data.value._number > INT_MAX ){
+
+			// checking overflow
+			if(src.val._num > INT_MAX){
 				return false;
 			}
-			dataInfo.value._number = data.value._number;
+
+			// assign src number to the symbol table entry
+			entryVal._num = src.val._num;
 			break;
+
 		case SHORT_T:
+			// warning, converting character to short
 			if(src.valType == CHAR_T){
-				// warning, converting character to short
+				
 			}
+
+			// warning, down conversion from float to long long
 			else if(src.valType == FLOAT_T || src.valType == DOUBLE_T || src.valType == LONG_DOUBLE_T){
-				// warning, down conversion from float to long long
+				
 			}
+
+			// warning???
 			else if(src.valType == INT_T || src.valType == LONG_T ||  src.valType == LONG_LONG_T ){
-				// warning???
+				
 			}
-			if( data.value._number > SHRT_MAX ){
+
+			// checking overflow
+			if(src.val._num > SHRT_MAX){
 				return false;
 			}
-			dataInfo.value._number = data.value._number;
+
+			// assign src number to symbol table entry
+			entryVal._num = src.val._num;
 			break;
 
 		case FLOAT_T:
+			// warning, converting character to float?
 			if(src.valType == CHAR_T){
-				// warning, converting character to float?
+				
 			}
+
+			// warning, down conversion from float to long long
 			else if(src.valType == DOUBLE_T || src.valType == LONG_DOUBLE_T){
-				// warning, down conversion from float to long long
+				
 			}
+
+			// warning???
 			else if(src.valType == INT_T || src.valType == LONG_T ||  src.valType == LONG_LONG_T ){
-				// warning???
+				
 			}
-			if( data.value._number > SHRT_MAX ){
+
+			// checking overflow -- why just _num and not also _dec?
+			if(src.val._num > SHRT_MAX){
 				return false;
 			}
-			dataInfo.value._decimal = data.value._decimal;
+
+			// assign src number to symbol table entry
+			entryVal._dec = src.val._dec;
 			break;
 
 		case DOUBLE_T:
-			dataInfo.value._decimal = data.value._decimal;
+			entryVal._dec = src.val._dec;
 			break;
 
 		case LONG_DOUBLE_T:
-			dataInfo.value._decimal = data.value._decimal;
+			entryVal._dec = src.val._dec;
 			break;
 
 		case CHAR_T:
-			if( data.value._char > CHAR_MAX ){
+			if(src.val._char > CHAR_MAX){
 				return false;
 			}
-			dataInfo.value._char = data.value._char;
+			entryVal._char = src.val._char;
 			break;
 
+		// this case should never happen
 		default:
-			dataInfo.dataType = -1; 
-}
-	
+			break;
+	}
+
+	// the identifier has successfully been assigned a new value
 	return true; 
 }
 

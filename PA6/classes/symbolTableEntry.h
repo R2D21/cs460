@@ -21,6 +21,10 @@ of our ANSI C compiler.
 #include <climits>
 #include "../parser/cParser.tab.h" // used for token values
 
+// externs
+extern int isValidType(std::vector<int> type);
+
+// used to determine what the type specifier of an identifier is
 enum Type{
     CHAR_T,
     DOUBLE_T,
@@ -35,6 +39,7 @@ enum Type{
     VOID_T
 };
 
+// used to actually store the value associated with the identifier 
 typedef union {
     char _char;
     long long _num;
@@ -42,10 +47,8 @@ typedef union {
     char _str[256];    
 } entryVals; 
 
-// typdefs
+// typdefs to reduce keystrokes
 typedef std::pair<std::vector<int>, int> pair;
-
-extern int isValidType(std::vector<int> type);
 
 class symbolTableEntry {
     public:
@@ -53,15 +56,22 @@ class symbolTableEntry {
         symbolTableEntry(); 
         symbolTableEntry(std::string name, int lineNumber);
         
-        // symbol table object functions
+        // symbol table entry getter/setter functions
         bool setIdentifierType(std::vector<int> type);
-        std::vector<int> getIdentifierType_Vector() const;     // should differentiate these functions 
-        int getIdentifierType() const; // double check this
-
+        std::vector<int> getIdentifierType_Vector() const;
+        int getIdentifierType_Enum() const;
         void setIdentifierName(std::string name);
         std::string getIdentifierName() const; 
+        bool setIdentifierValue(const node& src);
 
-        bool setIdentifierValue(const node& src); // double check this
+
+
+        
+
+        
+        
+
+        
         //node getIdentifierValue() const; // double check this
 
         bool isValid(std::vector<int> type) const; // not implemented
@@ -96,19 +106,29 @@ class symbolTableEntry {
         ~symbolTableEntry(); 
 
     private:
-        // symbol table entry data members
-        int lineNum;
-        bool isFunc;
-        bool isArray; 
-        bool isSigned;
-        bool isUnsigned; 
-        int numPtrs;
+        // used to store and determine what type of data is associated with
+        // the entry
         entryVals entryVal; 
         int entryType;
-        std::string identifierName;  
-        std::vector<int> parameters;
-        std::vector<int> identifierType;       // here 
+
+        // attributes associated with a symbol table entry
+        std::string identifierName;
+        std::vector<int> identifierType;   
+        int lineNum;
+        bool isSigned;
+        bool isUnsigned; 
+        
+        // attributes needed if entry is a pointer
+        int numPtrs;
+
+        // attributes needed if entry is an array
+        bool isArray;
         std::vector<int> arrayDimensions;
+
+        // attributes needed if entry is a function  
+        bool isFunc;
+        std::vector<int> parameters;
+
         //std::map<std::vector<int>, int> validTypes; 
 
         // symbol table entry private functions
