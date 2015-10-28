@@ -249,7 +249,7 @@ void symbolTable::writeToFile() {
 					for (int i = 0; i < symbolTableItr->getScopeLevel(); i++) {
 						outFile << "\t";
 					}
-					outFile << "\tType: " << bstItr->second.getTypeStr() << std:: endl;
+					//outFile << "\tType: " << bstItr->second.getTypeStr() << std:: endl;
 				}
 			}
 		}
@@ -302,7 +302,7 @@ void symbolTable::writeToScreen() {
 						std::cout << "\t";
 					}
 					
-					std::cout << "\tType: " << bstItr->second.getTypeStr() << std:: endl;
+					//std::cout << "\tType: " << bstItr->second.getTypeStr() << std:: endl;
 				}
 			}
 		}

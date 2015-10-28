@@ -30,10 +30,11 @@ symbolTableEntry::symbolTableEntry() {
 	isUnsigned = false; 
 
 	// entry pointer attributes
+	isPtr = false; 
 	numPtrs = -1; 
 
 	// entry array attributes
-	isArray = false;
+	isArr = false;
 	arrayDimensions.clear();  
 
 	// entry function attributes
@@ -62,10 +63,11 @@ symbolTableEntry::symbolTableEntry(std::string name, int lineNumber) {
 	isUnsigned = false; 
 
 	// entry pointer attributes
+	isPtr = false; 
 	numPtrs = -1; 
 
 	// entry array attributes
-	isArray = false;
+	isArr = false;
 	arrayDimensions.clear();
 	
 	// entry function attributes
@@ -100,7 +102,7 @@ bool symbolTableEntry::setIdentifierType(std::vector<int> type) {
 Function: getIdentifierType_Vector() const
 
 Description: Returns to the caller the vectorized form of the entry
-data type/
+data type.
 */
 std::vector<int> symbolTableEntry::getIdentifierType_Vector() const {
 	return identifierType; 
@@ -115,6 +117,20 @@ table entry object.
 */
 int symbolTableEntry::getIdentifierType_Enum() const {
 	return entryType;
+}
+
+/*
+Function: getIdentifierType_String() const
+
+Description: This function will return the corresponding string
+of the identifier's data type.
+*/
+std::string symbolTableEntry::getIdentifierType_String() const {
+	std::string typeStr = "";
+	for (unsigned int i = 0; i < identifierType.size(); i++) {
+		typeStr += intTypeToStr(identifierType[i]);
+	}
+	return typeStr; 
 }
 
 /*
@@ -465,17 +481,25 @@ std::vector< std::vector<int> > symbolTableEntry::getParams() const {
 /*
 Function: checkParams() const
 
-Description: 
+Parameters: 
+const std::vector<symbolTableEntry*>& callingParams: This is an array of
+symbol table pointers. Using the pointers in this array, the function is
+able to obtain the data type of each formal parameter. This is how the 
+type checking occurs. 
+
+Description: This function is used to check if a vector of input parameters
+(symbol table entries) matches the parameters that are stored in the current
+symbol table entry. 
 */
 bool symbolTableEntry::checkParams(const std::vector<symbolTableEntry*>& callingParams) const {
-	// if there is a different number of calling params compared to 
-	// the number of parameters stored in the symbol table entry,
+	// if there is a different number of actual params compared to 
+	// the number of formal parameters stored in the symbol table entry,
 	// the parameters cannot match up
 	if (callingParams.size() != parameters.size()) {
 		return false; 
 	}
 
-	// if they are the same, we must check the data type of each parameter
+	// if they are the same size, we must check the data type of each parameter
 	std::vector<int> myParameterType;
 	std::vector<int> guestsParameterType;
 	for(unsigned int i = 0; i < parameters.size(); i++) {
@@ -492,28 +516,65 @@ bool symbolTableEntry::checkParams(const std::vector<symbolTableEntry*>& calling
 	return true; 
 } 
 
+/*
+Function: isPointer() const
 
+Description: This function will return whether or not the associated identifier
+is a pointer or not. 
+*/
+bool symbolTableEntry::isPointer() const {
+	return isPtr;
+};
 
+/*
+Function: setPointer()
 
-
-
-
+Description: This function will assign the flag which indicates that the 
+current symbol table entry is an identifier. 
+*/
+void symbolTableEntry::setPointer() {
+	isPtr = true; 
+};
 
 /*
 Function: setNumPtrs(int number)
 
-Description: Returns the number of parameters for a function. 
+Description: Assigns the number of pointers associated with a symbol 
+table entry. 
 */
-void symbolTableEntry::setNumPtrs(int number){
-	numPtrs += number;
+void symbolTableEntry::setNumPtrs(int number) {
+	numPtrs = number;
 }
 
-int symbolTableEntry::getNumPtrs() const{
+/*
+Function: getNumPtrs() const
+
+Description: Returns the number of pointers associated with a symbol 
+table entry. 
+*/
+int symbolTableEntry::getNumPtrs() const {
 	return numPtrs;
 }
 
+/*
+Function: setArray()
 
+Description: This function will assign the flag which indicates that the 
+current symbol table entry is an array. 
+*/
+void symbolTableEntry::setArray() {
+	isArr = true;
+}
 
+/*
+Function: isArray() const
+
+Description: This function will return whether or not the associated identifier
+is a array or not.  
+*/
+bool symbolTableEntry::isArray() const {
+	return isArr; 
+}
 
 /*
 Function: addArrayDimension(int size)
@@ -525,16 +586,7 @@ Description: Will create a new dimension for the array based on the size passed
 to the function.  
 */
 void symbolTableEntry::addArrayDimension(int size) {
-	if (isArray) {arrayDimensions.push_back(size);}
-}
-
-/*
-Function: setArray()
-
-Description: Assigns the current symbol table entry to be identified as an array.
-*/
-void symbolTableEntry::setArray() {
-	isArray = true; 
+	if (isArr) {arrayDimensions.push_back(size);} 
 }
 
 /*
@@ -547,46 +599,67 @@ std::vector<int> symbolTableEntry::getArrayDimensions() const {
 } 
 
 /*
+Function: getNumArrDims() const
+
+Description: Returns an integer which represents the total number of dimensions
+associated with an array.
+*/
+int symbolTableEntry::getNumArrDims() const {
+	if (isArr) {return arrayDimensions.size();}
+	else return 0; 
+} 
+
+/*
 Function: getLineNumber() const
 
-Description: This function will return the line number that
-the associated identifier was located on. 
+Description: This function will return the line number that the associated 
+identifier was located on from the source program. 
 */
 int symbolTableEntry::getLineNumber() const {
 	return lineNum; 
 }
 
 /*
-
-
-*/
-int symbolTableEntry::getNumArrDims() const {
-	if (isArray) {return arrayDimensions.size();}
-	else return 0; 
-} 
-
-/*
 Function: displayIdentifierAttributes() const
 
-Description: This function will print out all of the attributes
-associated with a symbol table entry; 
+Description: This function will print out all of the attributes associated 
+with a symbol table entry. 
 */
 void symbolTableEntry::displayIdentifierAttributes() const {
-}
-
-/*
-Function: getLineNumber() const
-
-Descrition: This function will return the line number that
-the associated identifier was located on. 
-*/
-/*
-std::string symbolTableEntry::getLineNumber() const {
+	int idNumTemp = 0;
+	std::string idTemp = getIdentifierName();
+	std::cout << "Identifier name: " << idTemp << std::endl;
+	idTemp = getIdentifierType_String();
+	std::cout << "Identifier type: " << idTemp << std::endl;
+	printIdentifierValue();
 	
-	char numberStr[20];
-	itoa(lineNum, numStr, 10); 
-	return to_string(lineNum);
-} */
+	if (isFunc) {
+		idNumTemp = getNumParams(); 
+		std::cout << "Identifier is a function." << std::endl;
+		std::cout << "Identifier has " << idNumTemp << " parameters.";
+		std::cout << std::endl; 
+		std::cout << "Identifier parameters: " << std::endl;
+		viewParams(); 
+	}
+
+	else if (isPtr) {
+		idNumTemp = getNumPtrs();
+		std::cout << "Identifier is a pointer." << std::endl;
+		std::cout << "Identifier has " << idNumTemp << " parameters.";
+		std::cout << std::endl; 
+	}
+
+	else if (isArr) {
+		idNumTemp = getNumArrDims();
+		std::cout << "Identifier is an array." << std::endl;
+		std::cout << "Identifier has " << idNumTemp << " dimensions.";
+		std::cout << std::endl;
+		std::cout << "Identifier dimensions: " << std::endl;
+		for (unsigned int i = 0; i < arrayDimensions.size(); i++) {
+			std::cout << "Dimension #" << i << arrayDimensions[i] << std::endl; 
+		} 
+	}
+}
 
 /*
 Function: ~symbolTableEntry() (desctuctor)
@@ -594,13 +667,27 @@ Function: ~symbolTableEntry() (desctuctor)
 Descrition: This is the destructor for a symbol table entry object.  
 */
 symbolTableEntry::~symbolTableEntry() {
+	// entry data info
+	entryType = -1;
+
+	// entry data attributes
+	identifierName = "";
+	identifierType.clear(); 
 	lineNum = -1;
-	isFunc = false;
 	isSigned = false;
 	isUnsigned = false; 
-	identifierName = "";
-	parameters.clear(); 
+
+	// entry pointer attributes
+	isPtr = false; 
+	numPtrs = -1; 
+
+	// entry array attributes
+	isArr = false;
 	arrayDimensions.clear();  
+
+	// entry function attributes
+	isFunc = false;
+	parameters.clear();  
 }
 
 /*
@@ -656,14 +743,4 @@ std::string symbolTableEntry::intTypeToStr(int someType) const {
 			break;
 	}
 	return str; 
-}
-
-/*
-Function: getTypeStr() const
-
-Description: This function will convert a vector of data types
-to a string for easier viewing. 
-*/
-std::string symbolTableEntry::getTypeStr() const{
-	return 
 }

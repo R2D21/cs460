@@ -61,6 +61,7 @@ class symbolTableEntry {
         bool setIdentifierType(std::vector<int> type);
         std::vector<int> getIdentifierType_Vector() const;
         int getIdentifierType_Enum() const;
+        std::string getIdentifierType_String() const; 
         void setIdentifierName(std::string name);
         std::string getIdentifierName() const; 
         bool setIdentifierValue(const node& src);
@@ -76,30 +77,22 @@ class symbolTableEntry {
         std::vector< std::vector<int> > getParams() const; 
         bool checkParams(const std::vector<symbolTableEntry*>& callingParams) const;  
 
-
-
-
-
-
-        // functions needed if entry is a pointer
+        // functions required if the entry is a pointer
+        bool isPointer() const;
+        void setPointer(); 
         void setNumPtrs(int number);
-
-        
-
-        // functions needed if entry is a function
         int getNumPtrs() const; 
-
-        // functions needed if entry is an array
+        
+        // functions required if the entry is an array
+        void setArray();
+        bool isArray() const;  
         void addArrayDimension(int size);
-        void setArray(); 
         std::vector<int> getArrayDimensions() const;
-        int getNumArrDims() const;  
+        int getNumArrDims() const;
 
-        // other functions 
+        // other functions that may come in handy 
         int getLineNumber() const;
-        std::string getTypeStr() const;
         void displayIdentifierAttributes() const; 
-        //std::string getLineNumber() const; 
 
         // destructor
         ~symbolTableEntry(); 
@@ -118,10 +111,11 @@ class symbolTableEntry {
         bool isUnsigned; 
         
         // attributes needed if entry is a pointer
+        bool isPtr;
         int numPtrs;
 
         // attributes needed if entry is an array
-        bool isArray;
+        bool isArr;
         std::vector<int> arrayDimensions;
 
         // attributes needed if entry is a function  
