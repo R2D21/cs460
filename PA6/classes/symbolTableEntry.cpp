@@ -390,22 +390,6 @@ void symbolTableEntry::printIdentifierValue() const {
 	} 
 }
 
-std::string symbolTableEntry::getTypeStr() const{
-	return ""; /*intTypeToStr( dataInfo.dataType ); */
-}
-
-/*
-Function: getIdentifierValue() const
-
-Descrition: Returns an object of type "dVal", which is an object that 
-contains an indicator as to which component in the union the corresponding
-value is located. 
-*/
-/*
-node symbolTableEntry::getIdentifierValue() const {
-	return dataInfo; 
-} */
-
 /*
 Function: isFunction() const
 
@@ -427,36 +411,93 @@ void symbolTableEntry::setFunction() {
 }
 
 /*
-Function: addParameter(int token, std::string formalParamter)
+Function: addParameter(int token)
 
 Parameters:
-int token: The token value is used to determine the data type
-of the current symbol.
-std::string formalParameter: The string used to denote the formal
-parameter in the function. 
+vector<int> parameterType: A vector of tokens (integers).
 
 Description: Allows the caller to add a formal parameter to
 the symbol table entry. 
 */
-void symbolTableEntry::addParameter(int type) {
-	parameters.push_back(type);
-
-
-	/*
-	parameter temp;
-	temp.dataType = token;
-	temp.formalParam = formalParameter;
-	parameters[parameters.size()] = temp; */
+void symbolTableEntry::addParameter(std::vector<int> parameterType) {
+	parameters.push_back(parameterType);
 }
 
 /*
 Function: getNumberOfParams() const
 
-Description: Returns the number of parameters for a function. 
+Description: Returns the number of formal parameters for a function. 
 */
 int symbolTableEntry::getNumParams() const {
 	return parameters.size(); 
 }
+
+/*
+Function: viewParams() const
+
+Description: This function is used to print the data types of the
+parameters to the output stream. 
+*/
+void symbolTableEntry::viewParams() const {
+	std::string outputStr = "";
+	std::vector<int> tempVec; 
+	for(unsigned int i = 0; i < parameters.size(); i++) {
+		tempVec = parameters[i];
+		for(unsigned int j = 0; j < tempVec.size(); j++) {
+			outputStr += intTypeToStr(tempVec[j]);
+		}
+		std::cout << "Formal parameter: " << outputStr << std::endl; 
+		outputStr = ""; 
+		tempVec.clear(); 
+	}
+}
+
+/*
+Function: getParams() const
+
+Description: This function is used to obtain the data types of the
+formal parameters of a function. 
+*/
+std::vector< std::vector<int> > symbolTableEntry::getParams() const {
+	return parameters; 
+} 
+
+/*
+Function: checkParams() const
+
+Description: 
+*/
+bool symbolTableEntry::checkParams(const std::vector<symbolTableEntry*>& callingParams) const {
+	// if there is a different number of calling params compared to 
+	// the number of parameters stored in the symbol table entry,
+	// the parameters cannot match up
+	if (callingParams.size() != parameters.size()) {
+		return false; 
+	}
+
+	// if they are the same, we must check the data type of each parameter
+	std::vector<int> myParameterType;
+	std::vector<int> guestsParameterType;
+	for(unsigned int i = 0; i < parameters.size(); i++) {
+		myParameterType = parameters[i]; 
+		guestsParameterType = callingParams[i]->getIdentifierType_Vector(); 
+		if (myParameterType != guestsParameterType) {
+			return false; 
+		}
+		myParameterType.clear();
+		guestsParameterType.clear(); 
+	} 
+ 
+	// if each parameter was the same, the parameters then match
+	return true; 
+} 
+
+
+
+
+
+
+
 
 /*
 Function: setNumPtrs(int number)
@@ -471,47 +512,8 @@ int symbolTableEntry::getNumPtrs() const{
 	return numPtrs;
 }
 
-/*
-Function: 
 
 
-*/
-void symbolTableEntry::viewParams() const {
-	/*
-	for(unsigned int i = 0; i < parameters.size(); i++) {
-		std::cout << "Formal Parameter: " << parameters[i].formalParam << std::endl;
-		std::cout << "Parameter Type: " << intTypeToStr(parameters[i].dataType) << std::endl;
-	} */
-}
-
-/*
-
-*/
-std::vector<int> symbolTableEntry::getParams() const {
-	return parameters; 
-} 
-
-/*
-Function:
-
-Description: 
-*/
-bool symbolTableEntry::checkParams(const std::vector<symbolTableEntry*>& callingParams) const {
-	/*
-	if (callingParams.size() != parameters.size()) {
-		return false; 
-	}
-
-	std::vector<parameter> paramDataType;
-	for(unsigned int i = 0; i < callingParams.size(); i++) {
-		if (parameters[i].dataType != callingParams[i]->getIdentifierType()) {
-			return false; 
-		}
-	} 
- 
- 	*/
-	return true; 
-} 
 
 /*
 Function: addArrayDimension(int size)
@@ -605,14 +607,13 @@ symbolTableEntry::~symbolTableEntry() {
 Function: intTypeToStr(Type someType) const
 
 Parameter:
-Type someType: An enumerated type (represents an integer). 
+int someType: An token value (an integer). 
 
-Descrition: Takes in an enumerated type which will convert that type
+Description: Takes in an integer type which will convert that type
 to a string object.  
 */
 std::string symbolTableEntry::intTypeToStr(int someType) const {
 	std::string str; 
-	
 	switch(someType) {
 		case CHAR_T:
 			str = "char";
@@ -655,4 +656,14 @@ std::string symbolTableEntry::intTypeToStr(int someType) const {
 			break;
 	}
 	return str; 
+}
+
+/*
+Function: getTypeStr() const
+
+Description: This function will convert a vector of data types
+to a string for easier viewing. 
+*/
+std::string symbolTableEntry::getTypeStr() const{
+	return 
 }

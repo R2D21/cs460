@@ -67,27 +67,27 @@ class symbolTableEntry {
         node* getIdentifierValue() const; 
         void printIdentifierValue() const;
 
-        
+        // functions required if the entry is a function
+        bool isFunction() const;
+        void setFunction();
+        void addParameter(std::vector<int> parameterType);
+        int getNumParams() const;
+        void viewParams() const;
+        std::vector< std::vector<int> > getParams() const; 
+        bool checkParams(const std::vector<symbolTableEntry*>& callingParams) const;  
 
-        
-        
-
-        
 
 
+
+
+
+        // functions needed if entry is a pointer
+        void setNumPtrs(int number);
 
         
 
         // functions needed if entry is a function
-        bool isFunction() const;
-        void setFunction();
-        void addParameter(int type);
-        int getNumParams() const;
-        void setNumPtrs(int number);
-        int getNumPtrs() const;
-        void viewParams() const;
-        std::vector<int> getParams() const; 
-        bool checkParams(const std::vector<symbolTableEntry*>& callingParams) const;   
+        int getNumPtrs() const; 
 
         // functions needed if entry is an array
         void addArrayDimension(int size);
@@ -126,7 +126,7 @@ class symbolTableEntry {
 
         // attributes needed if entry is a function  
         bool isFunc;
-        std::vector<int> parameters;
+        std::vector< std::vector<int> > parameters;
  
         // private functions - used only by members of the class
         std::string intTypeToStr(int someType) const; 
