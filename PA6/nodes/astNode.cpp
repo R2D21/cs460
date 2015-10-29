@@ -19,6 +19,30 @@ astNode::astNode(){
 	std::cout << "AST Node constructor" << std::endl;
 }
 
+
+/*
+Function: setSourceCode()  
+
+Description: 
+*/
+void astNode::setSourceCode( std::vector<std::string> src ){
+
+}
+
+
+/*
+Function: getSourceCode()  
+
+Description: 
+*/
+std::vector<std::string> astNode::getSourceCode(){
+
+}
+
+void astNode::print(int indent){
+
+}
+
 /*
 Function: ~astNode() (destructor) 
 

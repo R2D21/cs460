@@ -25,9 +25,14 @@ class astNode {
         astNode();
 
         // class functions 
-	
+	    void setSourceCode( std::vector<std::string> src );
+        std::vector<std::string> getSourceCode();
+
+        //virtual void generate3AC();
+        virtual void print(int = 0);
+
         // destructor 
-        ~astNode();
+        virtual ~astNode();
 
     protected:
         // data members 

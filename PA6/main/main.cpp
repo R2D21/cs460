@@ -12,6 +12,7 @@ This is the main file for the front end of our ANSI C compiler.
 #include <iostream>
 #include <fstream>
 #include "../classes/symbolTable.h"
+#include <stdlib.h>
 using namespace std;
 
 // externs 
@@ -21,6 +22,7 @@ bool LFLAG = false;
 bool YFLAG = false;
 ofstream outL;
 ofstream outY;
+ofstream outG;
 
 extern symbolTable table; 
 extern std::string currentSourceCodeLine; 
@@ -33,6 +35,8 @@ int main(int argc, char** argv) {
 
 	bool fileSpecificed = false;
 	string filename;
+
+
 
 	// read input file
 
@@ -68,6 +72,10 @@ int main(int argc, char** argv) {
 			}
 		}
 	}
+
+	outG.open("graph.dot");
+	outG << "digraph{\n";
+
 
 	// check if 
 	if (LFLAG){
@@ -105,7 +113,9 @@ int main(int argc, char** argv) {
 	yyparse();  
 
 	cout << "Parse complete" << endl;
-
+	outG << "}" << endl;
+	outG.close();
+	system("dot -Tpng -ograph.png graph.dot");
 	if (LFLAG) {
 		outL.close();
 	}

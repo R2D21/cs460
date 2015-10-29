@@ -16,12 +16,14 @@ LIBS = -L/usr/local/lib -lfl
 OBJS = ../lexer/lex.yy.o ../parser/cParser.tab.o ../main/main.o \
 		../classes/symbolTable.o ../classes/symbolTableEntry.o \
 		../classes/scope.o
+NSRC = $(wildcard ../nodes/*.cpp)
+NOBJS = $(NSRC:.cpp=.o)
 
 # Targets, dependencies, and rules
 all: ../bin/catfishC
 
-../bin/catfishC: $(OBJS)
-	$(CC) $(LFLAGS) -o $@ $(OBJS) $(LIBS)
+../bin/catfishC: $(OBJS) $(NOBJS)
+	$(CC) $(LFLAGS) -o $@ $(OBJS) $(NOBJS) $(LIBS)
 
 ../main/main.o: ../main/main.cpp
 	$(CC) $(CFLAGS) $< -o $@  
@@ -49,5 +51,5 @@ all: ../bin/catfishC
 	mv cParser.tab.c ../parser/
 
 clean:
-	rm -rf $(OBJS) ../parser/cParser.tab.* ../lexer/lex.yy.* \
+	rm -rf $(OBJS) $(NOBJS) ../parser/cParser.tab.* ../lexer/lex.yy.* \
 		../bin/catfishC

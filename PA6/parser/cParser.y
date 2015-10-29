@@ -27,6 +27,7 @@ the token declarations that will be used in the lexer.
 	#include "../classes/symbolTableEntry.h"
 	#include "../classes/symbolTable.h"
 	#include "../lexer/Escape_Sequences_Colors.h"
+	#include "../nodes/nodeClassList.h"
 
 	int yylex(void);
 	void yyerror(const char* errorMsg);
@@ -34,8 +35,10 @@ the token declarations that will be used in the lexer.
 	extern int colPosition;  
 	extern bool YFLAG; 
 	extern std::ofstream outY;
+	extern std::ofstream outG;
 	extern bool inInsertMode;
 	extern symbolTable table; 
+	
 	std::vector< std::vector<int> > funcParams;
 	std::vector<symbolTableEntry*> funcCallingParams; 
 	int unaryOperatorChosen = -1;
@@ -77,7 +80,7 @@ which is a pointer to a node object.
 %expect 1
 
 /* catfishC tokens */
-%token IDENTIFIER
+%token <n> IDENTIFIER
 %token INTEGER_CONSTANT 
 %token FLOATING_CONSTANT 
 %token ENUMERATION_CONSTANT 
@@ -118,6 +121,7 @@ which is a pointer to a node object.
 %type <n> constant_expression
 %type <n> initializer
 %type <n> init_declarator
+%type <n> identifier
 
 /* start of ANSI C grammar and actions */
 %%
@@ -1741,6 +1745,9 @@ argument_expression_list
 constant
 	: INTEGER_CONSTANT
  		{
+ 			vals testVal;
+			testVal._num = 1111111;
+			data_Node *testData = new data_Node( testVal, 1);
  			if(YFLAG){
 				outY << "constant : INTEGER_CONSTANT;" << std::endl;
 			}
@@ -1777,6 +1784,16 @@ string
 
 identifier
 	: IDENTIFIER
+		{
+			$1->astPtr = new data_Node($1->val, $1->valType);
+			$$ = $1;
+			$$->astPtr->print(); 
+			outG << "data_Node -> identifier;" << std::endl;
+
+			if(YFLAG){
+				outY << "data_Node : identifier;" << std::endl;
+			}
+		}
 	;
 
 

@@ -1,13 +1,14 @@
+#SRC = $(shell find ../nodes/ -name *.cpp)
+#OBJS = $(SRC:%.cpp = %.o)
+
+#OBJS = *.o
+SRC = $(wildcard ../nodes/*.cpp)
+OBJS = $(SRC:.cpp=.o)
 all: testNode
 
-testNode: nodeMain.cpp iterN.o
-	g++ nodeMain.cpp iterN.o astNode.o -o testNode
 
-iterN.o: iterN.cpp iterN.h astNode.o
-	g++ -c iterN.cpp 
-
-astNode.o: astNode.cpp astNode.h
-	g++ -c astNode.cpp 
+testNode: $(OBJS)
+	g++ $(OBJS) -o testNode
 
 clean:
 	rm -rf *.o testNode
