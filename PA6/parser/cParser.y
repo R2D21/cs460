@@ -72,21 +72,6 @@ the token declarations that will be used in the lexer.
 	node* n;
 }
 
-/*
-%code requires {
-	typedef struct {
-		class symbolTableEntry* sEntry;
-	    int dataType;
-	    typedef union {
-	        char _char;
-	        long long _number;
-	        long double _decimal;     
-	        char _str[256];   
-	    } vals;
-	    vals value;
-	} dVal;
-} */
-
 /* inform bison that there will be 1 shift-reduce conflict */
 %expect 1
 

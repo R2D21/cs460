@@ -1,7 +1,7 @@
 /*
 File: cLexer.l
 Created: September 27, 2015
-Last Modified: October 15, 2015
+Last Modified: October 28, 2015
 Class: CS 460 (Compiler Construction)
 
 This is the input file to Flex that will be used in the front end of our
@@ -369,7 +369,6 @@ identifier [a-zA-Z][a-zA-Z0-9]*
 						std::cout << " exceeds maximum name length" << std::endl;
 					}
 
-
 					std::string newEntry(yytext);
 					currentSourceCodeLine += newEntry;
 					symbolTableEntry* searchResult;
@@ -383,7 +382,6 @@ identifier [a-zA-Z][a-zA-Z0-9]*
 							std::cout << COLOR_NORMAL;
 							std::cout << COLOR_CYAN_NORMAL << "ERROR:" << COLOR_NORMAL << " Redeclaration of Variable " << COLOR_BOLD << COLOR_RED_NORMAL << newEntry << COLOR_NORMAL << " declared here: \n";
 							std::cout << COLOR_GREEN_NORMAL << "\tLine " << (std::string)lineNum << ": " << COLOR_NORMAL << COLOR_WHITE_NORMAL << sourceCode[yylineno - 1] << COLOR_NORMAL << "\n";
-
 							sprintf(lineNum, "%d", searchResult->getLineNumber());
 							std::cout << COLOR_NORMAL;
 							std::cout << "Previously declared here: \n";
@@ -391,13 +389,12 @@ identifier [a-zA-Z][a-zA-Z0-9]*
 							yyerror("");
 						}
 
-						if( (searchResult = table.searchForSymbol(newEntry, level)) != NULL){
+						if( (searchResult = table.searchForSymbol(newEntry, level)) != NULL) {
 							char lineNum[15];
 							sprintf(lineNum, "%d", yylineno);
 							std::cout << COLOR_NORMAL;
 							std::cout << COLOR_MAGENTA_NORMAL << "WARNING:" << COLOR_NORMAL << " Variable " << COLOR_BOLD << COLOR_RED_NORMAL <<  newEntry << COLOR_NORMAL << " declared here: \n";
 							std::cout << COLOR_GREEN_NORMAL << "\tLine " << (std::string)lineNum << ": " << COLOR_NORMAL << COLOR_WHITE_NORMAL << sourceCode[yylineno - 1] << COLOR_NORMAL << "\n";
-
 							sprintf(lineNum, "%d", searchResult->getLineNumber());
 							std::cout << COLOR_NORMAL;
 							std::cout << "Shadows variable previously declared here: \n";
@@ -414,10 +411,18 @@ identifier [a-zA-Z][a-zA-Z0-9]*
 								std::cout << COLOR_NORMAL;
 								yyerror("");
 							}
-							//yylval.n.entry = searchResult;
+
+							/*
+							i don't think we're supposed to do this - sending wrong pointer 
+							yylval.n.entry = searchResult;
+							*/
+
+							searchResult = table.insertNewSymbol(newEntry, yylineno);
+							yylval.n->val._ste = searchResult;
 							typeSpecifiers.clear();						
 							return IDENTIFIER;
 						}
+
 						else{
 							searchResult = table.insertNewSymbol(newEntry, yylineno);
 							searchResult->setNumPtrs(numStar);
@@ -433,7 +438,7 @@ identifier [a-zA-Z][a-zA-Z0-9]*
 								yyerror("");
 							} 
 							colPosition += strlen(yytext);
-							//yylval.n.entry = searchResult;
+							yylval.n->val._ste = searchResult;
 							typeSpecifiers.clear();			
 							return IDENTIFIER;
 						}
@@ -450,7 +455,7 @@ identifier [a-zA-Z][a-zA-Z0-9]*
 							yyerror("");
 						}
 						else{
-							//yylval.n.entry = searchResult;
+							yylval.n->val._ste = searchResult;
 							return IDENTIFIER;
 						}
 					}
@@ -513,7 +518,7 @@ identifier [a-zA-Z][a-zA-Z0-9]*
    					currentSourceCodeLine += strTemp;
    					nodeTemp = new node;
    					nodeTemp->valType = CHAR_T;
-   					nodeTemp->val._char = yytext[1];;
+   					nodeTemp->val._char = yytext[1];
 					yylval.n = nodeTemp;
 					nodeTemp = NULL;  
 					return CHARACTER_CONSTANT; 		
@@ -538,8 +543,8 @@ identifier [a-zA-Z][a-zA-Z0-9]*
 
    					nodeTemp = new node;
    					nodeTemp->valType = STR_T;
-   					strncpy(nodeTemp->val._str, yytext, 255);
-					nodeTemp->val._str[255]='\0';
+   					strncpy(nodeTemp->val._str, yytext, yyleng);
+					nodeTemp->val._str[yyleng]='\0';
 					yylval.n = nodeTemp;
 					nodeTemp = NULL;  
 					return STRING_LITERAL;
