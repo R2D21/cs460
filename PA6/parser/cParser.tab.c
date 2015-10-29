@@ -572,18 +572,18 @@ static const yytype_uint16 yyrline[] =
      764,   771,   780,   786,   792,   801,   807,   816,   822,   831,
      837,   843,   852,   859,   865,   871,   877,   883,   889,   895,
      901,   910,   916,   922,   928,   934,   940,   949,   955,   961,
-     970,   976,   985,   991,   997,  1003,  1011,  1018,  1025,  1031,
-    1037,  1043,  1049,  1055,  1064,  1070,  1076,  1085,  1091,  1097,
-    1103,  1109,  1115,  1121,  1127,  1133,  1139,  1148,  1154,  1160,
-    1166,  1172,  1181,  1187,  1196,  1202,  1211,  1217,  1223,  1229,
-    1235,  1241,  1247,  1253,  1259,  1265,  1271,  1280,  1286,  1295,
-    1304,  1310,  1319,  1325,  1334,  1340,  1349,  1355,  1364,  1370,
-    1379,  1385,  1391,  1400,  1406,  1412,  1418,  1424,  1433,  1439,
-    1445,  1454,  1460,  1477,  1487,  1493,  1502,  1512,  1522,  1528,
-    1537,  1543,  1549,  1555,  1579,  1585,  1594,  1601,  1608,  1615,
-    1622,  1629,  1639,  1645,  1651,  1657,  1668,  1674,  1680,  1686,
-    1695,  1701,  1707,  1713,  1722,  1729,  1739,  1745,  1751,  1757,
-    1767,  1776
+     970,   976,   985,   992,   999,  1006,  1014,  1021,  1028,  1034,
+    1040,  1046,  1052,  1058,  1067,  1073,  1079,  1088,  1094,  1100,
+    1106,  1112,  1118,  1124,  1130,  1136,  1142,  1151,  1157,  1163,
+    1169,  1175,  1184,  1190,  1199,  1205,  1214,  1220,  1226,  1232,
+    1238,  1244,  1250,  1256,  1262,  1268,  1274,  1283,  1289,  1298,
+    1307,  1313,  1322,  1328,  1337,  1343,  1352,  1358,  1367,  1373,
+    1382,  1388,  1394,  1403,  1409,  1415,  1421,  1427,  1436,  1442,
+    1448,  1457,  1463,  1480,  1490,  1496,  1505,  1515,  1525,  1531,
+    1540,  1546,  1552,  1558,  1582,  1588,  1597,  1604,  1611,  1618,
+    1625,  1632,  1642,  1648,  1654,  1660,  1671,  1677,  1683,  1689,
+    1698,  1704,  1710,  1716,  1725,  1732,  1742,  1748,  1754,  1760,
+    1770,  1779
 };
 #endif
 
@@ -2346,7 +2346,7 @@ yyreduce:
 			if(YFLAG){
 				outY << "init_declarator : declarator ASSIGN initializer;" << std::endl;
 			}
-			(yyvsp[-4].n)->val._ste->printIdentifierValue(); 
+			//$1->val._ste->printIdentifierValue(); 
 			(yyval.n) = (yyvsp[-4].n);
 		}
 #line 2353 "cParser.tab.c" /* yacc.c:1646  */
@@ -3081,695 +3081,698 @@ yyreduce:
   case 122:
 #line 986 "../parser/cParser.y" /* yacc.c:1646  */
     {
+ 			//std::cout << "HDDHFHDD" << std::endl;
 			if(YFLAG){
 				outY << "compound_statement : LCURL RCURL;" << std::endl;
 			}
 		}
-#line 3089 "cParser.tab.c" /* yacc.c:1646  */
+#line 3090 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 123:
-#line 992 "../parser/cParser.y" /* yacc.c:1646  */
+#line 993 "../parser/cParser.y" /* yacc.c:1646  */
     {
+ 			std::cout << "HDDHFHDD" << std::endl;
  			if(YFLAG){
 				outY << "compound_statement : LCURL statement_list RCURL;" << std::endl;
 			}
 		}
-#line 3099 "cParser.tab.c" /* yacc.c:1646  */
+#line 3101 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 124:
-#line 998 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1000 "../parser/cParser.y" /* yacc.c:1646  */
     {
-			if(YFLAG){
+
+ 			if(YFLAG){
 				outY << "compound_statement : LCURL declaration_list RCURL;" << std::endl;
 			}
 		}
-#line 3109 "cParser.tab.c" /* yacc.c:1646  */
+#line 3112 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 125:
-#line 1003 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1006 "../parser/cParser.y" /* yacc.c:1646  */
     {
 		  if(YFLAG){
 				outY << "compound_statement : LCURL declaration_list statement_list RCURL;" << std::endl;
 	      }
 	    }
-#line 3119 "cParser.tab.c" /* yacc.c:1646  */
+#line 3122 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 126:
-#line 1011 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1014 "../parser/cParser.y" /* yacc.c:1646  */
     {
 		table.pushLevelOn();
 		inInsertMode = true;
 		}
-#line 3128 "cParser.tab.c" /* yacc.c:1646  */
+#line 3131 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 127:
-#line 1018 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1021 "../parser/cParser.y" /* yacc.c:1646  */
     {
 		table.popLevelOff(); 
 		inInsertMode = false;  
 		}
-#line 3137 "cParser.tab.c" /* yacc.c:1646  */
+#line 3140 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 128:
-#line 1025 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1028 "../parser/cParser.y" /* yacc.c:1646  */
     {
 		inInsertMode = false; 
 		}
-#line 3145 "cParser.tab.c" /* yacc.c:1646  */
+#line 3148 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 129:
-#line 1031 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1034 "../parser/cParser.y" /* yacc.c:1646  */
     {
 		inInsertMode = true; 
 		}
-#line 3153 "cParser.tab.c" /* yacc.c:1646  */
+#line 3156 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 130:
-#line 1037 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1040 "../parser/cParser.y" /* yacc.c:1646  */
     {
 		table.pushLevelOn();
 	   }
-#line 3161 "cParser.tab.c" /* yacc.c:1646  */
+#line 3164 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 131:
-#line 1043 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1046 "../parser/cParser.y" /* yacc.c:1646  */
     {
 		table.popLevelOff();  
 		}
-#line 3169 "cParser.tab.c" /* yacc.c:1646  */
+#line 3172 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 132:
-#line 1050 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1053 "../parser/cParser.y" /* yacc.c:1646  */
     {
 			if(YFLAG){
 				outY << "statement_list : statement;" << std::endl;
 			}
 		}
-#line 3179 "cParser.tab.c" /* yacc.c:1646  */
+#line 3182 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 133:
-#line 1056 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1059 "../parser/cParser.y" /* yacc.c:1646  */
     {
 			if(YFLAG){
 				outY << "statement_list : statement_list statement;" << std::endl;
 			}
 		}
-#line 3189 "cParser.tab.c" /* yacc.c:1646  */
+#line 3192 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 134:
-#line 1065 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1068 "../parser/cParser.y" /* yacc.c:1646  */
     {
 			if(YFLAG){
 				outY << "selection_statement : IF LPAREN expression RPAREN statement;" << std::endl;
 			}
 		}
-#line 3199 "cParser.tab.c" /* yacc.c:1646  */
+#line 3202 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 135:
-#line 1071 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1074 "../parser/cParser.y" /* yacc.c:1646  */
     {
 			if(YFLAG){
 				outY << "selection_statement : IF LPAREN expression RPAREN statement ELSE statement;" << std::endl;
 			}
 		}
-#line 3209 "cParser.tab.c" /* yacc.c:1646  */
+#line 3212 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 136:
-#line 1077 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1080 "../parser/cParser.y" /* yacc.c:1646  */
     {
 			if(YFLAG){
 				outY << "selection_statement : SWITCH LPAREN expression RPAREN statement;" << std::endl;
 			}
 		}
-#line 3219 "cParser.tab.c" /* yacc.c:1646  */
+#line 3222 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 137:
-#line 1086 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1089 "../parser/cParser.y" /* yacc.c:1646  */
     {
 			if(YFLAG){
 				outY << "iteration_statement : WHILE LPAREN expression RPAREN statement;" << std::endl;
 			}
 		}
-#line 3229 "cParser.tab.c" /* yacc.c:1646  */
+#line 3232 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 138:
-#line 1092 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1095 "../parser/cParser.y" /* yacc.c:1646  */
     {
 			if(YFLAG){
 				outY << "iteration_statement : DO statement WHILE LPAREN expression RPAREN SEMI;" << std::endl;
 			}
 		}
-#line 3239 "cParser.tab.c" /* yacc.c:1646  */
+#line 3242 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 139:
-#line 1098 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1101 "../parser/cParser.y" /* yacc.c:1646  */
     {
 			if(YFLAG){
 				outY << "iteration_statement : FOR LPAREN SEMI SEMI RPAREN statement;" << std::endl;
 			}
 		}
-#line 3249 "cParser.tab.c" /* yacc.c:1646  */
+#line 3252 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 140:
-#line 1104 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1107 "../parser/cParser.y" /* yacc.c:1646  */
     {
 			if(YFLAG){
 				outY << "iteration_statement : FOR LPAREN SEMI SEMI expression RPAREN statement;" << std::endl;
 			}
 		}
-#line 3259 "cParser.tab.c" /* yacc.c:1646  */
+#line 3262 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 141:
-#line 1110 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1113 "../parser/cParser.y" /* yacc.c:1646  */
     {
 			if(YFLAG){
 				outY << "iteration_statement : FOR LPAREN SEMI expression SEMI RPAREN statement;" << std::endl;
 			}
 		}
-#line 3269 "cParser.tab.c" /* yacc.c:1646  */
+#line 3272 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 142:
-#line 1116 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1119 "../parser/cParser.y" /* yacc.c:1646  */
     {
 			if(YFLAG){
 				outY << "iteration_statement : FOR LPAREN SEMI expression SEMI expression RPAREN statement;" << std::endl;
 			}
 		}
-#line 3279 "cParser.tab.c" /* yacc.c:1646  */
+#line 3282 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 143:
-#line 1122 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1125 "../parser/cParser.y" /* yacc.c:1646  */
     {
 			if(YFLAG){
 				outY << "iteration_statement : FOR LPAREN expression SEMI SEMI RPAREN statement;" << std::endl;
 			}
 		}
-#line 3289 "cParser.tab.c" /* yacc.c:1646  */
+#line 3292 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 144:
-#line 1128 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1131 "../parser/cParser.y" /* yacc.c:1646  */
     {
 			if(YFLAG){
 				outY << "iteration_statement : FOR LPAREN expression SEMI SEMI expression RPAREN statement;" << std::endl;
 			}
 		}
-#line 3299 "cParser.tab.c" /* yacc.c:1646  */
+#line 3302 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 145:
-#line 1134 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1137 "../parser/cParser.y" /* yacc.c:1646  */
     {
 			if(YFLAG){
 				outY << "iteration_statement : FOR LPAREN expression SEMI expression SEMI RPAREN statement;" << std::endl;
 			}
 		}
-#line 3309 "cParser.tab.c" /* yacc.c:1646  */
+#line 3312 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 146:
-#line 1140 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1143 "../parser/cParser.y" /* yacc.c:1646  */
     {
 			if(YFLAG){
 				outY << "iteration_statement : FOR LPAREN expression SEMI expression SEMI expression RPAREN statement;" << std::endl;
 			}
 		}
-#line 3319 "cParser.tab.c" /* yacc.c:1646  */
+#line 3322 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 147:
-#line 1149 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1152 "../parser/cParser.y" /* yacc.c:1646  */
     {
 			if(YFLAG){
 				outY << "jump_statement : GOTO identifier SEMI;" << std::endl;
 			}
 		}
-#line 3329 "cParser.tab.c" /* yacc.c:1646  */
+#line 3332 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 148:
-#line 1155 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1158 "../parser/cParser.y" /* yacc.c:1646  */
     {
 			if(YFLAG){
 				outY << "jump_statement : CONTINUE SEMI;" << std::endl;
 			}
 		}
-#line 3339 "cParser.tab.c" /* yacc.c:1646  */
+#line 3342 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 149:
-#line 1161 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1164 "../parser/cParser.y" /* yacc.c:1646  */
     {
 			if(YFLAG){
 				outY << "jump_statement : BREAK SEMI;" << std::endl;
 			}
 		}
-#line 3349 "cParser.tab.c" /* yacc.c:1646  */
+#line 3352 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 150:
-#line 1167 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1170 "../parser/cParser.y" /* yacc.c:1646  */
     {
 			if(YFLAG){
 				outY << "jump_statement : RETURN SEMI;" << std::endl;
 			}
 		}
-#line 3359 "cParser.tab.c" /* yacc.c:1646  */
+#line 3362 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 151:
-#line 1173 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1176 "../parser/cParser.y" /* yacc.c:1646  */
     {
 			if(YFLAG){
 				outY << "jump_statement : RETURN expression SEMI;" << std::endl;
 			}
 		}
-#line 3369 "cParser.tab.c" /* yacc.c:1646  */
+#line 3372 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 152:
-#line 1182 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1185 "../parser/cParser.y" /* yacc.c:1646  */
     {
 			if(YFLAG){
 				outY << "expression : assignment_expression;" << std::endl;
 			}
 		}
-#line 3379 "cParser.tab.c" /* yacc.c:1646  */
+#line 3382 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 153:
-#line 1188 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1191 "../parser/cParser.y" /* yacc.c:1646  */
     {
 			if(YFLAG){
 				outY << "expression : expression COMMA assignment_expression;" << std::endl;
 			}
 		}
-#line 3389 "cParser.tab.c" /* yacc.c:1646  */
+#line 3392 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 154:
-#line 1197 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1200 "../parser/cParser.y" /* yacc.c:1646  */
     {
 			if(YFLAG){
 				outY << "assignment_expression : conditional_expression;" << std::endl;
 			}
 		}
-#line 3399 "cParser.tab.c" /* yacc.c:1646  */
+#line 3402 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 155:
-#line 1203 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1206 "../parser/cParser.y" /* yacc.c:1646  */
     {
 			if(YFLAG){
 				outY << "assignment_expression : unary_expression assignment_operator assignment_expression;" << std::endl;
 			}
 		}
-#line 3409 "cParser.tab.c" /* yacc.c:1646  */
+#line 3412 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 156:
-#line 1212 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1215 "../parser/cParser.y" /* yacc.c:1646  */
     {
 			if(YFLAG){
 				outY << "assignment_operator : ASSIGN;" << std::endl;
 			}
 		}
-#line 3419 "cParser.tab.c" /* yacc.c:1646  */
+#line 3422 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 157:
-#line 1218 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1221 "../parser/cParser.y" /* yacc.c:1646  */
     {
 			if(YFLAG){
 				outY << "assignment_operator : MUL_ASSIGN;" << std::endl;
 			}
 		}
-#line 3429 "cParser.tab.c" /* yacc.c:1646  */
+#line 3432 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 158:
-#line 1224 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1227 "../parser/cParser.y" /* yacc.c:1646  */
     {
 			if(YFLAG){
 				outY << "assignment_operator : DIV_ASSIGN;" << std::endl;
 			}
 		}
-#line 3439 "cParser.tab.c" /* yacc.c:1646  */
+#line 3442 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 159:
-#line 1230 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1233 "../parser/cParser.y" /* yacc.c:1646  */
     {
 			if(YFLAG){
 				outY << "assignment_operator : MOD_ASSIGN;" << std::endl;
 			}
 		}
-#line 3449 "cParser.tab.c" /* yacc.c:1646  */
+#line 3452 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 160:
-#line 1236 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1239 "../parser/cParser.y" /* yacc.c:1646  */
     {
 			if(YFLAG){
 				outY << "assignment_operator : ADD_ASSIGN;" << std::endl;
 			}
 		}
-#line 3459 "cParser.tab.c" /* yacc.c:1646  */
+#line 3462 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 161:
-#line 1242 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1245 "../parser/cParser.y" /* yacc.c:1646  */
     {
 			if(YFLAG){
 				outY << "assignment_operator : SUB_ASSIGN;" << std::endl;
 			}
 		}
-#line 3469 "cParser.tab.c" /* yacc.c:1646  */
+#line 3472 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 162:
-#line 1248 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1251 "../parser/cParser.y" /* yacc.c:1646  */
     {
 			if(YFLAG){
 				outY << "assignment_operator : LEFT_ASSIGN;" << std::endl;
 			}
 		}
-#line 3479 "cParser.tab.c" /* yacc.c:1646  */
+#line 3482 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 163:
-#line 1254 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1257 "../parser/cParser.y" /* yacc.c:1646  */
     {
 			if(YFLAG){
 				outY << "assignment_operator : RIGHT_ASSIGN;" << std::endl;
 			}
 		}
-#line 3489 "cParser.tab.c" /* yacc.c:1646  */
+#line 3492 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 164:
-#line 1260 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1263 "../parser/cParser.y" /* yacc.c:1646  */
     {
 			if(YFLAG){
 				outY << "assignment_operator : AND_ASSIGN;" << std::endl;
 			}
 		}
-#line 3499 "cParser.tab.c" /* yacc.c:1646  */
+#line 3502 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 165:
-#line 1266 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1269 "../parser/cParser.y" /* yacc.c:1646  */
     {
 			if(YFLAG){
 				outY << "assignment_operator : XOR_ASSIGN;" << std::endl;
 			}
 		}
-#line 3509 "cParser.tab.c" /* yacc.c:1646  */
+#line 3512 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 166:
-#line 1272 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1275 "../parser/cParser.y" /* yacc.c:1646  */
     {
 			if(YFLAG){
 				outY << "assignment_operator : OR_ASSIGN;" << std::endl;
 			}
 		}
-#line 3519 "cParser.tab.c" /* yacc.c:1646  */
+#line 3522 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 167:
-#line 1281 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1284 "../parser/cParser.y" /* yacc.c:1646  */
     {
 			if(YFLAG){
 				outY << "conditional_expression : logical_or_expression;" << std::endl;
 			}
 		}
-#line 3529 "cParser.tab.c" /* yacc.c:1646  */
+#line 3532 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 168:
-#line 1287 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1290 "../parser/cParser.y" /* yacc.c:1646  */
     {
 			if(YFLAG){
 				outY << "conditional_expression : logical_or_expression QUESTION expression COLON conditional_expression;" << std::endl;
 			}
 		}
-#line 3539 "cParser.tab.c" /* yacc.c:1646  */
+#line 3542 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 169:
-#line 1296 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1299 "../parser/cParser.y" /* yacc.c:1646  */
     {
 			if(YFLAG){
 				outY << "constant_expression : conditional_expression;" << std::endl;
 			}
 		}
-#line 3549 "cParser.tab.c" /* yacc.c:1646  */
+#line 3552 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 170:
-#line 1305 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1308 "../parser/cParser.y" /* yacc.c:1646  */
     {
 			if(YFLAG){
 				outY << "logical_or_expression : logical_and_expression;" << std::endl;
 			}
 		}
-#line 3559 "cParser.tab.c" /* yacc.c:1646  */
+#line 3562 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 171:
-#line 1311 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1314 "../parser/cParser.y" /* yacc.c:1646  */
     {
 			if(YFLAG){
 				outY << "logical_or_expression : logical_or_expression OR_OP logical_and_expression;" << std::endl;
 			}
 		}
-#line 3569 "cParser.tab.c" /* yacc.c:1646  */
+#line 3572 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 172:
-#line 1320 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1323 "../parser/cParser.y" /* yacc.c:1646  */
     {
 			if(YFLAG){
 				outY << "logical_and_expression : inclusive_or_expression;" << std::endl;
 			}
 		}
-#line 3579 "cParser.tab.c" /* yacc.c:1646  */
+#line 3582 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 173:
-#line 1326 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1329 "../parser/cParser.y" /* yacc.c:1646  */
     {
 			if(YFLAG){
 				outY << "logical_and_expression : logical_and_expression AND_OP inclusive_or_expression;" << std::endl;
 			}
 		}
-#line 3589 "cParser.tab.c" /* yacc.c:1646  */
+#line 3592 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 174:
-#line 1335 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1338 "../parser/cParser.y" /* yacc.c:1646  */
     {
 			if(YFLAG){
 				outY << "inclusive_or_expression : exclusive_or_expression;" << std::endl;
 			}
 		}
-#line 3599 "cParser.tab.c" /* yacc.c:1646  */
+#line 3602 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 175:
-#line 1341 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1344 "../parser/cParser.y" /* yacc.c:1646  */
     {
 			if(YFLAG){
 				outY << "inclusive_or_expression : inclusive_or_expression PIPE exclusive_or_expression;" << std::endl;
 			}
 		}
-#line 3609 "cParser.tab.c" /* yacc.c:1646  */
+#line 3612 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 176:
-#line 1350 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1353 "../parser/cParser.y" /* yacc.c:1646  */
     {
 			if(YFLAG){
 				outY << "exclusive_or_expression : and_expression;" << std::endl;
 			}
 		}
-#line 3619 "cParser.tab.c" /* yacc.c:1646  */
+#line 3622 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 177:
-#line 1356 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1359 "../parser/cParser.y" /* yacc.c:1646  */
     {
 			if(YFLAG){
 				outY << "exclusive_or_expression : exclusive_or_expression CARROT and_expression;" << std::endl;
 			}
 		}
-#line 3629 "cParser.tab.c" /* yacc.c:1646  */
+#line 3632 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 178:
-#line 1365 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1368 "../parser/cParser.y" /* yacc.c:1646  */
     {
 			if(YFLAG){
 				outY << "and_expression : equality_expression;" << std::endl;
 			}
 		}
-#line 3639 "cParser.tab.c" /* yacc.c:1646  */
+#line 3642 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 179:
-#line 1371 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1374 "../parser/cParser.y" /* yacc.c:1646  */
     {
 			if(YFLAG){
 				outY << "and_expression : and_expression AMP equality_expression;" << std::endl;
 			}
 		}
-#line 3649 "cParser.tab.c" /* yacc.c:1646  */
+#line 3652 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 180:
-#line 1380 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1383 "../parser/cParser.y" /* yacc.c:1646  */
     {
 			if(YFLAG){
 				outY << "equality_expression : relational_expression;" << std::endl;
 			}
 		}
-#line 3659 "cParser.tab.c" /* yacc.c:1646  */
+#line 3662 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 181:
-#line 1386 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1389 "../parser/cParser.y" /* yacc.c:1646  */
     {
 			if(YFLAG){
 				outY << "equality_expression : equality_expression EQ_OP relational_expression;" << std::endl;
 			}
 		}
-#line 3669 "cParser.tab.c" /* yacc.c:1646  */
+#line 3672 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 182:
-#line 1392 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1395 "../parser/cParser.y" /* yacc.c:1646  */
     {
 			if(YFLAG){
 				outY << "equality_expression : equality_expression NE_OP relational_expression;" << std::endl;
 			}
 		}
-#line 3679 "cParser.tab.c" /* yacc.c:1646  */
+#line 3682 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 183:
-#line 1401 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1404 "../parser/cParser.y" /* yacc.c:1646  */
     {
 			if(YFLAG){
 				outY << "relational_expression : shift_expression;" << std::endl;
 			}
 		}
-#line 3689 "cParser.tab.c" /* yacc.c:1646  */
+#line 3692 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 184:
-#line 1407 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1410 "../parser/cParser.y" /* yacc.c:1646  */
     {
 			if(YFLAG){
 				outY << "relational_expression : relational_expression LTHAN shift_expression;" << std::endl;
 			}
 		}
-#line 3699 "cParser.tab.c" /* yacc.c:1646  */
+#line 3702 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 185:
-#line 1413 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1416 "../parser/cParser.y" /* yacc.c:1646  */
     {
 			if(YFLAG){
 				outY << "relational_expression : relational_expression GTHAN shift_expression;" << std::endl;
 			}
 		}
-#line 3709 "cParser.tab.c" /* yacc.c:1646  */
+#line 3712 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 186:
-#line 1419 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1422 "../parser/cParser.y" /* yacc.c:1646  */
     {
 			if(YFLAG){
 				outY << "relational_expression : relational_expression LE_OP shift_expression;" << std::endl;
 			}
 		}
-#line 3719 "cParser.tab.c" /* yacc.c:1646  */
+#line 3722 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 187:
-#line 1425 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1428 "../parser/cParser.y" /* yacc.c:1646  */
     {
 			if(YFLAG){
 				outY << "relational_expression : relational_expression GE_OP shift_expression;" << std::endl;
 			}
 		}
-#line 3729 "cParser.tab.c" /* yacc.c:1646  */
+#line 3732 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 188:
-#line 1434 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1437 "../parser/cParser.y" /* yacc.c:1646  */
     {
 			if(YFLAG){
 				outY << "shift_expression : additive_expression;" << std::endl;
 			}
 		}
-#line 3739 "cParser.tab.c" /* yacc.c:1646  */
+#line 3742 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 189:
-#line 1440 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1443 "../parser/cParser.y" /* yacc.c:1646  */
     {
 			if(YFLAG){
 				outY << "shift_expression : shift_expression LEFT_OP additive_expression;" << std::endl;
 			}
 		}
-#line 3749 "cParser.tab.c" /* yacc.c:1646  */
+#line 3752 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 190:
-#line 1446 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1449 "../parser/cParser.y" /* yacc.c:1646  */
     {
 			if(YFLAG){
 				outY << "shift_expression : shift_expression RIGHT_OP additive_expression;" << std::endl;
 			}
 		}
-#line 3759 "cParser.tab.c" /* yacc.c:1646  */
+#line 3762 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 191:
-#line 1455 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1458 "../parser/cParser.y" /* yacc.c:1646  */
     {
 			if(YFLAG){
 				outY << "additive_expression : multiplicative_expression;" << std::endl;
 			}
 		}
-#line 3769 "cParser.tab.c" /* yacc.c:1646  */
+#line 3772 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 192:
-#line 1461 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1464 "../parser/cParser.y" /* yacc.c:1646  */
     {
 			(yyval.n)->val._num = (yyvsp[-2].n)->val._num + (yyvsp[0].n)->val._num;
  			/*
@@ -3786,32 +3789,32 @@ yyreduce:
 				outY << "additive_expression : additive_expression PLUS multiplicative_expression;" << std::endl;
 			}
 		}
-#line 3790 "cParser.tab.c" /* yacc.c:1646  */
+#line 3793 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 193:
-#line 1478 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1481 "../parser/cParser.y" /* yacc.c:1646  */
     {
  			(yyval.n)->val._num = (yyvsp[-2].n)->val._num - (yyvsp[0].n)->val._num;
 			if(YFLAG){
 				outY << "additive_expression : additive_expression MINUS multiplicative_expression;" << std::endl;
 			}
 		}
-#line 3801 "cParser.tab.c" /* yacc.c:1646  */
+#line 3804 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 194:
-#line 1488 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1491 "../parser/cParser.y" /* yacc.c:1646  */
     {
 			if(YFLAG){
 				outY << "multiplicative_expression : cast_expression;" << std::endl;
 			}
 		}
-#line 3811 "cParser.tab.c" /* yacc.c:1646  */
+#line 3814 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 195:
-#line 1494 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1497 "../parser/cParser.y" /* yacc.c:1646  */
     {
  			if ((yyvsp[-2].n) != NULL && (yyvsp[0].n) != NULL) {
  		 		(yyval.n)->val._num = (yyvsp[-2].n)->val._num * (yyvsp[0].n)->val._num;
@@ -3820,11 +3823,11 @@ yyreduce:
 				outY << "multiplicative_expression : multiplicative_expression MULT cast_expression;" << std::endl;
 			}
 		}
-#line 3824 "cParser.tab.c" /* yacc.c:1646  */
+#line 3827 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 196:
-#line 1503 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1506 "../parser/cParser.y" /* yacc.c:1646  */
     {
  			if ((yyvsp[0].n)->val._num == 0) {
  				yyerror("Unable to divide by 0");
@@ -3834,72 +3837,72 @@ yyreduce:
 				outY << "multiplicative_expression : multiplicative_expression DIV cast_expression;" << std::endl;
 			}
 		}
-#line 3838 "cParser.tab.c" /* yacc.c:1646  */
+#line 3841 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 197:
-#line 1513 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1516 "../parser/cParser.y" /* yacc.c:1646  */
     {
  			(yyval.n)->val._num = (yyvsp[-2].n)->val._num % (yyvsp[0].n)->val._num;
 			if(YFLAG){
 				outY << "multiplicative_expression : multiplicative_expression MOD cast_expression;" << std::endl;
 			}
 		}
-#line 3849 "cParser.tab.c" /* yacc.c:1646  */
+#line 3852 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 198:
-#line 1523 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1526 "../parser/cParser.y" /* yacc.c:1646  */
     {
 			if(YFLAG){
 				outY << "cast_expression : unary_expression;" << std::endl;
 			}
 		}
-#line 3859 "cParser.tab.c" /* yacc.c:1646  */
+#line 3862 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 199:
-#line 1529 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1532 "../parser/cParser.y" /* yacc.c:1646  */
     {
 			if(YFLAG){
 				outY << "cast_expression : LPAREN type_name RPAREN cast_expression;" << std::endl;
 			}
 		}
-#line 3869 "cParser.tab.c" /* yacc.c:1646  */
+#line 3872 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 200:
-#line 1538 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1541 "../parser/cParser.y" /* yacc.c:1646  */
     {
 			if(YFLAG){
 				outY << "unary_expression : postfix_expression;" << std::endl;
 			}
 		}
-#line 3879 "cParser.tab.c" /* yacc.c:1646  */
+#line 3882 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 201:
-#line 1544 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1547 "../parser/cParser.y" /* yacc.c:1646  */
     {
 			if(YFLAG){
 				outY << "unary_expression : INC_OP unary_expression;" << std::endl;
 			}
 		}
-#line 3889 "cParser.tab.c" /* yacc.c:1646  */
+#line 3892 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 202:
-#line 1550 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1553 "../parser/cParser.y" /* yacc.c:1646  */
     {
 			if(YFLAG){
 				outY << "unary_expression : DEC_OP unary_expression;" << std::endl;
 			}
 		}
-#line 3899 "cParser.tab.c" /* yacc.c:1646  */
+#line 3902 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 203:
-#line 1556 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1559 "../parser/cParser.y" /* yacc.c:1646  */
     {
  			if(unaryOperatorChosen == MINUS) { 
 	 			switch((yyvsp[0].n)->valType) {
@@ -3923,127 +3926,127 @@ yyreduce:
 				outY << "unary_expression : unary_operator cast_expression;" << std::endl;
 			}
 		}
-#line 3927 "cParser.tab.c" /* yacc.c:1646  */
+#line 3930 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 204:
-#line 1580 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1583 "../parser/cParser.y" /* yacc.c:1646  */
     {
 			if(YFLAG){
 				outY << "unary_expression : SIZEOF unary_expression;" << std::endl;
 			}
 		}
-#line 3937 "cParser.tab.c" /* yacc.c:1646  */
+#line 3940 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 205:
-#line 1586 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1589 "../parser/cParser.y" /* yacc.c:1646  */
     {
 			if(YFLAG){
 				outY << "unary_expression : SIZEOF LPAREN type_name RPAREN;" << std::endl;
 			}
 		}
-#line 3947 "cParser.tab.c" /* yacc.c:1646  */
+#line 3950 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 206:
-#line 1595 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1598 "../parser/cParser.y" /* yacc.c:1646  */
     {
  			unaryOperatorChosen = AMP; 
 			if(YFLAG){
 				outY << "unary_operator : AMP;" << std::endl;
 			}
 		}
-#line 3958 "cParser.tab.c" /* yacc.c:1646  */
+#line 3961 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 207:
-#line 1602 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1605 "../parser/cParser.y" /* yacc.c:1646  */
     {
  			unaryOperatorChosen = MULT;
 			if(YFLAG){
 				outY << "unary_operator : MULT;" << std::endl;
 			}
 		}
-#line 3969 "cParser.tab.c" /* yacc.c:1646  */
+#line 3972 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 208:
-#line 1609 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1612 "../parser/cParser.y" /* yacc.c:1646  */
     {
  			unaryOperatorChosen = PLUS;
 			if(YFLAG){
 				outY << "unary_operator : PLUS;" << std::endl;
 			}
 		}
-#line 3980 "cParser.tab.c" /* yacc.c:1646  */
+#line 3983 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 209:
-#line 1616 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1619 "../parser/cParser.y" /* yacc.c:1646  */
     {
  			unaryOperatorChosen = MINUS;
 			if(YFLAG){
 				outY << "unary_operator : MINUS;" << std::endl;
 			}
 		}
-#line 3991 "cParser.tab.c" /* yacc.c:1646  */
+#line 3994 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 210:
-#line 1623 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1626 "../parser/cParser.y" /* yacc.c:1646  */
     {
  			unaryOperatorChosen = TILDE;
 			if(YFLAG){
 				outY << "unary_operator : TILDE;" << std::endl;
 			}
 		}
-#line 4002 "cParser.tab.c" /* yacc.c:1646  */
+#line 4005 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 211:
-#line 1630 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1633 "../parser/cParser.y" /* yacc.c:1646  */
     {
  			unaryOperatorChosen = BANG;
 			if(YFLAG){
 				outY << "unary_operator : BANG;" << std::endl;
 			}
 		}
-#line 4013 "cParser.tab.c" /* yacc.c:1646  */
+#line 4016 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 212:
-#line 1640 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1643 "../parser/cParser.y" /* yacc.c:1646  */
     {
  			if(YFLAG){
 				outY << "postfix_expression : primary_expression;" << std::endl;
 			}
 		}
-#line 4023 "cParser.tab.c" /* yacc.c:1646  */
+#line 4026 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 213:
-#line 1646 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1649 "../parser/cParser.y" /* yacc.c:1646  */
     {
  			if(YFLAG){
 				outY << "postfix_expression : postfix_expression LBRACK expression RBRACK;" << std::endl;
 			}
 		}
-#line 4033 "cParser.tab.c" /* yacc.c:1646  */
+#line 4036 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 214:
-#line 1652 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1655 "../parser/cParser.y" /* yacc.c:1646  */
     {
 			if(YFLAG){
 				outY << "postfix_expression : postfix_expression LPAREN RPAREN;" << std::endl;
 			}
 		}
-#line 4043 "cParser.tab.c" /* yacc.c:1646  */
+#line 4046 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 215:
-#line 1658 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1661 "../parser/cParser.y" /* yacc.c:1646  */
     {
  			if (!(yyvsp[-3].n)->val._ste->checkParams(funcCallingParams)) {
  				std::cout << COLOR_NORMAL << COLOR_CYAN_NORMAL << "ERROR:" << COLOR_NORMAL << " Invalid function arguments." << std::endl;
@@ -4054,164 +4057,164 @@ yyreduce:
 				outY << "postfix_expression : primary_expression LPAREN argument_expression_list RPAREN;" << std::endl;
 			}
 		}
-#line 4058 "cParser.tab.c" /* yacc.c:1646  */
+#line 4061 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 216:
-#line 1669 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1672 "../parser/cParser.y" /* yacc.c:1646  */
     {
 			if(YFLAG){
 				outY << "postfix_expression : postfix_expression DOT identifier;" << std::endl;
 			}
 		}
-#line 4068 "cParser.tab.c" /* yacc.c:1646  */
+#line 4071 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 217:
-#line 1675 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1678 "../parser/cParser.y" /* yacc.c:1646  */
     {
 			if(YFLAG){
 				outY << "postfix_expression : postfix_expression PTR_OP identifier;" << std::endl;
 			}
 		}
-#line 4078 "cParser.tab.c" /* yacc.c:1646  */
+#line 4081 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 218:
-#line 1681 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1684 "../parser/cParser.y" /* yacc.c:1646  */
     {
 			if(YFLAG){
 				outY << "postfix_expression : postfix_expression INC_OP;" << std::endl;
 			}
 		}
-#line 4088 "cParser.tab.c" /* yacc.c:1646  */
+#line 4091 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 219:
-#line 1687 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1690 "../parser/cParser.y" /* yacc.c:1646  */
     {
 			if(YFLAG){
 				outY << "postfix_expression : postfix_expression DEC_OP;" << std::endl;
 			}
 		}
-#line 4098 "cParser.tab.c" /* yacc.c:1646  */
+#line 4101 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 220:
-#line 1696 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1699 "../parser/cParser.y" /* yacc.c:1646  */
     {
 			if(YFLAG){
 				outY << "primary_expression : identifier;" << std::endl;
 			}
 		}
-#line 4108 "cParser.tab.c" /* yacc.c:1646  */
+#line 4111 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 221:
-#line 1702 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1705 "../parser/cParser.y" /* yacc.c:1646  */
     {
  			if(YFLAG){
 				outY << "primary_expression : constant;" << std::endl;
 			}
 		}
-#line 4118 "cParser.tab.c" /* yacc.c:1646  */
+#line 4121 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 222:
-#line 1708 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1711 "../parser/cParser.y" /* yacc.c:1646  */
     {
 			if(YFLAG){
 				outY << "primary_expression : string;" << std::endl;
 			}
 		}
-#line 4128 "cParser.tab.c" /* yacc.c:1646  */
+#line 4131 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 223:
-#line 1714 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1717 "../parser/cParser.y" /* yacc.c:1646  */
     {
 			if(YFLAG){
 				outY << "primary_expression : LPAREN expression RPAREN;" << std::endl;
 			}
 		}
-#line 4138 "cParser.tab.c" /* yacc.c:1646  */
+#line 4141 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 224:
-#line 1723 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1726 "../parser/cParser.y" /* yacc.c:1646  */
     { 
  			funcCallingParams.push_back((yyvsp[0].n)->val._ste);
 			if(YFLAG){
 				outY << "argument_expression_list : assignment_expression;" << std::endl;
 			}
 		}
-#line 4149 "cParser.tab.c" /* yacc.c:1646  */
+#line 4152 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 225:
-#line 1730 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1733 "../parser/cParser.y" /* yacc.c:1646  */
     {
  			funcCallingParams.push_back((yyvsp[0].n)->val._ste);
 			if(YFLAG){
 				outY << "argument_expression_list : argument_expression_list COMMA assignment_expression;" << std::endl;
 			}
 		}
-#line 4160 "cParser.tab.c" /* yacc.c:1646  */
+#line 4163 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 226:
-#line 1740 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1743 "../parser/cParser.y" /* yacc.c:1646  */
     {
  			if(YFLAG){
 				outY << "constant : INTEGER_CONSTANT;" << std::endl;
 			}
 		}
-#line 4170 "cParser.tab.c" /* yacc.c:1646  */
+#line 4173 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 227:
-#line 1746 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1749 "../parser/cParser.y" /* yacc.c:1646  */
     {
 			if(YFLAG){
 				outY << "constant : CHARACTER_CONSTANT;" << std::endl;
 			}
 		}
-#line 4180 "cParser.tab.c" /* yacc.c:1646  */
+#line 4183 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 228:
-#line 1752 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1755 "../parser/cParser.y" /* yacc.c:1646  */
     {
  			if(YFLAG){
 				outY << "constant : FLOATING_CONSTANT;" << std::endl;
 			}
 		}
-#line 4190 "cParser.tab.c" /* yacc.c:1646  */
+#line 4193 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 229:
-#line 1758 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1761 "../parser/cParser.y" /* yacc.c:1646  */
     {
  			/* not sure what to do about this */
 			if(YFLAG){
 				outY << "constant : ENUMERATION_CONSTANT;" << std::endl;
 			}
 		}
-#line 4201 "cParser.tab.c" /* yacc.c:1646  */
+#line 4204 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 230:
-#line 1768 "../parser/cParser.y" /* yacc.c:1646  */
+#line 1771 "../parser/cParser.y" /* yacc.c:1646  */
     {
 			if(YFLAG){
 				outY << "string : STRING_LITERAL;" << std::endl;
 			}
 		}
-#line 4211 "cParser.tab.c" /* yacc.c:1646  */
+#line 4214 "cParser.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 4215 "cParser.tab.c" /* yacc.c:1646  */
+#line 4218 "cParser.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -4439,7 +4442,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 1780 "../parser/cParser.y" /* yacc.c:1906  */
+#line 1783 "../parser/cParser.y" /* yacc.c:1906  */
  /* end of ANSI C grammar and actions */
 
 /* user code */

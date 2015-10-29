@@ -1,18 +1,21 @@
 
 =================================================================
 Line #1: 
-void main(void){
-type_specifier : VOID;
+int x;
+type_specifier : INT;
 declaration_specifiers : type_specifier;
 direct_declarator : identifier;
-type_specifier : VOID;
-declaration_specifiers : type_specifier;
-parameter_declaration : declaration_specifiers;
-parameter_list : parameter_declaration;
-parameter_type_list : parameter_list;
-direct_declarator : direct_declarator LPAREN parameter_type_list RPAREN;
 declarator : direct_declarator;
+init_declarator : declarator;
+init_declarator_list : init_declarator;
+declaration : declaration_specifiers init_declarator_list SEMI;
+external_declaration : declaration;
+translation_unit : external_declaration;
 
 =================================================================
 Line #2: 
-	landorito = 10;
+
+
+=================================================================
+Line #3: 
+{

@@ -15,11 +15,11 @@ int main()
 		swapped = 0;
 		for( i = 0; i < 9; i++)
 		{
-			if(array[i] > array[i+1])
+			if(array[4] > array[i+1])
 			{
 				swapped = 1;
 				temp = array[i];
-				array[i] = array[i+1];
+				array[4] = array[4+1];
 				array[i+1] = temp;
 
 			}

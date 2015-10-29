@@ -464,7 +464,7 @@ init_declarator
 			if(YFLAG){
 				outY << "init_declarator : declarator ASSIGN initializer;" << std::endl;
 			}
-			$1->val._ste->printIdentifierValue(); 
+			//$1->val._ste->printIdentifierValue(); 
 			$$ = $1;
 		}
 	;
@@ -984,19 +984,22 @@ expression_statement
 compound_statement
 	: LCURL RCURL 
  		{
+ 			//std::cout << "HDDHFHDD" << std::endl;
 			if(YFLAG){
 				outY << "compound_statement : LCURL RCURL;" << std::endl;
 			}
 		}						
 	| LCURL open_curl set_lookup statement_list RCURL close_curl
  		{
+ 			std::cout << "HDDHFHDD" << std::endl;
  			if(YFLAG){
 				outY << "compound_statement : LCURL statement_list RCURL;" << std::endl;
 			}
 		}					
 	| LCURL set_insert_push declaration_list RCURL set_lookup_pop	
  		{
-			if(YFLAG){
+
+ 			if(YFLAG){
 				outY << "compound_statement : LCURL declaration_list RCURL;" << std::endl;
 			}
 		}				

@@ -1343,7 +1343,7 @@ YY_RULE_SETUP
 case 33:
 YY_RULE_SETUP
 #line 361 "../lexer/cLexer.l"
-{
+{ 
 					if(LFLAG){
 						outL << "< IDENTIFIER >";
 					}
@@ -1423,12 +1423,14 @@ YY_RULE_SETUP
 								yyerror("");
 							} 
 							colPosition += strlen(yytext);
+							yylval.n = new node();
 							yylval.n->val._ste = searchResult;
 							typeSpecifiers.clear();			
 							return IDENTIFIER;
 						}
 					}
 					else{
+						std::cout << "IN LOOKUP MODE" << std::endl; 
 						searchResult = table.searchForSymbol(newEntry, level);
 						if(searchResult == NULL){
 							char lineNum[15];
@@ -1448,7 +1450,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 463 "../lexer/cLexer.l"
+#line 465 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< INTEGER_CONSTANT >";
@@ -1489,7 +1491,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 500 "../lexer/cLexer.l"
+#line 502 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< FLOATING_CONSTANT >";
@@ -1506,7 +1508,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 513 "../lexer/cLexer.l"
+#line 515 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< CHARACTER_CONSTANT >";
@@ -1532,7 +1534,7 @@ YY_RULE_SETUP
 case 37:
 /* rule 37 can match eol */
 YY_RULE_SETUP
-#line 534 "../lexer/cLexer.l"
+#line 536 "../lexer/cLexer.l"
 {
 					
 					if(LFLAG){
@@ -1554,7 +1556,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 552 "../lexer/cLexer.l"
+#line 554 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< -> > ";
@@ -1566,7 +1568,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 560 "../lexer/cLexer.l"
+#line 562 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< ++ > ";
@@ -1578,7 +1580,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 568 "../lexer/cLexer.l"
+#line 570 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< -- > ";
@@ -1590,7 +1592,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 576 "../lexer/cLexer.l"
+#line 578 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< << > ";
@@ -1602,7 +1604,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 584 "../lexer/cLexer.l"
+#line 586 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< -> > ";
@@ -1614,7 +1616,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 592 "../lexer/cLexer.l"
+#line 594 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< <= > ";
@@ -1626,7 +1628,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 600 "../lexer/cLexer.l"
+#line 602 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< >= > ";
@@ -1638,7 +1640,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 608 "../lexer/cLexer.l"
+#line 610 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< == > ";
@@ -1650,7 +1652,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 616 "../lexer/cLexer.l"
+#line 618 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< != >";
@@ -1662,7 +1664,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 624 "../lexer/cLexer.l"
+#line 626 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< && >";
@@ -1674,7 +1676,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 632 "../lexer/cLexer.l"
+#line 634 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< || >";
@@ -1686,7 +1688,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
-#line 640 "../lexer/cLexer.l"
+#line 642 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< *= >";
@@ -1698,7 +1700,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
-#line 648 "../lexer/cLexer.l"
+#line 650 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< /= >";
@@ -1710,7 +1712,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
-#line 656 "../lexer/cLexer.l"
+#line 658 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< %= >";
@@ -1722,7 +1724,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
-#line 664 "../lexer/cLexer.l"
+#line 666 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< += >";
@@ -1734,7 +1736,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
-#line 672 "../lexer/cLexer.l"
+#line 674 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< -= >";
@@ -1746,7 +1748,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 54:
 YY_RULE_SETUP
-#line 680 "../lexer/cLexer.l"
+#line 682 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< <<= >";
@@ -1758,7 +1760,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 55:
 YY_RULE_SETUP
-#line 688 "../lexer/cLexer.l"
+#line 690 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< >>= >";
@@ -1770,7 +1772,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 56:
 YY_RULE_SETUP
-#line 696 "../lexer/cLexer.l"
+#line 698 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< &= >";
@@ -1782,7 +1784,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 57:
 YY_RULE_SETUP
-#line 704 "../lexer/cLexer.l"
+#line 706 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< ^= >";
@@ -1794,7 +1796,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 58:
 YY_RULE_SETUP
-#line 712 "../lexer/cLexer.l"
+#line 714 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< |= >";
@@ -1806,7 +1808,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 59:
 YY_RULE_SETUP
-#line 720 "../lexer/cLexer.l"
+#line 722 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< + > ";
@@ -1818,7 +1820,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 60:
 YY_RULE_SETUP
-#line 728 "../lexer/cLexer.l"
+#line 730 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< - > ";
@@ -1830,7 +1832,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 61:
 YY_RULE_SETUP
-#line 736 "../lexer/cLexer.l"
+#line 738 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< * > ";
@@ -1843,7 +1845,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 62:
 YY_RULE_SETUP
-#line 745 "../lexer/cLexer.l"
+#line 747 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< / > ";
@@ -1855,7 +1857,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 63:
 YY_RULE_SETUP
-#line 753 "../lexer/cLexer.l"
+#line 755 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< % > ";
@@ -1867,7 +1869,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 64:
 YY_RULE_SETUP
-#line 761 "../lexer/cLexer.l"
+#line 763 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< ; > ";
@@ -1879,7 +1881,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 65:
 YY_RULE_SETUP
-#line 769 "../lexer/cLexer.l"
+#line 771 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< : > ";
@@ -1891,7 +1893,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 66:
 YY_RULE_SETUP
-#line 777 "../lexer/cLexer.l"
+#line 779 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< , > ";
@@ -1903,7 +1905,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 67:
 YY_RULE_SETUP
-#line 785 "../lexer/cLexer.l"
+#line 787 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< & > ";
@@ -1915,7 +1917,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 68:
 YY_RULE_SETUP
-#line 793 "../lexer/cLexer.l"
+#line 795 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< = > ";
@@ -1927,7 +1929,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 69:
 YY_RULE_SETUP
-#line 801 "../lexer/cLexer.l"
+#line 803 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< ~ > ";
@@ -1939,7 +1941,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 70:
 YY_RULE_SETUP
-#line 809 "../lexer/cLexer.l"
+#line 811 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< | > ";
@@ -1951,7 +1953,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 71:
 YY_RULE_SETUP
-#line 817 "../lexer/cLexer.l"
+#line 819 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< ^ > ";
@@ -1963,7 +1965,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 72:
 YY_RULE_SETUP
-#line 825 "../lexer/cLexer.l"
+#line 827 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< . > ";
@@ -1975,7 +1977,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 73:
 YY_RULE_SETUP
-#line 833 "../lexer/cLexer.l"
+#line 835 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< ! > ";
@@ -1987,7 +1989,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 74:
 YY_RULE_SETUP
-#line 841 "../lexer/cLexer.l"
+#line 843 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< ? > ";
@@ -1999,7 +2001,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 75:
 YY_RULE_SETUP
-#line 849 "../lexer/cLexer.l"
+#line 851 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< ( > ";
@@ -2011,7 +2013,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 76:
 YY_RULE_SETUP
-#line 857 "../lexer/cLexer.l"
+#line 859 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< [ > ";
@@ -2023,7 +2025,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 77:
 YY_RULE_SETUP
-#line 865 "../lexer/cLexer.l"
+#line 867 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< { > ";
@@ -2035,7 +2037,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 78:
 YY_RULE_SETUP
-#line 873 "../lexer/cLexer.l"
+#line 875 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< ) > ";
@@ -2060,7 +2062,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 79:
 YY_RULE_SETUP
-#line 894 "../lexer/cLexer.l"
+#line 896 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< ] > ";
@@ -2072,7 +2074,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 80:
 YY_RULE_SETUP
-#line 902 "../lexer/cLexer.l"
+#line 904 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< } > ";
@@ -2084,7 +2086,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 81:
 YY_RULE_SETUP
-#line 910 "../lexer/cLexer.l"
+#line 912 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< < > ";
@@ -2096,7 +2098,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 82:
 YY_RULE_SETUP
-#line 918 "../lexer/cLexer.l"
+#line 920 "../lexer/cLexer.l"
 {
 					if(LFLAG){
 						outL << "< > > ";
@@ -2108,7 +2110,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 83:
 YY_RULE_SETUP
-#line 926 "../lexer/cLexer.l"
+#line 928 "../lexer/cLexer.l"
 {
 					space = true;
 					colPosition += yyleng;
@@ -2118,7 +2120,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 84:
 YY_RULE_SETUP
-#line 932 "../lexer/cLexer.l"
+#line 934 "../lexer/cLexer.l"
 {
 
 					colPosition ++;
@@ -2128,7 +2130,7 @@ YY_RULE_SETUP
 case 85:
 /* rule 85 can match eol */
 YY_RULE_SETUP
-#line 937 "../lexer/cLexer.l"
+#line 939 "../lexer/cLexer.l"
 {
 
 					//sourceCode.push_back(currentSourceCodeLine);
@@ -2150,7 +2152,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 86:
 YY_RULE_SETUP
-#line 955 "../lexer/cLexer.l"
+#line 957 "../lexer/cLexer.l"
 {outY << "READ !!S" << std::endl;
 					table.writeToScreen(); 
 				}
@@ -2158,7 +2160,7 @@ YY_RULE_SETUP
 case 87:
 /* rule 87 can match eol */
 YY_RULE_SETUP
-#line 959 "../lexer/cLexer.l"
+#line 961 "../lexer/cLexer.l"
 {	
 					std::string comment(yytext);
 					yylineno += std::count(comment.begin(), comment.end(), '\n');
@@ -2167,13 +2169,13 @@ YY_RULE_SETUP
 	YY_BREAK
 case 88:
 YY_RULE_SETUP
-#line 964 "../lexer/cLexer.l"
+#line 966 "../lexer/cLexer.l"
 {
 				}
 	YY_BREAK
 case 89:
 YY_RULE_SETUP
-#line 966 "../lexer/cLexer.l"
+#line 968 "../lexer/cLexer.l"
 {
 						std::string token(yytext);
 						char temp[256];
@@ -2203,10 +2205,10 @@ YY_RULE_SETUP
 	YY_BREAK
 case 90:
 YY_RULE_SETUP
-#line 992 "../lexer/cLexer.l"
+#line 994 "../lexer/cLexer.l"
 ECHO;
 	YY_BREAK
-#line 2210 "lex.yy.c"
+#line 2212 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -3204,7 +3206,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 992 "../lexer/cLexer.l"
+#line 994 "../lexer/cLexer.l"
 
 
 

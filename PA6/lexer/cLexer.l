@@ -358,7 +358,7 @@ identifier [a-zA-Z][a-zA-Z0-9]*
    					currentSourceCodeLine += strTemp;
 					return WHILE; 
 				}
-{identifier}	{
+{identifier}	{ 
 					if(LFLAG){
 						outL << "< IDENTIFIER >";
 					}
@@ -438,12 +438,14 @@ identifier [a-zA-Z][a-zA-Z0-9]*
 								yyerror("");
 							} 
 							colPosition += strlen(yytext);
+							yylval.n = new node();
 							yylval.n->val._ste = searchResult;
 							typeSpecifiers.clear();			
 							return IDENTIFIER;
 						}
 					}
 					else{
+						std::cout << "IN LOOKUP MODE" << std::endl; 
 						searchResult = table.searchForSymbol(newEntry, level);
 						if(searchResult == NULL){
 							char lineNum[15];
