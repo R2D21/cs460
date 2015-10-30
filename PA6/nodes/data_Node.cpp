@@ -15,7 +15,7 @@ Function: iterN() (constructor)
 
 Description: 
 */
-data_Node::data_Node(vals d, int dt) : astNode(){
+data_Node::data_Node(const vals& d, int dt) : astNode(){
 
 	std::cout << "Data Node constructor" << std::endl;
 	data = d;

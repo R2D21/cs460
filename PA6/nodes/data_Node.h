@@ -24,7 +24,7 @@ This is the header file for the iteration AST node class of our C compiler.
 class data_Node : public astNode {
     public:
         // constructors
-        data_Node(vals, int);
+        data_Node(const vals&, int);
 
         // class functions 
 
