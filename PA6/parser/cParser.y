@@ -38,7 +38,7 @@ the token declarations that will be used in the lexer.
 	extern std::ofstream outG;
 	extern bool inInsertMode;
 	extern symbolTable table; 
-	
+
 	std::vector< std::vector<int> > funcParams;
 	std::vector<symbolTableEntry*> funcCallingParams; 
 	int unaryOperatorChosen = -1;
@@ -1791,7 +1791,7 @@ identifier
 			outG << "data_Node -> identifier;" << std::endl;
 
 			if(YFLAG){
-				outY << "data_Node : identifier;" << std::endl;
+				outY << "identifier : IDENTIFIER;" << std::endl;
 			}
 		}
 	;

@@ -116,6 +116,7 @@ int main(int argc, char** argv) {
 	outG << "}" << endl;
 	outG.close();
 	system("dot -Tpng -ograph.png graph.dot");
+	system("gnome-open graph.png");
 	if (LFLAG) {
 		outL.close();
 	}
