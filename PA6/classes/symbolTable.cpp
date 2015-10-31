@@ -293,6 +293,10 @@ void symbolTable::writeToScreen() {
 			}
 			else {
 				for (bstItr = currentBst->begin(); bstItr != currentBst->end(); bstItr++) {
+
+					bstItr->second.displayIdentifierAttributes(); 
+
+					/*
 					for (int i = 0; i < symbolTableItr->getScopeLevel(); i++) {
 						std::cout << "\t";
 					}
@@ -300,7 +304,7 @@ void symbolTable::writeToScreen() {
 					std::cout << "\tVariable: " << bstItr->first << std::endl;
 					for (int i = 0; i < symbolTableItr->getScopeLevel(); i++) {
 						std::cout << "\t";
-					}
+					} */
 					
 					//std::cout << "\tType: " << bstItr->second.getTypeStr() << std:: endl;
 				}

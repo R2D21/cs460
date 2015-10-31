@@ -631,7 +631,7 @@ void symbolTableEntry::displayIdentifierAttributes() const {
 	std::cout << "Identifier name: " << idTemp << std::endl;
 	idTemp = getIdentifierType_String();
 	std::cout << "Identifier type: " << idTemp << std::endl;
-	printIdentifierValue();
+	//printIdentifierValue(); !!!!!!!!!!!!!!!!! CHECK THIS LATER !!!!!!!!!!!
 	
 	if (isFunc) {
 		idNumTemp = getNumParams(); 
@@ -656,7 +656,7 @@ void symbolTableEntry::displayIdentifierAttributes() const {
 		std::cout << std::endl;
 		std::cout << "Identifier dimensions: " << std::endl;
 		for (unsigned int i = 0; i < arrayDimensions.size(); i++) {
-			std::cout << "Dimension #" << i << arrayDimensions[i] << std::endl; 
+			std::cout << "Dimension #" << i << " :" << arrayDimensions[i] << std::endl; 
 		} 
 	}
 }

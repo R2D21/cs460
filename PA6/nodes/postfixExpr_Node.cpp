@@ -17,7 +17,6 @@ Description:
 */
 postfixExpr_Node::postfixExpr_Node(astNode* A, astNode* B, bool inc, bool dec) : astNode(){
 
-	std::cout << "Postfix Expression Node constructor" << std::endl;
 	exprA = A;
 	exprB = B;
 	incOp = inc;

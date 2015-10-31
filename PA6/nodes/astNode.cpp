@@ -16,7 +16,6 @@ Function: astNode() (constructor)
 Description: 
 */
 astNode::astNode(){
-	std::cout << "AST Node constructor" << std::endl;
 }
 
 

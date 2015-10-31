@@ -125,7 +125,7 @@ identifier [a-zA-Z][a-zA-Z0-9]*
 					}
 					std::string strTemp(yytext);
    					currentSourceCodeLine += strTemp;
-   					typeSpecifiers.push_back(CHAR); 
+   					typeSpecifiers.push_back(CHAR_T); 
 					return CHAR; 
 				}
 "const"			{
@@ -166,7 +166,7 @@ identifier [a-zA-Z][a-zA-Z0-9]*
 					}
 					std::string strTemp(yytext);
    					currentSourceCodeLine += strTemp;
-   					typeSpecifiers.push_back(DOUBLE);
+   					typeSpecifiers.push_back(DOUBLE_T);
 					return DOUBLE; 
 				}	
 "else"			{
@@ -199,7 +199,7 @@ identifier [a-zA-Z][a-zA-Z0-9]*
 					}
 					std::string strTemp(yytext);
    					currentSourceCodeLine += strTemp;
-   					typeSpecifiers.push_back(FLOAT);
+   					typeSpecifiers.push_back(FLOAT_T);
 					return FLOAT; 
 				}
 "for"			{
@@ -232,7 +232,7 @@ identifier [a-zA-Z][a-zA-Z0-9]*
 					}
 					std::string strTemp(yytext);
    					currentSourceCodeLine += strTemp;
-   					typeSpecifiers.push_back(INT);
+   					typeSpecifiers.push_back(INT_T);
 					return INT; 	
 				}
 "long"			{
@@ -241,7 +241,7 @@ identifier [a-zA-Z][a-zA-Z0-9]*
 					}
 					std::string strTemp(yytext);
    					currentSourceCodeLine += strTemp;
-   					typeSpecifiers.push_back(LONG);
+   					typeSpecifiers.push_back(LONG_T);
 					return LONG; 
 				}
 "register"		{
@@ -266,7 +266,7 @@ identifier [a-zA-Z][a-zA-Z0-9]*
 					}
 					std::string strTemp(yytext);
    					currentSourceCodeLine += strTemp;
-   					typeSpecifiers.push_back(SHORT);
+   					typeSpecifiers.push_back(SHORT_T);
 					return SHORT; 
 				}
 "signed"		{
@@ -339,7 +339,7 @@ identifier [a-zA-Z][a-zA-Z0-9]*
 					}
 					std::string strTemp(yytext);
    					currentSourceCodeLine += strTemp;
-   					typeSpecifiers.push_back(VOID);
+   					typeSpecifiers.push_back(VOID_T);
 					return VOID; 
 				}
 "volatile"		{
@@ -411,13 +411,8 @@ identifier [a-zA-Z][a-zA-Z0-9]*
 								std::cout << COLOR_NORMAL;
 								yyerror("");
 							}
-
-							/*
-							i don't think we're supposed to do this - sending wrong pointer 
-							yylval.n.entry = searchResult;
-							*/
-
 							searchResult = table.insertNewSymbol(newEntry, yylineno);
+							yylval.n = new node();
 							yylval.n->val._ste = searchResult;
 							typeSpecifiers.clear();						
 							return IDENTIFIER;
@@ -445,7 +440,6 @@ identifier [a-zA-Z][a-zA-Z0-9]*
 						}
 					}
 					else{
-						std::cout << "IN LOOKUP MODE" << std::endl; 
 						searchResult = table.searchForSymbol(newEntry, level);
 						if(searchResult == NULL){
 							char lineNum[15];
@@ -457,6 +451,7 @@ identifier [a-zA-Z][a-zA-Z0-9]*
 							yyerror("");
 						}
 						else{
+							yylval.n = new node();
 							yylval.n->val._ste = searchResult;
 							return IDENTIFIER;
 						}
@@ -1016,68 +1011,68 @@ int isValidType(std::vector<int> type){
 	std::vector<int> validType;
 
 	// char
-	validType.push_back(CHAR);
+	validType.push_back(CHAR_T);
 	validTypes.insert(pair(validType, CHAR_T));
 	validType.clear();
 
 	// double
-	validType.push_back(DOUBLE);
+	validType.push_back(DOUBLE_T);
 	validTypes.insert(pair(validType, DOUBLE_T));
 	validType.clear();
 
 	// float
-	validType.push_back(FLOAT);
+	validType.push_back(FLOAT_T);
 	validTypes.insert(pair(validType, FLOAT_T));
 	validType.clear();
 
 	// int 
-	validType.push_back(INT);
+	validType.push_back(INT_T);
 	validTypes.insert(pair(validType, INT_T));
 	validType.clear();
 
 	// long
-	validType.push_back(LONG);
+	validType.push_back(LONG_T);
 	validTypes.insert(pair(validType, LONG_T));
 	validType.clear();
 
 	// long int
-	validType.push_back(LONG);
-	validType.push_back(INT);
+	validType.push_back(LONG_T);
+	validType.push_back(INT_T);
 	validTypes.insert(pair(validType, LONG_T));
 	validType.clear();
 
 	// long long
-	validType.push_back(LONG);
-	validType.push_back(LONG);
+	validType.push_back(LONG_T);
+	validType.push_back(LONG_T);
 	validTypes.insert(pair(validType, LONG_LONG_T));
 	validType.clear();	
 
 	// long long int
-	validType.push_back(LONG);
-	validType.push_back(LONG);
-	validType.push_back(INT);
+	validType.push_back(LONG_T);
+	validType.push_back(LONG_T);
+	validType.push_back(INT_T);
 	validTypes.insert(pair(validType, LONG_LONG_T));
 	validType.clear();
 
 	// long double
-	validType.push_back(LONG);
-	validType.push_back(DOUBLE);
+	validType.push_back(LONG_T);
+	validType.push_back(DOUBLE_T);
 	validTypes.insert(pair(validType, LONG_DOUBLE_T));
 	validType.clear();
 
 	// short
-	validType.push_back(SHORT);
+	validType.push_back(SHORT_T);
 	validTypes.insert(pair(validType, SHORT_T));
 	validType.clear();	
 
 	// short int
-	validType.push_back(SHORT);
-	validType.push_back(INT);
+	validType.push_back(SHORT_T);
+	validType.push_back(INT_T);
 	validTypes.insert(pair(validType, SHORT_T));
 	validType.clear();	
 
 	// void
-	validType.push_back(VOID);
+	validType.push_back(VOID_T);
 	validTypes.insert(pair(validType, VOID_T));
 	validType.clear();	
 

@@ -42,7 +42,7 @@ the token declarations that will be used in the lexer.
 	std::vector< std::vector<int> > funcParams;
 	std::vector<symbolTableEntry*> funcCallingParams; 
 	int unaryOperatorChosen = -1;
-
+	symbolTableEntry* currentFunc;
 	// functions needed by bison
 	//void assignParams(symbolTableEntry* entry, std::vector<parameter> params);
 	//void applyUnaryOperator(void*& value, int unaryToken, symbolTableEntry* entry = NULL)
@@ -122,6 +122,8 @@ which is a pointer to a node object.
 %type <n> initializer
 %type <n> init_declarator
 %type <n> identifier
+%type <n> primary_expression
+%type <n> argument_expression_list
 
 /* start of ANSI C grammar and actions */
 %%
@@ -645,11 +647,9 @@ direct_declarator
 				outY << "direct_declarator : direct_declarator LPAREN RPAREN;" << std::endl;
 			}
 		}
-	| direct_declarator LPAREN set_insert_push parameter_type_list RPAREN set_lookup close_curl
+	| direct_declarator LPAREN  parameter_type_list RPAREN set_insert
  		{
- 			/*
-			why is close_curl here? popleveloff?
- 			*/
+ 			
 			$1->val._ste->setFunction(); 
 			for (unsigned int i = 0; i < funcParams.size(); i++) {
 				$1->val._ste->addParameter(funcParams[i]);
@@ -744,7 +744,8 @@ parameter_declaration
 	: declaration_specifiers declarator
  		{
  			std::vector<int> formalParamType;
- 			formalParamType = $2->val._ste->getIdentifierType_Vector(); 
+ 			formalParamType = $2->val._ste->getIdentifierType_Vector();
+ 			std::string name = $2->val._ste->getIdentifierName(); 
 			funcParams.push_back(formalParamType);
 			if(YFLAG){
 				outY << "parameter_declaration : declaration_specifiers declarator;" << std::endl;
@@ -988,14 +989,12 @@ expression_statement
 compound_statement
 	: LCURL RCURL 
  		{
- 			//std::cout << "HDDHFHDD" << std::endl;
 			if(YFLAG){
 				outY << "compound_statement : LCURL RCURL;" << std::endl;
 			}
 		}						
 	| LCURL open_curl set_lookup statement_list RCURL close_curl
  		{
- 			std::cout << "HDDHFHDD" << std::endl;
  			if(YFLAG){
 				outY << "compound_statement : LCURL statement_list RCURL;" << std::endl;
 			}
@@ -1648,7 +1647,12 @@ postfix_expression
  			if(YFLAG){
 				outY << "postfix_expression : primary_expression;" << std::endl;
 			}
-		}
+ 			$$ = $1;
+ 			if($1->valType == STE_T && $1->val._ste->isFunction()){
+ 				currentFunc = $1->val._ste;
+ 			} 
+ 			std::cout << "after assignment" << std::endl; 
+ 		}
 	| postfix_expression set_lookup LBRACK expression RBRACK
  		{
  			if(YFLAG){
@@ -1663,14 +1667,18 @@ postfix_expression
 		}
 	| postfix_expression LPAREN argument_expression_list RPAREN
  		{
+ 			$1->val._ste = currentFunc; 
+ 			
+ 			if(YFLAG){
+				outY << "postfix_expression : postfix_expression LPAREN argument_expression_list RPAREN;" << std::endl;
+			}
+
  			if (!$1->val._ste->checkParams(funcCallingParams)) {
  				std::cout << COLOR_NORMAL << COLOR_CYAN_NORMAL << "ERROR:" << COLOR_NORMAL << " Invalid function arguments." << std::endl;
  				yyerror("");
  			}
  			funcCallingParams.clear();  
-			if(YFLAG){
-				outY << "postfix_expression : primary_expression LPAREN argument_expression_list RPAREN;" << std::endl;
-			}
+
 		}
 	| postfix_expression DOT identifier
  		{
