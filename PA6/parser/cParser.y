@@ -1548,19 +1548,69 @@ unary_expression
 				outY << "unary_expression : postfix_expression;" << std::endl;
 			}
 		}
-	| INC_OP unary_expression
+	| INC_OP unary_expression /* ++a, ++a[x][y], etc.. */
  		{
+ 			node* n = $2->val._ste->getIdentifierValue();
+ 			switch(n->valType) {
+ 				case LONG_LONG_T:
+				case LONG_T:
+				case INT_T:
+				case SHORT_T:
+ 					n->val._num++;
+ 					break; 
+
+ 				case FLOAT_T:
+				case DOUBLE_T:
+				case LONG_DOUBLE_T:
+ 					n->val._dec++;
+ 					break;
+
+ 				case CHAR_T:
+ 					n->val._char++;
+ 					break;
+
+ 				default:
+ 					yyerror("Unable to increment.");
+ 					break;
+ 			}
+ 			$2->val._ste->setIdentifierValue(*n);
+ 			$$ = $2;
 			if(YFLAG){
 				outY << "unary_expression : INC_OP unary_expression;" << std::endl;
 			}
 		}
-	| DEC_OP unary_expression
+	| DEC_OP unary_expression /* --a, --a[x][y], etc.. */ 
  		{
+ 			node* n = $2->val._ste->getIdentifierValue();
+ 			switch(n->valType) {
+ 				case LONG_LONG_T:
+				case LONG_T:
+				case INT_T:
+				case SHORT_T:
+ 					n->val._num--;
+ 					break; 
+
+ 				case FLOAT_T:
+				case DOUBLE_T:
+				case LONG_DOUBLE_T:
+ 					n->val._dec--;
+ 					break;
+
+ 				case CHAR_T:
+ 					n->val._char--;
+ 					break;
+
+ 				default:
+ 					yyerror("Unable to decrement.");
+ 					break;
+ 			}
+ 			$2->val._ste->setIdentifierValue(*n);
+ 			$$ = $2;
 			if(YFLAG){
 				outY << "unary_expression : DEC_OP unary_expression;" << std::endl;
 			}
 		}
-	| unary_operator cast_expression
+	| unary_operator cast_expression /* negative values */
  		{
  			if(unaryOperatorChosen == MINUS) { 
 	 			switch($2->valType) {
@@ -1655,7 +1705,7 @@ postfix_expression
  			} 
  			std::cout << "after assignment" << std::endl; 
  		}
-	| postfix_expression set_lookup LBRACK expression RBRACK
+	| postfix_expression set_lookup LBRACK expression RBRACK /* COME BACK TO THIS */
  		{
  			if(YFLAG){
 				outY << "postfix_expression : postfix_expression LBRACK expression RBRACK;" << std::endl;
@@ -1670,8 +1720,7 @@ postfix_expression
 	| postfix_expression LPAREN argument_expression_list RPAREN
  		{
  			$1->val._ste = currentFunc; 
- 			
- 			if(YFLAG){
+  			if(YFLAG){
 				outY << "postfix_expression : postfix_expression LPAREN argument_expression_list RPAREN;" << std::endl;
 			}
 
@@ -1680,7 +1729,6 @@ postfix_expression
  				yyerror("");
  			}
  			funcCallingParams.clear();  
-
 		}
 	| postfix_expression DOT identifier
  		{
