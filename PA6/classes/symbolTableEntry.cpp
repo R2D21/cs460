@@ -625,13 +625,19 @@ Function: displayIdentifierAttributes() const
 Description: This function will print out all of the attributes associated 
 with a symbol table entry. 
 */
-void symbolTableEntry::displayIdentifierAttributes() const {
+void symbolTableEntry::displayIdentifierAttributes(int tabCount) const {
 	int idNumTemp = 0;
 	std::string idTemp = getIdentifierName();
+	printTabs(tabCount);
 	std::cout << "Identifier name: " << idTemp << std::endl;
 	idTemp = getIdentifierType_String();
+	printTabs(tabCount);
 	std::cout << "Identifier type: " << idTemp << std::endl;
-	//printIdentifierValue(); !!!!!!!!!!!!!!!!! CHECK THIS LATER !!!!!!!!!!!
+	printTabs(tabCount);
+	std::cout << "Identifier value: ";
+	printIdentifierValue(); 
+	std::cout << std::endl;
+	//!!!!!!!!!!!!!!!!! CHECK THIS LATER !!!!!!!!!!!
 	
 	if (isFunc) {
 		idNumTemp = getNumParams(); 
@@ -744,3 +750,17 @@ std::string symbolTableEntry::intTypeToStr(int someType) const {
 	}
 	return str; 
 }
+
+/*
+Function: printTabs(int tabCount) const
+
+Parameters:
+int tabCount: Represents the number of tabs to output to the console.
+
+Descriptions: Prints tabs. 
+*/
+void symbolTableEntry::printTabs(int tabCount) const {
+	for (int i = 0; i < tabCount; i++) {
+		std::cout << "\t"; 
+	}
+} 

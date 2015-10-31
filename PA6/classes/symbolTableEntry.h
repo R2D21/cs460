@@ -92,7 +92,7 @@ class symbolTableEntry {
 
         // other functions that may come in handy 
         int getLineNumber() const;
-        void displayIdentifierAttributes() const; 
+        void displayIdentifierAttributes(int tabCount) const; 
 
         // destructor
         ~symbolTableEntry(); 
@@ -123,7 +123,8 @@ class symbolTableEntry {
         std::vector< std::vector<int> > parameters;
  
         // private functions - used only by members of the class
-        std::string intTypeToStr(int someType) const; 
+        std::string intTypeToStr(int someType) const;
+        void printTabs(int tabCount) const;  
 };
 
 #endif // SYMBOL_TABLE_ENTRY_H

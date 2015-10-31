@@ -81,31 +81,31 @@ which is a pointer to a node object.
 
 /* catfishC tokens */
 %token <n> IDENTIFIER
-%token INTEGER_CONSTANT 
-%token FLOATING_CONSTANT 
-%token ENUMERATION_CONSTANT 
-%token CHARACTER_CONSTANT 
-%token STRING_LITERAL 
-%token SIZEOF
-%token PTR_OP 
-%token INC_OP DEC_OP 
-%token LEFT_OP RIGHT_OP 
-%token LE_OP GE_OP EQ_OP NE_OP
-%token AND_OP OR_OP 
-%token MUL_ASSIGN DIV_ASSIGN MOD_ASSIGN ADD_ASSIGN SUB_ASSIGN 
-%token LEFT_ASSIGN RIGHT_ASSIGN AND_ASSIGN XOR_ASSIGN OR_ASSIGN 
-%token TYPEDEF_NAME
-%token PLUS MINUS MULT DIV MOD
-%token SEMI COLON COMMA AMP
-%token ASSIGN TILDE PIPE CARROT DOT
-%token BANG QUESTION
-%token LPAREN LBRACK LCURL
-%token RPAREN RBRACK RCURL
-%token LTHAN GTHAN
-%token TYPEDEF EXTERN STATIC AUTO REGISTER
-%token CHAR SHORT INT LONG SIGNED UNSIGNED FLOAT DOUBLE CONST VOLATILE VOID
-%token STRUCT UNION ENUM ELIPSIS RANGE
-%token CASE DEFAULT IF ELSE SWITCH WHILE DO FOR GOTO CONTINUE BREAK RETURN
+%token <n> INTEGER_CONSTANT 
+%token <n> FLOATING_CONSTANT 
+%token <n> ENUMERATION_CONSTANT 
+%token <n> CHARACTER_CONSTANT 
+%token <n> STRING_LITERAL 
+%token <n> SIZEOF
+%token <n> PTR_OP 
+%token <n> INC_OP DEC_OP 
+%token <n> LEFT_OP RIGHT_OP 
+%token <n> LE_OP GE_OP EQ_OP NE_OP
+%token <n> AND_OP OR_OP 
+%token <n> MUL_ASSIGN DIV_ASSIGN MOD_ASSIGN ADD_ASSIGN SUB_ASSIGN 
+%token <n> LEFT_ASSIGN RIGHT_ASSIGN AND_ASSIGN XOR_ASSIGN OR_ASSIGN 
+%token <n> TYPEDEF_NAME
+%token <n> PLUS MINUS MULT DIV MOD
+%token <n> SEMI COLON COMMA AMP
+%token <n> ASSIGN TILDE PIPE CARROT DOT
+%token <n> BANG QUESTION
+%token <n> LPAREN LBRACK LCURL
+%token <n> RPAREN RBRACK RCURL
+%token <n> LTHAN GTHAN
+%token <n> TYPEDEF EXTERN STATIC AUTO REGISTER
+%token <n> CHAR SHORT INT LONG SIGNED UNSIGNED FLOAT DOUBLE CONST VOLATILE VOID
+%token <n> STRUCT UNION ENUM ELIPSIS RANGE
+%token <n> CASE DEFAULT IF ELSE SWITCH WHILE DO FOR GOTO CONTINUE BREAK RETURN
 
 /* catfishC starting left hand side */
 %start start_unit
@@ -124,6 +124,8 @@ which is a pointer to a node object.
 %type <n> identifier
 %type <n> primary_expression
 %type <n> argument_expression_list
+%type <n> string 
+%type <n> constant
 
 /* start of ANSI C grammar and actions */
 %%
@@ -1692,21 +1694,71 @@ postfix_expression
 				outY << "postfix_expression : postfix_expression PTR_OP identifier;" << std::endl;
 			}
 		}
-	| postfix_expression INC_OP
+	| postfix_expression INC_OP /* a++, a[x][y]++. etc.. */
  		{
+ 			$$ = $1;
+ 			node* n = $1->val._ste->getIdentifierValue();
+ 			switch(n->valType) {
+ 				case LONG_LONG_T:
+				case LONG_T:
+				case INT_T:
+				case SHORT_T:
+ 					n->val._num++;
+ 					break; 
+
+ 				case FLOAT_T:
+				case DOUBLE_T:
+				case LONG_DOUBLE_T:
+ 					n->val._dec++;
+ 					break;
+
+ 				case CHAR_T:
+ 					n->val._char++;
+ 					break;
+
+ 				default:
+ 					yyerror("Unable to increment.");
+ 					break;
+ 			}
+ 			$1->val._ste->setIdentifierValue(*n);
 			if(YFLAG){
 				outY << "postfix_expression : postfix_expression INC_OP;" << std::endl;
 			}
 		}
-	| postfix_expression DEC_OP
+	| postfix_expression DEC_OP /* a--, a[x][y]--, etc.. */
  		{
+ 			$$ = $1;
+ 			node* n = $1->val._ste->getIdentifierValue();
+ 			switch(n->valType) {
+ 				case LONG_LONG_T:
+				case LONG_T:
+				case INT_T:
+				case SHORT_T:
+ 					n->val._num--;
+ 					break; 
+
+ 				case FLOAT_T:
+				case DOUBLE_T:
+				case LONG_DOUBLE_T:
+ 					n->val._dec--;
+ 					break;
+
+ 				case CHAR_T:
+ 					n->val._char--;
+ 					break;
+
+ 				default:
+ 					yyerror("Unable to decrement.");
+ 					break;
+ 			}
+ 			$1->val._ste->setIdentifierValue(*n);
 			if(YFLAG){
 				outY << "postfix_expression : postfix_expression DEC_OP;" << std::endl;
 			}
 		}
 	;
 
-primary_expression
+primary_expression /* no code in this production - just passing stuff up */
 	: identifier
  		{
 			if(YFLAG){
@@ -1733,9 +1785,10 @@ primary_expression
 		}
 	;
 
-argument_expression_list
+argument_expression_list /* used for calling a function with actual parameters */
 	: assignment_expression
  		{ 
+ 			// push back the symbol table entry of the actual parameters
  			funcCallingParams.push_back($1->val._ste);
 			if(YFLAG){
 				outY << "argument_expression_list : assignment_expression;" << std::endl;
@@ -1743,6 +1796,7 @@ argument_expression_list
 		}
 	| argument_expression_list COMMA assignment_expression
  		{
+ 			// push back the symbol table entry of the actual parameters
  			funcCallingParams.push_back($3->val._ste);
 			if(YFLAG){
 				outY << "argument_expression_list : argument_expression_list COMMA assignment_expression;" << std::endl;
@@ -1753,21 +1807,27 @@ argument_expression_list
 constant
 	: INTEGER_CONSTANT
  		{
- 			vals testVal;
-			testVal._num = 1111111;
-			data_Node *testData = new data_Node( testVal, 1);
+ 			// create ast node 
+			$1->astPtr = new data_Node($1->val, $1->valType);
+			$$ = $1;
  			if(YFLAG){
 				outY << "constant : INTEGER_CONSTANT;" << std::endl;
 			}
 		}
 	| CHARACTER_CONSTANT
  		{
+ 			// create ast node 
+			$1->astPtr = new data_Node($1->val, $1->valType);
+			$$ = $1;
 			if(YFLAG){
 				outY << "constant : CHARACTER_CONSTANT;" << std::endl;
 			}
 		}
 	| FLOATING_CONSTANT
  		{
+ 			// create ast node 
+			$1->astPtr = new data_Node($1->val, $1->valType);
+			$$ = $1;
  			if(YFLAG){
 				outY << "constant : FLOATING_CONSTANT;" << std::endl;
 			}
@@ -1784,6 +1844,9 @@ constant
 string
 	: STRING_LITERAL
  		{
+ 			// create ast node
+ 			$1->astPtr = new data_Node($1->val, $1->valType);
+ 			$$ = $1; 
 			if(YFLAG){
 				outY << "string : STRING_LITERAL;" << std::endl;
 			}
@@ -1793,32 +1856,26 @@ string
 identifier
 	: IDENTIFIER
 		{
+			// create ast node 
 			$1->astPtr = new data_Node($1->val, $1->valType);
 			$$ = $1;
-			$$->astPtr->print(); 
 			outG << "data_Node -> identifier;" << std::endl;
-
 			if(YFLAG){
 				outY << "identifier : IDENTIFIER;" << std::endl;
 			}
 		}
 	;
-
-
 %% /* end of ANSI C grammar and actions */
 
 /* user code */
+
+/*
+Function: yyerror(const char* s)
+
+Description: Used for error messages in both the Flex and Bison files. 
+*/
 void yyerror(const char* s) {
 
 	std::cout << s << std::endl;
 	exit(-1);
 }
-
-/*
-void assignParams(symbolTableEntry* entry, std::vector<parameter> params) {
-	if (entry != NULL) {
-		for(unsigned int i = 0; i < params.size(); i++) {
-			entry->addParameter(params[i]);
-		}
-	}
-} */
