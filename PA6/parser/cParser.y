@@ -43,6 +43,7 @@ the token declarations that will be used in the lexer.
 	std::vector<symbolTableEntry*> funcCallingParams; 
 	int unaryOperatorChosen = -1;
 	symbolTableEntry* currentFunc;
+	void performArithmeticOp(node* result, node* lhs, node* rhs, int token);
 	// functions needed by bison
 	//void assignParams(symbolTableEntry* entry, std::vector<parameter> params);
 	//void applyUnaryOperator(void*& value, int unaryToken, symbolTableEntry* entry = NULL)
@@ -1467,7 +1468,8 @@ additive_expression
 		}
 	| additive_expression PLUS multiplicative_expression
  		{
-			$$->val._num = $1->val._num + $3->val._num;
+ 			performArithmeticOp($$, $1, $3, PLUS);
+			//$$->val._num = $1->val._num + $3->val._num;
  			/*
  			if ($1-> != NULL) {
  				dVal dTemp = $1->sEntry->getIdentifierValue(); 
@@ -1484,7 +1486,8 @@ additive_expression
 		}
 	| additive_expression MINUS multiplicative_expression
  		{
- 			$$->val._num = $1->val._num - $3->val._num;
+ 			performArithmeticOp($$, $1, $3, MINUS);
+ 			//$$->val._num = $1->val._num - $3->val._num;
 			if(YFLAG){
 				outY << "additive_expression : additive_expression MINUS multiplicative_expression;" << std::endl;
 			}
@@ -1500,9 +1503,75 @@ multiplicative_expression
 		}
 	| multiplicative_expression MULT cast_expression
  		{
+ 			performArithmeticOp($$, $1, $3, MULT);
+ 			/*
+ 			bool multExprIsASymTblPtr = ($1->valType == STE_T); 
+ 			bool castExprIsASymTblPtr = ($3->valType == STE_T);
+ 			node* multData = NULL:
+ 			node* castData = NULL; 
+
+ 			if (multExprIsASymTblPtr) {
+ 				std::cout << "multExprIsASymTblPtr is true" << std::endl;
+ 				multData = $1->val._ste->getIdentifierValue();  
+ 			}
+
+			if (castExprIsASymTblPtr) {
+ 				std::cout << "castExprIsASymTblPtr is true" << std::endl; 
+ 				castData = $3->val._ste->getIdentifierValue(); 
+ 			}
+
+ 			switch($1->valType) {
+				case LONG_LONG_T:
+				case LONG_T:
+				case INT_T:
+				case SHORT_T:
+ 					switch($3->valType) {
+ 						case LONG_LONG_T:
+						case LONG_T:
+						case INT_T:
+						case SHORT_T:
+		 					n->val._num++;
+		 					break; 
+
+		 				case FLOAT_T:
+						case DOUBLE_T:
+						case LONG_DOUBLE_T:
+		 					n->val._dec++;
+		 					break;
+
+		 				case CHAR_T:
+		 					n->val._char++;
+		 					break;
+
+		 				default:
+		 					yyerror("Unable to increment.");
+		 					break;
+ 					}
+ 					break; 
+
+ 				case FLOAT_T:
+				case DOUBLE_T:
+				case LONG_DOUBLE_T:
+ 					n->val._dec++;
+ 					break;
+
+ 				case CHAR_T:
+ 					n->val._char++;
+ 					break;
+
+ 				case STE_T:
+
+ 					break;
+
+ 				default:
+ 					yyerror("Unable to increment.");
+ 					break; 				
+ 			}
+*/
+ 			/*
  			if ($1 != NULL && $3 != NULL) {
  		 		$$->val._num = $1->val._num * $3->val._num;
- 		 	}
+ 		 	} */
 			if(YFLAG){
 				outY << "multiplicative_expression : multiplicative_expression MULT cast_expression;" << std::endl;
 			}
@@ -1512,14 +1581,16 @@ multiplicative_expression
  			if ($3->val._num == 0) {
  				yyerror("Unable to divide by 0");
  			}
- 			$$->val._num = $1->val._num / $3->val._num;
+ 			performArithmeticOp($$, $1, $3, DIV);
+ 			//$$->val._num = $1->val._num / $3->val._num;
 			if(YFLAG){
 				outY << "multiplicative_expression : multiplicative_expression DIV cast_expression;" << std::endl;
 			}
 		}
 	| multiplicative_expression MOD cast_expression
  		{
- 			$$->val._num = $1->val._num % $3->val._num;
+ 			performArithmeticOp($$, $1, $3, MOD);
+ 			//$$->val._num = $1->val._num % $3->val._num;
 			if(YFLAG){
 				outY << "multiplicative_expression : multiplicative_expression MOD cast_expression;" << std::endl;
 			}
@@ -1926,4 +1997,225 @@ void yyerror(const char* s) {
 
 	std::cout << s << std::endl;
 	exit(-1);
+}
+
+/*
+Function: performArithmeticOp(node* result, node* lhs, node* rhs, int token)
+
+Parameter:
+int token: The operator to be applied to the two expressions.
+*/
+void performArithmeticOp(node* result, node* lhs, node* rhs, int token) {
+	bool leftNull = (lhs == NULL);
+	bool rightNull = (rhs == NULL);
+	bool resultNull = (result == NULL);
+	if (leftNull || rightNull || resultNull) {
+		yyerror("Unable to perform arithmetic operation; operator is NULL.");
+		return; 
+	}
+
+	// use the left value as a basis for what to do with the right value
+	switch(lhs->valType) {
+		// left side is a whole number
+		case LONG_LONG_T:
+		case LONG_T:
+		case INT_T:
+		case SHORT_T:
+			// determine right side if left side is a whole number
+			switch(rhs->valType) {
+				// right side is a whole number
+				case LONG_LONG_T:
+				case LONG_T:
+				case INT_T:
+				case SHORT_T:
+					// determine operation
+					switch(token) {
+						// multiplication
+						case MULT:
+							result->val._num = lhs->val._num * rhs->val._num; 
+							result->valType = LONG_LONG_T;
+							break;
+
+						// division
+						case DIV:
+							result->val._num = lhs->val._num / rhs->val._num; 
+							result->valType = LONG_LONG_T;
+							break;
+
+						// addition
+						case PLUS:
+							result->val._num = lhs->val._num + rhs->val._num; 
+							result->valType = LONG_LONG_T;
+							break;
+
+						// subtraction
+						case MINUS:
+							result->val._num = lhs->val._num - rhs->val._num; 
+							result->valType = LONG_LONG_T;
+							break;
+
+						// mod
+						case MOD:
+							result->val._num = lhs->val._num % rhs->val._num; 
+							result->valType = LONG_LONG_T;
+							break;
+
+						// unknown
+						default:
+							yyerror("Unknown operator.");
+							break;
+					}
+					break; 
+
+				// right side is a decimal
+				case FLOAT_T:
+				case DOUBLE_T:
+				case LONG_DOUBLE_T:
+					// determine operation
+					switch(token) {
+						// multiplication
+						case MULT:
+							result->val._dec = lhs->val._num * rhs->val._dec; 
+							result->valType = LONG_DOUBLE_T;
+							break;
+
+						// division
+						case DIV:
+							result->val._dec = lhs->val._num / rhs->val._dec; 
+							result->valType = LONG_DOUBLE_T;
+							break;
+
+						// addition
+						case PLUS:
+							result->val._dec = lhs->val._num + rhs->val._dec; 
+							result->valType = LONG_DOUBLE_T;
+							break;
+
+						// subtraction
+						case MINUS:
+							result->val._dec = lhs->val._num - rhs->val._dec; 
+							result->valType = LONG_DOUBLE_T;
+							break;
+
+						// mod
+						case MOD:
+							yyerror("Modulo not supported between a decimal and a whole number.");
+							break;
+
+						// unknown
+						default:
+							yyerror("Unknown operator.");
+							break;
+					}
+					break;
+
+				// right side is a symbol table entry
+				case STE_T:
+					// determine type of data from sym. table entry
+					node* n = rhs->val._ste->getIdentifierValue(); 
+					switch(n->valType) {
+						case LONG_LONG_T:
+						case LONG_T:
+						case INT_T:
+						case SHORT_T:
+							// determine operation
+							switch(token) {
+								// multiplication
+								case MULT:
+									result->val._num = lhs->val._num * n->val._num; 
+									result->valType = LONG_LONG_T;	
+									break;
+
+								// division
+								case DIV:
+									result->val._num = lhs->val._num / n->val._num; 
+									result->valType = LONG_LONG_T;
+									break;
+
+								// addition
+								case PLUS:
+									result->val._num = lhs->val._num + n->val._num; 
+									result->valType = LONG_LONG_T;
+									break;
+
+								// subtraction
+								case MINUS:
+									result->val._num = lhs->val._num - n->val._num; 
+									result->valType = LONG_LONG_T;
+									break;
+
+								// mod
+								case MOD:
+									result->val._num = lhs->val._num % n->val._num; 
+									result->valType = LONG_LONG_T;
+									break;
+
+								// unknown
+								default:
+									yyerror("Unknown operator.");
+									break;
+							}
+							break;
+
+						case FLOAT_T:
+						case DOUBLE_T:
+						case LONG_DOUBLE_T:
+  							// determine operation
+							switch(token) {
+								// multiplication
+								case MULT:
+									result->val._dec = lhs->val._num * n->val._dec; 
+									result->valType = LONG_DOUBLE_T;	
+									break;
+
+								// division
+								case DIV:
+									result->val._dec = lhs->val._num / n->val._dec; 
+									result->valType = LONG_DOUBLE_T;
+									break;
+
+								// addition
+								case PLUS:
+									result->val._dec = lhs->val._num + n->val._dec; 
+									result->valType = LONG_DOUBLE_T;
+									break;
+
+								// subtraction
+								case MINUS:
+									result->val._dec = lhs->val._num - n->val._dec; 
+									result->valType = LONG_DOUBLE_T;
+									break;
+
+								// mod
+								case MOD:
+									yyerror("Modulo not supported for whole numbers and decimals");
+									break;
+
+								// unknown
+								default:
+									yyerror("Unknown operator.");
+									break;
+							}
+							break;
+
+						default:
+							yyerror("Invalid datatype.");
+							break;
+					}
+					break;
+				}
+			break; 
+
+		case FLOAT_T:
+		case DOUBLE_T:
+		case LONG_DOUBLE_T:
+			break;
+
+		case STE_T:
+			break;
+
+		default:
+			yyerror("Unable to perform arithmetic operation; unrecognized data type.");
+			break;
+	}
 }
