@@ -11,7 +11,7 @@ This is the implementation file for the base AST node class of our C compiler.
 #include "data_Node.h"
 
 /*
-Function: iterN() (constructor) 
+Function: dataNode() (constructor) 
 
 Description: 
 */
@@ -21,10 +21,20 @@ data_Node::data_Node(const vals& d, int dt) : astNode(){
 	dataType = dt;
 }
 
-/*void postfixExpr_Node::astNode::generate3AC(){
+/*
+Function: dataNode() (constructor) 
 
-}*/
+Description: 
+*/
+void data_Node::gen3AC(){
+	std::cout << "Generate 3AC for data node" << std::endl;
+}
 
+/*
+Function: dataNode() (constructor) 
+
+Description: 
+*/
 void data_Node::print(int indent){
 
 	for(int i = 0; i < indent; i++){

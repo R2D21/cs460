@@ -5,13 +5,13 @@ Created: October 22, 2015
 Last Modified: October 22, 2015
 Class: CS 460 (Compiler Construction)
 
-This is the implementation file for the base AST node class of our C compiler.  
+This is the implementation file for the postfix expression AST node class of our C compiler.  
 */
 
 #include "postfixExpr_Node.h"
 
 /*
-Function: iterN() (constructor) 
+Function: postfixExpr_Node(astNode* A, astNode* B, bool inc, bool dec) (constructor) 
 
 Description: 
 */
@@ -23,10 +23,20 @@ postfixExpr_Node::postfixExpr_Node(astNode* A, astNode* B, bool inc, bool dec) :
 	decOp = dec;
 }
 
-/*void postfixExpr_Node::astNode::generate3AC(){
+/*
+Function: gen3AC()
 
-}*/
+Description: 
+*/
+void postfixExpr_Node::gen3AC(){
+	std::cout << "Generate 3AC for postfix expression node" << std::endl;
+}
 
+/*
+Function: print(int indent)
+
+Description: 
+*/
 void postfixExpr_Node::print(int indent){
 
 	for(int i = 0; i < indent; i++){
@@ -83,10 +93,10 @@ postfixExpr_Node::~postfixExpr_Node(){
 
 
 
-
+/*
 std::ostream &operator<<(std::ostream &out, const postfixExpr_Node& node){
 	out << "Output Postfix Expr Node";
-/*
+
 	out << "A: ";
 	if( node.exprA != NULL ){
 		//out << *(node.exprA) ;
@@ -108,6 +118,6 @@ std::ostream &operator<<(std::ostream &out, const postfixExpr_Node& node){
 	if( node.decOp ){
 		out << "--";
 	}
-	out << std::endl;*/
+	out << std::endl;
 	return out;
-}
+}*/

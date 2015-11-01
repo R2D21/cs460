@@ -38,6 +38,15 @@ std::vector<std::string> astNode::getSourceCode(){
 
 }
 
+/*
+Function: getSourceCode()  
+
+Description: 
+*/
+void astNode::gen3AC(){
+
+}
+
 void astNode::print(int indent){
 
 }

@@ -1,30 +1,29 @@
 /*
 Name: Renee Iinuma, Kyle Lee, and Wesley Kepke. 
-File: data_Node.h
-Created: October 27
-Last Modified: October 27, 2015
+File: unaryOp_Node.h
+Created: November 1, 2015
+Last Modified: November 1, 2015
 Class: CS 460 (Compiler Construction)
 
-This is the header file for the iteration AST node class of our C compiler.
+This is the header file for the unary op AST node class of our C compiler.
 
 */
 
 // header guards
-#ifndef DATA_NODE_H
-#define DATA_NODE_H
+#ifndef UNARYOP_NODE_H
+#define UNARYOP_NODE_H
 
 // includes
 #include <iostream>
 #include <vector>
 #include <string>
 #include "astNode.h"
-#include "../parser/cParser.tab.h"
 
 // class definition 
-class data_Node : public astNode {
+class unaryOp_Node : public astNode {
     public:
         // constructors
-        data_Node(const vals&, int);
+        unaryOp_Node(int = -1);
 
         // class functions 
 
@@ -32,11 +31,11 @@ class data_Node : public astNode {
         void print(int = 0);
 
         // destructor 
-        ~data_Node();
+        ~unaryOp_Node();
 
     private:
-        vals data;
-        int dataType;
+        int type;
+
 };
 
-#endif // DATA_NODE_H
+#endif // UNARYOP_NODE_H
