@@ -371,7 +371,7 @@ identifier [a-zA-Z][a-zA-Z0-9]*
 
 					std::string newEntry(yytext);
 					currentSourceCodeLine += newEntry;
-					symbolTableEntry* searchResult;
+					symbolTableEntry* searchResult = NULL;
 					int level;
 
 					if (inInsertMode) {
@@ -414,6 +414,7 @@ identifier [a-zA-Z][a-zA-Z0-9]*
 							searchResult = table.insertNewSymbol(newEntry, yylineno);
 							yylval.n = new node();
 							yylval.n->val._ste = searchResult;
+							yylval.n->valType = STE_T;
 							typeSpecifiers.clear();						
 							return IDENTIFIER;
 						}
@@ -435,6 +436,7 @@ identifier [a-zA-Z][a-zA-Z0-9]*
 							colPosition += strlen(yytext);
 							yylval.n = new node();
 							yylval.n->val._ste = searchResult;
+							yylval.n->valType = STE_T;
 							typeSpecifiers.clear();			
 							return IDENTIFIER;
 						}
@@ -453,6 +455,7 @@ identifier [a-zA-Z][a-zA-Z0-9]*
 						else{
 							yylval.n = new node();
 							yylval.n->val._ste = searchResult;
+							yylval.n->valType = STE_T;
 							return IDENTIFIER;
 						}
 					}
@@ -489,7 +492,7 @@ identifier [a-zA-Z][a-zA-Z0-9]*
    					currentSourceCodeLine += strTemp;
    					nodeTemp = new node;
    					nodeTemp->valType = LONG_LONG_T;
-   					nodeTemp->val._num = atoll(yytext); 
+   					nodeTemp->val._num = atoll(yytext);
 					yylval.n = nodeTemp;
 					nodeTemp = NULL;  
 					return INTEGER_CONSTANT; 						
