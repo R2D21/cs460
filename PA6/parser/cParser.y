@@ -44,6 +44,8 @@ the token declarations that will be used in the lexer.
 	int unaryOperatorChosen = -1;
 	symbolTableEntry* currentFunc;
 	void performArithmeticOp(node* result, node* lhs, node* rhs, int token);
+	void performArithmeticOp_OneSTE(node* result, node* STE, node* staticVal, 
+									int token, bool steIsLeftOperand);
 	// functions needed by bison
 	//void assignParams(symbolTableEntry* entry, std::vector<parameter> params);
 	//void applyUnaryOperator(void*& value, int unaryToken, symbolTableEntry* entry = NULL)
@@ -2217,5 +2219,253 @@ void performArithmeticOp(node* result, node* lhs, node* rhs, int token) {
 		default:
 			yyerror("Unable to perform arithmetic operation; unrecognized data type.");
 			break;
+	}
+}
+
+/*
+Function: 
+*/
+void performArithmeticOp_OneSTE(node* result, node* STE, node* staticVal, 
+									int token, bool steIsLeftOperand) {
+	bool resultNull = (result == NULL);
+	bool steNull = (STE == NULL);
+	bool staticValNull = (staticVal == NULL);
+
+	// ensure all incoming pointers point to somewhere valid
+	if (resultNull || steNull || staticValNull) {
+		yyerror("Unable to perform arithmetic operation; operator is NULL.");
+		return; 
+	}
+
+	// error checking to ensure incoming pointer (node* STE) actually points to
+	// a symbol table object 
+	if ( (STE->valType != STE_T) || (STE->val._ste == NULL) ) {
+		yyerror("Variable is not found in symbol table.");
+		return;
+	}	
+
+	// this function was designed to only handle a single symbol table entry pointer
+	// and not two of them (see performArithmeticOp_TwoSTE)
+	if (staticVal->valType == STE_T) {
+		yyerror("Unexpected second STE pointer to function performArithmeticOp_OneSTE.");
+		return; 
+	}
+
+	if (result->val._ste == NULL) {
+		yyerror("The resulting variable is not found in symbol table.");
+		return; 
+	}
+
+	// determine data type of the symbol table entry (STE) pointer
+	node* n = STE->val._ste->getIdentifierValue();
+	long long wholeVal = 0;
+	long double decimalVal = 0.0;
+	char charVal = 'a';
+	switch(n->valType) {
+		// STE value is a whole number
+		case LONG_LONG_T:
+		case LONG_T:
+		case INT_T:
+		case SHORT_T:
+			// determine data type of the static value
+			wholeVal = n->val._num;  
+			switch(staticVal->valType) {
+				// static value is a whole number
+				case LONG_LONG_T:
+				case LONG_T:
+				case INT_T:
+				case SHORT_T:
+					switch(token) {
+						case PLUS:
+							result->val._num = staticVal->val._num + wholeVal;
+							result->valType = LONG_LONG_T;
+							break;
+
+						case MINUS:
+							result->val._num = staticVal->val._num - wholeVal;
+							result->valType = LONG_LONG_T;
+							break;
+
+						case MULT:
+							result->val._num = staticVal->val._num * wholeVal;
+							result->valType = LONG_LONG_T;
+							break;
+
+						case DIV:
+							result->val._num = staticVal->val._num / wholeVal;
+							result->valType = LONG_LONG_T;
+							break;
+
+						case MOD: 
+
+							break;
+
+						default:
+							break; 
+					}
+				break;
+
+				// static value is a decimal number
+				case FLOAT_T:
+				case DOUBLE_T:
+				case LONG_DOUBLE_T:
+					switch(token) {
+						case PLUS:
+							break;
+
+						case MINUS:
+							break;
+
+						case MULT:
+							break;
+
+						case DIV:
+							break;
+
+						case MOD: 
+							break;
+
+						default:
+							break; 
+					}
+				break;
+
+				// static value is a character
+				case CHAR_T:
+					switch(token) {
+						case PLUS:
+							break;
+
+						case MINUS:
+							break;
+
+						case MULT:
+							break;
+
+						case DIV:
+							break;
+
+						case MOD: 
+							break;
+
+						default:
+							break; 
+					}
+				break;
+
+				default:
+				break; 
+			}
+			break;
+
+		// STE value is a decimal number
+		case FLOAT_T:
+		case DOUBLE_T:
+		case LONG_DOUBLE_T:
+			// determine data type of the static value 
+			switch(staticVal->valType) {
+				// static value is a whole number
+				case LONG_LONG_T:
+				case LONG_T:
+				case INT_T:
+				case SHORT_T:
+					switch(token) {
+						case PLUS:
+							break;
+
+						case MINUS:
+							break;
+
+						case MULT:
+							break;
+
+						case DIV:
+							break;
+
+						case MOD: 
+							break;
+
+						default:
+							break; 
+					}
+				break;
+
+				// static value is a decimal number
+				case FLOAT_T:
+				case DOUBLE_T:
+				case LONG_DOUBLE_T:
+					switch(token) {
+						case PLUS:
+							break;
+
+						case MINUS:
+							break;
+
+						case MULT:
+							break;
+
+						case DIV:
+							break;
+
+						case MOD: 
+							break;
+
+						default:
+							break; 
+					}
+				break;
+
+				// static value is a character
+				case CHAR_T:
+					switch(token) {
+						case PLUS:
+							break;
+
+						case MINUS:
+							break;
+
+						case MULT:
+							break;
+
+						case DIV:
+							break;
+
+						case MOD: 
+							break;
+
+						default:
+							break; 
+					}
+				break; 
+			}
+		break;
+
+		// STE value is a character
+		case CHAR_T:
+			// determine data type of the static value 
+			switch(staticVal->valType) {
+				// static value is a whole number
+				case LONG_LONG_T:
+				case LONG_T:
+				case INT_T:
+				case SHORT_T:
+					break;
+
+				// static value is a decimal number
+				case FLOAT_T:
+				case DOUBLE_T:
+				case LONG_DOUBLE_T:
+					break;
+
+				// static value is a character
+				case CHAR_T:
+					break; 
+			}
+			break;
+
+		// STE value is an unrecognized datatype
+		default:
+			yyerror("Unable to perform arithmetic operation; unrecognized data type.");
+			break; 
 	}
 }
