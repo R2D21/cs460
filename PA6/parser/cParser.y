@@ -1723,7 +1723,10 @@ postfix_expression
  			if($1->valType == STE_T && $1->val._ste->isFunction()){
  				currentFunc = $1->val._ste;
  			} 
- 			std::cout << "after assignment" << std::endl; 
+ 			
+ 			// create ast node
+ 			$$->astPtr = new postfixExpr_Node($1->astPtr, NULL, false, false);
+ 			outG << "postfixExpr_Node -> postfix_expression INC_OP;" << std::endl;
  		}
 	| postfix_expression set_lookup LBRACK expression RBRACK /* COME BACK TO THIS */
  		{
@@ -1739,6 +1742,7 @@ postfix_expression
 		}
 	| postfix_expression LPAREN argument_expression_list RPAREN
  		{
+ 			$$ = $1; 
  			$1->val._ste = currentFunc; 
   			if(YFLAG){
 				outY << "postfix_expression : postfix_expression LPAREN argument_expression_list RPAREN;" << std::endl;
@@ -1748,7 +1752,11 @@ postfix_expression
  				std::cout << COLOR_NORMAL << COLOR_CYAN_NORMAL << "ERROR:" << COLOR_NORMAL << " Invalid function arguments." << std::endl;
  				yyerror("");
  			}
- 			funcCallingParams.clear();  
+ 			funcCallingParams.clear();
+
+ 			// create ast node
+ 			$$->astPtr = new postfixExpr_Node($1->astPtr, $3->astPtr, false, false);
+ 			outG << "postfixExpr_Node -> postfix_expression INC_OP;" << std::endl;
 		}
 	| postfix_expression DOT identifier
  		{
@@ -1764,6 +1772,7 @@ postfix_expression
 		}
 	| postfix_expression INC_OP /* a++, a[x][y]++. etc.. */
  		{
+ 			// do we need this? Seems like run-time stuff
  			$$ = $1;
  			node* n = $1->val._ste->getIdentifierValue();
  			switch(n->valType) {
@@ -1789,12 +1798,18 @@ postfix_expression
  					break;
  			}
  			$1->val._ste->setIdentifierValue(*n);
+
+ 			// create ast node
+ 			$$->astPtr = new postfixExpr_Node($1->astPtr, NULL, true, false);
+ 			outG << "postfixExpr_Node -> postfix_expression INC_OP;" << std::endl;
+
 			if(YFLAG){
 				outY << "postfix_expression : postfix_expression INC_OP;" << std::endl;
 			}
 		}
 	| postfix_expression DEC_OP /* a--, a[x][y]--, etc.. */
  		{
+ 			// perform decrement - do we need this? Seems like run-time stuff
  			$$ = $1;
  			node* n = $1->val._ste->getIdentifierValue();
  			switch(n->valType) {
@@ -1820,6 +1835,11 @@ postfix_expression
  					break;
  			}
  			$1->val._ste->setIdentifierValue(*n);
+
+ 			// create ast node
+ 			$$->astPtr = new postfixExpr_Node($1->astPtr, NULL, false, true);
+ 			outG << "postfixExpr_Node -> postfix_expression DEC_OP;" << std::endl;
+
 			if(YFLAG){
 				outY << "postfix_expression : postfix_expression DEC_OP;" << std::endl;
 			}
@@ -1856,16 +1876,22 @@ primary_expression /* no code in this production - just passing stuff up */
 argument_expression_list /* used for calling a function with actual parameters */
 	: assignment_expression
  		{ 
- 			// push back the symbol table entry of the actual parameters
+ 			// push back the symbol table entry of the actual parameter
  			funcCallingParams.push_back($1->val._ste);
+
+ 			// create ast node ?
+
 			if(YFLAG){
 				outY << "argument_expression_list : assignment_expression;" << std::endl;
 			}
 		}
 	| argument_expression_list COMMA assignment_expression
  		{
- 			// push back the symbol table entry of the actual parameters
+ 			// push back the symbol table entry of the actual parameter
  			funcCallingParams.push_back($3->val._ste);
+
+			// create ast node ?
+
 			if(YFLAG){
 				outY << "argument_expression_list : argument_expression_list COMMA assignment_expression;" << std::endl;
 			}
@@ -1875,9 +1901,9 @@ argument_expression_list /* used for calling a function with actual parameters *
 constant
 	: INTEGER_CONSTANT
  		{
- 			// create ast node 
+ 			// create ast node
+ 			$$ = $1; 
 			$1->astPtr = new data_Node($1->val, $1->valType);
-			$$ = $1;
  			if(YFLAG){
 				outY << "constant : INTEGER_CONSTANT;" << std::endl;
 			}
@@ -1885,17 +1911,17 @@ constant
 	| CHARACTER_CONSTANT
  		{
  			// create ast node 
-			$1->astPtr = new data_Node($1->val, $1->valType);
-			$$ = $1;
+ 			$$ = $1;
+			$$->astPtr = new data_Node($1->val, $1->valType);
 			if(YFLAG){
 				outY << "constant : CHARACTER_CONSTANT;" << std::endl;
 			}
 		}
 	| FLOATING_CONSTANT
  		{
- 			// create ast node 
-			$1->astPtr = new data_Node($1->val, $1->valType);
-			$$ = $1;
+ 			// create ast node
+ 			$$ = $1; 
+			$$->astPtr = new data_Node($1->val, $1->valType);
  			if(YFLAG){
 				outY << "constant : FLOATING_CONSTANT;" << std::endl;
 			}
@@ -1912,9 +1938,10 @@ constant
 string
 	: STRING_LITERAL
  		{
- 			// create ast node
- 			$1->astPtr = new data_Node($1->val, $1->valType);
- 			$$ = $1; 
+ 			// create ast node - think this needs a strcpy?
+ 			$$ = $1;
+ 			$$->astPtr = new data_Node($1->val, $1->valType);
+ 			outG << "data_Node -> string;" << std::endl; 
 			if(YFLAG){
 				outY << "string : STRING_LITERAL;" << std::endl;
 			}
@@ -1925,8 +1952,8 @@ identifier
 	: IDENTIFIER
 		{
 			// create ast node 
-			$1->astPtr = new data_Node($1->val, $1->valType);
 			$$ = $1;
+			$$->astPtr = new data_Node($1->val, $1->valType);
 			outG << "data_Node -> identifier;" << std::endl;
 			if(YFLAG){
 				outY << "identifier : IDENTIFIER;" << std::endl;
