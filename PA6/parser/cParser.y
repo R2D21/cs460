@@ -129,6 +129,7 @@ which is a pointer to a node object.
 %type <n> argument_expression_list
 %type <n> string 
 %type <n> constant
+%type <n> unary_operator
 
 /* start of ANSI C grammar and actions */
 %%
@@ -1467,6 +1468,10 @@ additive_expression
 			if(YFLAG){
 				outY << "additive_expression : multiplicative_expression;" << std::endl;
 			}
+
+			// create ast node
+	 		$$->astPtr = new multExpr_Node($1->astPtr, NULL, -1);
+	 		outG << "multiplicative_expression -> cast_expression;" << std::endl;
 		}
 	| additive_expression PLUS multiplicative_expression
  		{
@@ -1485,6 +1490,10 @@ additive_expression
 			if(YFLAG){
 				outY << "additive_expression : additive_expression PLUS multiplicative_expression;" << std::endl;
 			}
+
+			// create ast node
+	 		$$->astPtr = new additiveExpr_Node($1->astPtr, $3->astPtr, PLUS);
+	 		outG << "additive_expression -> additive_expression PLUS cast_expression;" << std::endl;
 		}
 	| additive_expression MINUS multiplicative_expression
  		{
@@ -1493,6 +1502,10 @@ additive_expression
 			if(YFLAG){
 				outY << "additive_expression : additive_expression MINUS multiplicative_expression;" << std::endl;
 			}
+
+			// create ast node
+	 		$$->astPtr = new additiveExpr_Node($1->astPtr, $3->astPtr, MINUS);
+	 		outG << "additive_expression -> additive_expression MINUS cast_expression;" << std::endl;
 		}
 	;
 
@@ -1502,6 +1515,10 @@ multiplicative_expression
 			if(YFLAG){
 				outY << "multiplicative_expression : cast_expression;" << std::endl;
 			}
+
+			// create ast node -- should this be a cast_expr node??
+	 		$$->astPtr = new multExpr_Node($1->astPtr, NULL, -1);
+	 		outG << "multiplicative_expression -> cast_expression;" << std::endl;
 		}
 	| multiplicative_expression MULT cast_expression
  		{
@@ -1512,6 +1529,10 @@ multiplicative_expression
  				std::cout << "left is an STE and right is not" << std::endl; 
  				performArithmeticOp_OneSTE($$, $1, $3, MULT, true);
  			}
+
+			// create ast node
+	 		$$->astPtr = new multExpr_Node($1->astPtr, $3->astPtr, MULT);
+	 		outG << "multiplicative_expression -> multiplicative_expression MULT cast_expression;" << std::endl;
 
 			if(YFLAG){
 				outY << "multiplicative_expression : multiplicative_expression MULT cast_expression;" << std::endl;
@@ -1531,6 +1552,9 @@ multiplicative_expression
  				performArithmeticOp_OneSTE($$, $1, $3, DIV, true);
  			}
 
+ 			// create ast node
+	 		$$->astPtr = new multExpr_Node($1->astPtr, $3->astPtr, DIV);
+	 		outG << "multiplicative_expression -> multiplicative_expression DIV cast_expression;" << std::endl;
 
 			if(YFLAG){
 				outY << "multiplicative_expression : multiplicative_expression DIV cast_expression;" << std::endl;
@@ -1539,7 +1563,11 @@ multiplicative_expression
 	| multiplicative_expression MOD cast_expression
  		{
  			performArithmeticOp($$, $1, $3, MOD);
- 			//$$->val._num = $1->val._num % $3->val._num;
+ 			
+ 			// create ast node
+	 		$$->astPtr = new multExpr_Node($1->astPtr, $3->astPtr, MOD);
+	 		outG << "multiplicative_expression -> multiplicative_expression MOD cast_expression;" << std::endl;
+
 			if(YFLAG){
 				outY << "multiplicative_expression : multiplicative_expression MOD cast_expression;" << std::endl;
 			}
@@ -1567,6 +1595,10 @@ unary_expression
 			if(YFLAG){
 				outY << "unary_expression : postfix_expression;" << std::endl;
 			}
+
+			// create ast node
+	 		$$->astPtr = new unaryExpr_Node($1->astPtr, NULL, false, false);
+	 		outG << "unary_expression -> postfix_expression;" << std::endl;
 		}
 	| INC_OP unary_expression /* ++a, ++a[x][y], etc.. */
  		{
@@ -1595,6 +1627,11 @@ unary_expression
  			}
  			$2->val._ste->setIdentifierValue(*n);
  			$$ = $2;
+
+			// create ast node
+	 		$$->astPtr = new unaryExpr_Node(NULL, $2->astPtr, true, false);
+	 		outG << "unary_expression -> INC_OP cast_expression;" << std::endl;
+
 			if(YFLAG){
 				outY << "unary_expression : INC_OP unary_expression;" << std::endl;
 			}
@@ -1626,6 +1663,11 @@ unary_expression
  			}
  			$2->val._ste->setIdentifierValue(*n);
  			$$ = $2;
+
+ 			// create ast node
+	 		$$->astPtr = new unaryExpr_Node(NULL, $2->astPtr, false, true);
+	 		outG << "unary_expression -> DEC_OP cast_expression;" << std::endl;
+
 			if(YFLAG){
 				outY << "unary_expression : DEC_OP unary_expression;" << std::endl;
 			}
@@ -1650,6 +1692,11 @@ unary_expression
 	 			}
 	 			unaryOperatorChosen = -1;
 	 		}
+
+	 		// create ast node
+	 		$$->astPtr = new unaryExpr_Node($1->astPtr, $2->astPtr);
+	 		outG << "unary_expression -> unary_operator cast_expression";
+
 			if(YFLAG){
 				outY << "unary_expression : unary_operator cast_expression;" << std::endl;
 			}
@@ -1675,6 +1722,10 @@ unary_operator
 			if(YFLAG){
 				outY << "unary_operator : AMP;" << std::endl;
 			}
+
+			// create ast node
+			$$->astPtr = new unaryOp_Node(AMP);
+ 			outG << "unary_operator -> AMP;" << std::endl;
 		}
 	| MULT
  		{
@@ -1682,6 +1733,10 @@ unary_operator
 			if(YFLAG){
 				outY << "unary_operator : MULT;" << std::endl;
 			}
+
+			// create ast node
+			$$->astPtr = new unaryOp_Node(MULT);
+ 			outG << "unary_operator -> MULT;" << std::endl;
 		}
 	| PLUS
  		{
@@ -1689,6 +1744,10 @@ unary_operator
 			if(YFLAG){
 				outY << "unary_operator : PLUS;" << std::endl;
 			}
+
+			// create ast node
+			$$->astPtr = new unaryOp_Node(PLUS);
+ 			outG << "unary_operator -> PLUS;" << std::endl;
 		}
 	| MINUS
  		{
@@ -1696,6 +1755,10 @@ unary_operator
 			if(YFLAG){
 				outY << "unary_operator : MINUS;" << std::endl;
 			}
+
+			// create ast node
+			$$->astPtr = new unaryOp_Node(MINUS);
+ 			outG << "unary_operator -> MINUS;" << std::endl;
 		}
 	| TILDE
  		{
@@ -1703,6 +1766,10 @@ unary_operator
 			if(YFLAG){
 				outY << "unary_operator : TILDE;" << std::endl;
 			}
+
+			// create ast node
+			$$->astPtr = new unaryOp_Node(TILDE);
+ 			outG << "unary_operator -> TILDE;" << std::endl;
 		}
 	| BANG
  		{
@@ -1710,6 +1777,10 @@ unary_operator
 			if(YFLAG){
 				outY << "unary_operator : BANG;" << std::endl;
 			}
+
+			// create ast node
+			$$->astPtr = new unaryOp_Node(BANG);
+ 			outG << "unary_operator -> BANG;" << std::endl;
 		}
 	;
 
@@ -1726,7 +1797,7 @@ postfix_expression
  			
  			// create ast node
  			$$->astPtr = new postfixExpr_Node($1->astPtr, NULL, false, false);
- 			outG << "postfixExpr_Node -> postfix_expression INC_OP;" << std::endl;
+ 			outG << "postfixExpr_Node -> primary_expression;" << std::endl;
  		}
 	| postfix_expression set_lookup LBRACK expression RBRACK /* COME BACK TO THIS */
  		{
@@ -1742,7 +1813,6 @@ postfix_expression
 		}
 	| postfix_expression LPAREN argument_expression_list RPAREN
  		{
- 			$$ = $1; 
  			$1->val._ste = currentFunc; 
   			if(YFLAG){
 				outY << "postfix_expression : postfix_expression LPAREN argument_expression_list RPAREN;" << std::endl;
