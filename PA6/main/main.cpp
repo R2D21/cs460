@@ -22,7 +22,7 @@ bool LFLAG = false;
 bool YFLAG = false;
 ofstream outL;
 ofstream outY;
-ofstream outG;
+ofstream outG("graph.dot");
 
 extern symbolTable table; 
 extern std::string currentSourceCodeLine; 
@@ -73,7 +73,7 @@ int main(int argc, char** argv) {
 		}
 	}
 
-	outG.open("graph.dot");
+	//outG.open("graph.dot");
 	outG << "digraph{\n";
 
 
@@ -115,7 +115,7 @@ int main(int argc, char** argv) {
 	cout << "Parse complete" << endl;
 	outG << "}" << endl;
 	outG.close();
-	system("dot -Tpng -ograph.png graph.dot");
+	system("dot -Tpng graph.dot -o graph.png");
 	system("gnome-open graph.png");
 	if (LFLAG) {
 		outL.close();
