@@ -44,7 +44,7 @@ the token declarations that will be used in the lexer.
 	int unaryOperatorChosen = -1;
 	symbolTableEntry* currentFunc;
 	void performArithmeticOp(node* result, node* lhs, node* rhs, int token);
-	void performArithmeticOp_OneSTE(node* result, node* STE, node* staticVal, 
+	void performArithmeticOp_OneSTE(node* result, node* lhs, node* rhs, 
 									int token, bool steIsLeftOperand);
 	// functions needed by bison
 	//void assignParams(symbolTableEntry* entry, std::vector<parameter> params);
@@ -1505,75 +1505,14 @@ multiplicative_expression
 		}
 	| multiplicative_expression MULT cast_expression
  		{
- 			performArithmeticOp($$, $1, $3, MULT);
- 			/*
- 			bool multExprIsASymTblPtr = ($1->valType == STE_T); 
- 			bool castExprIsASymTblPtr = ($3->valType == STE_T);
- 			node* multData = NULL:
- 			node* castData = NULL; 
-
- 			if (multExprIsASymTblPtr) {
- 				std::cout << "multExprIsASymTblPtr is true" << std::endl;
- 				multData = $1->val._ste->getIdentifierValue();  
+ 			if ($1->valType != STE_T && $3->valType == STE_T) {
+ 				performArithmeticOp_OneSTE($$, $1, $3, MULT, false);
+ 			}
+ 			else if ($1->valType == STE_T && $3->valType != STE_T) {
+ 				std::cout << "left is an STE and right is not" << std::endl; 
+ 				performArithmeticOp_OneSTE($$, $1, $3, MULT, true);
  			}
 
-			if (castExprIsASymTblPtr) {
- 				std::cout << "castExprIsASymTblPtr is true" << std::endl; 
- 				castData = $3->val._ste->getIdentifierValue(); 
- 			}
-
- 			switch($1->valType) {
-				case LONG_LONG_T:
-				case LONG_T:
-				case INT_T:
-				case SHORT_T:
- 					switch($3->valType) {
- 						case LONG_LONG_T:
-						case LONG_T:
-						case INT_T:
-						case SHORT_T:
-		 					n->val._num++;
-		 					break; 
-
-		 				case FLOAT_T:
-						case DOUBLE_T:
-						case LONG_DOUBLE_T:
-		 					n->val._dec++;
-		 					break;
-
-		 				case CHAR_T:
-		 					n->val._char++;
-		 					break;
-
-		 				default:
-		 					yyerror("Unable to increment.");
-		 					break;
- 					}
- 					break; 
-
- 				case FLOAT_T:
-				case DOUBLE_T:
-				case LONG_DOUBLE_T:
- 					n->val._dec++;
- 					break;
-
- 				case CHAR_T:
- 					n->val._char++;
- 					break;
-
- 				case STE_T:
-
- 					break;
-
- 				default:
- 					yyerror("Unable to increment.");
- 					break; 				
- 			}
-*/
- 			/*
- 			if ($1 != NULL && $3 != NULL) {
- 		 		$$->val._num = $1->val._num * $3->val._num;
- 		 	} */
 			if(YFLAG){
 				outY << "multiplicative_expression : multiplicative_expression MULT cast_expression;" << std::endl;
 			}
@@ -1583,8 +1522,16 @@ multiplicative_expression
  			if ($3->val._num == 0) {
  				yyerror("Unable to divide by 0");
  			}
- 			performArithmeticOp($$, $1, $3, DIV);
- 			//$$->val._num = $1->val._num / $3->val._num;
+
+			if ($1->valType != STE_T && $3->valType == STE_T) {
+ 				performArithmeticOp_OneSTE($$, $1, $3, DIV, false);
+ 			}
+ 			else if ($1->valType == STE_T && $3->valType != STE_T) {
+ 				std::cout << "left is an STE and right is not" << std::endl; 
+ 				performArithmeticOp_OneSTE($$, $1, $3, DIV, true);
+ 			}
+
+
 			if(YFLAG){
 				outY << "multiplicative_expression : multiplicative_expression DIV cast_expression;" << std::endl;
 			}
@@ -2225,42 +2172,51 @@ void performArithmeticOp(node* result, node* lhs, node* rhs, int token) {
 /*
 Function: 
 */
-void performArithmeticOp_OneSTE(node* result, node* STE, node* staticVal, 
+void performArithmeticOp_OneSTE(node* result, node* lhs, node* rhs, 
 									int token, bool steIsLeftOperand) {
 	bool resultNull = (result == NULL);
-	bool steNull = (STE == NULL);
-	bool staticValNull = (staticVal == NULL);
+	bool lhsNull = (lhs == NULL);
+	bool rhsNull = (rhs == NULL);
+	node* n = NULL;
+	node* staticVal = NULL;  
+	int staticValType = 0; 
 
 	// ensure all incoming pointers point to somewhere valid
-	if (resultNull || steNull || staticValNull) {
-		yyerror("Unable to perform arithmetic operation; operator is NULL.");
+	if (resultNull || lhsNull || rhsNull) {
+		yyerror("Unable to perform arithmetic operation; an operator is NULL.");
 		return; 
 	}
 
 	// error checking to ensure incoming pointer (node* STE) actually points to
 	// a symbol table object 
-	if ( (STE->valType != STE_T) || (STE->val._ste == NULL) ) {
-		yyerror("Variable is not found in symbol table.");
-		return;
-	}	
+	if (steIsLeftOperand) {
+		if ( (lhs->valType != STE_T) || (lhs->val._ste == NULL) ) {
+			yyerror("Variable is not found in symbol table.");
+		}
+		n = lhs->val._ste->getIdentifierValue();
+		staticValType = rhs->valType; 
+		staticVal = rhs; 
+	}
+
+	else {
+		if ( (rhs->valType != STE_T) || (rhs->val._ste == NULL) ) {
+			yyerror("Variable is not found in symbol table.");
+		}
+		n = rhs->val._ste->getIdentifierValue();
+		staticValType = lhs->valType;
+		staticVal = lhs; 
+	}
+
 
 	// this function was designed to only handle a single symbol table entry pointer
 	// and not two of them (see performArithmeticOp_TwoSTE)
-	if (staticVal->valType == STE_T) {
-		yyerror("Unexpected second STE pointer to function performArithmeticOp_OneSTE.");
-		return; 
-	}
-
-	if (result->val._ste == NULL) {
-		yyerror("The resulting variable is not found in symbol table.");
-		return; 
+	if ( (lhs->valType == STE_T) && (rhs->valType == STE_T) ) {
+		yyerror("Function performArithmeticOp_OneSTE can only accept one symbol table entry.");
 	}
 
 	// determine data type of the symbol table entry (STE) pointer
-	node* n = STE->val._ste->getIdentifierValue();
-	long long wholeVal = 0;
-	long double decimalVal = 0.0;
-	char charVal = 'a';
+	long long wholeVal = n->val._num; 
+	long double decimalVal = n->val._dec; 
 	switch(n->valType) {
 		// STE value is a whole number
 		case LONG_LONG_T:
@@ -2268,8 +2224,7 @@ void performArithmeticOp_OneSTE(node* result, node* STE, node* staticVal,
 		case INT_T:
 		case SHORT_T:
 			// determine data type of the static value
-			wholeVal = n->val._num;  
-			switch(staticVal->valType) {
+			switch(staticValType) {
 				// static value is a whole number
 				case LONG_LONG_T:
 				case LONG_T:
@@ -2279,29 +2234,48 @@ void performArithmeticOp_OneSTE(node* result, node* STE, node* staticVal,
 						case PLUS:
 							result->val._num = staticVal->val._num + wholeVal;
 							result->valType = LONG_LONG_T;
-							break;
+						break;
 
 						case MINUS:
-							result->val._num = staticVal->val._num - wholeVal;
-							result->valType = LONG_LONG_T;
-							break;
+							if (steIsLeftOperand) {
+								result->val._num = wholeVal - staticVal->val._num;
+								result->valType = LONG_LONG_T;
+							}
+							else {
+								result->val._num = staticVal->val._num - wholeVal;
+								result->valType = LONG_LONG_T;
+							}
+						break;
 
 						case MULT:
 							result->val._num = staticVal->val._num * wholeVal;
 							result->valType = LONG_LONG_T;
-							break;
+						break;
 
 						case DIV:
-							result->val._num = staticVal->val._num / wholeVal;
-							result->valType = LONG_LONG_T;
-							break;
+							if (steIsLeftOperand) {
+								result->val._num =  wholeVal / staticVal->val._num;
+								result->valType = LONG_LONG_T;
+							}
+							else {
+								result->val._num = staticVal->val._num  / wholeVal;
+								result->valType = LONG_LONG_T;
+							}
+						break;
 
 						case MOD: 
-
-							break;
+							if (steIsLeftOperand) {
+								result->val._num = wholeVal % staticVal->val._num;
+								result->valType = LONG_LONG_T;
+							}
+							else {
+								result->val._num = staticVal->val._num % wholeVal;
+								result->valType = LONG_LONG_T;
+							}
+						break;
 
 						default:
-							break; 
+						break; 
 					}
 				break;
 
@@ -2311,46 +2285,49 @@ void performArithmeticOp_OneSTE(node* result, node* STE, node* staticVal,
 				case LONG_DOUBLE_T:
 					switch(token) {
 						case PLUS:
-							break;
+							result->val._dec = staticVal->val._dec + wholeVal;
+							result->valType = LONG_DOUBLE_T;
+						break;
 
 						case MINUS:
-							break;
+							if (steIsLeftOperand) {
+								result->val._dec = wholeVal - staticVal->val._dec; 
+								result->valType = LONG_DOUBLE_T;
+							}
+							else {
+								result->val._dec = staticVal->val._dec - wholeVal;
+								result->valType = LONG_DOUBLE_T;
+							}
+						break;
 
 						case MULT:
-							break;
+							result->val._dec = staticVal->val._dec * wholeVal;
+							result->valType = LONG_DOUBLE_T;
+						break;
 
 						case DIV:
-							break;
+							if (steIsLeftOperand) {
+								result->val._dec = wholeVal / staticVal->val._dec; 
+								result->valType = LONG_DOUBLE_T;
+							}
+							else {
+								result->val._dec = staticVal->val._dec / wholeVal;
+								result->valType = LONG_DOUBLE_T;
+							}
+						break;
 
 						case MOD: 
-							break;
+							yyerror("Modulo not supported between whole number and decimal number.");
+						break;
 
 						default:
-							break; 
+						break; 
 					}
 				break;
 
 				// static value is a character
 				case CHAR_T:
-					switch(token) {
-						case PLUS:
-							break;
-
-						case MINUS:
-							break;
-
-						case MULT:
-							break;
-
-						case DIV:
-							break;
-
-						case MOD: 
-							break;
-
-						default:
-							break; 
-					}
+					yyerror("Arithmetic not supported between whole numbers and characters.");
 				break;
 
 				default:
@@ -2363,7 +2340,7 @@ void performArithmeticOp_OneSTE(node* result, node* STE, node* staticVal,
 		case DOUBLE_T:
 		case LONG_DOUBLE_T:
 			// determine data type of the static value 
-			switch(staticVal->valType) {
+			switch(staticValType) {
 				// static value is a whole number
 				case LONG_LONG_T:
 				case LONG_T:
@@ -2371,22 +2348,43 @@ void performArithmeticOp_OneSTE(node* result, node* STE, node* staticVal,
 				case SHORT_T:
 					switch(token) {
 						case PLUS:
-							break;
+							result->val._dec = staticVal->val._num + decimalVal;
+							result->valType = LONG_DOUBLE_T;
+						break;
 
 						case MINUS:
-							break;
+							if (steIsLeftOperand) {
+								result->val._dec = decimalVal - staticVal->val._num;
+								result->valType = LONG_DOUBLE_T;
+							}
+							else {
+								result->val._dec = staticVal->val._num - decimalVal;
+								result->valType = LONG_DOUBLE_T;
+							}
+						break;
 
 						case MULT:
-							break;
+							result->val._dec = staticVal->val._num * decimalVal;
+							result->valType = LONG_DOUBLE_T;
+						break;
 
 						case DIV:
-							break;
+							if (steIsLeftOperand) {
+								result->val._dec = decimalVal / staticVal->val._num;
+								result->valType = LONG_DOUBLE_T;
+							}
+							else {
+								result->val._dec = staticVal->val._num / decimalVal;
+								result->valType = LONG_DOUBLE_T;
+							}
+						break;
 
 						case MOD: 
-							break;
+							yyerror("Modulo not supported between whole number and decimal number.");
+						break;
 
 						default:
-							break; 
+						break; 
 					}
 				break;
 
@@ -2396,71 +2394,56 @@ void performArithmeticOp_OneSTE(node* result, node* STE, node* staticVal,
 				case LONG_DOUBLE_T:
 					switch(token) {
 						case PLUS:
-							break;
+							result->val._dec = staticVal->val._dec + decimalVal;
+							result->valType = LONG_DOUBLE_T;
+						break;
 
 						case MINUS:
-							break;
+							if (steIsLeftOperand) {
+								result->val._dec = decimalVal - staticVal->val._dec;
+								result->valType = LONG_DOUBLE_T;
+							}
+							else {
+								result->val._dec = staticVal->val._dec - decimalVal;
+								result->valType = LONG_DOUBLE_T;
+							}
+						break;
 
 						case MULT:
-							break;
+							result->val._dec = staticVal->val._dec * decimalVal;
+							result->valType = LONG_DOUBLE_T;
+						break;
 
 						case DIV:
-							break;
+							if (steIsLeftOperand) {
+								result->val._dec = decimalVal / staticVal->val._dec;
+								result->valType = LONG_DOUBLE_T;
+							}
+							else {
+								result->val._dec = staticVal->val._dec / decimalVal;
+								result->valType = LONG_DOUBLE_T;
+							}
+						break;
 
 						case MOD: 
-							break;
+							yyerror("Modulo not supported between two decimal numbers.");
+						break;
 
 						default:
-							break; 
+						break; 
 					}
 				break;
 
 				// static value is a character
 				case CHAR_T:
-					switch(token) {
-						case PLUS:
-							break;
-
-						case MINUS:
-							break;
-
-						case MULT:
-							break;
-
-						case DIV:
-							break;
-
-						case MOD: 
-							break;
-
-						default:
-							break; 
-					}
+					yyerror("Arithmetic not supported between decimal numbers and characters.");
 				break; 
 			}
 		break;
 
 		// STE value is a character
 		case CHAR_T:
-			// determine data type of the static value 
-			switch(staticVal->valType) {
-				// static value is a whole number
-				case LONG_LONG_T:
-				case LONG_T:
-				case INT_T:
-				case SHORT_T:
-					break;
-
-				// static value is a decimal number
-				case FLOAT_T:
-				case DOUBLE_T:
-				case LONG_DOUBLE_T:
-					break;
-
-				// static value is a character
-				case CHAR_T:
-					break; 
-			}
+			yyerror("Arithmetic not supported for characters.");
 			break;
 
 		// STE value is an unrecognized datatype
