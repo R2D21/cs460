@@ -145,6 +145,9 @@ which is a pointer to a node object.
 %type <n> initializer_list
 %type <n> type_qualifier_list
 %type <n> type_qualifier
+%type <n> pointer
+%type <n> identifier_list
+%type <n> parameter_type_list
 
 /* start of ANSI C grammar and actions */
 %%
@@ -641,18 +644,30 @@ direct_declarator
  			if(YFLAG){
 				outY << "direct_declarator : identifier;" << std::endl;
 			}
+
+			// create ast node
+			$$->astPtr = new directDecl_Node($1->astPtr, NULL);
+			outG << "direct_declarator -> identifier;" << std::endl;
 		}
 	| LPAREN declarator RPAREN
  		{
 			if(YFLAG){
 				outY << "direct_declarator : LPAREN declarator RPAREN;" << std::endl;
 			}
+
+			// create ast node
+			$$->astPtr = new directDecl_Node($2->astPtr, NULL);
+			outG << "direct_declarator -> LPAREN declarator RPAREN;" << std::endl;
 		}
 	| direct_declarator LBRACK RBRACK 
  		{
 			if(YFLAG){
 				outY << "direct_declarator : direct_declarator LBRACK RBRACK;" << std::endl;
 			}
+
+			// create ast node
+			$$->astPtr = new directDecl_Node($1->astPtr, NULL);
+			outG << "direct_declarator -> direct_declarator LBRACK RBRACK;" << std::endl;
 		}
 	| direct_declarator LBRACK constant_expression RBRACK
  		{
@@ -661,12 +676,20 @@ direct_declarator
 			if(YFLAG){
 				outY << "direct_declarator : direct_declarator LBRACK constant_expression RBRACK;" << std::endl;
 			}
+
+			// create ast node
+			$$->astPtr = new directDecl_Node($1->astPtr, $3->astPtr);
+			outG << "direct_declarator -> direct_declarator LBRACK constant_expression RBRACK;" << std::endl;
 		}
 	| direct_declarator LPAREN RPAREN set_insert
  		{
 			if(YFLAG){
 				outY << "direct_declarator : direct_declarator LPAREN RPAREN;" << std::endl;
 			}
+
+			// create ast node
+			$$->astPtr = new directDecl_Node($1->astPtr, NULL);
+			outG << "direct_declarator -> direct_declarator LPAREN RPAREN;" << std::endl;
 		}
 	| direct_declarator LPAREN  parameter_type_list RPAREN set_insert
  		{
@@ -680,12 +703,19 @@ direct_declarator
 				outY << "direct_declarator : direct_declarator LPAREN parameter_type_list RPAREN;" << std::endl;
 			}
 	
+			// create ast node
+			$$->astPtr = new directDecl_Node($1->astPtr, $3->astPtr);
+			outG << "direct_declarator -> direct_declarator LPAREN parameter_type_list RPAREN;" << std::endl;
 		}
 	| direct_declarator LPAREN set_lookup identifier_list RPAREN set_insert
  		{
  			if(YFLAG){
 				outY << "direct_declarator : direct_declarator LPAREN identifier_list RPAREN;" << std::endl;
 			}
+
+			// create ast node
+			$$->astPtr = new directDecl_Node($1->astPtr, $4->astPtr);
+			outG << "direct_declarator -> direct_declarator LPAREN identifier_list RPAREN;" << std::endl;
 		}
 	;
 
@@ -695,24 +725,40 @@ pointer
 			if(YFLAG){
 				outY << "pointer : MULT;" << std::endl;
 			}
+
+			// create ast node
+			$$->astPtr = new pointer_Node($1->astPtr);
+			outG << "pointer -> MULT;" << std::endl;
 		}
 	| MULT type_qualifier_list
  		{
 			if(YFLAG){
 				outY << "pointer : MULT type_qualifier_list;" << std::endl;
 			}
+
+			// create ast node
+			$$->astPtr = new pointer_Node($2->astPtr);
+			outG << "pointer -> MULT type_qualifier_list;" << std::endl;
 		}
 	| MULT pointer
  		{
 			if(YFLAG){
 				outY << "pointer : MULT pointer;" << std::endl;
 			}
+
+			// create ast node
+			$$->astPtr = new pointer_Node($2->astPtr);
+			outG << "pointer -> MULT pointer;" << std::endl;
 		}
 	| MULT type_qualifier_list pointer
  		{
 			if(YFLAG){
 				outY << "pointer : MULT type_qualifier_list pointer;" << std::endl;
 			}
+
+			// create ast node
+			$$->astPtr = new pointer_Node($2->astPtr, $3->astPtr);
+			outG << "pointer -> MULT type_qualifier_list pointer;" << std::endl;
 		}
 	;
 
