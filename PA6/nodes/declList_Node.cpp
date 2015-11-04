@@ -1,6 +1,6 @@
 /*
 Name: Renee Iinuma, Kyle Lee, and Wesley Kepke. 
-File: compoundStat_Node.cpp
+File: declList_Node.cpp
 Created: November 2, 2015
 Last Modified: November 2, 2015
 Class: CS 460 (Compiler Construction)
@@ -8,14 +8,14 @@ Class: CS 460 (Compiler Construction)
 This is the implementation file for the base AST node class of our C compiler.  
 */
 
-#include "compoundStat_Node.h"
+#include "declList_Node.h"
 
 /*
-Function: compoundStat_Node(astNode* A, astNode* B) (constructor) 
+Function: declaration_Node(astNode* A, astNode* B) (constructor) 
 
 Description: 
 */
-compoundStat_Node::compoundStat_Node(astNode* A, astNode* B) : astNode(){
+declList_Node::declList_Node(astNode* A, astNode* B) : astNode(){
 	exprA = A;
 	exprB = B;
 }
@@ -25,8 +25,8 @@ Function: gen3AC()
 
 Description: 
 */
-void compoundStat_Node::gen3AC(){
-	std::cout << "Generate 3AC for compound stat node" << std::endl;
+void declList_Node::gen3AC(){
+	std::cout << "Generate 3AC for declarator node" << std::endl;
 }
 
 /*
@@ -34,7 +34,7 @@ Function: print(int indent)
 
 Description: 
 */
-void compoundStat_Node::print(int indent){
+void declList_Node::print(int indent){
 
 	for(int i = 0; i < indent; i++){
 		std::cout << '\t';
@@ -68,11 +68,11 @@ void compoundStat_Node::print(int indent){
 }
 
 /*
-Function: ~compoundStat_Node() (destructor) 
+Function: ~declarator_Node() (destructor) 
 
 Description: 
 */
-compoundStat_Node::~compoundStat_Node(){
-
+declList_Node::~declList_Node(){
+	exprA = NULL;
+	exprB = NULL; 
 }
-

@@ -188,7 +188,7 @@ translation_unit
 			}
 
 			$$->astPtr = new translationUnit_Node($1->astPtr, $2->astPtr);
-			outG << "translation_unit -> translation_unit external_declaration;" << std::endl;
+			outG << "translation_unit -> {translation_unit external_declaration};" << std::endl;
 		}
 	;
 
@@ -218,28 +218,28 @@ function_definition
 			if(YFLAG){
 				outY << "function_definition : declarator compound_statement;" << std::endl;
 			}
-			outG << "function_definition -> declarator compound_statement;" << std::endl;
+			outG << "function_definition -> {declarator compound_statement};" << std::endl;
 		}
 	| declarator declaration_list compound_statement
 		{
 			if(YFLAG){
 				outY << "function_definition : declarator declaration_list compound_statement;" << std::endl;
 			}
-			outG << "function_definition -> declarator declaration_list compound_statement;" << std::endl;
+			outG << "function_definition -> {declarator declaration_list compound_statement};" << std::endl;
 		}
 	| declaration_specifiers declarator compound_statement
 		{
 			if(YFLAG){
 				outY << "function_definition : declaration_specifiers declarator compound_statement;" << std::endl;
 			}
-			outG << "function_definition -> declaration_specifiers declarator compound_statement;" << std::endl;
+			outG << "function_definition -> {declaration_specifiers declarator compound_statement};" << std::endl;
 		}
 	| declaration_specifiers declarator declaration_list compound_statement
 		{
 			if(YFLAG){
 				outY << "function_definition : declaration_specifiers declarator declaration_list compound_statement;" << std::endl;
 			}
-			outG << "function_definition -> declaration_specifiers declarator declaration_list compound_statement;" << std::endl;
+			outG << "function_definition -> {declaration_specifiers declarator declaration_list compound_statement};" << std::endl;
 		}
 	;
 
@@ -254,7 +254,7 @@ declaration
 			}
 
 			$$->astPtr = new declaration_Node($1->astPtr, NULL);
-			outG << "declaration -> declaration_specifiers SEMI;" << std::endl;
+			outG << "declaration -> {declaration_specifiers SEMI};" << std::endl;
 		}
 	| declaration_specifiers init_declarator_list SEMI
 		{
@@ -264,7 +264,7 @@ declaration
 
 			// create ast node
 			$$->astPtr = new declaration_Node($1->astPtr, $2->astPtr);
-			outG << "declaration -> declaration_specifiers init_declarator_list SEMI;" << std::endl;
+			outG << "declaration -> {declaration_specifiers init_declarator_list SEMI};" << std::endl;
 		}
 	;
 
@@ -274,6 +274,9 @@ declaration_list
 			if(YFLAG){
 				outY << "declaration_list : declaration;" << std::endl;
 			}
+
+			$$ = new node(); 
+			$$->astPtr = new declList_Node($2->astPtr, NULL);
 			outG << "declaration_list -> declaration;" << std::endl;
 		}
 	| declaration_list set_insert declaration set_lookup
@@ -281,7 +284,8 @@ declaration_list
 			if(YFLAG){
 				outY << "declaration_list : declaration_list declaration;" << std::endl;
 			}
-			outG << "declaration_list -> declaration_list declaration;" << std::endl;
+			$$->astPtr = new declList_Node($1->astPtr, $3->astPtr);
+			outG << "declaration_list -> {declaration_list declaration};" << std::endl;
 		}
 	;
 
@@ -304,7 +308,7 @@ declaration_specifiers
 
 			// create AST node
 			$$->astPtr = new declSpec_Node($2->astPtr, $1->val._num);
-			outG << "declaration_specifiers -> storage_class_specifier declaration_specifiers;" << std::endl;
+			outG << "declaration_specifiers -> {storage_class_specifier declaration_specifiers};" << std::endl;
 		}
 	| type_specifier
 		{
@@ -324,7 +328,7 @@ declaration_specifiers
 
 			// create AST node
 			$$->astPtr = new declSpec_Node($2->astPtr, $1->val._num);
-			outG << "declaration_specifiers -> type_specifier declaration_specifiers;" << std::endl;
+			outG << "declaration_specifiers -> {type_specifier declaration_specifiers};" << std::endl;
 		}
 	| type_qualifier 
 		{
@@ -344,7 +348,7 @@ declaration_specifiers
 
 			// create AST node
 			$$->astPtr = new declSpec_Node($2->astPtr, $1->val._num);
-			outG << "declaration_specifiers -> type_qualifier declaration_specifiers;" << std::endl;
+			outG << "declaration_specifiers -> {type_qualifier declaration_specifiers};" << std::endl;
 		}
 	;
 
@@ -547,21 +551,21 @@ struct_or_union_specifier
 			if(YFLAG){
 				outY << "struct_or_union_specifier : struct_or_union identifier LCURL struct_declaration_list RCURL;" << std::endl;
 			}
-			outG << "struct_or_union_specifier -> struct_or_union identifier LCURL struct_declaration_list RCURL;" << std::endl;
+			outG << "struct_or_union_specifier -> {struct_or_union identifier LCURL struct_declaration_list RCURL};" << std::endl;
 		}
 	| struct_or_union LCURL struct_declaration_list RCURL
  		{
 			if(YFLAG){
 				outY << "struct_or_union_specifier : struct_or_union LCURL struct_declaration_list RCURL;" << std::endl;
 			}
-			outG << "struct_or_union_specifier -> struct_or_union LCURL struct_declaration_list RCURL;" << std::endl;
+			outG << "struct_or_union_specifier -> {struct_or_union LCURL struct_declaration_list RCURL};" << std::endl;
 		}
 	| struct_or_union identifier
  		{
 			if(YFLAG){
 				outY << "struct_or_union_specifier : struct_or_union identifier;" << std::endl;
 			}
-			outG << "struct_or_union_specifier -> struct_or_union identifier;" << std::endl;
+			outG << "struct_or_union_specifier -> {struct_or_union identifier};" << std::endl;
 		}
 	;
 
@@ -595,7 +599,7 @@ struct_declaration_list
 			if(YFLAG){
 				outY << "struct_declaration_list : struct_declaration_list struct_declaration;" << std::endl;
 			}
-			outG << "struct_declaration_list -> struct_declaration_list struct_declaration;;" << std::endl;
+			outG << "struct_declaration_list -> {struct_declaration_list struct_declaration};" << std::endl;
 		}
 	;
 
@@ -612,7 +616,7 @@ init_declarator_list
 			if(YFLAG){
 				outY << "init_declarator_list : init_declarator_list COMMA init_declarator;" << std::endl;
 			}
-			outG << "init_declarator_list -> init_declarator_list COMMA init_declarator;" << std::endl;
+			outG << "init_declarator_list -> {init_declarator_list COMMA init_declarator};" << std::endl;
 		}
 	;
 
@@ -629,6 +633,8 @@ init_declarator
 		}
 	| declarator ASSIGN set_lookup initializer set_insert
  		{ 
+ 			std::cout << $1->val._ste->getIdentifierType_String() << std::endl; 
+
  			if (!$1->val._ste->setIdentifierValue(*$4)) {
  				std::cout << COLOR_NORMAL << COLOR_CYAN_NORMAL << "ERROR:" << COLOR_NORMAL << " Invalid assignment." << std::endl;
  				yyerror("");
@@ -640,7 +646,7 @@ init_declarator
 
 			// create ast node
 			$$->astPtr = new initDecl_Node($1->astPtr, $4->astPtr);
-			outG << "init_declarator -> declarator ASSIGN initializer;" << std::endl; 
+			outG << "init_declarator -> {declarator ASSIGN initializer};" << std::endl; 
 		}
 	;
 
@@ -650,7 +656,7 @@ struct_declaration
 			if(YFLAG){
 				outY << "struct_declaration : specifier_qualifier_list struct_declarator_list SEMI;" << std::endl;
 			}
-			outG << "struct_declaration -> specifier_qualifier_list struct_declarator_list SEMI;" << std::endl;
+			outG << "struct_declaration -> {specifier_qualifier_list struct_declarator_list SEMI};" << std::endl;
 		}
 	;
 
@@ -667,7 +673,7 @@ specifier_qualifier_list
 			if(YFLAG){
 				outY << "specifier_qualifier_list : type_specifier specifier_qualifier_list;" << std::endl;
 			}
-			outG << "specifier_qualifier_list -> type_specifier specifier_qualifier_list;" << std::endl;
+			outG << "specifier_qualifier_list -> {type_specifier specifier_qualifier_list};" << std::endl;
 		}
 	| type_qualifier
  		{
@@ -681,7 +687,7 @@ specifier_qualifier_list
 			if(YFLAG){
 				outY << "specifier_qualifier_list : type_qualifier specifier_qualifier_list;" << std::endl;
 			}
-			outG << "specifier_qualifier_list -> type_qualifier specifier_qualifier_list;" << std::endl;
+			outG << "specifier_qualifier_list -> {type_qualifier specifier_qualifier_list};" << std::endl;
 		}
 	;
 
@@ -698,7 +704,7 @@ struct_declarator_list
 			if(YFLAG){
 				outY << "struct_declarator_list : struct_declarator_list COMMA struct_declarator;" << std::endl;
 			}
-			outG << "struct_declarator_list -> struct_declarator_list COMMA struct_declarator;" << std::endl;
+			outG << "struct_declarator_list -> {struct_declarator_list COMMA struct_declarator};" << std::endl;
 		}
 	;
 
@@ -722,7 +728,7 @@ struct_declarator
 			if(YFLAG){
 				outY << "struct_declarator : declarator COLON constant_expression;" << std::endl;
 			}
-			outG << "struct_declarator -> declarator COLON constant_expression;" << std::endl;
+			outG << "struct_declarator -> {declarator COLON constant_expression};" << std::endl;
 		}
 	;
 
@@ -732,21 +738,21 @@ enum_specifier
 			if(YFLAG){
 				outY << "enum_specifier : ENUM LCURL enumerator_list RCURL;" << std::endl;
 			}
-			outG << "enum_specifier -> ENUM LCURL enumerator_list RCURL;" << std::endl;
+			outG << "enum_specifier -> {ENUM LCURL enumerator_list RCURL};" << std::endl;
 		}
 	| ENUM identifier LCURL enumerator_list RCURL
  		{
 			if(YFLAG){
 				outY << "enum_specifier : ENUM identifier LCURL enumerator_list RCURL;" << std::endl;
 			}
-			outG << "enum_specifier -> ENUM identifier LCURL enumerator_list RCURL;" << std::endl;
+			outG << "enum_specifier -> {ENUM identifier LCURL enumerator_list RCURL};" << std::endl;
 		}
 	| ENUM identifier
  		{
 			if(YFLAG){
 				outY << "enum_specifier : ENUM identifier;" << std::endl;
 			}
-			outG << "enum_specifier -> ENUM identifier;" << std::endl;
+			outG << "enum_specifier -> {ENUM identifier};" << std::endl;
 		}
 	;
 
@@ -763,7 +769,7 @@ enumerator_list
 			if(YFLAG){
 				outY << "enumerator_list : enumerator_list COMMA enumerator;" << std::endl;
 			}
-			outG << "enumerator_list -> enumerator_list COMMA enumerator;" << std::endl;
+			outG << "enumerator_list -> {enumerator_list COMMA enumerator};" << std::endl;
 		}
 	;
 
@@ -780,7 +786,7 @@ enumerator
 			if(YFLAG){
 				outY << "enumerator : identifier ASSIGN constant_expression;" << std::endl;
 			}
-			outG << "enumerator -> identifier ASSIGN constant_expression;" << std::endl;
+			outG << "enumerator -> {identifier ASSIGN constant_expression};" << std::endl;
 		}
 	;
 
@@ -804,7 +810,7 @@ declarator
 
 			// create ast node
 			$$->astPtr = new declarator_Node($1->astPtr, $2->astPtr);
-			outG << "declarator -> pointer direct_declarator;" << std::endl;
+			outG << "declarator -> {pointer direct_declarator};" << std::endl;
 		}
 	;
 
@@ -827,7 +833,7 @@ direct_declarator
 
 			// create ast node
 			$$->astPtr = new directDecl_Node($2->astPtr, NULL);
-			outG << "direct_declarator -> LPAREN declarator RPAREN;" << std::endl;
+			outG << "direct_declarator -> {LPAREN declarator RPAREN};" << std::endl;
 		}
 	| direct_declarator LBRACK RBRACK 
  		{
@@ -837,7 +843,7 @@ direct_declarator
 
 			// create ast node
 			$$->astPtr = new directDecl_Node($1->astPtr, NULL);
-			outG << "direct_declarator -> direct_declarator LBRACK RBRACK;" << std::endl;
+			outG << "direct_declarator -> {direct_declarator LBRACK RBRACK};" << std::endl;
 		}
 	| direct_declarator LBRACK constant_expression RBRACK
  		{
@@ -849,7 +855,7 @@ direct_declarator
 
 			// create ast node
 			$$->astPtr = new directDecl_Node($1->astPtr, $3->astPtr);
-			outG << "direct_declarator -> direct_declarator LBRACK constant_expression RBRACK;" << std::endl;
+			outG << "direct_declarator -> {direct_declarator LBRACK constant_expression RBRACK};" << std::endl;
 		}
 	| direct_declarator LPAREN RPAREN set_insert
  		{
@@ -859,7 +865,7 @@ direct_declarator
 
 			// create ast node
 			$$->astPtr = new directDecl_Node($1->astPtr, NULL);
-			outG << "direct_declarator -> direct_declarator LPAREN RPAREN;" << std::endl;
+			outG << "direct_declarator -> {direct_declarator LPAREN RPAREN};" << std::endl;
 		}
 	| direct_declarator LPAREN  parameter_type_list RPAREN set_insert
  		{
@@ -875,7 +881,7 @@ direct_declarator
 	
 			// create ast node
 			$$->astPtr = new directDecl_Node($1->astPtr, $3->astPtr);
-			outG << "direct_declarator -> direct_declarator LPAREN parameter_type_list RPAREN;" << std::endl;
+			outG << "direct_declarator -> {direct_declarator LPAREN parameter_type_list RPAREN};" << std::endl;
 		}
 	| direct_declarator LPAREN set_lookup identifier_list RPAREN set_insert
  		{
@@ -885,7 +891,7 @@ direct_declarator
 
 			// create ast node
 			$$->astPtr = new directDecl_Node($1->astPtr, $4->astPtr);
-			outG << "direct_declarator -> direct_declarator LPAREN identifier_list RPAREN;" << std::endl;
+			outG << "direct_declarator -> {direct_declarator LPAREN identifier_list RPAREN};" << std::endl;
 		}
 	;
 
@@ -908,7 +914,7 @@ pointer
 
 			// create ast node
 			$$->astPtr = new pointer_Node($2->astPtr);
-			outG << "pointer -> MULT type_qualifier_list;" << std::endl;
+			outG << "pointer -> {MULT type_qualifier_list};" << std::endl;
 		}
 	| MULT pointer
  		{
@@ -918,7 +924,7 @@ pointer
 
 			// create ast node
 			$$->astPtr = new pointer_Node($2->astPtr);
-			outG << "pointer -> MULT pointer;" << std::endl;
+			outG << "pointer -> {MULT pointer};" << std::endl;
 		}
 	| MULT type_qualifier_list pointer
  		{
@@ -928,7 +934,7 @@ pointer
 
 			// create ast node
 			$$->astPtr = new pointer_Node($2->astPtr, $3->astPtr);
-			outG << "pointer -> MULT type_qualifier_list pointer;" << std::endl;
+			outG << "pointer -> {MULT type_qualifier_list pointer};" << std::endl;
 		}
 	;
 
@@ -951,7 +957,7 @@ type_qualifier_list
 
 			// create ast node
 			$$->astPtr = new typeQualifierList_Node($1->astPtr, $2->astPtr);
-			outG << "type_qualifier_list -> type_qualifier_list type_qualifier;" << std::endl;
+			outG << "type_qualifier_list -> {type_qualifier_list type_qualifier};" << std::endl;
 		}	
 	;
 
@@ -968,7 +974,7 @@ parameter_type_list
 			if(YFLAG){
 				outY << "parameter_type_list : parameter_list COMMA ELIPSIS;" << std::endl;
 			}
-			outG << "parameter_type_list -> parameter_list COMMA ELIPSIS;" << std::endl;
+			outG << "parameter_type_list -> {parameter_list COMMA ELIPSIS};" << std::endl;
 		}	
 	;
 
@@ -985,7 +991,7 @@ parameter_list
 			if(YFLAG){
 				outY << "parameter_list : parameter_list COMMA parameter_declaration;" << std::endl;
 			}
-			outG << "parameter_list -> parameter_list COMMA parameter_declaration;" << std::endl;
+			outG << "parameter_list -> {parameter_list COMMA parameter_declaration};" << std::endl;
 		}	
 	;
 
@@ -999,7 +1005,7 @@ parameter_declaration
 			if(YFLAG){
 				outY << "parameter_declaration : declaration_specifiers declarator;" << std::endl;
 			}
-			outG << "parameter_declaration -> declaration_specifiers declarator;" << std::endl;
+			outG << "parameter_declaration -> {declaration_specifiers declarator};" << std::endl;
 		}
 	| declaration_specifiers
  		{
@@ -1013,7 +1019,7 @@ parameter_declaration
 			if(YFLAG){
 				outY << "parameter_declaration : declaration_specifiers abstract_declarator;" << std::endl;
 			}
-			outG << "parameter_declaration -> declaration_specifiers abstract_declarator;" << std::endl;
+			outG << "parameter_declaration -> {declaration_specifiers abstract_declarator};" << std::endl;
 		}
 	;
 
@@ -1031,7 +1037,7 @@ identifier_list
 			if(YFLAG){
 				outY << "identifier_list : identifier_list COMMA identifier;" << std::endl;
 			}
-			outG << "identifier_list -> identifier_list COMMA identifier;" << std::endl;
+			outG << "identifier_list -> {identifier_list COMMA identifier};" << std::endl;
 		}
 	;
 
@@ -1055,7 +1061,7 @@ initializer
 
 			// create ast node
 			$$->astPtr = new initializer_Node($2->astPtr);
-			outG << "initializer -> LCURL initializer_list RCURL;" << std::endl;
+			outG << "initializer -> {LCURL initializer_list RCURL};" << std::endl;
 		}
 	| LCURL initializer_list COMMA RCURL
  		{
@@ -1065,7 +1071,7 @@ initializer
 
 			// create ast node
 			$$->astPtr = new initializer_Node($2->astPtr);
-			outG << "initializer -> LCURL initializer_list COMMA RCURL;" << std::endl;
+			outG << "initializer -> {LCURL initializer_list COMMA RCURL};" << std::endl;
 		}
 	;
 
@@ -1082,7 +1088,7 @@ initializer_list
 			if(YFLAG){
 				outY << "initializer_list : initializer_list COMMA initializer;" << std::endl;
 			}
-			outG << "initializer_list -> initializer_list COMMA initializer;" << std::endl;
+			outG << "initializer_list -> {initializer_list COMMA initializer};" << std::endl;
 		}
 	;
 
@@ -1099,7 +1105,7 @@ type_name
 			if(YFLAG){
 				outY << "type_name : specifier_qualifier_list abstract_declarator;" << std::endl;
 			}
-			outG << "type_name -> specifier_qualifier_list abstract_declarator;" << std::endl;
+			outG << "type_name -> {specifier_qualifier_list abstract_declarator};" << std::endl;
 		}
 	;
 
@@ -1123,7 +1129,7 @@ abstract_declarator
 			if(YFLAG){
 				outY << "abstract_declarator : pointer direct_abstract_declarator;" << std::endl;
 			}
-			outG << "abstract_declarator -> pointer direct_abstract_declarator;" << std::endl;
+			outG << "abstract_declarator -> {pointer direct_abstract_declarator};" << std::endl;
 		}
 	;
 
@@ -1133,7 +1139,7 @@ direct_abstract_declarator
 			if(YFLAG){
 				outY << "direct_abstract_declarator : LPAREN abstract_declarator RPAREN;" << std::endl;
 			}
-			outG << "direct_abstract_declarator -> LPAREN abstract_declarator RPAREN;" << std::endl;
+			outG << "direct_abstract_declarator -> {LPAREN abstract_declarator RPAREN};" << std::endl;
 		}
 	;
 	| LBRACK RBRACK
@@ -1141,56 +1147,56 @@ direct_abstract_declarator
 			if(YFLAG){
 				outY << "direct_abstract_declarator : LBRACK RBRACK;" << std::endl;
 			}
-			outG << "direct_abstract_declarator -> LBRACK RBRACK;" << std::endl;
+			outG << "direct_abstract_declarator -> {LBRACK RBRACK};" << std::endl;
 		}
 	| LBRACK constant_expression RBRACK
  		{
 			if(YFLAG){
 				outY << "direct_abstract_declarator : LBRACK constant_expression RBRACK;" << std::endl;
 			}
-			outG << "direct_abstract_declarator -> LBRACK constant_expression RBRACK;" << std::endl;
+			outG << "direct_abstract_declarator -> {LBRACK constant_expression RBRACK};" << std::endl;
 		}
 	| direct_abstract_declarator LBRACK RBRACK
  		{
 			if(YFLAG){
 				outY << "direct_abstract_declarator : direct_abstract_declarator LBRACK RBRACK;" << std::endl;
 			}
-			outG << "direct_abstract_declarator -> direct_abstract_declarator LBRACK RBRACK;" << std::endl;
+			outG << "direct_abstract_declarator -> {direct_abstract_declarator LBRACK RBRACK};" << std::endl;
 		}
 	| direct_abstract_declarator LBRACK constant_expression RBRACK
  		{
 			if(YFLAG){
 				outY << "direct_abstract_declarator : direct_abstract_declarator LBRACK constant_expression;" << std::endl;
 			}
-			outG << "direct_abstract_declarator -> direct_abstract_declarator LBRACK constant_expression;" << std::endl;
+			outG << "direct_abstract_declarator -> {direct_abstract_declarator LBRACK constant_expression};" << std::endl;
 		}
 	| LPAREN RPAREN
  		{
 			if(YFLAG){
 				outY << "direct_abstract_declarator : LPAREN RPAREN;" << std::endl;
 			}
-			outG << "direct_abstract_declarator -> LPAREN RPAREN;" << std::endl;
+			outG << "direct_abstract_declarator -> {LPAREN RPAREN};" << std::endl;
 		}
 	| LPAREN parameter_type_list RPAREN
  		{
 			if(YFLAG){
 				outY << "direct_abstract_declarator : LPAREN parameter_type_list RPAREN;" << std::endl;
 			}
-			outG << "direct_abstract_declarator -> LPAREN parameter_type_list RPAREN;" << std::endl;
+			outG << "direct_abstract_declarator -> {LPAREN parameter_type_list RPAREN};" << std::endl;
 		}
 	| direct_abstract_declarator LPAREN RPAREN
  		{
 			if(YFLAG){
 				outY << "direct_abstract_declarator : direct_abstract_declarator LPAREN RPAREN;" << std::endl;
 			}
-			outG << "direct_abstract_declarator -> direct_abstract_declarator LPAREN RPAREN;" << std::endl;
+			outG << "direct_abstract_declarator -> {direct_abstract_declarator LPAREN RPAREN};" << std::endl;
 		}
 	| direct_abstract_declarator LPAREN parameter_type_list RPAREN
  		{
 			if(YFLAG){
 				outY << "direct_abstract_declarator : direct_abstract_declarator LPAREN parameter_type_list RPAREN;" << std::endl;
 			}
-			outG << "direct_abstract_declarator -> direct_abstract_declarator LPAREN parameter_type_list RPAREN;" << std::endl;
+			outG << "direct_abstract_declarator -> {direct_abstract_declarator LPAREN parameter_type_list RPAREN};" << std::endl;
 		}
 	;
 
@@ -1245,21 +1251,21 @@ labeled_statement
 			if(YFLAG){
 				outY << "labeled_statement : identifier COLON statement;" << std::endl;
 			}
-			outG << "labeled_statement -> identifier COLON statement;" << std::endl;
+			outG << "labeled_statement -> {identifier COLON statement};" << std::endl;
 		}
 	| CASE constant_expression COLON statement
  		{
 			if(YFLAG){
 				outY << "labeled_statement : CASE constant_expression COLON statement;" << std::endl;
 			}
-			outG << "labeled_statement -> CASE constant_expression COLON statement;" << std::endl;
+			outG << "labeled_statement -> {CASE constant_expression COLON statement};" << std::endl;
 		}
 	| DEFAULT COLON statement
  		{
 			if(YFLAG){
 				outY << "labeled_statement : DEFAULT COLON statement;" << std::endl;
 			}
-			outG << "labeled_statement -> DEFAULT COLON statemen;" << std::endl;
+			outG << "labeled_statement -> {DEFAULT COLON statement};" << std::endl;
 		}
 	;
 
@@ -1276,7 +1282,7 @@ expression_statement
 			if(YFLAG){
 				outY << "expression_statement : expression SEMI;" << std::endl;
 			}
-			outG << "expression_statement -> expression SEMI;" << std::endl;
+			outG << "expression_statement -> {expression SEMI};" << std::endl;
 		}
 	;
 
@@ -1289,7 +1295,7 @@ compound_statement
 
 			// create ast node
 			$$->astPtr = new compoundStat_Node(NULL, NULL);
-			outG << "compound_statement -> LCURL RCURL;" << std::endl;
+			outG << "compound_statement -> {LCURL RCURL};" << std::endl;
 		}						
 	| LCURL open_curl set_lookup statement_list RCURL close_curl
  		{
@@ -1299,7 +1305,7 @@ compound_statement
 
 			// create ast node
 			$$->astPtr = new compoundStat_Node(NULL, $4->astPtr);
-			outG << "compound_statement -> LCURL statement_list RCURL;" << std::endl;
+			outG << "compound_statement -> {LCURL statement_list RCURL};" << std::endl;
 		}					
 	| LCURL set_insert_push declaration_list RCURL set_lookup_pop	
  		{
@@ -1309,36 +1315,17 @@ compound_statement
 
 			// create ast node
 			$$->astPtr = new compoundStat_Node($3->astPtr, NULL);
-			outG << "compound_statement -> LCURL declaration_list RCURL;" << std::endl;
+			outG << "compound_statement -> {LCURL declaration_list RCURL};" << std::endl;
 		}				
 	| LCURL set_insert_push declaration_list set_lookup statement_list RCURL set_lookup_pop 
 		{
 			if(YFLAG){
 				outY << "compound_statement : LCURL declaration_list statement_list RCURL;" << std::endl;
-		    }   
-
-			std::cout << "before allocation" << std::endl;
-
-		    if ($3 == NULL) {
-		    	std::cout << "$3 is NULL?" << std::endl;
-		    }
-
-		    if ($5 == NULL) {
-		    	std::cout << "$5 is NULL?" << std::endl; 
-		    }
-
-		    
-		    std::cout << "before allocation" << std::endl;
-		    //$3 = new node();
-		    //$5 = new node();  
-		    $3->astPtr = new astNode();
-		    //$5->astPtr = new astNode(); 
-		    std::cout << "after allocation" << std::endl; 
-		    
+		    }     
 
 		    // create ast node
 			$$->astPtr = new compoundStat_Node($3->astPtr, $5->astPtr);
-			outG << "compound_statement -> LCURL declaration_list statement_list RCURL;" << std::endl;
+			outG << "compound_statement -> {LCURL declaration_list statement_list RCURL};" << std::endl;
 	    } 
 	;
 
@@ -1399,7 +1386,7 @@ statement_list
 
 			// create ast node
 			$$->astPtr = new statList_Node($1->astPtr, $2->astPtr);
-			outG << "statement_list -> statement_list statement;" << std::endl;
+			outG << "statement_list -> {statement_list statement};" << std::endl;
 		}
 	;
 
@@ -1412,7 +1399,7 @@ selection_statement
 
 			// create ast node
 			$$->astPtr = new selectionStat_Node($3->astPtr, $5->astPtr, NULL);
-			outG << "selection_statement -> IF LPAREN expression RPAREN statement;" << std::endl;
+			outG << "selection_statement -> {IF LPAREN expression RPAREN statement};" << std::endl;
 		}
 	| IF LPAREN expression RPAREN statement ELSE statement
  		{
@@ -1422,7 +1409,7 @@ selection_statement
 
 			// create ast node
 			$$->astPtr = new selectionStat_Node($3->astPtr, $5->astPtr, $7->astPtr);
-			outG << "selection_statement -> IF LPAREN expression RPAREN statement ELSE statement;" << std::endl;
+			outG << "selection_statement -> {IF LPAREN expression RPAREN statement ELSE statement};" << std::endl;
 		}
 	| SWITCH LPAREN expression RPAREN statement
  		{
@@ -1432,7 +1419,7 @@ selection_statement
 
 			// create ast node
 			$$->astPtr = new selectionStat_Node($3->astPtr, $5->astPtr, NULL);
-			outG << "selection_statement -> SWITCH LPAREN expression RPAREN statement;" << std::endl;
+			outG << "selection_statement -> {SWITCH LPAREN expression RPAREN statement};" << std::endl;
 		}
 	;
 
@@ -1445,7 +1432,7 @@ iteration_statement
 
 			// create ast node
 			$$->astPtr = new iterStat_Node($3->astPtr, NULL, NULL, $5->astPtr, false);
-			outG << "iteration_statement -> WHILE LPAREN expression RPAREN statement;" << std::endl; 
+			outG << "iteration_statement -> {WHILE LPAREN expression RPAREN statement};" << std::endl; 
 		}
 	| DO statement WHILE LPAREN expression RPAREN SEMI
  		{
@@ -1455,7 +1442,7 @@ iteration_statement
 
 			// create ast node
 			$$->astPtr = new iterStat_Node($5->astPtr, NULL, NULL, $2->astPtr, true);
-			outG << "iteration_statement -> DO statement WHILE LPAREN expression RPAREN SEMI;" << std::endl; 
+			outG << "iteration_statement -> {DO statement WHILE LPAREN expression RPAREN SEMI};" << std::endl; 
 		}
 	| FOR LPAREN SEMI SEMI RPAREN statement
  		{
@@ -1465,7 +1452,7 @@ iteration_statement
 
 			// create ast node
 			$$->astPtr = new iterStat_Node(NULL, NULL, NULL, $6->astPtr, false);
-			outG << "iteration_statement -> FOR LPAREN SEMI SEMI RPAREN statement;" << std::endl;
+			outG << "iteration_statement -> {FOR LPAREN SEMI SEMI RPAREN statement};" << std::endl;
 		}
 	| FOR LPAREN SEMI SEMI expression RPAREN statement
  		{
@@ -1475,7 +1462,7 @@ iteration_statement
 
 			// create ast node
 			$$->astPtr = new iterStat_Node(NULL, NULL, $5->astPtr, $7->astPtr, false);
-			outG << "iteration_statement -> FOR LPAREN SEMI SEMI expression RPAREN statement;" << std::endl;
+			outG << "iteration_statement -> {FOR LPAREN SEMI SEMI expression RPAREN statement};" << std::endl;
 		}
 	| FOR LPAREN SEMI expression SEMI RPAREN statement
  		{
@@ -1485,7 +1472,7 @@ iteration_statement
 
 			// create ast node
 			$$->astPtr = new iterStat_Node(NULL, $4->astPtr, NULL, $7->astPtr, false);
-			outG << "iteration_statement -> FOR LPAREN SEMI expression SEMI RPAREN statement;" << std::endl;
+			outG << "iteration_statement -> {FOR LPAREN SEMI expression SEMI RPAREN statement};" << std::endl;
 		}
 	| FOR LPAREN SEMI expression SEMI expression RPAREN statement
  		{
@@ -1495,7 +1482,7 @@ iteration_statement
 
 			// create ast node
 			$$->astPtr = new iterStat_Node(NULL, $4->astPtr, $6->astPtr, $8->astPtr, false);
-			outG << "iteration_statement -> FOR LPAREN SEMI expression SEMI expression RPAREN statement;" << std::endl;
+			outG << "iteration_statement -> {FOR LPAREN SEMI expression SEMI expression RPAREN statement};" << std::endl;
 		}
 	| FOR LPAREN expression SEMI SEMI RPAREN statement
  		{
@@ -1505,7 +1492,7 @@ iteration_statement
 
 			// create ast node
 			$$->astPtr = new iterStat_Node($3->astPtr, NULL, NULL, $7->astPtr, false);
-			outG << "iteration_statement -> FOR LPAREN expression SEMI SEMI RPAREN statement;" << std::endl;
+			outG << "iteration_statement -> {FOR LPAREN expression SEMI SEMI RPAREN statement};" << std::endl;
 		}
 	| FOR LPAREN expression SEMI SEMI expression RPAREN statement
  		{
@@ -1515,7 +1502,7 @@ iteration_statement
 
 			// create ast node
 			$$->astPtr = new iterStat_Node($3->astPtr, NULL, $6->astPtr, $8->astPtr, false);
-			outG << "iteration_statement -> FOR LPAREN expression SEMI SEMI expression RPAREN statement;" << std::endl;
+			outG << "iteration_statement -> {FOR LPAREN expression SEMI SEMI expression RPAREN statement};" << std::endl;
 		}
 	| FOR LPAREN expression SEMI expression SEMI RPAREN statement
  		{
@@ -1525,7 +1512,7 @@ iteration_statement
 
 			// create ast node
 			$$->astPtr = new iterStat_Node($3->astPtr, $5->astPtr, NULL, $8->astPtr, false);
-			outG << "iteration_statement -> FOR LPAREN expression SEMI expression SEMI RPAREN statement;" << std::endl;
+			outG << "iteration_statement -> {FOR LPAREN expression SEMI expression SEMI RPAREN statement};" << std::endl;
 		}
 	| FOR LPAREN expression SEMI expression SEMI expression RPAREN statement
  		{
@@ -1535,7 +1522,7 @@ iteration_statement
 
 			// create ast node
 			$$->astPtr = new iterStat_Node($3->astPtr, $5->astPtr, $7->astPtr, $9->astPtr, false);
-			outG << "iteration_statement -> FOR LPAREN expression SEMI expression SEMI expression RPAREN statement;" << std::endl;
+			outG << "iteration_statement -> {FOR LPAREN expression SEMI expression SEMI expression RPAREN statement};" << std::endl;
 		}
 	;
 
@@ -1545,35 +1532,35 @@ jump_statement
 			if(YFLAG){
 				outY << "jump_statement : GOTO identifier SEMI;" << std::endl;
 			}
-			outG << "jump_statement -> GOTO identifier SEMI;" << std::endl;
+			outG << "jump_statement -> {GOTO identifier SEMI};" << std::endl;
 		}
 	| CONTINUE SEMI
  		{
 			if(YFLAG){
 				outY << "jump_statement : CONTINUE SEMI;" << std::endl;
 			}
-			outG << "jump_statement -> CONTINUE SEMI;" << std::endl;
+			outG << "jump_statement -> {CONTINUE SEMI};" << std::endl;
 		}
 	| BREAK SEMI
  		{
 			if(YFLAG){
 				outY << "jump_statement : BREAK SEMI;" << std::endl;
 			}
-			outG << "jump_statement -> BREAK SEMI;" << std::endl;
+			outG << "jump_statement -> {BREAK SEMI};" << std::endl;
 		}
 	| RETURN SEMI
  		{
 			if(YFLAG){
 				outY << "jump_statement : RETURN SEMI;" << std::endl;
 			}
-			outG << "jump_statement -> RETURN SEMI;" << std::endl;
+			outG << "jump_statement -> {RETURN SEMI};" << std::endl;
 		}
 	| RETURN expression SEMI
  		{
 			if(YFLAG){
 				outY << "jump_statement : RETURN expression SEMI;" << std::endl;
 			}
-			outG << "jump_statement -> RETURN expression SEMI;" << std::endl;
+			outG << "jump_statement -> {RETURN expression SEMI};" << std::endl;
 		}
 	;
 
@@ -1596,7 +1583,7 @@ expression
 
 			// create ast node 
 			$$->astPtr = new expr_Node($1->astPtr, $2->astPtr);
-			outG << "expression -> expression COMMA assignment_expression;" << std::endl;
+			outG << "expression -> {expression COMMA assignment_expression};" << std::endl;
 		}
 	;
 
@@ -1619,7 +1606,7 @@ assignment_expression
 
 			// create ast node 
 			$$->astPtr = new assignmentExpr_Node($1->astPtr, $3->astPtr, $2->val._num);
-			outG << "assignment_expression -> unary_expression assignment_operator assignment_expression;" << std::endl;
+			outG << "assignment_expression -> {unary_expression assignment_operator assignment_expression};" << std::endl;
 		}
 	;
 
@@ -1728,7 +1715,7 @@ conditional_expression
 			if(YFLAG){
 				outY << "conditional_expression : logical_or_expression QUESTION expression COLON conditional_expression;" << std::endl;
 			}
-			outG << "conditional_expression -> logical_or_expression QUESTION expression COLON conditional_expression;" << std::endl;
+			outG << "conditional_expression -> {logical_or_expression QUESTION expression COLON conditional_expression;" << std::endl;
 		}
 	;
 
@@ -1755,7 +1742,7 @@ logical_or_expression
 			if(YFLAG){
 				outY << "logical_or_expression : logical_or_expression OR_OP logical_and_expression;" << std::endl;
 			}
-			outG << "logical_or_expression -> logical_or_expression OR_OP logical_and_expression;" << std::endl;
+			outG << "logical_or_expression -> {logical_or_expression OR_OP logical_and_expression};" << std::endl;
 		}
 	;
 
@@ -1772,7 +1759,7 @@ logical_and_expression
 			if(YFLAG){
 				outY << "logical_and_expression : logical_and_expression AND_OP inclusive_or_expression;" << std::endl;
 			}
-			outG << "logical_and_expression -> logical_and_expression AND_OP inclusive_or_expression;" << std::endl;
+			outG << "logical_and_expression -> {logical_and_expression AND_OP inclusive_or_expression};" << std::endl;
 		}
 	;
 
@@ -1789,7 +1776,7 @@ inclusive_or_expression
 			if(YFLAG){
 				outY << "inclusive_or_expression : inclusive_or_expression PIPE exclusive_or_expression;" << std::endl;
 			}
-			outG << "inclusive_or_expression -> inclusive_or_expression PIPE exclusive_or_expression;" << std::endl;
+			outG << "inclusive_or_expression -> {inclusive_or_expression PIPE exclusive_or_expression};" << std::endl;
 		}
 	;
 
@@ -1806,7 +1793,7 @@ exclusive_or_expression
 			if(YFLAG){
 				outY << "exclusive_or_expression : exclusive_or_expression CARROT and_expression;" << std::endl;
 			}
-			outG << "exclusive_or_expression -> exclusive_or_expression CARROT and_expression;" << std::endl;
+			outG << "exclusive_or_expression -> {exclusive_or_expression CARROT and_expression};" << std::endl;
 		}
 	;
 
@@ -1823,7 +1810,7 @@ and_expression
 			if(YFLAG){
 				outY << "and_expression : and_expression AMP equality_expression;" << std::endl;
 			}
-			outG << "and_expression -> and_expression AMP equality_expression;" << std::endl;
+			outG << "and_expression -> {and_expression AMP equality_expression};" << std::endl;
 		}
 	;
 
@@ -1846,7 +1833,7 @@ equality_expression
 
 			// create ast node
 	 		$$->astPtr = new equalityExpr_Node($1->astPtr, $3->astPtr, EQ_OP);
-	 		outG << "equality_expression -> equality_expression EQ_OP relational_expression;" << std::endl;
+	 		outG << "equality_expression -> {equality_expression EQ_OP relational_expression};" << std::endl;
 		}
 	| equality_expression NE_OP relational_expression
  		{
@@ -1856,7 +1843,7 @@ equality_expression
 
 			// create ast node
 	 		$$->astPtr = new equalityExpr_Node($1->astPtr, $3->astPtr, NE_OP);
-	 		outG << "equality_expression -> equality_expression LTHAN relational_expression;" << std::endl;
+	 		outG << "equality_expression -> {equality_expression LTHAN relational_expression};" << std::endl;
 		}
 	;
 
@@ -1879,7 +1866,7 @@ relational_expression
 
 			// create ast node
 	 		$$->astPtr = new relationalExpr_Node($1->astPtr, $3->astPtr, LTHAN);
-	 		outG << "relational_expression -> relational_expression LTHAN shift_expression;" << std::endl;
+	 		outG << "relational_expression -> {relational_expression LTHAN shift_expression};" << std::endl;
 		}
 	| relational_expression GTHAN shift_expression
  		{
@@ -1889,7 +1876,7 @@ relational_expression
 
 			// create ast node
 	 		$$->astPtr = new relationalExpr_Node($1->astPtr, $3->astPtr, GTHAN);
-	 		outG << "relational_expression -> relational_expression GTHAN shift_expression;" << std::endl;
+	 		outG << "relational_expression -> {relational_expression GTHAN shift_expression};" << std::endl;
 		}
 	| relational_expression LE_OP shift_expression
  		{
@@ -1899,7 +1886,7 @@ relational_expression
 
 			// create ast node
 	 		$$->astPtr = new relationalExpr_Node($1->astPtr, $3->astPtr, LE_OP);
-	 		outG << "relational_expression -> relational_expression LE_OP shift_expression;" << std::endl;
+	 		outG << "relational_expression -> {relational_expression LE_OP shift_expression};" << std::endl;
 		}
 	| relational_expression GE_OP shift_expression
  		{
@@ -1909,7 +1896,7 @@ relational_expression
 
 			// create ast node
 	 		$$->astPtr = new relationalExpr_Node($1->astPtr, $3->astPtr, GE_OP);
-	 		outG << "relational_expression -> relational_expression GE_OP shift_expression;" << std::endl;
+	 		outG << "relational_expression -> {relational_expression GE_OP shift_expression};" << std::endl;
 		}
 	;
 
@@ -1926,14 +1913,14 @@ shift_expression
 			if(YFLAG){
 				outY << "shift_expression : shift_expression LEFT_OP additive_expression;" << std::endl;
 			}
-			outG << "shift_expression -> shift_expression LEFT_OP additive_expression;" << std::endl;
+			outG << "shift_expression -> {shift_expression LEFT_OP additive_expression};" << std::endl;
 		}
 	| shift_expression RIGHT_OP additive_expression
  		{
 			if(YFLAG){
 				outY << "shift_expression : shift_expression RIGHT_OP additive_expression;" << std::endl;
 			}
-			outG << "shift_expression -> shift_expression RIGHT_OP additive_expression;" << std::endl;
+			outG << "shift_expression -> {shift_expression RIGHT_OP additive_expression};" << std::endl;
 		}
 	;
 
@@ -1946,7 +1933,7 @@ additive_expression
 
 			// create ast node
 	 		$$->astPtr = new multExpr_Node($1->astPtr, NULL, -1);
-	 		outG << "multiplicative_expression -> cast_expression;" << std::endl;
+	 		outG << "additive_expression -> multiplicative_expression;" << std::endl;
 		}
 	| additive_expression PLUS multiplicative_expression
  		{
@@ -1968,7 +1955,7 @@ additive_expression
 
 			// create ast node
 	 		$$->astPtr = new additiveExpr_Node($1->astPtr, $3->astPtr, PLUS);
-	 		outG << "additive_expression -> additive_expression PLUS cast_expression;" << std::endl;
+	 		outG << "additive_expression -> {additive_expression PLUS cast_expression};" << std::endl;
 		}
 	| additive_expression MINUS multiplicative_expression
  		{
@@ -1980,7 +1967,7 @@ additive_expression
 
 			// create ast node
 	 		$$->astPtr = new additiveExpr_Node($1->astPtr, $3->astPtr, MINUS);
-	 		outG << "additive_expression -> additive_expression MINUS cast_expression;" << std::endl;
+	 		outG << "additive_expression -> {additive_expression MINUS cast_expression};" << std::endl;
 		}
 	;
 
@@ -2007,7 +1994,7 @@ multiplicative_expression
 
 			// create ast node
 	 		$$->astPtr = new multExpr_Node($1->astPtr, $3->astPtr, MULT);
-	 		outG << "multiplicative_expression -> multiplicative_expression MULT cast_expression;" << std::endl;
+	 		outG << "multiplicative_expression -> {multiplicative_expression MULT cast_expression};" << std::endl;
 
 			if(YFLAG){
 				outY << "multiplicative_expression : multiplicative_expression MULT cast_expression;" << std::endl;
@@ -2029,7 +2016,7 @@ multiplicative_expression
 
  			// create ast node
 	 		$$->astPtr = new multExpr_Node($1->astPtr, $3->astPtr, DIV);
-	 		outG << "multiplicative_expression -> multiplicative_expression DIV cast_expression;" << std::endl;
+	 		outG << "multiplicative_expression -> {multiplicative_expression DIV cast_expression};" << std::endl;
 
 			if(YFLAG){
 				outY << "multiplicative_expression : multiplicative_expression DIV cast_expression;" << std::endl;
@@ -2041,7 +2028,7 @@ multiplicative_expression
  			
  			// create ast node
 	 		$$->astPtr = new multExpr_Node($1->astPtr, $3->astPtr, MOD);
-	 		outG << "multiplicative_expression -> multiplicative_expression MOD cast_expression;" << std::endl;
+	 		outG << "multiplicative_expression -> {multiplicative_expression MOD cast_expression};" << std::endl;
 
 			if(YFLAG){
 				outY << "multiplicative_expression : multiplicative_expression MOD cast_expression;" << std::endl;
@@ -2062,7 +2049,7 @@ cast_expression
 			if(YFLAG){
 				outY << "cast_expression : LPAREN type_name RPAREN cast_expression;" << std::endl;
 			}
-			outG << "cast_expression -> LPAREN type_name RPAREN cast_expression;" << std::endl;
+			outG << "cast_expression -> {LPAREN type_name RPAREN cast_expression};" << std::endl;
 		}
 	;
 
@@ -2107,7 +2094,7 @@ unary_expression
 
 			// create ast node
 	 		$$->astPtr = new unaryExpr_Node(NULL, $2->astPtr, true, false);
-	 		outG << "unary_expression -> INC_OP cast_expression;" << std::endl;
+	 		outG << "unary_expression -> {INC_OP cast_expression};" << std::endl;
 
 			if(YFLAG){
 				outY << "unary_expression : INC_OP unary_expression;" << std::endl;
@@ -2143,7 +2130,7 @@ unary_expression
 
  			// create ast node
 	 		$$->astPtr = new unaryExpr_Node(NULL, $2->astPtr, false, true);
-	 		outG << "unary_expression -> DEC_OP cast_expression;" << std::endl;
+	 		outG << "unary_expression -> {DEC_OP cast_expression};" << std::endl;
 
 			if(YFLAG){
 				outY << "unary_expression : DEC_OP unary_expression;" << std::endl;
@@ -2172,7 +2159,7 @@ unary_expression
 
 	 		// create ast node
 	 		$$->astPtr = new unaryExpr_Node($1->astPtr, $2->astPtr);
-	 		outG << "unary_expression -> unary_operator cast_expression";
+	 		outG << "unary_expression -> {unary_operator cast_expression}";
 
 			if(YFLAG){
 				outY << "unary_expression : unary_operator cast_expression;" << std::endl;
@@ -2183,14 +2170,14 @@ unary_expression
 			if(YFLAG){
 				outY << "unary_expression : SIZEOF unary_expression;" << std::endl;
 			}
-			outG << "unary_expression -> SIZEOF unary_expression;" << std::endl;
+			outG << "unary_expression -> {SIZEOF unary_expression};" << std::endl;
 		}
 	| SIZEOF LPAREN type_name RPAREN
  		{
 			if(YFLAG){
 				outY << "unary_expression : SIZEOF LPAREN type_name RPAREN;" << std::endl;
 			}
-			outG << "unary_expression -> SIZEOF LPAREN type_name RPAREN;" << std::endl;
+			outG << "unary_expression -> {SIZEOF LPAREN type_name RPAREN};" << std::endl;
 		}
 	;
 
@@ -2276,21 +2263,21 @@ postfix_expression
  			
  			// create ast node
  			$$->astPtr = new postfixExpr_Node($1->astPtr, NULL, false, false);
- 			outG << "postfixExpr_Node -> primary_expression;" << std::endl;
+ 			outG << "postfix_expression -> primary_expression;" << std::endl;
  		}
 	| postfix_expression set_lookup LBRACK expression RBRACK /* COME BACK TO THIS */
  		{
  			if(YFLAG){
 				outY << "postfix_expression : postfix_expression LBRACK expression RBRACK;" << std::endl;
 			}
-			outG << "postfix_expression -> postfix_expression LBRACK expression RBRACK;" << std::endl;
+			outG << "postfix_expression -> {postfix_expression LBRACK expression RBRACK};" << std::endl;
 		}
 	| postfix_expression LPAREN RPAREN
  		{
 			if(YFLAG){
 				outY << "postfix_expression : postfix_expression LPAREN RPAREN;" << std::endl;
 			}
-			outG << "postfix_expression -> postfix_expression LPAREN RPAREN;" << std::endl;
+			outG << "postfix_expression -> {postfix_expression LPAREN RPAREN};" << std::endl;
 		}
 	| postfix_expression LPAREN argument_expression_list RPAREN
  		{
@@ -2307,21 +2294,21 @@ postfix_expression
 
  			// create ast node
  			$$->astPtr = new postfixExpr_Node($1->astPtr, $3->astPtr, false, false);
- 			outG << "postfixExpr_Node -> postfix_expression INC_OP;" << std::endl;
+ 			outG << "postfix_expression -> {postfix_expression INC_OP};" << std::endl;
 		}
 	| postfix_expression DOT identifier
  		{
 			if(YFLAG){
 				outY << "postfix_expression : postfix_expression DOT identifier;" << std::endl;
 			}
-			outG << "postfix_expression -> postfix_expression DOT identifier;" << std::endl;
+			outG << "postfix_expression -> {postfix_expression DOT identifier};" << std::endl;
 		}
 	| postfix_expression PTR_OP identifier
  		{
 			if(YFLAG){
 				outY << "postfix_expression : postfix_expression PTR_OP identifier;" << std::endl;
 			}
-			outG << "postfix_expression -> postfix_expression PTR_OP identifier;" << std::endl;
+			outG << "postfix_expression -> {postfix_expression PTR_OP identifier};" << std::endl;
 		}
 	| postfix_expression INC_OP /* a++, a[x][y]++. etc.. */
  		{
@@ -2354,7 +2341,7 @@ postfix_expression
 
  			// create ast node
  			$$->astPtr = new postfixExpr_Node($1->astPtr, NULL, true, false);
- 			outG << "postfixExpr_Node -> postfix_expression INC_OP;" << std::endl;
+ 			outG << "postfix_expression -> {postfix_expression INC_OP};" << std::endl;
 
 			if(YFLAG){
 				outY << "postfix_expression : postfix_expression INC_OP;" << std::endl;
@@ -2391,7 +2378,7 @@ postfix_expression
 
  			// create ast node
  			$$->astPtr = new postfixExpr_Node($1->astPtr, NULL, false, true);
- 			outG << "postfixExpr_Node -> postfix_expression DEC_OP;" << std::endl;
+ 			outG << "postfix_expression -> {postfix_expression DEC_OP};" << std::endl;
 
 			if(YFLAG){
 				outY << "postfix_expression : postfix_expression DEC_OP;" << std::endl;
@@ -2426,7 +2413,7 @@ primary_expression /* no code in this production - just passing stuff up */
 			if(YFLAG){
 				outY << "primary_expression : LPAREN expression RPAREN;" << std::endl;
 			}
-			outG << "primary_expression -> LPAREN expression RPAREN;" << std::endl;
+			outG << "primary_expression -> {LPAREN expression RPAREN};" << std::endl;
 		}
 	;
 
@@ -2453,7 +2440,7 @@ argument_expression_list /* used for calling a function with actual parameters *
 			if(YFLAG){
 				outY << "argument_expression_list : argument_expression_list COMMA assignment_expression;" << std::endl;
 			}
-			outG << "argument_expression_list -> argument_expression_list COMMA assignment_expression;" << std::endl;
+			outG << "argument_expression_list -> {argument_expression_list COMMA assignment_expression};" << std::endl;
 		}
 	;
 
@@ -2518,7 +2505,6 @@ identifier
 			// create ast node 
 			$$ = $1;
 			$$->astPtr = new data_Node($1->val, $1->valType);
-			outG << "data_Node -> identifier;" << std::endl;
 			if(YFLAG){
 				outY << "identifier : IDENTIFIER;" << std::endl;
 			}

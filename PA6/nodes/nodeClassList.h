@@ -20,3 +20,5 @@
 #include "expr_Node.h"
 #include "selectionStat_Node.h"
 #include "statList_Node.h"
+#include "declaration_Node.h"
+#include "declList_Node.h"
