@@ -130,6 +130,11 @@ which is a pointer to a node object.
 %type <n> string 
 %type <n> constant
 %type <n> unary_operator
+%type <n> relational_expression
+%type <n> shift_expression
+%type <n> equality_expression
+%type <n> assignment_operator
+%type <n> conditional_expression
 
 /* start of ANSI C grammar and actions */
 %%
@@ -1210,36 +1215,56 @@ assignment_expression
 			if(YFLAG){
 				outY << "assignment_expression : conditional_expression;" << std::endl;
 			}
+
+			// create ast node 
+			$$->astPtr = new assignmentExpr_Node($1->astPtr, NULL, -1);
+			outG << "assignment_expression -> conditional_expression;" << std::endl;
 		}
 	| unary_expression assignment_operator assignment_expression
  		{
 			if(YFLAG){
 				outY << "assignment_expression : unary_expression assignment_operator assignment_expression;" << std::endl;
 			}
+
+			// create ast node 
+			$$->astPtr = new assignmentExpr_Node($1->astPtr, $3->astPtr, $2->val._num);
+			outG << "assignment_expression -> unary_expression assignment_operator assignment_expression;" << std::endl;
 		}
 	;
 
 assignment_operator
 	: ASSIGN
  		{
+ 			$$ = new node(); 
+ 			$$->valType = LONG_LONG_T;
+ 			$$->val._num = ASSIGN; 
 			if(YFLAG){
 				outY << "assignment_operator : ASSIGN;" << std::endl;
 			}
 		}
 	| MUL_ASSIGN
  		{
+ 			$$ = new node(); 
+ 			$$->valType = LONG_LONG_T;
+ 			$$->val._num = MUL_ASSIGN; 
 			if(YFLAG){
 				outY << "assignment_operator : MUL_ASSIGN;" << std::endl;
 			}
 		}
 	| DIV_ASSIGN
  		{
+ 			$$ = new node(); 
+ 			$$->valType = LONG_LONG_T;
+ 			$$->val._num = DIV_ASSIGN; 
 			if(YFLAG){
 				outY << "assignment_operator : DIV_ASSIGN;" << std::endl;
 			}
 		}
 	| MOD_ASSIGN
  		{
+ 			$$ = new node(); 
+ 			$$->valType = LONG_LONG_T;
+ 			$$->val._num = MOD_ASSIGN; 
 			if(YFLAG){
 				outY << "assignment_operator : MOD_ASSIGN;" << std::endl;
 			}
@@ -1393,18 +1418,30 @@ equality_expression
 			if(YFLAG){
 				outY << "equality_expression : relational_expression;" << std::endl;
 			}
+
+			// create ast node
+	 		$$->astPtr = new equalityExpr_Node($1->astPtr, NULL, -1);
+	 		outG << "equality_expression -> relational_expression;" << std::endl;
 		}
 	| equality_expression EQ_OP relational_expression
  		{
 			if(YFLAG){
 				outY << "equality_expression : equality_expression EQ_OP relational_expression;" << std::endl;
 			}
+
+			// create ast node
+	 		$$->astPtr = new equalityExpr_Node($1->astPtr, $3->astPtr, EQ_OP);
+	 		outG << "equality_expression -> equality_expression EQ_OP relational_expression;" << std::endl;
 		}
 	| equality_expression NE_OP relational_expression
  		{
 			if(YFLAG){
 				outY << "equality_expression : equality_expression NE_OP relational_expression;" << std::endl;
 			}
+
+			// create ast node
+	 		$$->astPtr = new equalityExpr_Node($1->astPtr, $3->astPtr, NE_OP);
+	 		outG << "equality_expression -> equality_expression LTHAN relational_expression;" << std::endl;
 		}
 	;
 
@@ -1414,30 +1451,50 @@ relational_expression
 			if(YFLAG){
 				outY << "relational_expression : shift_expression;" << std::endl;
 			}
+
+			// create ast node
+	 		$$->astPtr = new relationalExpr_Node($1->astPtr, NULL, -1);
+	 		outG << "relational_expression -> shift_expression;" << std::endl;
 		}
 	| relational_expression LTHAN shift_expression
  		{
 			if(YFLAG){
 				outY << "relational_expression : relational_expression LTHAN shift_expression;" << std::endl;
 			}
+
+			// create ast node
+	 		$$->astPtr = new relationalExpr_Node($1->astPtr, $3->astPtr, LTHAN);
+	 		outG << "relational_expression -> relational_expression LTHAN shift_expression;" << std::endl;
 		}
 	| relational_expression GTHAN shift_expression
  		{
 			if(YFLAG){
 				outY << "relational_expression : relational_expression GTHAN shift_expression;" << std::endl;
 			}
+
+			// create ast node
+	 		$$->astPtr = new relationalExpr_Node($1->astPtr, $3->astPtr, GTHAN);
+	 		outG << "relational_expression -> relational_expression GTHAN shift_expression;" << std::endl;
 		}
 	| relational_expression LE_OP shift_expression
  		{
 			if(YFLAG){
 				outY << "relational_expression : relational_expression LE_OP shift_expression;" << std::endl;
 			}
+
+			// create ast node
+	 		$$->astPtr = new relationalExpr_Node($1->astPtr, $3->astPtr, LE_OP);
+	 		outG << "relational_expression -> relational_expression LE_OP shift_expression;" << std::endl;
 		}
 	| relational_expression GE_OP shift_expression
  		{
 			if(YFLAG){
 				outY << "relational_expression : relational_expression GE_OP shift_expression;" << std::endl;
 			}
+
+			// create ast node
+	 		$$->astPtr = new relationalExpr_Node($1->astPtr, $3->astPtr, GE_OP);
+	 		outG << "relational_expression -> relational_expression GE_OP shift_expression;" << std::endl;
 		}
 	;
 
