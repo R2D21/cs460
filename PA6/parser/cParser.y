@@ -140,6 +140,11 @@ which is a pointer to a node object.
 %type <n> statement
 %type <n> selection_statement
 %type <n> statement_list
+%type <n> declaration_list
+%type <n> compound_statement
+%type <n> initializer_list
+%type <n> type_qualifier_list
+%type <n> type_qualifier
 
 /* start of ANSI C grammar and actions */
 %%
@@ -717,12 +722,20 @@ type_qualifier_list
 			if(YFLAG){
 				outY << "type_qualifier_list : type_qualifier;" << std::endl;
 			}
+
+			// create ast node
+			$$->astPtr = new typeQualifierList_Node($1->astPtr, NULL);
+			outG << "type_qualifier_list -> type_qualifier;" << std::endl;
 		}
 	| type_qualifier_list type_qualifier
  		{
 			if(YFLAG){
 				outY << "type_qualifier_list : type_qualifier_list type_qualifier;" << std::endl;
 			}
+
+			// create ast node
+			$$->astPtr = new typeQualifierList_Node($1->astPtr, $2->astPtr);
+			outG << "type_qualifier_list -> type_qualifier_list type_qualifier;" << std::endl;
 		}	
 	;
 
@@ -803,18 +816,31 @@ initializer
 			if(YFLAG){
 				outY << "initializer : assignment_expression;" << std::endl;
 			}
+
+			// create ast node
+			$$->astPtr = new initializer_Node($1->astPtr);
+			outG << "initializer -> assignment_expression;" << std::endl;
+
 		}
 	| LCURL initializer_list RCURL
  		{
 			if(YFLAG){
 				outY << "initializer : LCURL initializer_list RCURL;" << std::endl;
 			}
+
+			// create ast node
+			$$->astPtr = new initializer_Node($2->astPtr);
+			outG << "initializer -> LCURL initializer_list RCURL;" << std::endl;
 		}
 	| LCURL initializer_list COMMA RCURL
  		{
 			if(YFLAG){
 				outY << "initializer : LCURL initializer_list COMMA RCURL;" << std::endl;
 			}
+
+			// create ast node
+			$$->astPtr = new initializer_Node($2->astPtr);
+			outG << "initializer -> LCURL initializer_list COMMA RCURL;" << std::endl;
 		}
 	;
 
@@ -1008,24 +1034,40 @@ compound_statement
 			if(YFLAG){
 				outY << "compound_statement : LCURL RCURL;" << std::endl;
 			}
+
+			// create ast node
+			$$->astPtr = new compoundStat_Node(NULL, NULL);
+			outG << "compound_statement -> LCURL RCURL;" << std::endl;
 		}						
 	| LCURL open_curl set_lookup statement_list RCURL close_curl
  		{
  			if(YFLAG){
 				outY << "compound_statement : LCURL statement_list RCURL;" << std::endl;
 			}
+
+			// create ast node
+			$$->astPtr = new compoundStat_Node(NULL, $4->astPtr);
+			outG << "compound_statement -> LCURL statement_list RCURL;" << std::endl;
 		}					
 	| LCURL set_insert_push declaration_list RCURL set_lookup_pop	
  		{
-
  			if(YFLAG){
 				outY << "compound_statement : LCURL declaration_list RCURL;" << std::endl;
 			}
+
+			// create ast node
+			$$->astPtr = new compoundStat_Node($3->astPtr, NULL);
+			outG << "compound_statement -> LCURL declaration_list RCURL;" << std::endl;
 		}				
-	| LCURL set_insert_push declaration_list set_lookup statement_list RCURL set_lookup_pop {
-		  if(YFLAG){
+	| LCURL set_insert_push declaration_list set_lookup statement_list RCURL set_lookup_pop 
+		{
+			if(YFLAG){
 				outY << "compound_statement : LCURL declaration_list statement_list RCURL;" << std::endl;
-	      }
+		    }   
+
+		    // create ast node
+			$$->astPtr = new compoundStat_Node($3->astPtr, $5->astPtr);
+			outG << "compound_statement -> LCURL declaration_list statement_list RCURL;" << std::endl;
 	    } 
 	;
 
