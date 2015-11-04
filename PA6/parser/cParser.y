@@ -157,6 +157,8 @@ which is a pointer to a node object.
 %type <n> storage_class_specifier
 %type <n> type_specifier
 %type <n> declaration_specifiers
+%type <n> declaration
+%type <n> init_declarator_list
 
 /* start of ANSI C grammar and actions */
 %%
@@ -250,6 +252,8 @@ declaration
 			if(YFLAG){
 				outY << "declaration : declaration_specifiers SEMI;" << std::endl;
 			}
+
+			$$->astPtr = new declaration_Node($1->astPtr, NULL);
 			outG << "declaration -> declaration_specifiers SEMI;" << std::endl;
 		}
 	| declaration_specifiers init_declarator_list SEMI
@@ -257,6 +261,9 @@ declaration
 			if(YFLAG){
 				outY << "declaration : declaration_specifiers init_declarator_list SEMI;" << std::endl;
 			}
+
+			// create ast node
+			$$->astPtr = new declaration_Node($1->astPtr, $2->astPtr);
 			outG << "declaration -> declaration_specifiers init_declarator_list SEMI;" << std::endl;
 		}
 	;
@@ -1310,12 +1317,24 @@ compound_statement
 				outY << "compound_statement : LCURL declaration_list statement_list RCURL;" << std::endl;
 		    }   
 
+			std::cout << "before allocation" << std::endl;
+
+		    if ($3 == NULL) {
+		    	std::cout << "$3 is NULL?" << std::endl;
+		    }
+
+		    if ($5 == NULL) {
+		    	std::cout << "$5 is NULL?" << std::endl; 
+		    }
+
+		    
 		    std::cout << "before allocation" << std::endl;
-		    $3 = new node();
-		    $5 = new node();  
+		    //$3 = new node();
+		    //$5 = new node();  
 		    $3->astPtr = new astNode();
-		    $5->astPtr = new astNode(); 
+		    //$5->astPtr = new astNode(); 
 		    std::cout << "after allocation" << std::endl; 
+		    
 
 		    // create ast node
 			$$->astPtr = new compoundStat_Node($3->astPtr, $5->astPtr);
