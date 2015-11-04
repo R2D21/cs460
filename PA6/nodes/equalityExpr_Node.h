@@ -23,7 +23,7 @@ This is the header file for the additive expression AST node class of our C comp
 class equalityExpr_Node : public astNode {
     public:
         // constructors
-        equalityExpr_Node(astNode* = NULL, astNode* = NULL);
+        equalityExpr_Node(astNode* = NULL, astNode* = NULL, int = -1);
 
         // class functions 
 	
@@ -36,6 +36,7 @@ class equalityExpr_Node : public astNode {
     private:
         astNode* exprA;
         astNode* exprB;
+        int type; 
 
 };
 

@@ -15,10 +15,11 @@ Function: relationalExpr_Node(astNode* A, astNode* B) (constructor)
 
 Description: 
 */
-relationalExpr_Node::relationalExpr_Node(astNode* A, astNode* B) : astNode(){
+relationalExpr_Node::relationalExpr_Node(astNode* A, astNode* B, int t) : astNode(){
 
 	exprA = A;
 	exprB = B;
+	type = t;
 }
 
 /*

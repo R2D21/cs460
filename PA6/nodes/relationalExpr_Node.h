@@ -23,7 +23,7 @@ This is the header file for the postfix expression AST node class of our C compi
 class relationalExpr_Node : public astNode {
     public:
         // constructors
-        relationalExpr_Node(astNode* = NULL, astNode* = NULL);
+        relationalExpr_Node(astNode* = NULL, astNode* = NULL, int = -1);
 
         // class functions 
 
@@ -36,6 +36,7 @@ class relationalExpr_Node : public astNode {
     private:
         astNode* exprA;
         astNode* exprB;
+        int type; 
 
 };
 

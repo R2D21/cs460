@@ -23,7 +23,7 @@ This is the header file for the mutl expression AST node class of our C compiler
 class multExpr_Node : public astNode {
     public:
         // constructors
-        multExpr_Node(astNode* = NULL, astNode* = NULL);
+        multExpr_Node(astNode* = NULL, astNode* = NULL, int = -1);
 
         // class functions 
 	
@@ -36,6 +36,7 @@ class multExpr_Node : public astNode {
     private:
         astNode* exprA;
         astNode* exprB;
+        int type; 
 
 };
 

@@ -16,7 +16,6 @@ Function: dataNode() (constructor)
 Description: 
 */
 data_Node::data_Node(const vals& d, int dt) : astNode(){
-
 	data = d;
 	dataType = dt;
 }

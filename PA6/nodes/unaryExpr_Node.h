@@ -23,7 +23,7 @@ This is the header file for the unary expression AST node class of our C compile
 class unaryExpr_Node : public astNode {
     public:
         // constructors
-        unaryExpr_Node(astNode* = NULL, astNode* = NULL);
+        unaryExpr_Node(astNode* = NULL, astNode* = NULL, bool = false, bool = false);
 
         // class functions 
 
@@ -36,6 +36,8 @@ class unaryExpr_Node : public astNode {
     private:
         astNode* exprA;
         astNode* exprB;
+        bool incOp;
+        bool decOp; 
 
 };
 

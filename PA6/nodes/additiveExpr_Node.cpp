@@ -15,10 +15,11 @@ Function: additiveExpr_Node(astNode* A, astNode* B) (constructor)
 
 Description: 
 */
-additiveExpr_Node::additiveExpr_Node(astNode* A, astNode* B) : astNode(){
+additiveExpr_Node::additiveExpr_Node(astNode* A, astNode* B, int t) : astNode(){
 
 	exprA = A;
 	exprB = B;
+	type = t;
 }
 
 /*

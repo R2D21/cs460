@@ -15,10 +15,11 @@ Function: equalityExpr_Node(astNode* A, astNode* B) (constructor)
 
 Description: 
 */
-equalityExpr_Node::equalityExpr_Node(astNode* A, astNode* B) : astNode(){
+equalityExpr_Node::equalityExpr_Node(astNode* A, astNode* B, int t) : astNode(){
 
 	exprA = A;
 	exprB = B;
+	type = t; 
 }
 
 /*

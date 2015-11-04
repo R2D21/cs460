@@ -15,10 +15,11 @@ Function: unaryExpr_Node(astNode* A, astNode* B) (constructor)
 
 Description: 
 */
-unaryExpr_Node::unaryExpr_Node(astNode* A, astNode* B) : astNode(){
-
+unaryExpr_Node::unaryExpr_Node(astNode* A, astNode* B, bool inc, bool dec) : astNode(){
 	exprA = A;
 	exprB = B;
+	incOp = inc;
+	decOp = dec; 
 }
 
 /*

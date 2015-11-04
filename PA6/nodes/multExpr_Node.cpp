@@ -15,10 +15,11 @@ Function: multExpr_Node(astNode* A, astNode* B) (constructor)
 
 Description: 
 */
-multExpr_Node::multExpr_Node(astNode* A, astNode* B) : astNode(){
+multExpr_Node::multExpr_Node(astNode* A, astNode* B, int t) : astNode(){
 
 	exprA = A;
 	exprB = B;
+	type = t; 
 }
 
 /*
