@@ -196,14 +196,14 @@ external_declaration
 			if(YFLAG){
 				outY << "external_declaration : function_definition;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "external_declaration -> function_definition;" << std::endl;
 		}
 	| declaration
 		{
 			if(YFLAG){
 				outY << "external_declaration : declaration;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "external_declaration -> declaration;" << std::endl;
 		}
 	;
 
@@ -216,28 +216,28 @@ function_definition
 			if(YFLAG){
 				outY << "function_definition : declarator compound_statement;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "function_definition -> declarator compound_statement;" << std::endl;
 		}
 	| declarator declaration_list compound_statement
 		{
 			if(YFLAG){
 				outY << "function_definition : declarator declaration_list compound_statement;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "function_definition -> declarator declaration_list compound_statement;" << std::endl;
 		}
 	| declaration_specifiers declarator compound_statement
 		{
 			if(YFLAG){
 				outY << "function_definition : declaration_specifiers declarator compound_statement;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "function_definition -> declaration_specifiers declarator compound_statement;" << std::endl;
 		}
 	| declaration_specifiers declarator declaration_list compound_statement
 		{
 			if(YFLAG){
 				outY << "function_definition : declaration_specifiers declarator declaration_list compound_statement;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "function_definition -> declaration_specifiers declarator declaration_list compound_statement;" << std::endl;
 		}
 	;
 
@@ -250,14 +250,14 @@ declaration
 			if(YFLAG){
 				outY << "declaration : declaration_specifiers SEMI;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "declaration -> declaration_specifiers SEMI;" << std::endl;
 		}
 	| declaration_specifiers init_declarator_list SEMI
 		{
 			if(YFLAG){
 				outY << "declaration : declaration_specifiers init_declarator_list SEMI;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "declaration -> declaration_specifiers init_declarator_list SEMI;" << std::endl;
 		}
 	;
 
@@ -267,14 +267,14 @@ declaration_list
 			if(YFLAG){
 				outY << "declaration_list : declaration;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "declaration_list -> declaration;" << std::endl;
 		}
 	| declaration_list set_insert declaration set_lookup
 		{
 			if(YFLAG){
 				outY << "declaration_list : declaration_list declaration;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "declaration_list -> declaration_list declaration;" << std::endl;
 		}
 	;
 
@@ -350,7 +350,7 @@ storage_class_specifier
 			if(YFLAG){
 				outY << "storage_class_specifier : AUTO;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "storage_class_specifier -> AUTO;" << std::endl;
 		}
 	| REGISTER
 		{
@@ -360,7 +360,7 @@ storage_class_specifier
 			if(YFLAG){
 				outY << "storage_class_specifier : REGISTER;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "storage_class_specifier -> REGISTER;" << std::endl;
 		}
 	| STATIC
 		{
@@ -370,7 +370,7 @@ storage_class_specifier
 			if(YFLAG){
 				outY << "storage_class_specifier : STATIC;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "storage_class_specifier -> STATIC;" << std::endl;
 		}
 	| EXTERN
 		{
@@ -380,7 +380,7 @@ storage_class_specifier
 			if(YFLAG){
 				outY << "storage_class_specifier : EXTERN;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "storage_class_specifier -> EXTERN;" << std::endl;
 		}
 	| TYPEDEF
 		{
@@ -390,7 +390,7 @@ storage_class_specifier
 			if(YFLAG){
 				outY << "storage_class_specifier : TYPEDEF;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "storage_class_specifier -> TYPEDEF;" << std::endl;
 		}
 	;
 
@@ -403,7 +403,7 @@ type_specifier
 			if(YFLAG){
 				outY << "type_specifier : VOID;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "type_specifier -> VOID;" << std::endl;
 		}
 	| CHAR
 		{
@@ -413,7 +413,7 @@ type_specifier
 			if(YFLAG){
 				outY << "type_specifier : CHAR;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "type_specifier -> CHAR;" << std::endl;
 		}
 	| SHORT
 		{
@@ -423,7 +423,7 @@ type_specifier
 			if(YFLAG){
 				outY << "type_specifier : SHORT;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "type_specifier -> SHORT;" << std::endl;
 		}
 	| INT
 		{
@@ -433,7 +433,7 @@ type_specifier
 			if(YFLAG){
 				outY << "type_specifier : INT;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "type_specifier -> INT;" << std::endl;
 		}
 	| LONG
 		{
@@ -443,7 +443,7 @@ type_specifier
 			if(YFLAG){
 				outY << "type_specifier : LONG;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "type_specifier -> LONG;" << std::endl;
 		}
 	| FLOAT
  		{
@@ -453,7 +453,7 @@ type_specifier
 			if(YFLAG){
 				outY << "type_specifier : FLOAT;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "type_specifier -> FLOAT;" << std::endl;
 		}
 	| DOUBLE
  		{
@@ -463,7 +463,7 @@ type_specifier
 			if(YFLAG){
 				outY << "type_specifier : DOUBLE;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "type_specifier -> DOUBLE;" << std::endl;
 		}
 	| SIGNED
  		{
@@ -473,7 +473,7 @@ type_specifier
 			if(YFLAG){
 				outY << "type_specifier : SIGNED;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "type_specifier -> SIGNED;" << std::endl;
 		}
 	| UNSIGNED
  		{
@@ -483,7 +483,7 @@ type_specifier
 			if(YFLAG){
 				outY << "type_specifier : UNSIGNED;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "type_specifier -> UNSIGNED;" << std::endl;
 		}
 	| struct_or_union_specifier
  		{
@@ -491,7 +491,7 @@ type_specifier
 			if(YFLAG){
 				outY << "type_specifier : struct_or_union_specifier;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "type_specifier -> struct_or_union_specifier;" << std::endl;
 		}
 	| enum_specifier
  		{
@@ -499,7 +499,7 @@ type_specifier
 			if(YFLAG){
 				outY << "type_specifier : enum_specifier;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "type_specifier -> enum_specifier;" << std::endl;
 		}
 	| TYPEDEF_NAME
  		{
@@ -507,7 +507,7 @@ type_specifier
 			if(YFLAG){
 				outY << "type_specifier : TYPEDEF_NAME;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "type_specifier -> TYPEDEF_NAME;" << std::endl;
 		}
 	;
 
@@ -520,7 +520,7 @@ type_qualifier
 			if(YFLAG){
 				outY << "type_qualifier : CONST;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "translation_unit -> CONST;" << std::endl;
 		}
 	| VOLATILE
  		{
@@ -530,7 +530,7 @@ type_qualifier
 			if(YFLAG){
 				outY << "type_qualifier : VOLATILE;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "translation_unit -> VOLATILE;" << std::endl;
 		}
 	;
 
@@ -540,21 +540,21 @@ struct_or_union_specifier
 			if(YFLAG){
 				outY << "struct_or_union_specifier : struct_or_union identifier LCURL struct_declaration_list RCURL;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "struct_or_union_specifier -> struct_or_union identifier LCURL struct_declaration_list RCURL;" << std::endl;
 		}
 	| struct_or_union LCURL struct_declaration_list RCURL
  		{
 			if(YFLAG){
 				outY << "struct_or_union_specifier : struct_or_union LCURL struct_declaration_list RCURL;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "struct_or_union_specifier -> struct_or_union LCURL struct_declaration_list RCURL;" << std::endl;
 		}
 	| struct_or_union identifier
  		{
 			if(YFLAG){
 				outY << "struct_or_union_specifier : struct_or_union identifier;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "struct_or_union_specifier -> struct_or_union identifier;" << std::endl;
 		}
 	;
 
@@ -564,14 +564,14 @@ struct_or_union
 			if(YFLAG){
 				outY << "struct_or_union : STRUCT;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "struct_or_union -> STRUCT;" << std::endl;
 		}
 	| UNION
  		{
 			if(YFLAG){
 				outY << "struct_or_union : UNION;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "struct_or_union -> UNION;" << std::endl;
 		}
 	;
 
@@ -581,14 +581,14 @@ struct_declaration_list
 			if(YFLAG){
 				outY << "struct_declaration_list : struct_declaration;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "struct_declaration_list -> struct_declaration;" << std::endl;
 		}
 	| struct_declaration_list struct_declaration
  		{
 			if(YFLAG){
 				outY << "struct_declaration_list : struct_declaration_list struct_declaration;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "struct_declaration_list -> struct_declaration_list struct_declaration;;" << std::endl;
 		}
 	;
 
@@ -598,14 +598,14 @@ init_declarator_list
 			if(YFLAG){
 				outY << "init_declarator_list : init_declarator;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "init_declarator_list -> init_declarator;" << std::endl;
 		}
 	| init_declarator_list COMMA init_declarator
  		{
 			if(YFLAG){
 				outY << "init_declarator_list : init_declarator_list COMMA init_declarator;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "init_declarator_list -> init_declarator_list COMMA init_declarator;" << std::endl;
 		}
 	;
 
@@ -643,7 +643,7 @@ struct_declaration
 			if(YFLAG){
 				outY << "struct_declaration : specifier_qualifier_list struct_declarator_list SEMI;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "struct_declaration -> specifier_qualifier_list struct_declarator_list SEMI;" << std::endl;
 		}
 	;
 
@@ -653,28 +653,28 @@ specifier_qualifier_list
 			if(YFLAG){
 				outY << "specifier_qualifier_list : type_specifier;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "specifier_qualifier_list -> type_specifier;" << std::endl;
 		}
 	| type_specifier specifier_qualifier_list
  		{
 			if(YFLAG){
 				outY << "specifier_qualifier_list : type_specifier specifier_qualifier_list;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "specifier_qualifier_list -> type_specifier specifier_qualifier_list;" << std::endl;
 		}
 	| type_qualifier
  		{
 			if(YFLAG){
 				outY << "specifier_qualifier_list : type_qualifier;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "specifier_qualifier_list -> type_qualifier;" << std::endl;
 		}
 	| type_qualifier specifier_qualifier_list
  		{
 			if(YFLAG){
 				outY << "specifier_qualifier_list : type_qualifier specifier_qualifier_list;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "specifier_qualifier_list -> type_qualifier specifier_qualifier_list;" << std::endl;
 		}
 	;
 
@@ -684,14 +684,14 @@ struct_declarator_list
 			if(YFLAG){
 				outY << "struct_declarator_list : struct_declarator;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "struct_declarator_list -> struct_declarator;" << std::endl;
 		}
 	| struct_declarator_list COMMA struct_declarator
  		{
 			if(YFLAG){
 				outY << "struct_declarator_list : struct_declarator_list COMMA struct_declarator;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "struct_declarator_list -> struct_declarator_list COMMA struct_declarator;" << std::endl;
 		}
 	;
 
@@ -701,21 +701,21 @@ struct_declarator
 			if(YFLAG){
 				outY << "struct_declarator : declarator;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "struct_declarator -> declarator;" << std::endl;
 		}
 	| COLON constant_expression
  		{
 			if(YFLAG){
 				outY << "struct_declarator : COLON constant_expression;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "struct_declarator -> COLON constant_expression;" << std::endl;
 		}
 	| declarator COLON constant_expression
  		{
 			if(YFLAG){
 				outY << "struct_declarator : declarator COLON constant_expression;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "struct_declarator -> declarator COLON constant_expression;" << std::endl;
 		}
 	;
 
@@ -725,21 +725,21 @@ enum_specifier
 			if(YFLAG){
 				outY << "enum_specifier : ENUM LCURL enumerator_list RCURL;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "enum_specifier -> ENUM LCURL enumerator_list RCURL;" << std::endl;
 		}
 	| ENUM identifier LCURL enumerator_list RCURL
  		{
 			if(YFLAG){
 				outY << "enum_specifier : ENUM identifier LCURL enumerator_list RCURL;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "enum_specifier -> ENUM identifier LCURL enumerator_list RCURL;" << std::endl;
 		}
 	| ENUM identifier
  		{
 			if(YFLAG){
 				outY << "enum_specifier : ENUM identifier;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "enum_specifier -> ENUM identifier;" << std::endl;
 		}
 	;
 
@@ -749,14 +749,14 @@ enumerator_list
 			if(YFLAG){
 				outY << "enumerator_list : enumerator;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "enumerator_list -> enumerator;" << std::endl;
 		}
 	| enumerator_list COMMA enumerator
  		{
 			if(YFLAG){
 				outY << "enumerator_list : enumerator_list COMMA enumerator;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "enumerator_list -> enumerator_list COMMA enumerator;" << std::endl;
 		}
 	;
 
@@ -766,14 +766,14 @@ enumerator
 			if(YFLAG){
 				outY << "enumerator : identifier;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "enumerator -> identifier;" << std::endl;
 		}
 	| identifier ASSIGN constant_expression
  		{
 			if(YFLAG){
 				outY << "enumerator : identifier ASSIGN constant_expression;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "enumerator -> identifier ASSIGN constant_expression;" << std::endl;
 		}
 	;
 
@@ -954,14 +954,14 @@ parameter_type_list
 			if(YFLAG){
 				outY << "parameter_type_list : parameter_list;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "parameter_type_list -> parameter_list;" << std::endl;
 		}	
 	| parameter_list COMMA ELIPSIS
  		{
 			if(YFLAG){
 				outY << "parameter_type_list : parameter_list COMMA ELIPSIS;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "parameter_type_list -> parameter_list COMMA ELIPSIS;" << std::endl;
 		}	
 	;
 
@@ -971,14 +971,14 @@ parameter_list
  			if(YFLAG){
 				outY << "parameter_list : parameter_declaration;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "parameter_list -> parameter_declaration;" << std::endl;
 		}	
 	| parameter_list COMMA parameter_declaration
  		{
 			if(YFLAG){
 				outY << "parameter_list : parameter_list COMMA parameter_declaration;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "parameter_list -> parameter_list COMMA parameter_declaration;" << std::endl;
 		}	
 	;
 
@@ -992,21 +992,21 @@ parameter_declaration
 			if(YFLAG){
 				outY << "parameter_declaration : declaration_specifiers declarator;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "parameter_declaration -> declaration_specifiers declarator;" << std::endl;
 		}
 	| declaration_specifiers
  		{
 			if(YFLAG){
 				outY << "parameter_declaration : declaration_specifiers;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "parameter_declaration -> declaration_specifiers;" << std::endl;
 		}
 	| declaration_specifiers abstract_declarator
  		{
 			if(YFLAG){
 				outY << "parameter_declaration : declaration_specifiers abstract_declarator;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "parameter_declaration -> declaration_specifiers abstract_declarator;" << std::endl;
 		}
 	;
 
@@ -1017,14 +1017,14 @@ identifier_list
 			if(YFLAG){
 				outY << "identifier_list : identifier;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "identifier_list -> identifier;" << std::endl;
 		}
 	| identifier_list COMMA identifier
  		{
 			if(YFLAG){
 				outY << "identifier_list : identifier_list COMMA identifier;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "identifier_list -> identifier_list COMMA identifier;" << std::endl;
 		}
 	;
 
@@ -1068,14 +1068,14 @@ initializer_list
 			if(YFLAG){
 				outY << "initializer_list : initializer;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "initializer_list -> initializer;" << std::endl;
 		}
 	| initializer_list COMMA initializer
  		{
 			if(YFLAG){
 				outY << "initializer_list : initializer_list COMMA initializer;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "initializer_list -> initializer_list COMMA initializer;" << std::endl;
 		}
 	;
 
@@ -1085,14 +1085,14 @@ type_name
 			if(YFLAG){
 				outY << "type_name : specifier_qualifier_list;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "type_name -> specifier_qualifier_list;" << std::endl;
 		}
 	| specifier_qualifier_list abstract_declarator
  		{
 			if(YFLAG){
 				outY << "type_name : specifier_qualifier_list abstract_declarator;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "type_name -> specifier_qualifier_list abstract_declarator;" << std::endl;
 		}
 	;
 
@@ -1102,21 +1102,21 @@ abstract_declarator
 			if(YFLAG){
 				outY << "abstract_declarator : pointer;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "abstract_declarator -> pointer;" << std::endl;
 		}
 	| direct_abstract_declarator
  		{
 			if(YFLAG){
 				outY << "abstract_declarator : direct_abstract_declarator;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "abstract_declarator -> direct_abstract_declarator;" << std::endl;
 		}
 	| pointer direct_abstract_declarator
  		{
 			if(YFLAG){
 				outY << "abstract_declarator : pointer direct_abstract_declarator;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "abstract_declarator -> pointer direct_abstract_declarator;" << std::endl;
 		}
 	;
 
@@ -1126,7 +1126,7 @@ direct_abstract_declarator
 			if(YFLAG){
 				outY << "direct_abstract_declarator : LPAREN abstract_declarator RPAREN;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "direct_abstract_declarator -> LPAREN abstract_declarator RPAREN;" << std::endl;
 		}
 	;
 	| LBRACK RBRACK
@@ -1134,56 +1134,56 @@ direct_abstract_declarator
 			if(YFLAG){
 				outY << "direct_abstract_declarator : LBRACK RBRACK;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "direct_abstract_declarator -> LBRACK RBRACK;" << std::endl;
 		}
 	| LBRACK constant_expression RBRACK
  		{
 			if(YFLAG){
 				outY << "direct_abstract_declarator : LBRACK constant_expression RBRACK;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "direct_abstract_declarator -> LBRACK constant_expression RBRACK;" << std::endl;
 		}
 	| direct_abstract_declarator LBRACK RBRACK
  		{
 			if(YFLAG){
 				outY << "direct_abstract_declarator : direct_abstract_declarator LBRACK RBRACK;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "direct_abstract_declarator -> direct_abstract_declarator LBRACK RBRACK;" << std::endl;
 		}
 	| direct_abstract_declarator LBRACK constant_expression RBRACK
  		{
 			if(YFLAG){
 				outY << "direct_abstract_declarator : direct_abstract_declarator LBRACK constant_expression;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "direct_abstract_declarator -> direct_abstract_declarator LBRACK constant_expression;" << std::endl;
 		}
 	| LPAREN RPAREN
  		{
 			if(YFLAG){
 				outY << "direct_abstract_declarator : LPAREN RPAREN;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "direct_abstract_declarator -> LPAREN RPAREN;" << std::endl;
 		}
 	| LPAREN parameter_type_list RPAREN
  		{
 			if(YFLAG){
 				outY << "direct_abstract_declarator : LPAREN parameter_type_list RPAREN;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "direct_abstract_declarator -> LPAREN parameter_type_list RPAREN;" << std::endl;
 		}
 	| direct_abstract_declarator LPAREN RPAREN
  		{
 			if(YFLAG){
 				outY << "direct_abstract_declarator : direct_abstract_declarator LPAREN RPAREN;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "direct_abstract_declarator -> direct_abstract_declarator LPAREN RPAREN;" << std::endl;
 		}
 	| direct_abstract_declarator LPAREN parameter_type_list RPAREN
  		{
 			if(YFLAG){
 				outY << "direct_abstract_declarator : direct_abstract_declarator LPAREN parameter_type_list RPAREN;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "direct_abstract_declarator -> direct_abstract_declarator LPAREN parameter_type_list RPAREN;" << std::endl;
 		}
 	;
 
@@ -1193,42 +1193,42 @@ statement
 			if(YFLAG){
 				outY << "statement : labeled_statement;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "statement -> labeled_statement;" << std::endl;
 		}
 	| compound_statement
  		{
 			if(YFLAG){
 				outY << "statement : compound_statement;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "statement -> compound_statement;" << std::endl;
 		}
 	| expression_statement
  		{
 			if(YFLAG){
 				outY << "statement : expression_statement;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "statement -> expression_statement;" << std::endl;
 		}
 	| selection_statement
  		{
 			if(YFLAG){
 				outY << "statement : selection_statement;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "statement -> selection_statement;" << std::endl;
 		}
 	| iteration_statement
  		{
 			if(YFLAG){
 				outY << "statement : iteration_statement;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "statement -> iteration_statement;" << std::endl;
 		}
 	| jump_statement
  		{
 			if(YFLAG){
 				outY << "statement : jump_statement;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "statement -> jump_statement;" << std::endl;
 		}
 	;
 
@@ -1238,21 +1238,21 @@ labeled_statement
 			if(YFLAG){
 				outY << "labeled_statement : identifier COLON statement;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "labeled_statement -> identifier COLON statement;" << std::endl;
 		}
 	| CASE constant_expression COLON statement
  		{
 			if(YFLAG){
 				outY << "labeled_statement : CASE constant_expression COLON statement;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "labeled_statement -> CASE constant_expression COLON statement;" << std::endl;
 		}
 	| DEFAULT COLON statement
  		{
 			if(YFLAG){
 				outY << "labeled_statement : DEFAULT COLON statement;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "labeled_statement -> DEFAULT COLON statemen;" << std::endl;
 		}
 	;
 
@@ -1262,14 +1262,14 @@ expression_statement
 			if(YFLAG){
 				outY << "expression_statement : SEMI;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "expression_statement -> SEMI;" << std::endl;
 		}
 	| expression SEMI
  		{
 			if(YFLAG){
 				outY << "expression_statement : expression SEMI;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "expression_statement -> expression SEMI;" << std::endl;
 		}
 	;
 
@@ -1526,35 +1526,35 @@ jump_statement
 			if(YFLAG){
 				outY << "jump_statement : GOTO identifier SEMI;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "jump_statement -> GOTO identifier SEMI;" << std::endl;
 		}
 	| CONTINUE SEMI
  		{
 			if(YFLAG){
 				outY << "jump_statement : CONTINUE SEMI;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "jump_statement -> CONTINUE SEMI;" << std::endl;
 		}
 	| BREAK SEMI
  		{
 			if(YFLAG){
 				outY << "jump_statement : BREAK SEMI;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "jump_statement -> BREAK SEMI;" << std::endl;
 		}
 	| RETURN SEMI
  		{
 			if(YFLAG){
 				outY << "jump_statement : RETURN SEMI;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "jump_statement -> RETURN SEMI;" << std::endl;
 		}
 	| RETURN expression SEMI
  		{
 			if(YFLAG){
 				outY << "jump_statement : RETURN expression SEMI;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "jump_statement -> RETURN expression SEMI;" << std::endl;
 		}
 	;
 
@@ -1613,7 +1613,7 @@ assignment_operator
 			if(YFLAG){
 				outY << "assignment_operator : ASSIGN;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "assignment_operator -> ASSIGN;" << std::endl;
 		}
 	| MUL_ASSIGN
  		{
@@ -1623,7 +1623,7 @@ assignment_operator
 			if(YFLAG){
 				outY << "assignment_operator : MUL_ASSIGN;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "assignment_operator -> MUL_ASSIGN;" << std::endl;
 		}
 	| DIV_ASSIGN
  		{
@@ -1633,7 +1633,7 @@ assignment_operator
 			if(YFLAG){
 				outY << "assignment_operator : DIV_ASSIGN;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "assignment_operator -> DIV_ASSIGN;" << std::endl;
 		}
 	| MOD_ASSIGN
  		{
@@ -1643,56 +1643,56 @@ assignment_operator
 			if(YFLAG){
 				outY << "assignment_operator : MOD_ASSIGN;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "assignment_operator -> MOD_ASSIGN;" << std::endl;
 		}
 	| ADD_ASSIGN
  		{
 			if(YFLAG){
 				outY << "assignment_operator : ADD_ASSIGN;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "assignment_operator -> ADD_ASSIGN;" << std::endl;
 		}
 	| SUB_ASSIGN
  		{
 			if(YFLAG){
 				outY << "assignment_operator : SUB_ASSIGN;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "assignment_operator -> SUB_ASSIGN;" << std::endl;
 		}
 	| LEFT_ASSIGN
  		{
 			if(YFLAG){
 				outY << "assignment_operator : LEFT_ASSIGN;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "assignment_operator -> LEFT_ASSIGN;" << std::endl;
 		}
 	| RIGHT_ASSIGN
  		{
 			if(YFLAG){
 				outY << "assignment_operator : RIGHT_ASSIGN;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "assignment_operator -> RIGHT_ASSIGN;" << std::endl;
 		}
 	| AND_ASSIGN
  		{
 			if(YFLAG){
 				outY << "assignment_operator : AND_ASSIGN;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "assignment_operator -> AND_ASSIGN;" << std::endl;
 		}
 	| XOR_ASSIGN
  		{
 			if(YFLAG){
 				outY << "assignment_operator : XOR_ASSIGN;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "assignment_operator -> XOR_ASSIGN;" << std::endl;
 		}
 	| OR_ASSIGN
  		{
 			if(YFLAG){
 				outY << "assignment_operator : OR_ASSIGN;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "assignment_operator -> OR_ASSIGN;" << std::endl;
 		}
 	;
 
@@ -1702,14 +1702,14 @@ conditional_expression
 			if(YFLAG){
 				outY << "conditional_expression : logical_or_expression;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "conditional_expression -> logical_or_expression;" << std::endl;
 		}
 	| logical_or_expression QUESTION expression COLON conditional_expression
  		{
 			if(YFLAG){
 				outY << "conditional_expression : logical_or_expression QUESTION expression COLON conditional_expression;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "conditional_expression -> logical_or_expression QUESTION expression COLON conditional_expression;" << std::endl;
 		}
 	;
 
@@ -1719,7 +1719,7 @@ constant_expression
 			if(YFLAG){
 				outY << "constant_expression : conditional_expression;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "constant_expression -> conditional_expression;" << std::endl;
 		}
 	;
 
@@ -1729,14 +1729,14 @@ logical_or_expression
 			if(YFLAG){
 				outY << "logical_or_expression : logical_and_expression;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "logical_or_expression -> logical_and_expression;" << std::endl;
 		}
 	| logical_or_expression OR_OP logical_and_expression
  		{
 			if(YFLAG){
 				outY << "logical_or_expression : logical_or_expression OR_OP logical_and_expression;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "logical_or_expression -> logical_or_expression OR_OP logical_and_expression;" << std::endl;
 		}
 	;
 
@@ -1746,14 +1746,14 @@ logical_and_expression
 			if(YFLAG){
 				outY << "logical_and_expression : inclusive_or_expression;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "logical_and_expression -> inclusive_or_expression;" << std::endl;
 		}
 	| logical_and_expression AND_OP inclusive_or_expression
  		{
 			if(YFLAG){
 				outY << "logical_and_expression : logical_and_expression AND_OP inclusive_or_expression;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "logical_and_expression -> logical_and_expression AND_OP inclusive_or_expression;" << std::endl;
 		}
 	;
 
@@ -1763,14 +1763,14 @@ inclusive_or_expression
 			if(YFLAG){
 				outY << "inclusive_or_expression : exclusive_or_expression;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "inclusive_or_expression -> exclusive_or_expression;" << std::endl;
 		}
 	| inclusive_or_expression PIPE exclusive_or_expression
  		{
 			if(YFLAG){
 				outY << "inclusive_or_expression : inclusive_or_expression PIPE exclusive_or_expression;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "inclusive_or_expression -> inclusive_or_expression PIPE exclusive_or_expression;" << std::endl;
 		}
 	;
 
@@ -1780,14 +1780,14 @@ exclusive_or_expression
 			if(YFLAG){
 				outY << "exclusive_or_expression : and_expression;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "exclusive_or_expression -> and_expression;" << std::endl;
 		}
 	| exclusive_or_expression CARROT and_expression
  		{
 			if(YFLAG){
 				outY << "exclusive_or_expression : exclusive_or_expression CARROT and_expression;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "exclusive_or_expression -> exclusive_or_expression CARROT and_expression;" << std::endl;
 		}
 	;
 
@@ -1797,14 +1797,14 @@ and_expression
 			if(YFLAG){
 				outY << "and_expression : equality_expression;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "and_expression -> equality_expression;" << std::endl;
 		}
 	| and_expression AMP equality_expression
  		{
 			if(YFLAG){
 				outY << "and_expression : and_expression AMP equality_expression;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "and_expression -> and_expression AMP equality_expression;" << std::endl;
 		}
 	;
 
@@ -1900,21 +1900,21 @@ shift_expression
 			if(YFLAG){
 				outY << "shift_expression : additive_expression;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "shift_expression -> additive_expression;" << std::endl;
 		}
 	| shift_expression LEFT_OP additive_expression
  		{
 			if(YFLAG){
 				outY << "shift_expression : shift_expression LEFT_OP additive_expression;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "shift_expression -> shift_expression LEFT_OP additive_expression;" << std::endl;
 		}
 	| shift_expression RIGHT_OP additive_expression
  		{
 			if(YFLAG){
 				outY << "shift_expression : shift_expression RIGHT_OP additive_expression;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "shift_expression -> shift_expression RIGHT_OP additive_expression;" << std::endl;
 		}
 	;
 
@@ -2036,14 +2036,14 @@ cast_expression
 			if(YFLAG){
 				outY << "cast_expression : unary_expression;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "cast_expression -> unary_expression;" << std::endl;
 		}
 	| LPAREN type_name RPAREN cast_expression
  		{
 			if(YFLAG){
 				outY << "cast_expression : LPAREN type_name RPAREN cast_expression;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "cast_expression -> LPAREN type_name RPAREN cast_expression;" << std::endl;
 		}
 	;
 
@@ -2164,14 +2164,14 @@ unary_expression
 			if(YFLAG){
 				outY << "unary_expression : SIZEOF unary_expression;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "unary_expression -> SIZEOF unary_expression;" << std::endl;
 		}
 	| SIZEOF LPAREN type_name RPAREN
  		{
 			if(YFLAG){
 				outY << "unary_expression : SIZEOF LPAREN type_name RPAREN;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "unary_expression -> SIZEOF LPAREN type_name RPAREN;" << std::endl;
 		}
 	;
 
@@ -2264,14 +2264,14 @@ postfix_expression
  			if(YFLAG){
 				outY << "postfix_expression : postfix_expression LBRACK expression RBRACK;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "postfix_expression -> postfix_expression LBRACK expression RBRACK;" << std::endl;
 		}
 	| postfix_expression LPAREN RPAREN
  		{
 			if(YFLAG){
 				outY << "postfix_expression : postfix_expression LPAREN RPAREN;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "postfix_expression -> postfix_expression LPAREN RPAREN;" << std::endl;
 		}
 	| postfix_expression LPAREN argument_expression_list RPAREN
  		{
@@ -2295,14 +2295,14 @@ postfix_expression
 			if(YFLAG){
 				outY << "postfix_expression : postfix_expression DOT identifier;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "postfix_expression -> postfix_expression DOT identifier;" << std::endl;
 		}
 	| postfix_expression PTR_OP identifier
  		{
 			if(YFLAG){
 				outY << "postfix_expression : postfix_expression PTR_OP identifier;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "postfix_expression -> postfix_expression PTR_OP identifier;" << std::endl;
 		}
 	| postfix_expression INC_OP /* a++, a[x][y]++. etc.. */
  		{
@@ -2386,28 +2386,28 @@ primary_expression /* no code in this production - just passing stuff up */
 			if(YFLAG){
 				outY << "primary_expression : identifier;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "primary_expression -> identifier;" << std::endl;
 		}
 	| constant
  		{
  			if(YFLAG){
 				outY << "primary_expression : constant;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "primary_expression -> constant;" << std::endl;
 		}
 	| string
  		{
 			if(YFLAG){
 				outY << "primary_expression : string;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "primary_expression -> string;" << std::endl;
 		}
 	| LPAREN expression RPAREN
  		{
 			if(YFLAG){
 				outY << "primary_expression : LPAREN expression RPAREN;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "primary_expression -> LPAREN expression RPAREN;" << std::endl;
 		}
 	;
 
@@ -2422,7 +2422,7 @@ argument_expression_list /* used for calling a function with actual parameters *
 			if(YFLAG){
 				outY << "argument_expression_list : assignment_expression;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "argument_expression_list -> assignment_expression;" << std::endl;
 		}
 	| argument_expression_list COMMA assignment_expression
  		{
@@ -2434,7 +2434,7 @@ argument_expression_list /* used for calling a function with actual parameters *
 			if(YFLAG){
 				outY << "argument_expression_list : argument_expression_list COMMA assignment_expression;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "argument_expression_list -> argument_expression_list COMMA assignment_expression;" << std::endl;
 		}
 	;
 
@@ -2447,7 +2447,7 @@ constant
  			if(YFLAG){
 				outY << "constant : INTEGER_CONSTANT;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "constant -> INTEGER_CONSTANT;" << std::endl;
 		}
 	| CHARACTER_CONSTANT
  		{
@@ -2457,7 +2457,7 @@ constant
 			if(YFLAG){
 				outY << "constant : CHARACTER_CONSTANT;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "constant -> CHARACTER_CONSTANT;" << std::endl;
 		}
 	| FLOATING_CONSTANT
  		{
@@ -2467,7 +2467,7 @@ constant
  			if(YFLAG){
 				outY << "constant : FLOATING_CONSTANT;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "constant -> FLOATING_CONSTANT;" << std::endl;
 		}
 	| ENUMERATION_CONSTANT
  		{
@@ -2475,7 +2475,7 @@ constant
 			if(YFLAG){
 				outY << "constant : ENUMERATION_CONSTANT;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "constant -> ENUMERATION_CONSTANT;" << std::endl;
 		}
 	;
 
@@ -2489,7 +2489,7 @@ string
 			if(YFLAG){
 				outY << "string : STRING_LITERAL;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "string -> STRING_LITERAL;" << std::endl;
 		}
 	;
 
@@ -2503,7 +2503,7 @@ identifier
 			if(YFLAG){
 				outY << "identifier : IDENTIFIER;" << std::endl;
 			}
-			outG << "translation_unit -> external_declaration;" << std::endl;
+			outG << "identifier -> IDENTIFIER;" << std::endl;
 		}
 	;
 %% /* end of ANSI C grammar and actions */
