@@ -823,18 +823,19 @@ init_declarator
 			$$->valType = $1->valType;
 			$$->astPtr = new initDecl_Node($1->astPtr, $4->astPtr);
 	 		registerNode(outA, $$->astPtr);
-	 		outputNode(outA, $$->astPtr);
- 			outA << " -> ";
- 			outputNode(outA, $1->astPtr);
- 			outA << ";\n";
-
-	 		outputNode(outA, $$->astPtr);
- 			outA << " -> ASSIGN;\n";
-
  			outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $4->astPtr);
  			outA << ";\n";
+	 		outputNode(outA, $$->astPtr);
+ 			outA << " -> ASSIGN;\n";
+
+
+ 				 		outputNode(outA, $$->astPtr);
+ 			outA << " -> ";
+ 			outputNode(outA, $1->astPtr);
+ 			outA << ";\n";
+
  		}
 	;
 
@@ -3571,7 +3572,8 @@ constant
 	: INTEGER_CONSTANT
  		{
  			// create ast node
-			$1->astPtr = new data_Node($1->val, $1->valType);
+			//$1->astPtr = new data_Node($1->val, $1->valType);
+			$$->astPtr = new leaf_Node($1->val, $1->valType, "INTEGER_CONSTANT");
  			if(YFLAG){
 				outY << "constant : INTEGER_CONSTANT;" << std::endl;
 				outG << "constant -> INTEGER_CONSTANT;" << std::endl;
@@ -3583,7 +3585,8 @@ constant
 	| CHARACTER_CONSTANT
  		{
  			// create ast node 
-			$$->astPtr = new data_Node($1->val, $1->valType);
+			//$$->astPtr = new data_Node($1->val, $1->valType);
+			$$->astPtr = new leaf_Node($1->val, $1->valType, "CHARACTER_CONSTANT");
 			if(YFLAG){
 				outY << "constant : CHARACTER_CONSTANT;" << std::endl;
 				outG << "constant -> CHARACTER_CONSTANT;" << std::endl;
@@ -3595,7 +3598,7 @@ constant
  		{
  			// create ast node
 			//$$->astPtr = new data_Node($1->val, $1->valType);
-			$$->astPtr = new data_Node($1->val, $1->valType);
+			$$->astPtr = new leaf_Node($1->val, $1->valType, "FLOATING_CONSTANT");
  			if(YFLAG){
 				outY << "constant : FLOATING_CONSTANT;" << std::endl;
 				outG << "constant -> FLOATING_CONSTANT;" << std::endl;
@@ -3633,7 +3636,9 @@ identifier
 	: IDENTIFIER
 		{
 			// create ast node 
-			$$->astPtr = new data_Node($1->val, $1->valType);
+			//$$->astPtr = new data_Node($1->val, $1->valType);
+			$$->astPtr = new leaf_Node($1->val, $1->valType, $1->val._ste->getIdentifierName());
+
 			if(YFLAG){
 				outY << "identifier : IDENTIFIER;" << std::endl;
 				outG << "identifier -> IDENTIFIER;" << std::endl;
