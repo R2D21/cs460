@@ -135,6 +135,9 @@ which is a pointer to a node object.
 %type <n> equality_expression
 %type <n> assignment_operator
 %type <n> conditional_expression
+%type <n> expression
+%type <n> iteration_statement
+%type <n> statement
 
 /* start of ANSI C grammar and actions */
 %%
@@ -1104,60 +1107,100 @@ iteration_statement
 			if(YFLAG){
 				outY << "iteration_statement : WHILE LPAREN expression RPAREN statement;" << std::endl;
 			}
+
+			// create ast node
+			$$->astPtr = new iterStat_Node($3->astPtr, NULL, NULL, $5->astPtr, false);
+			outG << "iteration_statement -> WHILE LPAREN expression RPAREN statement;" << std::endl; 
 		}
 	| DO statement WHILE LPAREN expression RPAREN SEMI
  		{
 			if(YFLAG){
 				outY << "iteration_statement : DO statement WHILE LPAREN expression RPAREN SEMI;" << std::endl;
 			}
+
+			// create ast node
+			$$->astPtr = new iterStat_Node($5->astPtr, NULL, NULL, $2->astPtr, true);
+			outG << "iteration_statement -> DO statement WHILE LPAREN expression RPAREN SEMI;" << std::endl; 
 		}
 	| FOR LPAREN SEMI SEMI RPAREN statement
  		{
 			if(YFLAG){
 				outY << "iteration_statement : FOR LPAREN SEMI SEMI RPAREN statement;" << std::endl;
 			}
+
+			// create ast node
+			$$->astPtr = new iterStat_Node(NULL, NULL, NULL, $6->astPtr, false);
+			outG << "iteration_statement -> FOR LPAREN SEMI SEMI RPAREN statement;" << std::endl;
 		}
 	| FOR LPAREN SEMI SEMI expression RPAREN statement
  		{
 			if(YFLAG){
 				outY << "iteration_statement : FOR LPAREN SEMI SEMI expression RPAREN statement;" << std::endl;
 			}
+
+			// create ast node
+			$$->astPtr = new iterStat_Node(NULL, NULL, $5->astPtr, $7->astPtr, false);
+			outG << "iteration_statement -> FOR LPAREN SEMI SEMI expression RPAREN statement;" << std::endl;
 		}
 	| FOR LPAREN SEMI expression SEMI RPAREN statement
  		{
 			if(YFLAG){
 				outY << "iteration_statement : FOR LPAREN SEMI expression SEMI RPAREN statement;" << std::endl;
 			}
+
+			// create ast node
+			$$->astPtr = new iterStat_Node(NULL, $4->astPtr, NULL, $7->astPtr, false);
+			outG << "iteration_statement -> FOR LPAREN SEMI expression SEMI RPAREN statement;" << std::endl;
 		}
 	| FOR LPAREN SEMI expression SEMI expression RPAREN statement
  		{
 			if(YFLAG){
 				outY << "iteration_statement : FOR LPAREN SEMI expression SEMI expression RPAREN statement;" << std::endl;
 			}
+
+			// create ast node
+			$$->astPtr = new iterStat_Node(NULL, $4->astPtr, $6->astPtr, $8->astPtr, false);
+			outG << "iteration_statement -> FOR LPAREN SEMI expression SEMI expression RPAREN statement;" << std::endl;
 		}
 	| FOR LPAREN expression SEMI SEMI RPAREN statement
  		{
 			if(YFLAG){
 				outY << "iteration_statement : FOR LPAREN expression SEMI SEMI RPAREN statement;" << std::endl;
 			}
+
+			// create ast node
+			$$->astPtr = new iterStat_Node($3->astPtr, NULL, NULL, $7->astPtr, false);
+			outG << "iteration_statement -> FOR LPAREN expression SEMI SEMI RPAREN statement;" << std::endl;
 		}
 	| FOR LPAREN expression SEMI SEMI expression RPAREN statement
  		{
 			if(YFLAG){
 				outY << "iteration_statement : FOR LPAREN expression SEMI SEMI expression RPAREN statement;" << std::endl;
 			}
+
+			// create ast node
+			$$->astPtr = new iterStat_Node($3->astPtr, NULL, $6->astPtr, $8->astPtr, false);
+			outG << "iteration_statement -> FOR LPAREN expression SEMI SEMI expression RPAREN statement;" << std::endl;
 		}
 	| FOR LPAREN expression SEMI expression SEMI RPAREN statement
  		{
 			if(YFLAG){
 				outY << "iteration_statement : FOR LPAREN expression SEMI expression SEMI RPAREN statement;" << std::endl;
 			}
+
+			// create ast node
+			$$->astPtr = new iterStat_Node($3->astPtr, $5->astPtr, NULL, $8->astPtr, false);
+			outG << "iteration_statement -> FOR LPAREN expression SEMI expression SEMI RPAREN statement;" << std::endl;
 		}
 	| FOR LPAREN expression SEMI expression SEMI expression RPAREN statement
  		{
 			if(YFLAG){
 				outY << "iteration_statement : FOR LPAREN expression SEMI expression SEMI expression RPAREN statement;" << std::endl;
 			}
+
+			// create ast node
+			$$->astPtr = new iterStat_Node($3->astPtr, $5->astPtr, $7->astPtr, $9->astPtr, false);
+			outG << "iteration_statement -> FOR LPAREN expression SEMI expression SEMI expression RPAREN statement;" << std::endl;
 		}
 	;
 
@@ -1200,12 +1243,20 @@ expression
 			if(YFLAG){
 				outY << "expression : assignment_expression;" << std::endl;
 			}
+
+			// create ast node 
+			$$->astPtr = new expr_Node($1->astPtr, NULL);
+			outG << "expression -> expression;" << std::endl;
 		}
 	| expression COMMA assignment_expression
  		{
 			if(YFLAG){
 				outY << "expression : expression COMMA assignment_expression;" << std::endl;
 			}
+
+			// create ast node 
+			$$->astPtr = new expr_Node($1->astPtr, $2->astPtr);
+			outG << "expression -> expression COMMA assignment_expression;" << std::endl;
 		}
 	;
 
