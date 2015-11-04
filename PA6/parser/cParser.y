@@ -49,6 +49,10 @@ the token declarations that will be used in the lexer.
 	// functions needed by bison
 	//void assignParams(symbolTableEntry* entry, std::vector<parameter> params);
 	//void applyUnaryOperator(void*& value, int unaryToken, symbolTableEntry* entry = NULL)
+
+
+	// root of the ast
+	astNode* astRoot = NULL; 
 %}
 /* end of declarations and definitions */
 
@@ -158,7 +162,11 @@ which is a pointer to a node object.
 %%
 
 start_unit
-	:	translation_unit	{table.popLevelOff();}
+	:	translation_unit	
+		{
+			table.popLevelOff();
+			outG << "start_unit -> translation_unit;" << std::endl;
+		}
 	;
 
 translation_unit
@@ -1301,6 +1309,13 @@ compound_statement
 			if(YFLAG){
 				outY << "compound_statement : LCURL declaration_list statement_list RCURL;" << std::endl;
 		    }   
+
+		    std::cout << "before allocation" << std::endl;
+		    $3 = new node();
+		    $5 = new node();  
+		    $3->astPtr = new astNode();
+		    $5->astPtr = new astNode(); 
+		    std::cout << "after allocation" << std::endl; 
 
 		    // create ast node
 			$$->astPtr = new compoundStat_Node($3->astPtr, $5->astPtr);
