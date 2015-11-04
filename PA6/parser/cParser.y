@@ -138,6 +138,8 @@ which is a pointer to a node object.
 %type <n> expression
 %type <n> iteration_statement
 %type <n> statement
+%type <n> selection_statement
+%type <n> statement_list
 
 /* start of ANSI C grammar and actions */
 %%
@@ -1071,12 +1073,20 @@ statement_list
 			if(YFLAG){
 				outY << "statement_list : statement;" << std::endl;
 			}
+
+			// create ast node
+			$$->astPtr = new statList_Node($1->astPtr, NULL);
+			outG << "statement_list -> statement;" << std::endl;
 		}
 	| statement_list statement
  		{
 			if(YFLAG){
 				outY << "statement_list : statement_list statement;" << std::endl;
 			}
+
+			// create ast node
+			$$->astPtr = new statList_Node($1->astPtr, $2->astPtr);
+			outG << "statement_list -> statement_list statement;" << std::endl;
 		}
 	;
 
@@ -1086,18 +1096,30 @@ selection_statement
 			if(YFLAG){
 				outY << "selection_statement : IF LPAREN expression RPAREN statement;" << std::endl;
 			}
+
+			// create ast node
+			$$->astPtr = new selectionStat_Node($3->astPtr, $5->astPtr, NULL);
+			outG << "selection_statement -> IF LPAREN expression RPAREN statement;" << std::endl;
 		}
 	| IF LPAREN expression RPAREN statement ELSE statement
  		{
 			if(YFLAG){
 				outY << "selection_statement : IF LPAREN expression RPAREN statement ELSE statement;" << std::endl;
 			}
+
+			// create ast node
+			$$->astPtr = new selectionStat_Node($3->astPtr, $5->astPtr, $7->astPtr);
+			outG << "selection_statement -> IF LPAREN expression RPAREN statement ELSE statement;" << std::endl;
 		}
 	| SWITCH LPAREN expression RPAREN statement
  		{
 			if(YFLAG){
 				outY << "selection_statement : SWITCH LPAREN expression RPAREN statement;" << std::endl;
 			}
+
+			// create ast node
+			$$->astPtr = new selectionStat_Node($3->astPtr, $5->astPtr, NULL);
+			outG << "selection_statement -> SWITCH LPAREN expression RPAREN statement;" << std::endl;
 		}
 	;
 
