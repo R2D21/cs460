@@ -442,6 +442,7 @@ identifier [a-zA-Z][a-zA-Z0-9]*
 						}
 					}
 					else{
+						std::cout << "in lookup mode" << std::endl; 
 						searchResult = table.searchForSymbol(newEntry, level);
 						if(searchResult == NULL){
 							char lineNum[15];

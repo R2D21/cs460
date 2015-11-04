@@ -168,6 +168,8 @@ start_unit
 		{
 			table.popLevelOff();
 			outG << "start_unit -> translation_unit;" << std::endl;
+
+			astRoot = $1->astPtr; 
 		}
 	;
 
@@ -1345,6 +1347,7 @@ set_lookup_pop
 
 set_lookup
 	:	{
+		std::cout << "set_lookup : inInsertMode = false" << std::endl; 
 		inInsertMode = false; 
 		}
 	;
