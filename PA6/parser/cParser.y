@@ -112,6 +112,8 @@ which is a pointer to a node object.
 
 /* catfishC starting left hand side */
 %start start_unit
+%type <n> translation_unit
+%type <n> external_declaration
 %type <n> assignment_expression
 %type <n> postfix_expression
 %type <n> cast_expression
@@ -148,6 +150,9 @@ which is a pointer to a node object.
 %type <n> pointer
 %type <n> identifier_list
 %type <n> parameter_type_list
+%type <n> storage_class_specifier
+%type <n> type_specifier
+%type <n> declaration_specifiers
 
 /* start of ANSI C grammar and actions */
 %%
@@ -161,14 +166,19 @@ translation_unit
 		{
 			if(YFLAG){
 				outY << "translation_unit : external_declaration;" << std::endl;
-				/*outY << $$ << "->" << $1; */
 			}
+
+			$$->astPtr = new translationUnit_Node($1->astPtr, NULL);
+			outG << "translation_unit -> external_declaration;" << std::endl;
 		}
 	| translation_unit external_declaration
 		{
 			if(YFLAG){
 				outY << "translation_unit : translation_unit external_declaration;" << std::endl;
 			}
+
+			$$->astPtr = new translationUnit_Node($1->astPtr, $2->astPtr);
+			outG << "translation_unit -> translation_unit external_declaration;" << std::endl;
 		}
 	;
 
@@ -256,66 +266,105 @@ declaration_specifiers
 			if(YFLAG){
 				outY << "declaration_specifiers : storage_class_specifier;" << std::endl;
 			}
+
+			// create AST node
+			$$->astPtr = new declSpec_Node(NULL, $1->val._num);
+			outG << "declaration_specifiers -> storage_class_specifier;" << std::endl; 
 		}
 	| storage_class_specifier declaration_specifiers
 		{
 			if(YFLAG){
 				outY << "declaration_specifiers : storage_class_specifier declaration_specifiers;" << std::endl;
 			}
+
+			// create AST node
+			$$->astPtr = new declSpec_Node($2->astPtr, $1->val._num);
+			outG << "declaration_specifiers -> storage_class_specifier declaration_specifiers;" << std::endl;
 		}
 	| type_specifier
 		{
 			if(YFLAG){
 				outY << "declaration_specifiers : type_specifier;" << std::endl;
 			}
+
+			// create AST node
+			$$->astPtr = new declSpec_Node(NULL, $1->val._num);
+			outG << "declaration_specifiers -> type_specifier;" << std::endl;
 		}
 	| type_specifier declaration_specifiers
 		{
 			if(YFLAG){
 				outY << "declaration_specifiers : type_specifier declaration_specifiers;" << std::endl;
 			}
+
+			// create AST node
+			$$->astPtr = new declSpec_Node($2->astPtr, $1->val._num);
+			outG << "declaration_specifiers -> type_specifier declaration_specifiers;" << std::endl;
 		}
 	| type_qualifier 
 		{
 			if(YFLAG){
 				outY << "declaration_specifiers : type_qualifier;" << std::endl;
 			}
+
+			// create AST node
+			$$->astPtr = new declSpec_Node(NULL, $1->val._num);
+			outG << "declaration_specifiers -> type_qualifier;" << std::endl;
 		}
 	| type_qualifier declaration_specifiers
 		{
 			if(YFLAG){
 				outY << "declaration_specifiers : type_qualifier declaration_specifiers;" << std::endl;
 			}
+
+			// create AST node
+			$$->astPtr = new declSpec_Node($2->astPtr, $1->val._num);
+			outG << "declaration_specifiers -> type_qualifier declaration_specifiers;" << std::endl;
 		}
 	;
 
 storage_class_specifier
 	: AUTO
 		{
+			$$ = new node();
+			$$->valType = LONG_LONG_T;
+			$$->val._num = AUTO; 
 			if(YFLAG){
 				outY << "storage_class_specifier : AUTO;" << std::endl;
 			}
 		}
 	| REGISTER
 		{
+			$$ = new node();
+			$$->valType = LONG_LONG_T;
+			$$->val._num = REGISTER; 
 			if(YFLAG){
 				outY << "storage_class_specifier : REGISTER;" << std::endl;
 			}
 		}
 	| STATIC
 		{
+			$$ = new node();
+			$$->valType = LONG_LONG_T;
+			$$->val._num = STATIC; 
 			if(YFLAG){
 				outY << "storage_class_specifier : STATIC;" << std::endl;
 			}
 		}
 	| EXTERN
 		{
+			$$ = new node();
+			$$->valType = LONG_LONG_T;
+			$$->val._num = EXTERN; 
 			if(YFLAG){
 				outY << "storage_class_specifier : EXTERN;" << std::endl;
 			}
 		}
 	| TYPEDEF
 		{
+			$$ = new node();
+			$$->valType = LONG_LONG_T;
+			$$->val._num = TYPEDEF; 
 			if(YFLAG){
 				outY << "storage_class_specifier : TYPEDEF;" << std::endl;
 			}
@@ -325,72 +374,102 @@ storage_class_specifier
 type_specifier
 	: VOID
 		{
+			$$ = new node();
+			$$->valType = LONG_LONG_T;
+			$$->val._num = VOID; 
 			if(YFLAG){
 				outY << "type_specifier : VOID;" << std::endl;
 			}
 		}
 	| CHAR
 		{
+			$$ = new node();
+			$$->valType = LONG_LONG_T;
+			$$->val._num = CHAR; 
 			if(YFLAG){
 				outY << "type_specifier : CHAR;" << std::endl;
 			}
 		}
 	| SHORT
 		{
+			$$ = new node();
+			$$->valType = LONG_LONG_T;
+			$$->val._num = SHORT; 
 			if(YFLAG){
 				outY << "type_specifier : SHORT;" << std::endl;
 			}
 		}
 	| INT
 		{
+			$$ = new node();
+			$$->valType = LONG_LONG_T;
+			$$->val._num = INT; 
 			if(YFLAG){
 				outY << "type_specifier : INT;" << std::endl;
 			}
 		}
 	| LONG
 		{
+			$$ = new node();
+			$$->valType = LONG_LONG_T;
+			$$->val._num = LONG; 
 			if(YFLAG){
 				outY << "type_specifier : LONG;" << std::endl;
 			}
 		}
 	| FLOAT
  		{
+ 			$$ = new node();
+			$$->valType = LONG_LONG_T;
+			$$->val._num = FLOAT; 
 			if(YFLAG){
 				outY << "type_specifier : FLOAT;" << std::endl;
 			}
 		}
 	| DOUBLE
  		{
+ 			$$ = new node();
+			$$->valType = LONG_LONG_T;
+			$$->val._num = DOUBLE; 
 			if(YFLAG){
 				outY << "type_specifier : DOUBLE;" << std::endl;
 			}
 		}
 	| SIGNED
  		{
+ 			$$ = new node();
+			$$->valType = LONG_LONG_T;
+			$$->val._num = SIGNED; 
 			if(YFLAG){
 				outY << "type_specifier : SIGNED;" << std::endl;
 			}
 		}
 	| UNSIGNED
  		{
+ 			$$ = new node();
+			$$->valType = LONG_LONG_T;
+			$$->val._num = UNSIGNED; 
 			if(YFLAG){
 				outY << "type_specifier : UNSIGNED;" << std::endl;
 			}
 		}
 	| struct_or_union_specifier
  		{
+ 			/* not implementing */
 			if(YFLAG){
 				outY << "type_specifier : struct_or_union_specifier;" << std::endl;
 			}
 		}
 	| enum_specifier
  		{
+ 			/* not implementing */
 			if(YFLAG){
 				outY << "type_specifier : enum_specifier;" << std::endl;
 			}
 		}
 	| TYPEDEF_NAME
  		{
+ 			/* not implementing */
 			if(YFLAG){
 				outY << "type_specifier : TYPEDEF_NAME;" << std::endl;
 			}
@@ -400,12 +479,18 @@ type_specifier
 type_qualifier
 	: CONST
  		{
+ 			$$ = new node();
+			$$->valType = LONG_LONG_T;
+			$$->val._num = CONST; 
 			if(YFLAG){
 				outY << "type_qualifier : CONST;" << std::endl;
 			}
 		}
 	| VOLATILE
  		{
+ 			$$ = new node();
+			$$->valType = LONG_LONG_T;
+			$$->val._num = VOLATILE; 
 			if(YFLAG){
 				outY << "type_qualifier : VOLATILE;" << std::endl;
 			}
@@ -484,6 +569,10 @@ init_declarator
 			if(YFLAG){
 				outY << "init_declarator : declarator;" << std::endl;
 			}
+
+			// create ast node
+			$$->astPtr = new initDecl_Node($1->astPtr, NULL);
+			outG << "init_declarator -> declarator;" << std::endl; 
 		}
 	| declarator ASSIGN set_lookup initializer set_insert
  		{ 
@@ -494,8 +583,11 @@ init_declarator
 			if(YFLAG){
 				outY << "init_declarator : declarator ASSIGN initializer;" << std::endl;
 			}
-			//$1->val._ste->printIdentifierValue(); 
-			$$ = $1;
+			//$$ = $1;
+
+			// create ast node
+			$$->astPtr = new initDecl_Node($1->astPtr, $4->astPtr);
+			outG << "init_declarator -> declarator ASSIGN initializer;" << std::endl; 
 		}
 	;
 
@@ -629,12 +721,20 @@ declarator
 			if(YFLAG){
 				outY << "declarator : direct_declarator;" << std::endl;
 			}
+
+			// create ast node
+			$$->astPtr = new declarator_Node($1->astPtr, NULL);
+			outG << "declarator -> direct_declarator;" << std::endl;
 		}
 	| pointer direct_declarator
  		{
 			if(YFLAG){
 				outY << "declarator : pointer direct_declarator;" << std::endl;
 			}
+
+			// create ast node
+			$$->astPtr = new declarator_Node($1->astPtr, $2->astPtr);
+			outG << "declarator -> pointer direct_declarator;" << std::endl;
 		}
 	;
 
