@@ -1029,6 +1029,10 @@ init_declarator
  			// create ast node
 			$$ = new node();
 			
+			std::cout << "$1 datatype: " << $1->val._ste->getIdentifierType_String() << std::endl; 
+ 			std::cout << "$4 datatype: " << $4->valType << std::endl; 
+
+
 			// perform checking for assignment mismatching 
  			bool warningFlag = false;
  			std::string message = ""; 
@@ -1042,6 +1046,7 @@ init_declarator
  				yyerror("");
  			}
 
+
  			// assign ast node attributes
 			$$->val = $1->val;
 			$$->valType = $1->valType;
@@ -1053,8 +1058,6 @@ init_declarator
 				outY << "init_declarator : declarator ASSIGN initializer;" << std::endl;
 				outG << "init_declarator -> {declarator ASSIGN initializer};" << std::endl; 
 			}
- 			std::cout << "$1 datatype: " << $1->val._ste->getIdentifierType_String() << std::endl; 
- 			std::cout << "$4 datatype: " << $4->valType << std::endl; 
 
 			// register data for graphviz
 	 		registerNode(outA, $$->astPtr);
