@@ -168,47 +168,68 @@ Description: Sets the value of a corresponding identifier.
 */
 bool symbolTableEntry::setIdentifierValue(const node& src, bool& warningFlag,
 											 std::string& message){
+	int srcType = 0;
+	if(src.valType == STE_T){
+		srcType = src.val._ste->getIdentifierType_Enum();
+	}
+	else{
+		srcType = src.valType;
+	}
 	// check the data type of the current identifier and continue processing 
 	switch(entryType) {
 		case LONG_LONG_T:
 			// warning, up conversion
-			if(src.valType == LONG_T || src.valType == INT_T || src.valType == SHORT_T  ){
+			if(srcType == LONG_T || srcType == INT_T || srcType == SHORT_T  ){
 				// cout statements here?
+				warningFlag = true;
+				message = "Up conversion from integer to long long.";
+				entryVal._num = src.val._num;
 			}
 
 			// warning, converting character to integer
-			else if(src.valType == CHAR_T){
-				
+			else if(srcType == CHAR_T){
+				warningFlag = true;
+				message = "Conversion from char to long long.";
+				entryVal._num = src.val._char;
 			}
 
 			// warning, down conversion from float to long long
-			else if(src.valType == FLOAT_T || src.valType == DOUBLE_T || src.valType == LONG_DOUBLE_T){
-				
+			else if(srcType == FLOAT_T || srcType == DOUBLE_T || srcType == LONG_DOUBLE_T){
+				warningFlag = true;
+				message = "Down conversion from decimal to long long.";
+				entryVal._num = src.val._dec;
 			}
-
 			// assign src number to the symbol table entry 
 			entryVal._num = src.val._num;
 			break;
 
 		case LONG_T:
 			// warning, up conversion
-			if(src.valType == INT_T || src.valType == SHORT_T){
-				
+			if(srcType == INT_T || srcType == SHORT_T){
+				warningFlag = true;
+				message = "Up conversion from integer to long.";
+				entryVal._num = src.val._num;
 			}
 
 			// warning, converting character to integer
-			else if(src.valType == CHAR_T){
-				
+			else if(srcType == CHAR_T){
+				warningFlag = true;
+				message = "Conversion from character to long.";
+				entryVal._num = src.val._char;
 			}
 
-			// warning, down conversion from float to long long
-			else if(src.valType == FLOAT_T || src.valType == DOUBLE_T || src.valType == LONG_DOUBLE_T){
-				
+			// warning, down conversion from float to long
+			else if(srcType == FLOAT_T || srcType == DOUBLE_T || srcType == LONG_DOUBLE_T){
+				warningFlag = true;
+				message = "Down conversion from decimal to long.";
+				entryVal._num = src.val._dec;
 			}
 
 			// warning???
-			else if(src.valType == LONG_LONG_T){
-				
+			else if(srcType == LONG_LONG_T){
+				warningFlag = true;
+				message = "Conversion from long long to long.";
+				entryVal._num = src.val._num;
 			}
 
 			// checking overflow
@@ -222,25 +243,31 @@ bool symbolTableEntry::setIdentifierValue(const node& src, bool& warningFlag,
 
 		case INT_T:
 			// warning, up conversion
-			if(src.valType == SHORT_T  ){
-				
+			if(srcType == SHORT_T  ){
+				warningFlag = true;
+				message = "Up conversion from short to integer.";
+				entryVal._num = src.val._num;
 			}
 
 			// warning, converting character to integer
-			else if(src.valType == CHAR_T){
-				
+			else if(srcType == CHAR_T){
+				warningFlag = true;
+				message = "Conversion from char to integer.";
+				entryVal._num = src.val._char;
 			}
 
 			// warning, down conversion from float to long long
-			else if(src.valType == FLOAT_T || src.valType == DOUBLE_T || src.valType == LONG_DOUBLE_T ){
+			else if(srcType == FLOAT_T || srcType == DOUBLE_T || srcType == LONG_DOUBLE_T ){
 				warningFlag = true; 
 				message = "Down conversion from decimal to integer.";
 				entryVal._num = src.val._dec;
 			}
 
 			// warning???
-			else if(src.valType == LONG_T ||  src.valType == LONG_LONG_T ){
-				
+			else if(srcType == LONG_T ||  srcType == LONG_LONG_T ){
+				warningFlag = true;
+				message = "Down conversion from long to integer.";
+				entryVal._num = src.val._num;
 			}
 
 			// checking overflow
@@ -254,18 +281,24 @@ bool symbolTableEntry::setIdentifierValue(const node& src, bool& warningFlag,
 
 		case SHORT_T:
 			// warning, converting character to short
-			if(src.valType == CHAR_T){
-				
+			if(srcType == CHAR_T){
+				warningFlag = true;
+				message = "Conversion from char to short.";
+				entryVal._num = src.val._char;
 			}
 
 			// warning, down conversion from float to long long
-			else if(src.valType == FLOAT_T || src.valType == DOUBLE_T || src.valType == LONG_DOUBLE_T){
-				
+			else if(srcType == FLOAT_T || srcType == DOUBLE_T || srcType == LONG_DOUBLE_T){
+				warningFlag = true;
+				message = "Down conversion from decimal to short.";
+				entryVal._num = src.val._dec;
 			}
 
 			// warning???
-			else if(src.valType == INT_T || src.valType == LONG_T ||  src.valType == LONG_LONG_T ){
-				
+			else if(srcType == INT_T || srcType == LONG_T ||  srcType == LONG_LONG_T ){
+				warningFlag = true;
+				message = "Conversion from integer to short.";
+				entryVal._num = src.val._num;
 			}
 
 			// checking overflow
@@ -279,18 +312,24 @@ bool symbolTableEntry::setIdentifierValue(const node& src, bool& warningFlag,
 
 		case FLOAT_T:
 			// warning, converting character to float?
-			if(src.valType == CHAR_T){
-				
+			if(srcType == CHAR_T){
+				warningFlag = true;
+				message = "Converting character to decimal.";
+				entryVal._dec = src.val._char;
 			}
 
 			// warning, down conversion from float to long long
-			else if(src.valType == DOUBLE_T || src.valType == LONG_DOUBLE_T){
-				
+			else if(srcType == DOUBLE_T || srcType == LONG_DOUBLE_T){
+				warningFlag = true;
+				message = "Down conversion from double to decimal.";
+				entryVal._dec = src.val._dec;
 			}
 
 			// warning???
-			else if(src.valType == INT_T || src.valType == LONG_T ||  src.valType == LONG_LONG_T ){
-				
+			else if(srcType == INT_T || srcType == LONG_T ||  srcType == LONG_LONG_T ){
+				warningFlag = true;
+				message = "Up conversion from integer to decimal.";
+				entryVal._dec = src.val._num;
 			}
 
 			// checking overflow -- why just _num and not also _dec?
@@ -324,7 +363,6 @@ bool symbolTableEntry::setIdentifierValue(const node& src, bool& warningFlag,
 			std::cout << " the identifier does not have a data type." << std::endl; 
 			break;	
 	}
-
 	// the identifier has successfully been assigned a new value
 	return true; 
 }
