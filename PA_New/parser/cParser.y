@@ -55,6 +55,8 @@ the token declarations that will be used in the lexer.
 
 	void outputNode(std::ofstream &out, astNode* ptr);
 
+	void outputTerminal(std::ofstream &out, std::string name, int id);
+
 	// root of the ast
 	astNode* astRoot = NULL; 
 	int unique = 0;
@@ -164,6 +166,7 @@ which is a pointer to a node object.
 %type <n> declaration_specifiers
 %type <n> declaration
 %type <n> init_declarator_list
+%type <n> function_definition
 
 /* start of ANSI C grammar and actions */
 %%
@@ -247,6 +250,20 @@ function_definition
 				outY << "function_definition : declarator compound_statement;" << std::endl;
 			outG << "function_definition -> {declarator compound_statement};" << std::endl;
 			}
+			$$ = new node();
+			$$->val = $1->val;
+			$$->valType = $1->valType;
+			$$->astPtr = new funcDef_Node(NULL, $1->astPtr, NULL, $2->astPtr);
+
+			registerNode(outA, $$->astPtr);
+	 		outputNode(outA, $$->astPtr);
+ 			outA << " -> ";
+ 			outputNode(outA, $1->astPtr);
+ 			outA << ";\n";
+	 		outputNode(outA, $$->astPtr);
+ 			outA << " -> ";
+ 			outputNode(outA, $2->astPtr);
+ 			outA << ";\n";
 		}
 	| declarator declaration_list compound_statement
 		{
@@ -254,6 +271,24 @@ function_definition
 				outY << "function_definition : declarator declaration_list compound_statement;" << std::endl;
 			outG << "function_definition -> {declarator declaration_list compound_statement};" << std::endl;
 			}
+			$$ = new node();
+			$$->val = $1->val;
+			$$->valType = $1->valType;
+			$$->astPtr = new funcDef_Node(NULL, $1->astPtr, $2->astPtr, $3->astPtr);
+
+			registerNode(outA, $$->astPtr);
+	 		outputNode(outA, $$->astPtr);
+ 			outA << " -> ";
+ 			outputNode(outA, $1->astPtr);
+ 			outA << ";\n";
+	 		outputNode(outA, $$->astPtr);
+ 			outA << " -> ";
+ 			outputNode(outA, $2->astPtr);
+ 			outA << ";\n";
+ 	 		outputNode(outA, $$->astPtr);
+ 			outA << " -> ";
+ 			outputNode(outA, $3->astPtr);
+ 			outA << ";\n";
 		}
 	| declaration_specifiers declarator compound_statement
 		{
@@ -261,6 +296,24 @@ function_definition
 				outY << "function_definition : declaration_specifiers declarator compound_statement;" << std::endl;
 			outG << "function_definition -> {declaration_specifiers declarator compound_statement};" << std::endl;
 			}
+			$$ = new node();
+			$$->val = $1->val;
+			$$->valType = $1->valType;
+			$$->astPtr = new funcDef_Node($1->astPtr, $2->astPtr, NULL, $3->astPtr);
+
+			registerNode(outA, $$->astPtr);
+	 		outputNode(outA, $$->astPtr);
+ 			outA << " -> ";
+ 			outputNode(outA, $1->astPtr);
+ 			outA << ";\n";
+	 		outputNode(outA, $$->astPtr);
+ 			outA << " -> ";
+ 			outputNode(outA, $2->astPtr);
+ 			outA << ";\n";
+ 	 		outputNode(outA, $$->astPtr);
+ 			outA << " -> ";
+ 			outputNode(outA, $3->astPtr);
+ 			outA << ";\n";
 		}
 	| declaration_specifiers declarator declaration_list compound_statement
 		{
@@ -268,6 +321,24 @@ function_definition
 				outY << "function_definition : declaration_specifiers declarator declaration_list compound_statement;" << std::endl;
 			outG << "function_definition -> {declaration_specifiers declarator declaration_list compound_statement};" << std::endl;
 			}
+			$$ = new node();
+			$$->val = $1->val;
+			$$->valType = $1->valType;
+			$$->astPtr = new funcDef_Node($1->astPtr, $2->astPtr, $3->astPtr, $4->astPtr);
+
+			registerNode(outA, $$->astPtr);
+	 		outputNode(outA, $$->astPtr);
+ 			outA << " -> ";
+ 			outputNode(outA, $1->astPtr);
+ 			outA << ";\n";
+	 		outputNode(outA, $$->astPtr);
+ 			outA << " -> ";
+ 			outputNode(outA, $2->astPtr);
+ 			outA << ";\n";
+ 	 		outputNode(outA, $$->astPtr);
+ 			outA << " -> ";
+ 			outputNode(outA, $4->astPtr);
+ 			outA << ";\n";
 		}
 	;
 
@@ -294,7 +365,9 @@ declaration
  			outA << ";\n";
 
 	 		outputNode(outA, $$->astPtr);
- 			outA << " -> SEMI;\n";
+ 			outA << " -> ";
+ 			outputTerminal(outA, "SEMI", unique);
+ 			unique++;
 		}
 	| declaration_specifiers init_declarator_list SEMI
 		{
@@ -319,7 +392,9 @@ declaration
  			outputNode(outA, $2->astPtr);
  			outA << ";\n";
  			outputNode(outA, $$->astPtr);
- 			outA << " -> SEMI;\n";
+ 			outA << " -> ";
+ 			outputTerminal(outA, "SEMI", unique);
+ 			unique++;
 		}
 	;
 
@@ -426,7 +501,6 @@ declaration_specifiers
  			outA << " -> ";
  			outputNode(outA, $1->astPtr);
  			outA << ";\n";
- 			std::cout << "Made it" << std::endl;
 
 		}
 	| type_specifier declaration_specifiers
@@ -501,6 +575,8 @@ storage_class_specifier
 			$$ = new node();
 			$$->valType = LONG_LONG_T;
 			$$->val._num = AUTO; 
+			$$->astPtr = new leaf_Node($$->val, $$->valType, "auto");
+			registerNode(outA, $$->astPtr);
 			if(YFLAG){
 				outY << "storage_class_specifier : AUTO;" << std::endl;
 			outG << "storage_class_specifier -> AUTO;" << std::endl;
@@ -511,6 +587,8 @@ storage_class_specifier
 			$$ = new node();
 			$$->valType = LONG_LONG_T;
 			$$->val._num = REGISTER; 
+			$$->astPtr = new leaf_Node($$->val, $$->valType, "register");
+			registerNode(outA, $$->astPtr);
 			if(YFLAG){
 				outY << "storage_class_specifier : REGISTER;" << std::endl;
 			outG << "storage_class_specifier -> REGISTER;" << std::endl;
@@ -521,6 +599,8 @@ storage_class_specifier
 			$$ = new node();
 			$$->valType = LONG_LONG_T;
 			$$->val._num = STATIC; 
+			$$->astPtr = new leaf_Node($$->val, $$->valType, "static");
+			registerNode(outA, $$->astPtr);
 			if(YFLAG){
 				outY << "storage_class_specifier : STATIC;" << std::endl;
 			outG << "storage_class_specifier -> STATIC;" << std::endl;
@@ -531,6 +611,8 @@ storage_class_specifier
 			$$ = new node();
 			$$->valType = LONG_LONG_T;
 			$$->val._num = EXTERN; 
+			$$->astPtr = new leaf_Node($$->val, $$->valType, "extern");
+			registerNode(outA, $$->astPtr);
 			if(YFLAG){
 				outY << "storage_class_specifier : EXTERN;" << std::endl;
 			outG << "storage_class_specifier -> EXTERN;" << std::endl;
@@ -541,6 +623,8 @@ storage_class_specifier
 			$$ = new node();
 			$$->valType = LONG_LONG_T;
 			$$->val._num = TYPEDEF; 
+			$$->astPtr = new leaf_Node($$->val, $$->valType, "typedef");
+			registerNode(outA, $$->astPtr);
 			if(YFLAG){
 				outY << "storage_class_specifier : TYPEDEF;" << std::endl;
 			outG << "storage_class_specifier -> TYPEDEF;" << std::endl;
@@ -555,7 +639,8 @@ type_specifier
 			$$->valType = LONG_LONG_T;
 			$$->val._num = VOID; 
 
-			$$->astPtr = new leaf_Node($$->val, $$->valType, "void");
+			$$->astPtr = new leaf_Node($$->val, $$->valType, "VOID");
+			registerNode(outA, $$->astPtr);
 			if(YFLAG){
 				outY << "type_specifier : VOID;" << std::endl;
 			outG << "type_specifier -> VOID;" << std::endl;
@@ -567,7 +652,8 @@ type_specifier
 			$$->valType = LONG_LONG_T;
 			$$->val._num = CHAR; 
 
-			$$->astPtr = new leaf_Node($$->val, $$->valType, "char");
+			$$->astPtr = new leaf_Node($$->val, $$->valType, "CHAR");
+			registerNode(outA, $$->astPtr);
 			if(YFLAG){
 				outY << "type_specifier : CHAR;" << std::endl;
 			outG << "type_specifier -> CHAR;" << std::endl;
@@ -579,7 +665,8 @@ type_specifier
 			$$->valType = LONG_LONG_T;
 			$$->val._num = SHORT; 
 
-			$$->astPtr = new leaf_Node($$->val, $$->valType, "short");
+			$$->astPtr = new leaf_Node($$->val, $$->valType, "SHORT");
+			registerNode(outA, $$->astPtr);
 			if(YFLAG){
 				outY << "type_specifier : SHORT;" << std::endl;
 			outG << "type_specifier -> SHORT;" << std::endl;
@@ -590,7 +677,8 @@ type_specifier
 			$$ = new node();
 			$$->valType = LONG_LONG_T;
 			$$->val._num = INT; 
-			$$->astPtr = new leaf_Node($$->val, $$->valType, "int");
+			$$->astPtr = new leaf_Node($$->val, $$->valType, "INT");
+			registerNode(outA, $$->astPtr);
 			if(YFLAG){
 				outY << "type_specifier : INT;" << std::endl;
 			outG << "type_specifier -> INT;" << std::endl;
@@ -601,7 +689,8 @@ type_specifier
 			$$ = new node();
 			$$->valType = LONG_LONG_T;
 			$$->val._num = LONG; 
-			$$->astPtr = new leaf_Node($$->val, $$->valType, "long");
+			$$->astPtr = new leaf_Node($$->val, $$->valType, "LONG");
+			registerNode(outA, $$->astPtr);
 			if(YFLAG){
 				outY << "type_specifier : LONG;" << std::endl;
 			outG << "type_specifier -> LONG;" << std::endl;
@@ -613,7 +702,8 @@ type_specifier
 			$$->valType = LONG_LONG_T;
 			$$->val._num = FLOAT; 
 
-			$$->astPtr = new leaf_Node($$->val, $$->valType, "float");
+			$$->astPtr = new leaf_Node($$->val, $$->valType, "FLOAT");
+			registerNode(outA, $$->astPtr);
 			if(YFLAG){
 				outY << "type_specifier : FLOAT;" << std::endl;
 			outG << "type_specifier -> FLOAT;" << std::endl;
@@ -625,7 +715,8 @@ type_specifier
 			$$->valType = LONG_LONG_T;
 			$$->val._num = DOUBLE; 
 
-			$$->astPtr = new leaf_Node($$->val, $$->valType, "double");
+			$$->astPtr = new leaf_Node($$->val, $$->valType, "DOUBLE");
+			registerNode(outA, $$->astPtr);
 			if(YFLAG){
 				outY << "type_specifier : DOUBLE;" << std::endl;
 			outG << "type_specifier -> DOUBLE;" << std::endl;
@@ -633,34 +724,44 @@ type_specifier
 		}
 	| SIGNED
  		{
+ 			// create ast node
  			$$ = new node();
 			$$->valType = LONG_LONG_T;
 			$$->val._num = SIGNED; 
-
-			$$->astPtr = new leaf_Node($$->val, $$->valType, "signed");
+			$$->astPtr = new leaf_Node($$->val, $$->valType, "SIGNED");
+			
+			// output data 
 			if(YFLAG){
 				outY << "type_specifier : SIGNED;" << std::endl;
-			outG << "type_specifier -> SIGNED;" << std::endl;
+				outG << "type_specifier -> SIGNED;" << std::endl;
 			}
+
+			// register data for graphviz
+			registerNode(outA, $$->astPtr);
 		}
 	| UNSIGNED
  		{
+ 			// create ast node
  			$$ = new node();
 			$$->valType = LONG_LONG_T;
 			$$->val._num = UNSIGNED; 
-
-			$$->astPtr = new leaf_Node($$->val, $$->valType, "unsigned");
+			$$->astPtr = new leaf_Node($$->val, $$->valType, "UNSIGNED");
+			
+			// output data 
 			if(YFLAG){
 				outY << "type_specifier : UNSIGNED;" << std::endl;
-			outG << "type_specifier -> UNSIGNED;" << std::endl;
+				outG << "type_specifier -> UNSIGNED;" << std::endl;
 			}
+
+			// register data for graphviz
+			registerNode(outA, $$->astPtr);
 		}
 	| struct_or_union_specifier
  		{
  			/* not implementing */
 			if(YFLAG){
 				outY << "type_specifier : struct_or_union_specifier;" << std::endl;
-			outG << "type_specifier -> struct_or_union_specifier;" << std::endl;
+				outG << "type_specifier -> struct_or_union_specifier;" << std::endl;
 			}
 		}
 	| enum_specifier
@@ -668,7 +769,7 @@ type_specifier
  			/* not implementing */
 			if(YFLAG){
 				outY << "type_specifier : enum_specifier;" << std::endl;
-			outG << "type_specifier -> enum_specifier;" << std::endl;
+				outG << "type_specifier -> enum_specifier;" << std::endl;
 			}
 		}
 	| TYPEDEF_NAME
@@ -676,7 +777,7 @@ type_specifier
  			/* not implementing */
 			if(YFLAG){
 				outY << "type_specifier : TYPEDEF_NAME;" << std::endl;
-			outG << "type_specifier -> TYPEDEF_NAME;" << std::endl;
+				outG << "type_specifier -> TYPEDEF_NAME;" << std::endl;
 			}
 		}
 	;
@@ -684,26 +785,30 @@ type_specifier
 type_qualifier
 	: CONST
  		{
+ 			// create ast node
  			$$ = new node();
 			$$->valType = LONG_LONG_T;
 			$$->val._num = CONST; 
-
-			$$->astPtr = new leaf_Node($$->val, $$->valType, "const");
+			$$->astPtr = new leaf_Node($$->val, $$->valType, "CONST");
+			
+			// output data
 			if(YFLAG){
 				outY << "type_qualifier : CONST;" << std::endl;
-			outG << "translation_unit -> CONST;" << std::endl;
+				outG << "translation_unit -> CONST;" << std::endl;
 			}
 		}
 	| VOLATILE
  		{
+ 			// create ast node
  			$$ = new node();
 			$$->valType = LONG_LONG_T;
 			$$->val._num = VOLATILE; 
-
-			$$->astPtr = new leaf_Node($$->val, $$->valType, "volatile");
+			$$->astPtr = new leaf_Node($$->val, $$->valType, "VOLATILE");
+			
+			// output data
 			if(YFLAG){
 				outY << "type_qualifier : VOLATILE;" << std::endl;
-			outG << "translation_unit -> VOLATILE;" << std::endl;
+				outG << "translation_unit -> VOLATILE;" << std::endl;
 			}
 		}
 	;
@@ -711,23 +816,26 @@ type_qualifier
 struct_or_union_specifier
 	: struct_or_union identifier LCURL struct_declaration_list RCURL
  		{
+ 			// output data
 			if(YFLAG){
 				outY << "struct_or_union_specifier : struct_or_union identifier LCURL struct_declaration_list RCURL;" << std::endl;
-			outG << "struct_or_union_specifier -> {struct_or_union identifier LCURL struct_declaration_list RCURL};" << std::endl;
+				outG << "struct_or_union_specifier -> {struct_or_union identifier LCURL struct_declaration_list RCURL};" << std::endl;
 			}
 		}
 	| struct_or_union LCURL struct_declaration_list RCURL
  		{
+ 			// output data
 			if(YFLAG){
 				outY << "struct_or_union_specifier : struct_or_union LCURL struct_declaration_list RCURL;" << std::endl;
-			outG << "struct_or_union_specifier -> {struct_or_union LCURL struct_declaration_list RCURL};" << std::endl;
+				outG << "struct_or_union_specifier -> {struct_or_union LCURL struct_declaration_list RCURL};" << std::endl;
 			}
 		}
 	| struct_or_union identifier
  		{
+ 			// output data
 			if(YFLAG){
 				outY << "struct_or_union_specifier : struct_or_union identifier;" << std::endl;
-			outG << "struct_or_union_specifier -> {struct_or_union identifier};" << std::endl;
+				outG << "struct_or_union_specifier -> {struct_or_union identifier};" << std::endl;
 			}
 		}
 	;
@@ -735,16 +843,18 @@ struct_or_union_specifier
 struct_or_union
 	: STRUCT
  		{
+ 			// output data
 			if(YFLAG){
 				outY << "struct_or_union : STRUCT;" << std::endl;
-			outG << "struct_or_union -> STRUCT;" << std::endl;
+				outG << "struct_or_union -> STRUCT;" << std::endl;
 			}
 		}
 	| UNION
  		{
+ 			// output data
 			if(YFLAG){
 				outY << "struct_or_union : UNION;" << std::endl;
-			outG << "struct_or_union -> UNION;" << std::endl;
+				outG << "struct_or_union -> UNION;" << std::endl;
 			}
 		}
 	;
@@ -752,16 +862,18 @@ struct_or_union
 struct_declaration_list
 	: struct_declaration
  		{
+ 			// output data
 			if(YFLAG){
 				outY << "struct_declaration_list : struct_declaration;" << std::endl;
-			outG << "struct_declaration_list -> struct_declaration;" << std::endl;
+				outG << "struct_declaration_list -> struct_declaration;" << std::endl;
 			}
 		}
 	| struct_declaration_list struct_declaration
  		{
+ 			// output data
 			if(YFLAG){
 				outY << "struct_declaration_list : struct_declaration_list struct_declaration;" << std::endl;
-			outG << "struct_declaration_list -> {struct_declaration_list struct_declaration};" << std::endl;
+				outG << "struct_declaration_list -> {struct_declaration_list struct_declaration};" << std::endl;
 			}
 		}
 	;
@@ -769,6 +881,7 @@ struct_declaration_list
 init_declarator_list
 	: init_declarator
  		{
+ 			// output data
 			if(YFLAG){
 				outY << "init_declarator_list : init_declarator;" << std::endl;
 			outG << "init_declarator_list -> init_declarator;" << std::endl;
@@ -776,9 +889,10 @@ init_declarator_list
 		}
 	| init_declarator_list COMMA init_declarator
  		{
+ 			// output data
 			if(YFLAG){
 				outY << "init_declarator_list : init_declarator_list COMMA init_declarator;" << std::endl;
-			outG << "init_declarator_list -> {init_declarator_list COMMA init_declarator};" << std::endl;
+				outG << "init_declarator_list -> {init_declarator_list COMMA init_declarator};" << std::endl;
 			}
 		}
 	;
@@ -786,16 +900,19 @@ init_declarator_list
 init_declarator
 	: declarator
  		{
-			if(YFLAG){
-				outY << "init_declarator : declarator;" << std::endl;
-			outG << "init_declarator -> declarator;" << std::endl; 
-			}
-
-			// create ast node
+ 			// create ast node
 			$$ = new node();
 			$$->val = $1->val;
 			$$->valType = $1->valType;
 			$$->astPtr = new initDecl_Node($1->astPtr, NULL);
+
+			// output data
+			if(YFLAG){
+				outY << "init_declarator : declarator;" << std::endl;
+				outG << "init_declarator -> declarator;" << std::endl; 
+			}
+
+			// register data for graphviz
 	 		registerNode(outA, $$->astPtr);
 	 		outputNode(outA, $$->astPtr);
  			outA << " -> ";
@@ -804,18 +921,13 @@ init_declarator
 		}
 	| declarator ASSIGN set_lookup initializer set_insert
  		{ 
- 			if(YFLAG){
-				outY << "init_declarator : declarator ASSIGN initializer;" << std::endl;
-			outG << "init_declarator -> {declarator ASSIGN initializer};" << std::endl; 
-			}
- 			std::cout << "$1 datatype: " << $1->val._ste->getIdentifierType_String() << std::endl; 
- 			std::cout << "$4 datatype: " << $4->valType << std::endl; 
-
+ 			// create ast node
+			$$ = new node();
+			
+			// perform checking for assignment mismatching 
  			bool warningFlag = false;
  			std::string message = ""; 
- 			bool fatalAssignment = $1->val._ste->setIdentifierValue((*$4), warningFlag, message);
- 			
-
+ 			bool fatalAssignment = $1->val._ste->setIdentifierValue((*$4), warningFlag, message); 			
  			if (warningFlag) {
  				std::cout << COLOR_NORMAL << COLOR_CYAN_NORMAL << "WARNING: " << COLOR_NORMAL << message << std::endl; 
  			}
@@ -825,25 +937,32 @@ init_declarator
  				yyerror("");
  			}
 
-			//$$ = $1;
-
-			// create ast node
-			$$ = new node();
+ 			// assign ast node attributes
 			$$->val = $1->val;
 			$$->valType = $1->valType;
 			$$->astPtr = new initDecl_Node($1->astPtr, $4->astPtr);
+
+			 
+ 			if(YFLAG){
+				outY << "init_declarator : declarator ASSIGN initializer;" << std::endl;
+				outG << "init_declarator -> {declarator ASSIGN initializer};" << std::endl; 
+			}
+ 			std::cout << "$1 datatype: " << $1->val._ste->getIdentifierType_String() << std::endl; 
+ 			std::cout << "$4 datatype: " << $4->valType << std::endl; 
+
+			// register data for graphviz
 	 		registerNode(outA, $$->astPtr);
  			outputNode(outA, $$->astPtr);
  			outA << " -> ";
- 			outputNode(outA, $4->astPtr);
+ 			outputNode(outA, $1->astPtr);
  			outA << ";\n";
 	 		outputNode(outA, $$->astPtr);
- 			outA << " -> ASSIGN;\n";
-
-
- 				 		outputNode(outA, $$->astPtr);
  			outA << " -> ";
- 			outputNode(outA, $1->astPtr);
+ 			outputTerminal(outA, "ASSIGN", unique);
+ 			unique++;
+			outputNode(outA, $$->astPtr);
+ 			outA << " -> ";
+ 			outputNode(outA, $4->astPtr);
  			outA << ";\n";
 
  		}
@@ -852,9 +971,10 @@ init_declarator
 struct_declaration
 	: specifier_qualifier_list struct_declarator_list SEMI
  		{
+ 			// output data
 			if(YFLAG){
 				outY << "struct_declaration : specifier_qualifier_list struct_declarator_list SEMI;" << std::endl;
-			outG << "struct_declaration -> {specifier_qualifier_list struct_declarator_list SEMI};" << std::endl;
+				outG << "struct_declaration -> {specifier_qualifier_list struct_declarator_list SEMI};" << std::endl;
 			}
 		}
 	;
@@ -862,30 +982,34 @@ struct_declaration
 specifier_qualifier_list
 	: type_specifier
  		{
+ 			// output data
 			if(YFLAG){
 				outY << "specifier_qualifier_list : type_specifier;" << std::endl;
-			outG << "specifier_qualifier_list -> type_specifier;" << std::endl;
+				outG << "specifier_qualifier_list -> type_specifier;" << std::endl;
 			}
 		}
 	| type_specifier specifier_qualifier_list
  		{
+ 			// output data
 			if(YFLAG){
 				outY << "specifier_qualifier_list : type_specifier specifier_qualifier_list;" << std::endl;
-			outG << "specifier_qualifier_list -> {type_specifier specifier_qualifier_list};" << std::endl;
+				outG << "specifier_qualifier_list -> {type_specifier specifier_qualifier_list};" << std::endl;
 			}
 		}
 	| type_qualifier
  		{
+ 			// output data
 			if(YFLAG){
 				outY << "specifier_qualifier_list : type_qualifier;" << std::endl;
-			outG << "specifier_qualifier_list -> type_qualifier;" << std::endl;
+				outG << "specifier_qualifier_list -> type_qualifier;" << std::endl;
 			}
 		}
 	| type_qualifier specifier_qualifier_list
  		{
+ 			// output data
 			if(YFLAG){
 				outY << "specifier_qualifier_list : type_qualifier specifier_qualifier_list;" << std::endl;
-			outG << "specifier_qualifier_list -> {type_qualifier specifier_qualifier_list};" << std::endl;
+				outG << "specifier_qualifier_list -> {type_qualifier specifier_qualifier_list};" << std::endl;
 			}
 		}
 	;
@@ -893,16 +1017,18 @@ specifier_qualifier_list
 struct_declarator_list
 	: struct_declarator
  		{
+ 			// output data
 			if(YFLAG){
 				outY << "struct_declarator_list : struct_declarator;" << std::endl;
-			outG << "struct_declarator_list -> struct_declarator;" << std::endl;
+				outG << "struct_declarator_list -> struct_declarator;" << std::endl;
 			}
 		}
 	| struct_declarator_list COMMA struct_declarator
  		{
+ 			// output data
 			if(YFLAG){
 				outY << "struct_declarator_list : struct_declarator_list COMMA struct_declarator;" << std::endl;
-			outG << "struct_declarator_list -> {struct_declarator_list COMMA struct_declarator};" << std::endl;
+				outG << "struct_declarator_list -> {struct_declarator_list COMMA struct_declarator};" << std::endl;
 			}
 		}
 	;
@@ -910,23 +1036,26 @@ struct_declarator_list
 struct_declarator
 	: declarator
  		{
+ 			// output data
 			if(YFLAG){
 				outY << "struct_declarator : declarator;" << std::endl;
-			outG << "struct_declarator -> declarator;" << std::endl;
+				outG << "struct_declarator -> declarator;" << std::endl;
 			}
 		}
 	| COLON constant_expression
  		{
+ 			// output data
 			if(YFLAG){
 				outY << "struct_declarator : COLON constant_expression;" << std::endl;
-			outG << "struct_declarator -> COLON constant_expression;" << std::endl;
+				outG << "struct_declarator -> COLON constant_expression;" << std::endl;
 			}
 		}
 	| declarator COLON constant_expression
  		{
+ 			// output data
 			if(YFLAG){
 				outY << "struct_declarator : declarator COLON constant_expression;" << std::endl;
-			outG << "struct_declarator -> {declarator COLON constant_expression};" << std::endl;
+				outG << "struct_declarator -> {declarator COLON constant_expression};" << std::endl;
 			}
 		}
 	;
@@ -934,23 +1063,26 @@ struct_declarator
 enum_specifier
 	: ENUM LCURL enumerator_list RCURL
  		{
+ 			// output data
 			if(YFLAG){
 				outY << "enum_specifier : ENUM LCURL enumerator_list RCURL;" << std::endl;
-			outG << "enum_specifier -> {ENUM LCURL enumerator_list RCURL};" << std::endl;
+				outG << "enum_specifier -> {ENUM LCURL enumerator_list RCURL};" << std::endl;
 			}
 		}
 	| ENUM identifier LCURL enumerator_list RCURL
  		{
+ 			// output data
 			if(YFLAG){
 				outY << "enum_specifier : ENUM identifier LCURL enumerator_list RCURL;" << std::endl;
-			outG << "enum_specifier -> {ENUM identifier LCURL enumerator_list RCURL};" << std::endl;
+				outG << "enum_specifier -> {ENUM identifier LCURL enumerator_list RCURL};" << std::endl;
 			}
 		}
 	| ENUM identifier
  		{
+ 			// output data
 			if(YFLAG){
 				outY << "enum_specifier : ENUM identifier;" << std::endl;
-			outG << "enum_specifier -> {ENUM identifier};" << std::endl;
+				outG << "enum_specifier -> {ENUM identifier};" << std::endl;
 			}
 		}
 	;
@@ -958,16 +1090,18 @@ enum_specifier
 enumerator_list
 	: enumerator
  		{
+ 			// output data
 			if(YFLAG){
 				outY << "enumerator_list : enumerator;" << std::endl;
-			outG << "enumerator_list -> enumerator;" << std::endl;
+				outG << "enumerator_list -> enumerator;" << std::endl;
 			}
 		}
 	| enumerator_list COMMA enumerator
  		{
+ 			// output data
 			if(YFLAG){
 				outY << "enumerator_list : enumerator_list COMMA enumerator;" << std::endl;
-			outG << "enumerator_list -> {enumerator_list COMMA enumerator};" << std::endl;
+				outG << "enumerator_list -> {enumerator_list COMMA enumerator};" << std::endl;
 			}
 		}
 	;
@@ -975,16 +1109,18 @@ enumerator_list
 enumerator
 	: identifier
  		{
+ 			// output data
 			if(YFLAG){
 				outY << "enumerator : identifier;" << std::endl;
-			outG << "enumerator -> identifier;" << std::endl;
+				outG << "enumerator -> identifier;" << std::endl;
 			}
 		}
 	| identifier ASSIGN constant_expression
  		{
+ 			// output data
 			if(YFLAG){
 				outY << "enumerator : identifier ASSIGN constant_expression;" << std::endl;
-			outG << "enumerator -> {identifier ASSIGN constant_expression};" << std::endl;
+				outG << "enumerator -> {identifier ASSIGN constant_expression};" << std::endl;
 			}
 		}
 	;
@@ -992,17 +1128,20 @@ enumerator
 declarator
 	: direct_declarator
  		{
-			if(YFLAG){
-				outY << "declarator : direct_declarator;" << std::endl;
-			outG << "declarator -> direct_declarator;" << std::endl;
-			}
-
 			// create ast node
 			$$ = new node();
  			$$->valType = $1->valType;
  			$$->val = $1->val;
 			$$->astPtr = new declarator_Node($1->astPtr, NULL);
-				 		registerNode(outA, $$->astPtr);
+
+ 			// output data
+			if(YFLAG){
+				outY << "declarator : direct_declarator;" << std::endl;
+				outG << "declarator -> direct_declarator;" << std::endl;
+			}			
+			
+			// register data for graphviz
+			registerNode(outA, $$->astPtr);
 	 		outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $1->astPtr);
@@ -1010,22 +1149,24 @@ declarator
 		}
 	| pointer direct_declarator
  		{
-			if(YFLAG){
-				outY << "declarator : pointer direct_declarator;" << std::endl;
-			outG << "declarator -> {pointer direct_declarator};" << std::endl;
-			}
-
 			// create ast node
 			$$ = new node();
 			$$->val = $1->val;
 			$$->valType = $1->valType;
 			$$->astPtr = new declarator_Node($1->astPtr, $2->astPtr);
+
+			// output data 
+			if(YFLAG){
+				outY << "declarator : pointer direct_declarator;" << std::endl;
+				outG << "declarator -> {pointer direct_declarator};" << std::endl;
+			}
+
+			// register data for graphviz
 			registerNode(outA, $$->astPtr);
 	 		outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $1->astPtr);
  			outA << ";\n";
-
  			outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $2->astPtr);
@@ -1036,16 +1177,19 @@ declarator
 direct_declarator
 	: identifier
  		{
- 			if(YFLAG){
-				outY << "direct_declarator : identifier;" << std::endl;
-			outG << "direct_declarator -> identifier;" << std::endl;
-			}
-
 			// create ast node
 			$$ = new node();
 			$$->val = $1->val;
 			$$->valType = $1->valType;
 			$$->astPtr = new directDecl_Node($1->astPtr, NULL);
+
+			// output data 
+ 			if(YFLAG){
+				outY << "direct_declarator : identifier;" << std::endl;
+				outG << "direct_declarator -> identifier;" << std::endl;
+			}
+
+			// register data for graphviz
 			registerNode(outA, $$->astPtr);
 	 		outputNode(outA, $$->astPtr);
  			outA << " -> ";
@@ -1054,200 +1198,248 @@ direct_declarator
 		}
 	| LPAREN declarator RPAREN
  		{
-			if(YFLAG){
-				outY << "direct_declarator : LPAREN declarator RPAREN;" << std::endl;
-			outG << "direct_declarator -> {LPAREN declarator RPAREN};" << std::endl;
-			}
-
 			// create ast node
 			$$ = new node();
 			$$->val = $1->val;
 			$$->valType = $1->valType;
 			$$->astPtr = new directDecl_Node($2->astPtr, NULL);
+
+			// output data 
+			if(YFLAG){
+				outY << "direct_declarator : LPAREN declarator RPAREN;" << std::endl;
+				outG << "direct_declarator -> {LPAREN declarator RPAREN};" << std::endl;
+			}
+			
+			// register data for graphviz
 			registerNode(outA, $$->astPtr);
 			outputNode(outA, $$->astPtr);
- 			outA << " -> LPAREN;\n";
+ 			outA << " -> ";
+ 			outputTerminal(outA, "LPAREN", unique);
+ 			unique++;
 	 		outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $2->astPtr);
  			outA << ";\n";
-
 	 		outputNode(outA, $$->astPtr);
- 			outA << " -> RPAREN;\n";
+ 			outA << " -> ";
+ 			outputTerminal(outA, "RPAREN", unique);
+ 			unique++;
 		}
 	| direct_declarator LBRACK RBRACK 
  		{
-			if(YFLAG){
-				outY << "direct_declarator : direct_declarator LBRACK RBRACK;" << std::endl;
-			outG << "direct_declarator -> {direct_declarator LBRACK RBRACK};" << std::endl;
-			}
-
 			// create ast node
 			$$ = new node();
 			$$->val = $1->val;
 			$$->valType = $1->valType;
 			$$->astPtr = new directDecl_Node($1->astPtr, NULL);
 
+			if(YFLAG){
+				outY << "direct_declarator : direct_declarator LBRACK RBRACK;" << std::endl;
+				outG << "direct_declarator -> {direct_declarator LBRACK RBRACK};" << std::endl;
+			}	
+
+			// register data for graphviz 
 			registerNode(outA, $$->astPtr);
 	 		outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $1->astPtr);
  			outA << ";\n";
-
 	 		outputNode(outA, $$->astPtr);
- 			outA << " -> {LBRACK RBRACK};\n";
+ 			outA << " -> ";
+ 			outputTerminal(outA, "LBRACK", unique);
+ 			unique++;
+ 			outputNode(outA, $$->astPtr);
+ 			outA << " -> ";
+ 			outputTerminal(outA, "RBRACK", unique);
+ 			unique++;
 		}
 	| direct_declarator LBRACK constant_expression RBRACK
  		{
- 			$1->val._ste->setArray();
- 			$1->val._ste->addArrayDimension($3->val._num); 
-			if(YFLAG){
-				outY << "direct_declarator : direct_declarator LBRACK constant_expression RBRACK;" << std::endl;
-			outG << "direct_declarator -> {direct_declarator LBRACK constant_expression RBRACK};" << std::endl;
-			}
-
-			// create ast node
+ 			// create ast node
 			$$ = new node();
 			$$->val = $1->val;
 			$$->valType = $1->valType;
 			$$->astPtr = new directDecl_Node($1->astPtr, $3->astPtr);
+
+			// assign array attributes
+ 			$1->val._ste->setArray();
+ 			$1->val._ste->addArrayDimension($3->val._num); 
+			
+ 			// output data 
+			if(YFLAG){
+				outY << "direct_declarator : direct_declarator LBRACK constant_expression RBRACK;" << std::endl;
+				outG << "direct_declarator -> {direct_declarator LBRACK constant_expression RBRACK};" << std::endl;
+			}
+			
+			// register data for graphviz
 			registerNode(outA, $$->astPtr);
 	 		outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $1->astPtr);
  			outA << ";\n";
-
 	 		outputNode(outA, $$->astPtr);
- 			outA << " -> LBRACK;\n";
-
+ 			outA << " -> ";
+ 			outputTerminal(outA, "LBRACK", unique);
+ 			unique++;
  			outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $3->astPtr);
  			outA << ";\n";
-
  			outputNode(outA, $$->astPtr);
- 			outA << " -> RBRACK;\n";
+ 			outA << " -> ";
+ 			outputTerminal(outA, "RBRACK", unique);
+ 			unique++;
 		}
 	| direct_declarator LPAREN RPAREN set_insert
  		{
-			if(YFLAG){
-				outY << "direct_declarator : direct_declarator LPAREN RPAREN;" << std::endl;
-			outG << "direct_declarator -> {direct_declarator LPAREN RPAREN};" << std::endl;
-			}
-
 			// create ast node
 			$$ = new node();
 			$$->val = $1->val;
 			$$->valType = $1->valType;
 			$$->astPtr = new directDecl_Node($1->astPtr, NULL);
+
+			// output data 
+			if(YFLAG){
+				outY << "direct_declarator : direct_declarator LPAREN RPAREN;" << std::endl;
+				outG << "direct_declarator -> {direct_declarator LPAREN RPAREN};" << std::endl;
+			}			
+			
+			// register data for graphviz
 			registerNode(outA, $$->astPtr);
 	 		outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $1->astPtr);
  			outA << ";\n";
-
 	 		outputNode(outA, $$->astPtr);
- 			outA << " -> {LPAREN RPAREN};\n";
+ 			outA << " -> ";
+ 			outputTerminal(outA, "LPAREN", unique);
+ 			unique++;
+ 	 		outputNode(outA, $$->astPtr);
+ 			outA << " -> ";
+ 			outputTerminal(outA, "RPAREN", unique);
+ 			unique++;
 
 		}
-	| direct_declarator LPAREN  parameter_type_list RPAREN set_insert
+	| direct_declarator LPAREN parameter_type_list RPAREN set_insert
  		{
- 			
+ 			// create ast node
+			$$ = new node();
+			$$->val = $1->val;
+			$$->valType = $1->valType;
+			$$->astPtr = new directDecl_Node($1->astPtr, $3->astPtr);
+
+			// assign function attributes 
 			$1->val._ste->setFunction(); 
 			for (unsigned int i = 0; i < funcParams.size(); i++) {
 				$1->val._ste->addParameter(funcParams[i]);
 			}
 			funcParams.clear();
+
+			// output data 
  			if(YFLAG){
 				outY << "direct_declarator : direct_declarator LPAREN parameter_type_list RPAREN;" << std::endl;
-			outG << "direct_declarator -> {direct_declarator LPAREN parameter_type_list RPAREN};" << std::endl;
+				outG << "direct_declarator -> {direct_declarator LPAREN parameter_type_list RPAREN};" << std::endl;
 			}
-	
-			// create ast node
-			$$ = new node();
-			$$->val = $1->val;
-			$$->valType = $1->valType;
-			$$->astPtr = new directDecl_Node($1->astPtr, $3->astPtr);
+			
+			// register data for graphviz
 			registerNode(outA, $$->astPtr);
 	 		outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $1->astPtr);
  			outA << ";\n";
-
 	 		outputNode(outA, $$->astPtr);
- 			outA << " -> LPAREN;\n";
-
+ 			outA << " -> ";
+ 			outputTerminal(outA, "LPAREN", unique);
+ 			unique++;
  			outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $3->astPtr);
  			outA << ";\n";
  			outputNode(outA, $$->astPtr);
- 			outA << " -> RPAREN;\n";
+ 			outA << " -> ";
+ 			outputTerminal(outA, "RPAREN", unique);
+ 			unique++;
+
 		}
 	| direct_declarator LPAREN set_lookup identifier_list RPAREN set_insert
  		{
- 			if(YFLAG){
-				outY << "direct_declarator : direct_declarator LPAREN identifier_list RPAREN;" << std::endl;
-			outG << "direct_declarator -> {direct_declarator LPAREN identifier_list RPAREN};" << std::endl;
-			}
-
 			// create ast node
 			$$ = new node();
 			$$->val = $1->val;
 			$$->valType = $1->valType;
 			$$->astPtr = new directDecl_Node($1->astPtr, $4->astPtr);
+
+			// output data 
+ 			if(YFLAG){
+				outY << "direct_declarator : direct_declarator LPAREN identifier_list RPAREN;" << std::endl;
+				outG << "direct_declarator -> {direct_declarator LPAREN identifier_list RPAREN};" << std::endl;
+			}		
+	 		
+			// register data for graphviz
 	 		registerNode(outA, $$->astPtr);
 	 		outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $1->astPtr);
  			outA << ";\n";
-
 	 		outputNode(outA, $$->astPtr);
- 			outA << " -> LPAREN;\n";
-
+ 			outA << " -> ";
+ 			outputTerminal(outA, "LPAREN", unique);
+ 			unique++;
  			outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $4->astPtr);
  			outA << ";\n";
  			outputNode(outA, $$->astPtr);
- 			outA << " -> RPAREN;\n";
+ 			outA << " -> ";
+ 			outputTerminal(outA, "RPAREN", unique);
+ 			unique++;
+
 		}
 	;
 
 pointer
 	: MULT
- 		{
-			if(YFLAG){
-				outY << "pointer : MULT;" << std::endl;
-			outG << "pointer -> MULT;" << std::endl;
-			}
-
+ 		{		
 			// create ast node
 			$$ = new node();
 			$$->val = $1->val;
 			$$->valType = $1->valType;
 			$$->astPtr = new pointer_Node($1->astPtr);
+
+			// output data 
+			if(YFLAG){
+				outY << "pointer : MULT;" << std::endl;
+				outG << "pointer -> MULT;" << std::endl;
+			}
+			
+			// register data for graphviz
 			registerNode(outA, $$->astPtr);
 	 		outputNode(outA, $$->astPtr);
  			outA << " -> ";
- 			outputNode(outA, $1->astPtr);
- 			outA << ";\n";
+ 			outputTerminal(outA, "STAR", unique);
+ 			unique++;
+
 		}
 	| MULT type_qualifier_list
  		{
-			if(YFLAG){
-				outY << "pointer : MULT type_qualifier_list;" << std::endl;
-			outG << "pointer -> {MULT type_qualifier_list};" << std::endl;
-			}
-
 			// create ast node
 			$$ = new node();
 			$$->val = $1->val;
 			$$->valType = $1->valType;
 			$$->astPtr = new pointer_Node($2->astPtr);
+
+			// output data 
+			if(YFLAG){
+				outY << "pointer : MULT type_qualifier_list;" << std::endl;
+				outG << "pointer -> {MULT type_qualifier_list};" << std::endl;
+			}
+
+			// register data for graphviz
 			registerNode(outA, $$->astPtr);
 			outputNode(outA, $$->astPtr);
- 			outA << " -> MULT;\n";
+ 			outA << " -> ";
+ 			outputTerminal(outA, "STAR", unique);
+ 			unique++;
 	 		outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $2->astPtr);
@@ -1255,19 +1447,24 @@ pointer
 		}
 	| MULT pointer
  		{
-			if(YFLAG){
-				outY << "pointer : MULT pointer;" << std::endl;
-			outG << "pointer -> {MULT pointer};" << std::endl;
-			}
-
 			// create ast node
 			$$ = new node();
 			$$->val = $1->val;
 			$$->valType = $1->valType;
 			$$->astPtr = new pointer_Node($2->astPtr);
+
+			// output data 
+			if(YFLAG){
+				outY << "pointer : MULT pointer;" << std::endl;
+				outG << "pointer -> {MULT pointer};" << std::endl;
+			}
+
+			// register data for graphviz
 			registerNode(outA, $$->astPtr);
 			outputNode(outA, $$->astPtr);
- 			outA << " -> MULT;\n";
+ 			outA << " -> ";
+ 			outputTerminal(outA, "STAR", unique);
+ 			unique++;
 	 		outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $2->astPtr);
@@ -1275,24 +1472,28 @@ pointer
 		}
 	| MULT type_qualifier_list pointer
  		{
-			if(YFLAG){
-				outY << "pointer : MULT type_qualifier_list pointer;" << std::endl;
-			outG << "pointer -> {MULT type_qualifier_list pointer};" << std::endl;
-			}
-
 			// create ast node
 			$$ = new node();
 			$$->val = $1->val;
 			$$->valType = $1->valType;
 			$$->astPtr = new pointer_Node($2->astPtr, $3->astPtr);
+
+			// output data 
+			if(YFLAG){
+				outY << "pointer : MULT type_qualifier_list pointer;" << std::endl;
+				outG << "pointer -> {MULT type_qualifier_list pointer};" << std::endl;
+			}	
+			
+			// register data for graphviz
 			registerNode(outA, $$->astPtr);
 			outputNode(outA, $$->astPtr);
- 			outA << " -> MULT;\n";
+ 			outA << " -> ";
+ 			outputTerminal(outA, "STAR", unique);
+ 			unique++;
 	 		outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $2->astPtr);
  			outA << ";\n";
-
  			outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $3->astPtr);
@@ -1303,16 +1504,19 @@ pointer
 type_qualifier_list
 	: type_qualifier
  		{
-			if(YFLAG){
-				outY << "type_qualifier_list : type_qualifier;" << std::endl;
-			outG << "type_qualifier_list -> type_qualifier;" << std::endl;
-			}
-
 			// create ast node
 			$$ = new node();
 			$$->val = $1->val;
 			$$->valType = $1->valType;
 			$$->astPtr = new typeQualifierList_Node($1->astPtr, NULL);
+
+			// output data 
+			if(YFLAG){
+				outY << "type_qualifier_list : type_qualifier;" << std::endl;
+				outG << "type_qualifier_list -> type_qualifier;" << std::endl;
+			}
+
+			// register data for graphviz
 			registerNode(outA, $$->astPtr);
 	 		outputNode(outA, $$->astPtr);
  			outA << " -> ";
@@ -1321,22 +1525,24 @@ type_qualifier_list
 		}
 	| type_qualifier_list type_qualifier
  		{
-			if(YFLAG){
-				outY << "type_qualifier_list : type_qualifier_list type_qualifier;" << std::endl;
-			outG << "type_qualifier_list -> {type_qualifier_list type_qualifier};" << std::endl;
-			}
-
 			// create ast node
 			$$ = new node();
 			$$->val = $1->val;
 			$$->valType = $1->valType;
 			$$->astPtr = new typeQualifierList_Node($1->astPtr, $2->astPtr);
+
+ 			// output data
+			if(YFLAG){
+				outY << "type_qualifier_list : type_qualifier_list type_qualifier;" << std::endl;
+				outG << "type_qualifier_list -> {type_qualifier_list type_qualifier};" << std::endl;
+			}
+
+			// register data for graphviz
 			registerNode(outA, $$->astPtr);
 	 		outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $1->astPtr);
  			outA << ";\n";
-
  			outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $2->astPtr);
@@ -1347,16 +1553,18 @@ type_qualifier_list
 parameter_type_list
 	: parameter_list
  		{
+ 			// output data
 			if(YFLAG){
 				outY << "parameter_type_list : parameter_list;" << std::endl;
-			outG << "parameter_type_list -> parameter_list;" << std::endl;
+				outG << "parameter_type_list -> parameter_list;" << std::endl;
 			}
 		}	
 	| parameter_list COMMA ELIPSIS
  		{
+ 			// output data
 			if(YFLAG){
 				outY << "parameter_type_list : parameter_list COMMA ELIPSIS;" << std::endl;
-			outG << "parameter_type_list -> {parameter_list COMMA ELIPSIS};" << std::endl;
+				outG << "parameter_type_list -> {parameter_list COMMA ELIPSIS};" << std::endl;
 			}
 		}	
 	;
@@ -1364,16 +1572,18 @@ parameter_type_list
 parameter_list
 	: parameter_declaration
  		{
+ 			// output data
  			if(YFLAG){
 				outY << "parameter_list : parameter_declaration;" << std::endl;
-			outG << "parameter_list -> parameter_declaration;" << std::endl;
+				outG << "parameter_list -> parameter_declaration;" << std::endl;
 			}
 		}	
 	| parameter_list COMMA parameter_declaration
  		{
+ 			// output data
 			if(YFLAG){
 				outY << "parameter_list : parameter_list COMMA parameter_declaration;" << std::endl;
-			outG << "parameter_list -> {parameter_list COMMA parameter_declaration};" << std::endl;
+				outG << "parameter_list -> {parameter_list COMMA parameter_declaration};" << std::endl;
 			}
 		}	
 	;
@@ -1381,27 +1591,31 @@ parameter_list
 parameter_declaration
 	: declaration_specifiers declarator
  		{
+ 			// store integer data types of parameters 
  			std::vector<int> formalParamType;
  			formalParamType = $2->val._ste->getIdentifierType_Vector();
- 			std::string name = $2->val._ste->getIdentifierName(); 
 			funcParams.push_back(formalParamType);
+			
+			// output data
 			if(YFLAG){
 				outY << "parameter_declaration : declaration_specifiers declarator;" << std::endl;
-			outG << "parameter_declaration -> {declaration_specifiers declarator};" << std::endl;
+				outG << "parameter_declaration -> {declaration_specifiers declarator};" << std::endl;
 			}
 		}
 	| declaration_specifiers
  		{
+ 			// output data
 			if(YFLAG){
 				outY << "parameter_declaration : declaration_specifiers;" << std::endl;
-			outG << "parameter_declaration -> declaration_specifiers;" << std::endl;
+				outG << "parameter_declaration -> declaration_specifiers;" << std::endl;
 			}
 		}
 	| declaration_specifiers abstract_declarator
  		{
+ 			// output data
 			if(YFLAG){
 				outY << "parameter_declaration : declaration_specifiers abstract_declarator;" << std::endl;
-			outG << "parameter_declaration -> {declaration_specifiers abstract_declarator};" << std::endl;
+				outG << "parameter_declaration -> {declaration_specifiers abstract_declarator};" << std::endl;
 			}
 		}
 	;
@@ -1409,17 +1623,18 @@ parameter_declaration
 identifier_list
 	: identifier
  		{
- 			
+ 			// output data
 			if(YFLAG){
 				outY << "identifier_list : identifier;" << std::endl;
-			outG << "identifier_list -> identifier;" << std::endl;
+				outG << "identifier_list -> identifier;" << std::endl;
 			}
 		}
 	| identifier_list COMMA identifier
  		{
+ 			// output data
 			if(YFLAG){
 				outY << "identifier_list : identifier_list COMMA identifier;" << std::endl;
-			outG << "identifier_list -> {identifier_list COMMA identifier};" << std::endl;
+				outG << "identifier_list -> {identifier_list COMMA identifier};" << std::endl;
 			}
 		}
 	;
@@ -1427,16 +1642,19 @@ identifier_list
 initializer
 	: assignment_expression
  		{
-			if(YFLAG){
-				outY << "initializer : assignment_expression;" << std::endl;
-			outG << "initializer -> assignment_expression;" << std::endl;
-			}
-
-			// create ast node
+ 			// create ast node
 			$$ = new node();
 			$$->val = $1->val;
 			$$->valType = $1->valType;
 			$$->astPtr = new initializer_Node($1->astPtr);
+
+			// output data 
+			if(YFLAG){
+				outY << "initializer : assignment_expression;" << std::endl;
+				outG << "initializer -> assignment_expression;" << std::endl;
+			}
+
+			// register data for graphviz
 	 		registerNode(outA, $$->astPtr);
 	 		outputNode(outA, $$->astPtr);
  			outA << " -> ";
@@ -1445,66 +1663,83 @@ initializer
 		}
 	| LCURL initializer_list RCURL
  		{
+ 			// create ast node
+			$$ = new node();
+			$$->val = $2->val;
+			$$->valType = $2->valType;
+			$$->astPtr = new initializer_Node($2->astPtr);
+
+			// output data 
 			if(YFLAG){
 				outY << "initializer : LCURL initializer_list RCURL;" << std::endl;
-			outG << "initializer -> {LCURL initializer_list RCURL};" << std::endl;
-			}
-
-			// create ast node
-			$$ = new node();
-			$$->val = $1->val;
-			$$->valType = $1->valType;
-			$$->astPtr = new initializer_Node($2->astPtr);
+				outG << "initializer -> {LCURL initializer_list RCURL};" << std::endl;
+			}			
+			
+			// register data for graphviz
 			registerNode(outA, $$->astPtr);
 			outputNode(outA, $$->astPtr);
- 			outA << " -> LCURL;\n";
+ 			outA << " -> ";
+ 			outputTerminal(outA, "LCURL", unique);
+ 			unique++;
 	 		outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $2->astPtr);
  			outA << ";\n";
-
 	 		outputNode(outA, $$->astPtr);
- 			outA << " -> {RCURL};\n";
+ 			outA << " -> ";
+ 			outputTerminal(outA, "RCURL", unique);
+ 			unique++;
 		}
 	| LCURL initializer_list COMMA RCURL
  		{
-			if(YFLAG){
-				outY << "initializer : LCURL initializer_list COMMA RCURL;" << std::endl;
-			outG << "initializer -> {LCURL initializer_list COMMA RCURL};" << std::endl;
-			}
-
 			// create ast node
 			$$ = new node();
-			$$->val = $1->val;
-			$$->valType = $1->valType;
+			$$->val = $2->val;
+			$$->valType = $2->valType;
 			$$->astPtr = new initializer_Node($2->astPtr);
+
+ 			// output data 
+			if(YFLAG){
+				outY << "initializer : LCURL initializer_list COMMA RCURL;" << std::endl;
+				outG << "initializer -> {LCURL initializer_list COMMA RCURL};" << std::endl;
+			}
+
+			// register data for graphviz
 			registerNode(outA, $$->astPtr);
 			outputNode(outA, $$->astPtr);
- 			outA << " -> LCURL;\n";
+ 			outA << " -> ";
+ 			outputTerminal(outA, "LCURL", unique);
+ 			unique++;
 	 		outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $2->astPtr);
  			outA << ";\n";
-
 	 		outputNode(outA, $$->astPtr);
- 			outA << " -> {COMMA RCURL};\n";
-
+ 			outA << " -> ";
+ 			outputTerminal(outA, "COMMA", unique);
+ 			unique++;
+	 		outputNode(outA, $$->astPtr);
+ 			outA << " -> ";
+ 			outputTerminal(outA, "RCURL", unique);
+ 			unique++;
 		}
 	;
 
 initializer_list
 	: initializer
  		{
+ 			// output data 
 			if(YFLAG){
 				outY << "initializer_list : initializer;" << std::endl;
-			outG << "initializer_list -> initializer;" << std::endl;
+				outG << "initializer_list -> initializer;" << std::endl;
 			}
 		}
 	| initializer_list COMMA initializer
  		{
+ 			// output data 
 			if(YFLAG){
 				outY << "initializer_list : initializer_list COMMA initializer;" << std::endl;
-			outG << "initializer_list -> {initializer_list COMMA initializer};" << std::endl;
+				outG << "initializer_list -> {initializer_list COMMA initializer};" << std::endl;
 			}
 		}
 	;
@@ -1512,16 +1747,18 @@ initializer_list
 type_name
 	: specifier_qualifier_list
  		{
+ 			// output data 
 			if(YFLAG){
 				outY << "type_name : specifier_qualifier_list;" << std::endl;
-			outG << "type_name -> specifier_qualifier_list;" << std::endl;
+				outG << "type_name -> specifier_qualifier_list;" << std::endl;
 			}
 		}
 	| specifier_qualifier_list abstract_declarator
  		{
+ 			// output data 
 			if(YFLAG){
 				outY << "type_name : specifier_qualifier_list abstract_declarator;" << std::endl;
-			outG << "type_name -> {specifier_qualifier_list abstract_declarator};" << std::endl;
+				outG << "type_name -> {specifier_qualifier_list abstract_declarator};" << std::endl;
 			}
 		}
 	;
@@ -1529,23 +1766,26 @@ type_name
 abstract_declarator
 	: pointer
  		{
+ 			// output data 
 			if(YFLAG){
 				outY << "abstract_declarator : pointer;" << std::endl;
-			outG << "abstract_declarator -> pointer;" << std::endl;
+				outG << "abstract_declarator -> pointer;" << std::endl;
 			}
 		}
 	| direct_abstract_declarator
  		{
+ 			// output data 
 			if(YFLAG){
 				outY << "abstract_declarator : direct_abstract_declarator;" << std::endl;
-			outG << "abstract_declarator -> direct_abstract_declarator;" << std::endl;
+				outG << "abstract_declarator -> direct_abstract_declarator;" << std::endl;
 			}
 		}
 	| pointer direct_abstract_declarator
  		{
+ 			// output data 
 			if(YFLAG){
 				outY << "abstract_declarator : pointer direct_abstract_declarator;" << std::endl;
-			outG << "abstract_declarator -> {pointer direct_abstract_declarator};" << std::endl;
+				outG << "abstract_declarator -> {pointer direct_abstract_declarator};" << std::endl;
 			}
 		}
 	;
@@ -1553,66 +1793,75 @@ abstract_declarator
 direct_abstract_declarator
 	: LPAREN abstract_declarator RPAREN
  		{
+ 			// output data 
 			if(YFLAG){
 				outY << "direct_abstract_declarator : LPAREN abstract_declarator RPAREN;" << std::endl;
-			outG << "direct_abstract_declarator -> {LPAREN abstract_declarator RPAREN};" << std::endl;
+				outG << "direct_abstract_declarator -> {LPAREN abstract_declarator RPAREN};" << std::endl;
 			}
 		}
 	;
 	| LBRACK RBRACK
  		{
+ 			// output data 
 			if(YFLAG){
 				outY << "direct_abstract_declarator : LBRACK RBRACK;" << std::endl;
-			outG << "direct_abstract_declarator -> {LBRACK RBRACK};" << std::endl;
+				outG << "direct_abstract_declarator -> {LBRACK RBRACK};" << std::endl;
 			}
 		}
 	| LBRACK constant_expression RBRACK
  		{
+ 			// output data 
 			if(YFLAG){
 				outY << "direct_abstract_declarator : LBRACK constant_expression RBRACK;" << std::endl;
-			outG << "direct_abstract_declarator -> {LBRACK constant_expression RBRACK};" << std::endl;
+				outG << "direct_abstract_declarator -> {LBRACK constant_expression RBRACK};" << std::endl;
 			}
 		}
 	| direct_abstract_declarator LBRACK RBRACK
  		{
+ 			// output data 
 			if(YFLAG){
 				outY << "direct_abstract_declarator : direct_abstract_declarator LBRACK RBRACK;" << std::endl;
-			outG << "direct_abstract_declarator -> {direct_abstract_declarator LBRACK RBRACK};" << std::endl;
+				outG << "direct_abstract_declarator -> {direct_abstract_declarator LBRACK RBRACK};" << std::endl;
 			}
 		}
 	| direct_abstract_declarator LBRACK constant_expression RBRACK
  		{
+ 			// output data 
 			if(YFLAG){
 				outY << "direct_abstract_declarator : direct_abstract_declarator LBRACK constant_expression;" << std::endl;
-			outG << "direct_abstract_declarator -> {direct_abstract_declarator LBRACK constant_expression};" << std::endl;
+				outG << "direct_abstract_declarator -> {direct_abstract_declarator LBRACK constant_expression};" << std::endl;
 			}
 		}
 	| LPAREN RPAREN
  		{
+ 			// output data 
 			if(YFLAG){
 				outY << "direct_abstract_declarator : LPAREN RPAREN;" << std::endl;
-			outG << "direct_abstract_declarator -> {LPAREN RPAREN};" << std::endl;
+				outG << "direct_abstract_declarator -> {LPAREN RPAREN};" << std::endl;
 			}
 		}
 	| LPAREN parameter_type_list RPAREN
  		{
+ 			// output data 
 			if(YFLAG){
 				outY << "direct_abstract_declarator : LPAREN parameter_type_list RPAREN;" << std::endl;
-			outG << "direct_abstract_declarator -> {LPAREN parameter_type_list RPAREN};" << std::endl;
+				outG << "direct_abstract_declarator -> {LPAREN parameter_type_list RPAREN};" << std::endl;
 			}
 		}
 	| direct_abstract_declarator LPAREN RPAREN
  		{
+ 			// output data 
 			if(YFLAG){
 				outY << "direct_abstract_declarator : direct_abstract_declarator LPAREN RPAREN;" << std::endl;
-			outG << "direct_abstract_declarator -> {direct_abstract_declarator LPAREN RPAREN};" << std::endl;
+				outG << "direct_abstract_declarator -> {direct_abstract_declarator LPAREN RPAREN};" << std::endl;
 			}
 		}
 	| direct_abstract_declarator LPAREN parameter_type_list RPAREN
  		{
+ 			// output data 
 			if(YFLAG){
 				outY << "direct_abstract_declarator : direct_abstract_declarator LPAREN parameter_type_list RPAREN;" << std::endl;
-			outG << "direct_abstract_declarator -> {direct_abstract_declarator LPAREN parameter_type_list RPAREN};" << std::endl;
+				outG << "direct_abstract_declarator -> {direct_abstract_declarator LPAREN parameter_type_list RPAREN};" << std::endl;
 			}
 		}
 	;
@@ -1620,44 +1869,50 @@ direct_abstract_declarator
 statement
 	:  labeled_statement
  		{
+ 			// output data 
 			if(YFLAG){
 				outY << "statement : labeled_statement;" << std::endl;
-			outG << "statement -> labeled_statement;" << std::endl;
+				outG << "statement -> labeled_statement;" << std::endl;
 			}
 		}
 	| compound_statement
  		{
+ 			// output data 
 			if(YFLAG){
 				outY << "statement : compound_statement;" << std::endl;
-			outG << "statement -> compound_statement;" << std::endl;
+				outG << "statement -> compound_statement;" << std::endl;
 			}
 		}
 	| expression_statement
  		{
+ 			// output data 
 			if(YFLAG){
 				outY << "statement : expression_statement;" << std::endl;
-			outG << "statement -> expression_statement;" << std::endl;
+				outG << "statement -> expression_statement;" << std::endl;
 			}
 		}
 	| selection_statement
  		{
+ 			// output data 
 			if(YFLAG){
 				outY << "statement : selection_statement;" << std::endl;
-			outG << "statement -> selection_statement;" << std::endl;
+				outG << "statement -> selection_statement;" << std::endl;
 			}
 		}
 	| iteration_statement
  		{
+ 			// output data 
 			if(YFLAG){
 				outY << "statement : iteration_statement;" << std::endl;
-			outG << "statement -> iteration_statement;" << std::endl;
+				outG << "statement -> iteration_statement;" << std::endl;
 			}
 		}
 	| jump_statement
  		{
+ 			// output data 
 			if(YFLAG){
 				outY << "statement : jump_statement;" << std::endl;
-			outG << "statement -> jump_statement;" << std::endl;
+				outG << "statement -> jump_statement;" << std::endl;
 			}
 		}
 	;
@@ -1665,23 +1920,26 @@ statement
 labeled_statement
 	: identifier COLON statement
  		{
+ 			// output data 
 			if(YFLAG){
 				outY << "labeled_statement : identifier COLON statement;" << std::endl;
-			outG << "labeled_statement -> {identifier COLON statement};" << std::endl;
+				outG << "labeled_statement -> {identifier COLON statement};" << std::endl;
 			}
 		}
 	| CASE constant_expression COLON statement
  		{
+ 			// output data 
 			if(YFLAG){
 				outY << "labeled_statement : CASE constant_expression COLON statement;" << std::endl;
-			outG << "labeled_statement -> {CASE constant_expression COLON statement};" << std::endl;
+				outG << "labeled_statement -> {CASE constant_expression COLON statement};" << std::endl;
 			}
 		}
 	| DEFAULT COLON statement
  		{
+ 			// output data 
 			if(YFLAG){
 				outY << "labeled_statement : DEFAULT COLON statement;" << std::endl;
-			outG << "labeled_statement -> {DEFAULT COLON statement};" << std::endl;
+				outG << "labeled_statement -> {DEFAULT COLON statement};" << std::endl;
 			}
 		}
 	;
@@ -1689,16 +1947,18 @@ labeled_statement
 expression_statement
 	: SEMI
  		{
+ 			// output data 
 			if(YFLAG){
 				outY << "expression_statement : SEMI;" << std::endl;
-			outG << "expression_statement -> SEMI;" << std::endl;
+				outG << "expression_statement -> SEMI;" << std::endl;
 			}
 		}
 	| expression SEMI
  		{
+ 			// output data 
 			if(YFLAG){
 				outY << "expression_statement : expression SEMI;" << std::endl;
-			outG << "expression_statement -> {expression SEMI};" << std::endl;
+				outG << "expression_statement -> {expression SEMI};" << std::endl;
 			}
 		}
 	;
@@ -1706,80 +1966,104 @@ expression_statement
 compound_statement
 	: LCURL RCURL 
  		{
+ 			// create ast node and assign attributes
+			$$ = new node();
+			$$->astPtr = new compoundStat_Node(NULL, NULL);
+
+			// output data 
 			if(YFLAG){
 				outY << "compound_statement : LCURL RCURL;" << std::endl;
-			outG << "compound_statement -> {LCURL RCURL};" << std::endl;
+				outG << "compound_statement -> {LCURL RCURL};" << std::endl;
 			}
 
-			// create ast node
-			$$ = new node();
-			$$->val = $1->val;
-			$$->valType = $1->valType;
-			$$->astPtr = new compoundStat_Node(NULL, NULL);
+			// register data for graphviz
 			registerNode(outA, $$->astPtr);
 			outputNode(outA, $$->astPtr);
- 			outA << " -> {LCURL RCURL};\n";
+ 			outA << " -> ";
+ 			outputTerminal(outA, "LCURL", unique);
+ 			unique++;
+
+ 			outputNode(outA, $$->astPtr);
+ 			outA << " -> ";
+ 			outputTerminal(outA, "RCURL", unique);
+ 			unique++;
 		}						
 	| LCURL open_curl set_lookup statement_list RCURL close_curl
  		{
- 			if(YFLAG){
-				outY << "compound_statement : LCURL statement_list RCURL;" << std::endl;
-			outG << "compound_statement -> {LCURL statement_list RCURL};" << std::endl;
-			}
-
-			// create ast node
+ 			// create ast node and assign attributes
 			$$ = new node();
 			$$->val = $1->val;
 			$$->valType = $1->valType;
 			$$->astPtr = new compoundStat_Node(NULL, $4->astPtr);
-			registerNode(outA, $$->astPtr);
 
- 			outputNode(outA, $$->astPtr);
- 			outA << " -> {LCURL};\n";
+			// output data 
+ 			if(YFLAG){
+				outY << "compound_statement : LCURL statement_list RCURL;" << std::endl;
+				outG << "compound_statement -> {LCURL statement_list RCURL};" << std::endl;
+			}
+
+			// register data for graphviz
+			registerNode(outA, $$->astPtr);
+			outputNode(outA, $$->astPtr);
+ 			outA << " -> ";
+ 			outputTerminal(outA, "LCURL", unique);
+ 			unique++;
  			outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $4->astPtr);
  			outA << ";\n";	
  			outputNode(outA, $$->astPtr);
- 			outA << " -> {RCURL};\n";
+ 			outA << " -> ";
+ 			outputTerminal(outA, "RCURL", unique);
+ 			unique++;
 		}					
 	| LCURL set_insert_push declaration_list RCURL set_lookup_pop	
  		{
- 			if(YFLAG){
-				outY << "compound_statement : LCURL declaration_list RCURL;" << std::endl;
-			outG << "compound_statement -> {LCURL declaration_list RCURL};" << std::endl;
-			}
-
-			// create ast node
+ 			// create ast node and assign attributes
 			$$ = new node();
 			$$->val = $1->val;
 			$$->valType = $1->valType;
 			$$->astPtr = new compoundStat_Node($3->astPtr, NULL);
-			registerNode(outA, $$->astPtr);
 
+			// output data
+ 			if(YFLAG){
+				outY << "compound_statement : LCURL declaration_list RCURL;" << std::endl;
+				outG << "compound_statement -> {LCURL declaration_list RCURL};" << std::endl;
+			}			
+			
+			// register data for graphviz
+			registerNode(outA, $$->astPtr);	
  			outputNode(outA, $$->astPtr);
- 			outA << " -> {LCURL};\n";
+ 			outA << " -> ";
+ 			outputTerminal(outA, "LCURL", unique);
+ 			unique++;
  			outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $3->astPtr);
  			outA << ";\n";	
- 			outputNode(outA, $$->astPtr);
- 			outA << " -> {RCURL};\n";
+			outputNode(outA, $$->astPtr);
+ 			outA << " -> ";
+ 			outputTerminal(outA, "RCURL", unique);
+ 			unique++;
 		}				
 	| LCURL set_insert_push declaration_list set_lookup statement_list RCURL set_lookup_pop 
 		{
-			if(YFLAG){
-			outG << "compound_statement -> {LCURL declaration_list statement_list RCURL};" << std::endl;
-				outY << "compound_statement : LCURL declaration_list statement_list RCURL;" << std::endl;
-		    }     
-
-		    // create ast node
+			// create ast node and assign attributes
 			$$ = new node();
 			$$->astPtr = new compoundStat_Node($3->astPtr, $5->astPtr);
-			registerNode(outA, $$->astPtr);
 
- 			outputNode(outA, $$->astPtr);
- 			outA << " -> {LCURL};\n";
+			// output data 
+			if(YFLAG){
+				outG << "compound_statement -> {LCURL declaration_list statement_list RCURL};" << std::endl;
+				outY << "compound_statement : LCURL declaration_list statement_list RCURL;" << std::endl;
+		    }     
+			
+			// register data for graphviz
+			registerNode(outA, $$->astPtr);
+			outputNode(outA, $$->astPtr);
+ 			outA << " -> ";
+ 			outputTerminal(outA, "LCURL", unique);
+ 			unique++;
  			outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $3->astPtr);
@@ -1788,8 +2072,10 @@ compound_statement
  			outA << " -> ";
  			outputNode(outA, $5->astPtr);
  			outA << ";\n";	
- 			outputNode(outA, $$->astPtr);
- 			outA << " -> {RCURL};\n";
+			outputNode(outA, $$->astPtr);
+ 			outA << " -> ";
+ 			outputTerminal(outA, "RCURL", unique);
+ 			unique++;
 	    } 
 	;
 
@@ -1797,6 +2083,7 @@ set_insert_push
 	:	{
 		table.pushLevelOn();
 		inInsertMode = true;
+		outY << "set_insert_push : inInsertMode = true" << std::endl;
 		}
 	;
 
@@ -1804,18 +2091,20 @@ set_lookup_pop
 	:	{
 		table.popLevelOff(); 
 		inInsertMode = false;  
+		outY << "set_lookup_pop : inInsertMode = false" << std::endl;
 		}
 	;
 
 set_lookup
 	:	{
-		std::cout << "set_lookup : inInsertMode = false" << std::endl; 
+		outY << "set_lookup : inInsertMode = false" << std::endl; 
 		inInsertMode = false; 
 		}
 	;
 
 set_insert
 	:	{
+		outY << "set_insert : inInsertMode = true" << std::endl; 
 		inInsertMode = true; 
 		}
 	;
@@ -1835,18 +2124,20 @@ close_curl
 statement_list
 	: statement
  		{
-			if(YFLAG){
-				outY << "statement_list : statement;" << std::endl;
-			outG << "statement_list -> statement;" << std::endl;
-			}
-
-			// create ast node
+ 			// create ast node and assign attributes
 			$$ = new node();
 			$$->val = $1->val;
 			$$->valType = $1->valType;
 			$$->astPtr = new statList_Node($1->astPtr, NULL);
-						registerNode(outA, $$->astPtr);
 
+			// output data 
+			if(YFLAG){
+				outY << "statement_list : statement;" << std::endl;
+				outG << "statement_list -> statement;" << std::endl;
+			}	
+			
+			// register data for graphviz			
+			registerNode(outA, $$->astPtr);
  			outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $1->astPtr);
@@ -1854,18 +2145,20 @@ statement_list
 		}
 	| statement_list statement
  		{
-			if(YFLAG){
-				outY << "statement_list : statement_list statement;" << std::endl;
-			outG << "statement_list -> {statement_list statement};" << std::endl;
-			}
-
-			// create ast node
+			// create ast node and assign attributes
 			$$ = new node();
 			$$->val = $1->val;
 			$$->valType = $1->valType;
 			$$->astPtr = new statList_Node($1->astPtr, $2->astPtr);
-			registerNode(outA, $$->astPtr);
 
+			// output data 
+			if(YFLAG){
+				outY << "statement_list : statement_list statement;" << std::endl;
+				outG << "statement_list -> {statement_list statement};" << std::endl;
+			}
+
+			// register data for graphviz
+			registerNode(outA, $$->astPtr);
  			outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $1->astPtr);
@@ -1880,26 +2173,36 @@ statement_list
 selection_statement
 	: IF LPAREN expression RPAREN statement
  		{
-			if(YFLAG){
-				outY << "selection_statement : IF LPAREN expression RPAREN statement;" << std::endl;
-			outG << "selection_statement -> {IF LPAREN expression RPAREN statement};" << std::endl;
-			}
-
-			// create ast node
+ 			// create ast node and assign attributes
 			$$ = new node();
 			$$->val = $3->val;
 			$$->valType = $3->valType;
 			$$->astPtr = new selectionStat_Node($3->astPtr, $5->astPtr, NULL);
-			registerNode(outA, $$->astPtr);
 
+			// output pasta
+			if(YFLAG){
+				outY << "selection_statement : IF LPAREN expression RPAREN statement;" << std::endl;
+				outG << "selection_statement -> {IF LPAREN expression RPAREN statement};" << std::endl;
+			}
+
+			// register data for graphviz
+			registerNode(outA, $$->astPtr);
  			outputNode(outA, $$->astPtr);
- 			outA << " -> {IF LPAREN};\n";
+ 			outA << " -> ";
+ 			outputTerminal(outA, "IF", unique);
+ 			unique++;
+ 			outputNode(outA, $$->astPtr);
+ 			outA << " -> ";
+ 			outputTerminal(outA, "LPAREN", unique);
+ 			unique++;
  			outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $3->astPtr);
  			outA << ";\n";	
  			outputNode(outA, $$->astPtr);
- 			outA << " -> RPAREN;\n";
+ 			outA << " -> ";
+ 			outputTerminal(outA, "RPAREN", unique);
+ 			unique++;
  			outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $5->astPtr);
@@ -1907,32 +2210,44 @@ selection_statement
 		}
 	| IF LPAREN expression RPAREN statement ELSE statement
  		{
-			if(YFLAG){
-				outY << "selection_statement : IF LPAREN expression RPAREN statement ELSE statement;" << std::endl;
-			outG << "selection_statement -> {IF LPAREN expression RPAREN statement ELSE statement};" << std::endl;
-			}
-
-			// create ast node
+			// create ast node and assign attributes
 			$$ = new node();
 			$$->val = $3->val;
 			$$->valType = $3->valType;
 			$$->astPtr = new selectionStat_Node($3->astPtr, $5->astPtr, $7->astPtr);
-			registerNode(outA, $$->astPtr);
 
+			// output data 
+			if(YFLAG){
+				outY << "selection_statement : IF LPAREN expression RPAREN statement ELSE statement;" << std::endl;
+				outG << "selection_statement -> {IF LPAREN expression RPAREN statement ELSE statement};" << std::endl;
+			}
+		
+			// register data for graphviz
+			registerNode(outA, $$->astPtr);
  			outputNode(outA, $$->astPtr);
- 			outA << " -> {IF LPAREN};\n";
+ 			outA << " -> ";
+ 			outputTerminal(outA, "IF", unique);
+ 			unique++;
+ 			outputNode(outA, $$->astPtr);
+ 			outA << " -> ";
+ 			outputTerminal(outA, "LPAREN", unique);
+ 			unique++;
  			outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $3->astPtr);
  			outA << ";\n";	
  			outputNode(outA, $$->astPtr);
- 			outA << " -> RPAREN;\n";
+ 			outA << " -> ";
+ 			outputTerminal(outA, "RPAREN", unique);
+ 			unique++;
  			outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $5->astPtr);
  			outA << ";\n";	
  			outputNode(outA, $$->astPtr);
- 			outA << " -> ELSE;\n";
+ 			outA << " -> ";
+ 			outputTerminal(outA, "ELSE", unique);
+ 			unique++;
  			outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $7->astPtr);
@@ -1940,26 +2255,37 @@ selection_statement
 		}
 	| SWITCH LPAREN expression RPAREN statement
  		{
-			if(YFLAG){
-				outY << "selection_statement : SWITCH LPAREN expression RPAREN statement;" << std::endl;
-			outG << "selection_statement -> {SWITCH LPAREN expression RPAREN statement};" << std::endl;
-			}
-
-			// create ast node
+ 			// create ast node and assign attributes
 			$$ = new node();
 			$$->val = $3->val;
 			$$->valType = $3->valType;
 			$$->astPtr = new selectionStat_Node($3->astPtr, $5->astPtr, NULL);
+
+			// output data 
+			if(YFLAG){
+				outY << "selection_statement : SWITCH LPAREN expression RPAREN statement;" << std::endl;
+				outG << "selection_statement -> {SWITCH LPAREN expression RPAREN statement};" << std::endl;
+			}	
+			
+			// register data for graphviz
 			registerNode(outA, $$->astPtr);
+ 			outputNode(outA, $$->astPtr);
+ 			outA << " -> ";
+ 			outputTerminal(outA, "SWITCH", unique);
+ 			unique++;
 
  			outputNode(outA, $$->astPtr);
- 			outA << " -> {SWITCH LPAREN};\n";
+ 			outA << " -> ";
+ 			outputTerminal(outA, "LPAREN", unique);
+ 			unique++;
  			outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $3->astPtr);
  			outA << ";\n";	
  			outputNode(outA, $$->astPtr);
- 			outA << " -> RPAREN;\n";
+ 			outA << " -> ";
+ 			outputTerminal(outA, "RPAREN", unique);
+ 			unique++;
  			outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $5->astPtr);
@@ -1970,25 +2296,35 @@ selection_statement
 iteration_statement
 	: WHILE LPAREN expression RPAREN statement
  		{
-			if(YFLAG){
-				outY << "iteration_statement : WHILE LPAREN expression RPAREN statement;" << std::endl;
-			outG << "iteration_statement -> {WHILE LPAREN expression RPAREN statement};" << std::endl; 
-			}
-
-			// create ast node
+ 			// create ast node and assign attributes
 			$$ = new node();
 			$$->astPtr = new iterStat_Node($3->astPtr, NULL, NULL, $5->astPtr, false);
 
+			// output data 
+			if(YFLAG){
+				outY << "iteration_statement : WHILE LPAREN expression RPAREN statement;" << std::endl;
+				outG << "iteration_statement -> {WHILE LPAREN expression RPAREN statement};" << std::endl; 
+			}
+
+			// register data for graphviz
 			registerNode(outA, $$->astPtr);
+ 			outputNode(outA, $$->astPtr);
+ 			outA << " -> ";
+ 			outputTerminal(outA, "WHILE", unique);
+ 			unique++;
 
  			outputNode(outA, $$->astPtr);
- 			outA << " -> {WHILE LPAREN};\n";
+ 			outA << " -> ";
+ 			outputTerminal(outA, "LPAREN", unique);
+ 			unique++;
  			outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $3->astPtr);
  			outA << ";\n";	
  			outputNode(outA, $$->astPtr);
- 			outA << " -> RPAREN;\n";
+ 			outA << " -> ";
+ 			outputTerminal(outA, "RPAREN", unique);
+ 			unique++;
  			outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $5->astPtr);
@@ -1996,47 +2332,85 @@ iteration_statement
 		}
 	| DO statement WHILE LPAREN expression RPAREN SEMI
  		{
-			if(YFLAG){
-				outY << "iteration_statement : DO statement WHILE LPAREN expression RPAREN SEMI;" << std::endl;
-			outG << "iteration_statement -> {DO statement WHILE LPAREN expression RPAREN SEMI};" << std::endl; 
-			}
-
-			// create ast node
+			// create ast node and assign attributes
 			$$ = new node();
 			$$->val = $2->val;
 			$$->valType = $2->valType;
 			$$->astPtr = new iterStat_Node($5->astPtr, NULL, NULL, $2->astPtr, true);
+
+			// output data
+			if(YFLAG){
+				outY << "iteration_statement : DO statement WHILE LPAREN expression RPAREN SEMI;" << std::endl;
+				outG << "iteration_statement -> {DO statement WHILE LPAREN expression RPAREN SEMI};" << std::endl; 
+			}
+
+			// register data for graphviz and assign attributes
 			registerNode(outA, $$->astPtr);
 			outputNode(outA, $$->astPtr);
- 			outA << " -> DO;\n";
+ 			outA << " -> ";
+ 			outputTerminal(outA, "DO", unique);
+ 			unique++;
  			outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $2->astPtr);
  			outA << ";\n";	
+ 			outputNode(outA, $$->astPtr); 
+ 						outA << " -> ";
+ 			outputTerminal(outA, "WHILE", unique);
+ 			unique++;
  			outputNode(outA, $$->astPtr);
- 			outA << " -> {WHILE LPAREN};\n";
+ 			outA << " -> ";
+ 			outputTerminal(outA, "LPAREN", unique);
+ 			unique++;
  			outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $5->astPtr);
  			outA << ";\n";	
+ 			outputNode(outA, $$->astPtr); 
+ 						outA << " -> ";
+ 			outputTerminal(outA, "RPAREN", unique);
+ 			unique++;
  			outputNode(outA, $$->astPtr);
- 			outA << " -> {RPAREN SEMI};\n";
+ 			outA << " -> ";
+ 			outputTerminal(outA, "SEMI", unique);
+ 			unique++;
 		}
 	| FOR LPAREN SEMI SEMI RPAREN statement
  		{
-			if(YFLAG){
-				outY << "iteration_statement : FOR LPAREN SEMI SEMI RPAREN statement;" << std::endl;
-			outG << "iteration_statement -> {FOR LPAREN SEMI SEMI RPAREN statement};" << std::endl;
-			}
-
-			// create ast node
+ 			// create ast node and assign attributes
 			$$ = new node();
 			$$->val = $6->val;
 			$$->valType = $6->valType;
 			$$->astPtr = new iterStat_Node(NULL, NULL, NULL, $6->astPtr, false);
+
+ 			// output data 
+			if(YFLAG){
+				outY << "iteration_statement : FOR LPAREN SEMI SEMI RPAREN statement;" << std::endl;
+				outG << "iteration_statement -> {FOR LPAREN SEMI SEMI RPAREN statement};" << std::endl;
+			}
+
+			// register data for graphviz
 			registerNode(outA, $$->astPtr);
-			outputNode(outA, $$->astPtr);
- 			outA << " -> {FOR LPAREN SEMI SEMI RPAREN};\n";
+ 			outputNode(outA, $$->astPtr);
+ 			outA << " -> ";
+ 			outputTerminal(outA, "FOR", unique);
+ 			unique++;
+ 			outputNode(outA, $$->astPtr);
+ 			outA << " -> ";
+ 			outputTerminal(outA, "LPAREN", unique);
+ 			unique++;
+ 			outputNode(outA, $$->astPtr);
+ 			outA << " -> ";
+ 			outputTerminal(outA, "SEMI", unique);
+ 			unique++;
+ 			outputNode(outA, $$->astPtr);
+ 			outA << " -> ";
+ 			outputTerminal(outA, "SEMI", unique);
+ 			unique++;
+ 			outputNode(outA, $$->astPtr);
+ 			outA << " -> ";
+ 			outputTerminal(outA, "RPAREN", unique);
+ 			unique++;
  			outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $6->astPtr);
@@ -2044,31 +2418,43 @@ iteration_statement
 		}
 	| FOR LPAREN SEMI SEMI expression RPAREN statement
  		{
-			if(YFLAG){
-				outY << "iteration_statement : FOR LPAREN SEMI SEMI expression RPAREN statement;" << std::endl;
-			outG << "iteration_statement -> {FOR LPAREN SEMI SEMI expression RPAREN statement};" << std::endl;
-			}
-
-			// create ast node
+ 			// create ast node and assign attributes
 			$$ = new node();
 			$$->val = $5->val;
 			$$->valType = $5->valType;
 			$$->astPtr = new iterStat_Node(NULL, NULL, $5->astPtr, $7->astPtr, false);
+
+ 			// output data 
+			if(YFLAG){
+				outY << "iteration_statement : FOR LPAREN SEMI SEMI expression RPAREN statement;" << std::endl;
+				outG << "iteration_statement -> {FOR LPAREN SEMI SEMI expression RPAREN statement};" << std::endl;
+			}
+			
+			// register data for graphviz
 			registerNode(outA, $$->astPtr);
-
-
-	 		outputNode(outA, $$->astPtr);
- 			outA << " -> {FOR LPAREN};\n";
-	 		outputNode(outA, $$->astPtr);
- 			outA << " -> SEMI;\n";
+ 			outputTerminal(outA, "FOR", unique);
+ 			unique++;
  			outputNode(outA, $$->astPtr);
- 			outA << " -> SEMI;\n";
+ 			outA << " -> ";
+ 			outputTerminal(outA, "LPAREN", unique);
+ 			unique++;
+ 			outputNode(outA, $$->astPtr);
+ 			outA << " -> ";
+ 			outputTerminal(outA, "SEMI", unique);
+ 			unique++;
+ 			outputNode(outA, $$->astPtr);
+ 			outA << " -> ";
+ 			outputTerminal(outA, "SEMI", unique);
+ 			unique++;
+
  			outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $5->astPtr);
  			outA << ";\n";	
  			outputNode(outA, $$->astPtr);
- 			outA << " -> RPAREN;\n";
+ 			outA << " -> ";
+ 			outputTerminal(outA, "RPAREN", unique);
+ 			unique++;
  			outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $7->astPtr);
@@ -2076,31 +2462,42 @@ iteration_statement
 		}
 	| FOR LPAREN SEMI expression SEMI RPAREN statement
  		{
-			if(YFLAG){
-				outY << "iteration_statement : FOR LPAREN SEMI expression SEMI RPAREN statement;" << std::endl;
-				outG << "iteration_statement -> {FOR LPAREN SEMI expression SEMI RPAREN statement};" << std::endl;
-			}
-
-			// create ast node
+			// create ast node and assign attributes
 			$$ = new node();
 			$$->val = $4->val;
 			$$->valType = $4->valType;
 			$$->astPtr = new iterStat_Node(NULL, $4->astPtr, NULL, $7->astPtr, false);
+
+			// output data 
+			if(YFLAG){
+				outY << "iteration_statement : FOR LPAREN SEMI expression SEMI RPAREN statement;" << std::endl;
+				outG << "iteration_statement -> {FOR LPAREN SEMI expression SEMI RPAREN statement};" << std::endl;
+			}			
+			
+			// register data for graphviz
 			registerNode(outA, $$->astPtr);
-
-
-	 		outputNode(outA, $$->astPtr);
- 			outA << " -> {FOR LPAREN};\n";
-	 		outputNode(outA, $$->astPtr);
- 			outA << " -> SEMI;\n";
+ 			outputTerminal(outA, "FOR", unique);
+ 			unique++;
+ 			outputNode(outA, $$->astPtr);
+ 			outA << " -> ";
+ 			outputTerminal(outA, "LPAREN", unique);
+ 			unique++;
+ 			outputNode(outA, $$->astPtr);
+ 			outA << " -> ";
+ 			outputTerminal(outA, "SEMI", unique);
+ 			unique++;
 	 		outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $4->astPtr);
  			outA << ";\n";
  			outputNode(outA, $$->astPtr);
- 			outA << " -> SEMI;\n";
+ 			outA << " -> ";
+ 			outputTerminal(outA, "SEMI", unique);
+ 			unique++;
  			outputNode(outA, $$->astPtr);
- 			outA << " -> RPAREN;\n";
+ 			outA << " -> ";
+ 			outputTerminal(outA, "RPAREN", unique);
+ 			unique++;
  			outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $7->astPtr);
@@ -2108,36 +2505,47 @@ iteration_statement
 		}
 	| FOR LPAREN SEMI expression SEMI expression RPAREN statement
  		{
-			if(YFLAG){
-				outY << "iteration_statement : FOR LPAREN SEMI expression SEMI expression RPAREN statement;" << std::endl;
-				outG << "iteration_statement -> {FOR LPAREN SEMI expression SEMI expression RPAREN statement};" << std::endl;
-			
-			}
-
-			// create ast node
+ 			// create ast node and assign attributes
 			$$ = new node();
 			$$->val = $4->val;
 			$$->valType = $4->valType;
 			$$->astPtr = new iterStat_Node(NULL, $4->astPtr, $6->astPtr, $8->astPtr, false);
+
+ 			// output data 
+			if(YFLAG){
+				outY << "iteration_statement : FOR LPAREN SEMI expression SEMI expression RPAREN statement;" << std::endl;
+				outG << "iteration_statement -> {FOR LPAREN SEMI expression SEMI expression RPAREN statement};" << std::endl;
+			
+			}		
+			
+			// register data for graphviz
 			registerNode(outA, $$->astPtr);
-
-
-	 		outputNode(outA, $$->astPtr);
- 			outA << " -> {FOR LPAREN};\n";
-	 		outputNode(outA, $$->astPtr);
- 			outA << " -> SEMI;\n";
+ 			outputTerminal(outA, "FOR", unique);
+ 			unique++;
+ 			outputNode(outA, $$->astPtr);
+ 			outA << " -> ";
+ 			outputTerminal(outA, "LPAREN", unique);
+ 			unique++;
+ 			outputNode(outA, $$->astPtr);
+ 			outA << " -> ";
+ 			outputTerminal(outA, "SEMI", unique);
+ 			unique++;
 	 		outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $4->astPtr);
  			outA << ";\n";
  			outputNode(outA, $$->astPtr);
- 			outA << " -> SEMI;\n";
+ 			outA << " -> ";
+ 			outputTerminal(outA, "SEMI", unique);
+ 			unique++;
 	 		outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $6->astPtr);
  			outA << ";\n";
  			outputNode(outA, $$->astPtr);
- 			outA << " -> RPAREN;\n";
+ 			outA << " -> ";
+ 			outputTerminal(outA, "RPAREN", unique);
+ 			unique++;
  			outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $8->astPtr);
@@ -2145,34 +2553,42 @@ iteration_statement
 		}
 	| FOR LPAREN expression SEMI SEMI RPAREN statement
  		{
-			if(YFLAG){
-				outY << "iteration_statement : FOR LPAREN expression SEMI SEMI RPAREN statement;" << std::endl;
-			}
-
-			// create ast node
+ 			// create ast node and assign attributes
 			$$ = new node();
 			$$->val = $3->val;
 			$$->valType = $3->valType;
 			$$->astPtr = new iterStat_Node($3->astPtr, NULL, NULL, $7->astPtr, false);
-			outG << "iteration_statement -> {FOR LPAREN expression SEMI SEMI RPAREN statement};" << std::endl;
+
+ 			// output data 
+			if(YFLAG){
+				outY << "iteration_statement : FOR LPAREN expression SEMI SEMI RPAREN statement;" << std::endl;
+				outG << "iteration_statement -> {FOR LPAREN expression SEMI SEMI RPAREN statement};" << std::endl;
+			}	
+			
+			// register data for graphviz
 			registerNode(outA, $$->astPtr);
-
-
-	 		outputNode(outA, $$->astPtr);
- 			outA << " -> {FOR LPAREN};\n";
-
+ 			outputTerminal(outA, "FOR", unique);
+ 			unique++;
+ 			outputNode(outA, $$->astPtr);
+ 			outA << " -> ";
+ 			outputTerminal(outA, "LPAREN", unique);
+ 			unique++;
 	 		outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $3->astPtr);
  			outA << ";\n";
-
-	 		outputNode(outA, $$->astPtr);
- 			outA << " -> SEMI;\n";
  			outputNode(outA, $$->astPtr);
- 			outA << " -> SEMI;\n";
+ 			outA << " -> ";
+ 			outputTerminal(outA, "SEMI", unique);
+ 			unique++;
  			outputNode(outA, $$->astPtr);
- 			outA << " -> RPAREN;\n";
-
+ 			outA << " -> ";
+ 			outputTerminal(outA, "SEMI", unique);
+ 			unique++;
+ 			outputNode(outA, $$->astPtr);
+ 			outA << " -> ";
+ 			outputTerminal(outA, "RPAREN", unique);
+ 			unique++;
  			outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $7->astPtr);
@@ -2180,38 +2596,46 @@ iteration_statement
 		}
 	| FOR LPAREN expression SEMI SEMI expression RPAREN statement
  		{
-			if(YFLAG){
-				outY << "iteration_statement : FOR LPAREN expression SEMI SEMI expression RPAREN statement;" << std::endl;
-			outG << "iteration_statement -> {FOR LPAREN expression SEMI SEMI expression RPAREN statement};" << std::endl;
-			}
-
-			// create ast node
+ 			// create ast node and assign attributes
 			$$ = new node();
 			$$->val = $3->val;
 			$$->valType = $3->valType;
 			$$->astPtr = new iterStat_Node($3->astPtr, NULL, $6->astPtr, $8->astPtr, false);
-			registerNode(outA, $$->astPtr);
 
-
-	 		outputNode(outA, $$->astPtr);
- 			outA << " -> {FOR LPAREN};\n";
-
+			// output data 
+			if(YFLAG){
+				outY << "iteration_statement : FOR LPAREN expression SEMI SEMI expression RPAREN statement;" << std::endl;
+				outG << "iteration_statement -> {FOR LPAREN expression SEMI SEMI expression RPAREN statement};" << std::endl;
+			}	
+			
+			// register data for graphviz
+	 		registerNode(outA, $$->astPtr);
+ 			outputTerminal(outA, "FOR", unique);
+ 			unique++;
+ 			outputNode(outA, $$->astPtr);
+ 			outA << " -> ";
+ 			outputTerminal(outA, "LPAREN", unique);
+ 			unique++;
 	 		outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $3->astPtr);
  			outA << ";\n";
-
-	 		outputNode(outA, $$->astPtr);
- 			outA << " -> SEMI;\n";
  			outputNode(outA, $$->astPtr);
- 			outA << " -> SEMI;\n";
+ 			outA << " -> ";
+ 			outputTerminal(outA, "SEMI", unique);
+ 			unique++;
+ 			outputNode(outA, $$->astPtr);
+ 			outA << " -> ";
+ 			outputTerminal(outA, "SEMI", unique);
+ 			unique++;
  			outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $6->astPtr);
  			outA << ";\n";
  			outputNode(outA, $$->astPtr);
- 			outA << " -> RPAREN;\n";
-
+ 			outA << " -> ";
+ 			outputTerminal(outA, "RPAREN", unique);
+ 			unique++;
  			outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $8->astPtr);
@@ -2219,41 +2643,46 @@ iteration_statement
 		}
 	| FOR LPAREN expression SEMI expression SEMI RPAREN statement
  		{
-			if(YFLAG){
-				outY << "iteration_statement : FOR LPAREN expression SEMI expression SEMI RPAREN statement;" << std::endl;
-			outG << "iteration_statement -> {FOR LPAREN expression SEMI expression SEMI RPAREN statement};" << std::endl;
-			}
-
-			// create ast node
+ 			// create ast node and assign attributes
 			$$ = new node();
 			$$->val = $3->val;
 			$$->valType = $3->valType;
 			$$->astPtr = new iterStat_Node($3->astPtr, $5->astPtr, NULL, $8->astPtr, false);
+
+			// output data S
+			if(YFLAG){
+				outY << "iteration_statement : FOR LPAREN expression SEMI expression SEMI RPAREN statement;" << std::endl;
+				outG << "iteration_statement -> {FOR LPAREN expression SEMI expression SEMI RPAREN statement};" << std::endl;
+			}	
+			
+			// register data for graphviz
 			registerNode(outA, $$->astPtr);
-
-
-	 		outputNode(outA, $$->astPtr);
- 			outA << " -> {FOR LPAREN};\n";
-
+ 			outputTerminal(outA, "FOR", unique);
+ 			unique++;
+ 			outputNode(outA, $$->astPtr);
+ 			outA << " -> ";
+ 			outputTerminal(outA, "LPAREN", unique);
+ 			unique++;
 	 		outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $3->astPtr);
  			outA << ";\n";
-
 	 		outputNode(outA, $$->astPtr);
- 			outA << " -> SEMI;\n";
-
+ 			outA << " -> ";
+ 			outputTerminal(outA, "SEMI", unique);
+ 			unique++;
  			outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $5->astPtr);
  			outA << ";\n";
-
  			outputNode(outA, $$->astPtr);
- 			outA << " -> SEMI;\n";
-
+ 			outA << " -> ";
+ 			outputTerminal(outA, "SEMI", unique);
+ 			unique++;
  			outputNode(outA, $$->astPtr);
- 			outA << " -> RPAREN;\n";
-
+ 			outA << " -> ";
+ 			outputTerminal(outA, "RPAREN", unique);
+ 			unique++;
  			outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $8->astPtr);
@@ -2261,47 +2690,50 @@ iteration_statement
 		}
 	| FOR LPAREN expression SEMI expression SEMI expression RPAREN statement
  		{
-			if(YFLAG){
-				outY << "iteration_statement : FOR LPAREN expression SEMI expression SEMI expression RPAREN statement;" << std::endl;
-			outG << "iteration_statement -> {FOR LPAREN expression SEMI expression SEMI expression RPAREN statement};" << std::endl;
-			}
-
-			// create ast node
+ 			// create ast node and assign attributes
 			$$ = new node();
-
 			$$->val = $3->val;
 			$$->valType = $3->valType;
 			$$->astPtr = new iterStat_Node($3->astPtr, $5->astPtr, $7->astPtr, $9->astPtr, false);
+
+			// output data 
+			if(YFLAG){
+				outY << "iteration_statement : FOR LPAREN expression SEMI expression SEMI expression RPAREN statement;" << std::endl;
+				outG << "iteration_statement -> {FOR LPAREN expression SEMI expression SEMI expression RPAREN statement};" << std::endl;
+			}
+
+			// register data for graphviz
 			registerNode(outA, $$->astPtr);
-
-
-	 		outputNode(outA, $$->astPtr);
- 			outA << " -> {FOR LPAREN};\n";
-
+ 			outputTerminal(outA, "FOR", unique);
+ 			unique++;
+ 			outputNode(outA, $$->astPtr);
+ 			outA << " -> ";
+ 			outputTerminal(outA, "LPAREN", unique);
+ 			unique++;
 	 		outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $3->astPtr);
  			outA << ";\n";
-
 	 		outputNode(outA, $$->astPtr);
- 			outA << " -> SEMI;\n";
-
+ 			outA << " -> ";
+ 			outputTerminal(outA, "SEMI", unique);
+ 			unique++;
  			outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $5->astPtr);
  			outA << ";\n";
-
  			outputNode(outA, $$->astPtr);
- 			outA << " -> SEMI;\n";
-
+ 			outA << " -> ";
+ 			outputTerminal(outA, "SEMI", unique);
+ 			unique++;
  			outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $7->astPtr);
  			outA << ";\n";
-
  			outputNode(outA, $$->astPtr);
- 			outA << " -> RPAREN;\n";
-
+ 			outA << " -> ";
+ 			outputTerminal(outA, "RPAREN", unique);
+ 			unique++;
  			outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $9->astPtr);
@@ -2312,37 +2744,42 @@ iteration_statement
 jump_statement
 	: GOTO identifier SEMI
  		{
+ 			// output data 
 			if(YFLAG){
 				outY << "jump_statement : GOTO identifier SEMI;" << std::endl;
-			outG << "jump_statement -> {GOTO identifier SEMI};" << std::endl;
+				outG << "jump_statement -> {GOTO identifier SEMI};" << std::endl;
 			}
 		}
 	| CONTINUE SEMI
  		{
+ 			// output data 
 			if(YFLAG){
 				outY << "jump_statement : CONTINUE SEMI;" << std::endl;
-			outG << "jump_statement -> {CONTINUE SEMI};" << std::endl;
+				outG << "jump_statement -> {CONTINUE SEMI};" << std::endl;
 			}
 		}
 	| BREAK SEMI
  		{
+ 			// output data 
 			if(YFLAG){
 				outY << "jump_statement : BREAK SEMI;" << std::endl;
-			outG << "jump_statement -> {BREAK SEMI};" << std::endl;
+				outG << "jump_statement -> {BREAK SEMI};" << std::endl;
 			}
 		}
 	| RETURN SEMI
  		{
+ 			// output data 
 			if(YFLAG){
 				outY << "jump_statement : RETURN SEMI;" << std::endl;
-			outG << "jump_statement -> {RETURN SEMI};" << std::endl;
+				outG << "jump_statement -> {RETURN SEMI};" << std::endl;
 			}
 		}
 	| RETURN expression SEMI
  		{
+ 			// output data 
 			if(YFLAG){
 				outY << "jump_statement : RETURN expression SEMI;" << std::endl;
-			outG << "jump_statement -> {RETURN expression SEMI};" << std::endl;
+				outG << "jump_statement -> {RETURN expression SEMI};" << std::endl;
 			}
 		}
 	;
@@ -2350,16 +2787,19 @@ jump_statement
 expression
 	: assignment_expression
  		{
-			if(YFLAG){
-				outY << "expression : assignment_expression;" << std::endl;
-			outG << "expression -> assignment_expression;" << std::endl;
-			}
-
-			// create ast node 
+ 			// create ast node and assign attributes
 			$$ = new node();
 			$$->val = $1->val;
 			$$->valType = $1->valType;
 			$$->astPtr = new expr_Node($1->astPtr, NULL);
+
+			// output data 
+			if(YFLAG){
+				outY << "expression : assignment_expression;" << std::endl;
+				outG << "expression -> assignment_expression;" << std::endl;
+			}
+
+			// register data for graphviz
 			registerNode(outA, $$->astPtr);
 	 		outputNode(outA, $$->astPtr);
  			outA << " -> ";
@@ -2368,25 +2808,28 @@ expression
 		}
 	| expression COMMA assignment_expression
  		{
-			if(YFLAG){
-				outY << "expression : expression COMMA assignment_expression;" << std::endl;
-			outG << "expression -> {expression COMMA assignment_expression};" << std::endl;
-			}
-
-			// create ast node 
+ 			// create ast node and assign attributes
 			$$ = new node();
 			$$->val = $1->val;
 			$$->valType = $1->valType;
-			$$->astPtr = new expr_Node($1->astPtr, $2->astPtr);
-				 		registerNode(outA, $$->astPtr);
+			$$->astPtr = new expr_Node($1->astPtr, $3->astPtr);
+
+			// output data 
+			if(YFLAG){
+				outY << "expression : expression COMMA assignment_expression;" << std::endl;
+				outG << "expression -> {expression COMMA assignment_expression};" << std::endl;
+			}
+
+			// register data for graphviz
+			registerNode(outA, $$->astPtr);
 	 		outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $1->astPtr);
  			outA << ";\n";
-
 	 		outputNode(outA, $$->astPtr);
- 			outA << " -> COMMA;\n";
-
+ 			outA << " -> ";
+ 			outputTerminal(outA, "COMMA", unique);
+ 			unique++;
  			outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $3->astPtr);
@@ -2397,16 +2840,19 @@ expression
 assignment_expression
 	: conditional_expression
  		{
-			if(YFLAG){
-				outY << "assignment_expression : conditional_expression;" << std::endl;
-			outG << "assignment_expression -> conditional_expression;" << std::endl;
-			}
-
-			// create ast node 
+ 			// create ast node and assign attributes
 			$$ = new node();
 			$$->val = $1->val;
 			$$->valType = $1->valType;
 			$$->astPtr = new assignmentExpr_Node($1->astPtr, NULL, -1);
+
+			// output data 
+			if(YFLAG){
+				outY << "assignment_expression : conditional_expression;" << std::endl;
+				outG << "assignment_expression -> conditional_expression;" << std::endl;
+			}
+
+			// register data for graphviz
 			registerNode(outA, $$->astPtr);
 	 		outputNode(outA, $$->astPtr);
  			outA << " -> ";
@@ -2415,27 +2861,28 @@ assignment_expression
 		}
 	| unary_expression assignment_operator assignment_expression
  		{
-			if(YFLAG){
-				outY << "assignment_expression : unary_expression assignment_operator assignment_expression;" << std::endl;
-			outG << "assignment_expression -> {unary_expression assignment_operator assignment_expression};" << std::endl;
-			}
-
-			// create ast node 
+			// create ast node and assign attributes
 			$$ = new node();
 			$$->val = $1->val;
 			$$->valType = $1->valType;
 			$$->astPtr = new assignmentExpr_Node($1->astPtr, $3->astPtr, $2->val._num);
+
+			// output data 
+			if(YFLAG){
+				outY << "assignment_expression : unary_expression assignment_operator assignment_expression;" << std::endl;
+				outG << "assignment_expression -> {unary_expression assignment_operator assignment_expression};" << std::endl;
+			}
+
+			// register data for graphviz			
 	 		registerNode(outA, $$->astPtr);
 	 		outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $1->astPtr);
  			outA << ";\n";
-
  			outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $2->astPtr);
  			outA << ";\n";
-
  			outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $3->astPtr);
@@ -2446,12 +2893,16 @@ assignment_expression
 assignment_operator
 	: ASSIGN
  		{
+ 			// create ast node and assign attributes
  			$$ = new node(); 
  			$$->valType = LONG_LONG_T;
- 			$$->val._num = ASSIGN; 
+ 			$$->val._num = ASSIGN;
+ 			$$->astPtr = new leaf_Node($$->val, $$->valType, "ASSIGN"); 
+ 			registerNode(outA, $$->astPtr);
+ 			// output data  
 			if(YFLAG){
 				outY << "assignment_operator : ASSIGN;" << std::endl;
-			outG << "assignment_operator -> ASSIGN;" << std::endl;
+				outG << "assignment_operator -> ASSIGN;" << std::endl;
 			}
 		}
 	| MUL_ASSIGN
@@ -2459,6 +2910,8 @@ assignment_operator
  			$$ = new node(); 
  			$$->valType = LONG_LONG_T;
  			$$->val._num = MUL_ASSIGN; 
+ 			$$->astPtr = new leaf_Node($$->val, $$->valType, "MUL_ASSIGN"); 
+ 			registerNode(outA, $$->astPtr);
 			if(YFLAG){
 				outY << "assignment_operator : MUL_ASSIGN;" << std::endl;
 			outG << "assignment_operator -> MUL_ASSIGN;" << std::endl;
@@ -2469,6 +2922,8 @@ assignment_operator
  			$$ = new node(); 
  			$$->valType = LONG_LONG_T;
  			$$->val._num = DIV_ASSIGN; 
+ 			$$->astPtr = new leaf_Node($$->val, $$->valType, "DIV_ASSIGN"); 
+ 			registerNode(outA, $$->astPtr);
 			if(YFLAG){
 				outY << "assignment_operator : DIV_ASSIGN;" << std::endl;
 			outG << "assignment_operator -> DIV_ASSIGN;" << std::endl;
@@ -2479,58 +2934,68 @@ assignment_operator
  			$$ = new node(); 
  			$$->valType = LONG_LONG_T;
  			$$->val._num = MOD_ASSIGN; 
+ 			$$->astPtr = new leaf_Node($$->val, $$->valType, "MOD_ASSIGN"); 
+ 			registerNode(outA, $$->astPtr);
+ 			// output data 
 			if(YFLAG){
 				outY << "assignment_operator : MOD_ASSIGN;" << std::endl;
-			outG << "assignment_operator -> MOD_ASSIGN;" << std::endl;
+				outG << "assignment_operator -> MOD_ASSIGN;" << std::endl;
 			}
 		}
 	| ADD_ASSIGN
  		{
+ 			// output data 
 			if(YFLAG){
 				outY << "assignment_operator : ADD_ASSIGN;" << std::endl;
-			outG << "assignment_operator -> ADD_ASSIGN;" << std::endl;
+				outG << "assignment_operator -> ADD_ASSIGN;" << std::endl;
 			}
 		}
 	| SUB_ASSIGN
  		{
+ 			// output data 
 			if(YFLAG){
 				outY << "assignment_operator : SUB_ASSIGN;" << std::endl;
-			outG << "assignment_operator -> SUB_ASSIGN;" << std::endl;
+				outG << "assignment_operator -> SUB_ASSIGN;" << std::endl;
 			}
 		}
 	| LEFT_ASSIGN
  		{
+ 			// output data 
 			if(YFLAG){
 				outY << "assignment_operator : LEFT_ASSIGN;" << std::endl;
-			outG << "assignment_operator -> LEFT_ASSIGN;" << std::endl;
+				outG << "assignment_operator -> LEFT_ASSIGN;" << std::endl;
 			}
 		}
 	| RIGHT_ASSIGN
  		{
+ 			// output data 
 			if(YFLAG){
 				outY << "assignment_operator : RIGHT_ASSIGN;" << std::endl;
-			outG << "assignment_operator -> RIGHT_ASSIGN;" << std::endl;
+				outG << "assignment_operator -> RIGHT_ASSIGN;" << std::endl;
 			}
 		}
 	| AND_ASSIGN
  		{
+ 			// output data 
 			if(YFLAG){
 				outY << "assignment_operator : AND_ASSIGN;" << std::endl;
-			outG << "assignment_operator -> AND_ASSIGN;" << std::endl;
+				outG << "assignment_operator -> AND_ASSIGN;" << std::endl;
 			}
 		}
 	| XOR_ASSIGN
  		{
+ 			// output data 
 			if(YFLAG){
 				outY << "assignment_operator : XOR_ASSIGN;" << std::endl;
-			outG << "assignment_operator -> XOR_ASSIGN;" << std::endl;
+				outG << "assignment_operator -> XOR_ASSIGN;" << std::endl;
 			}
 		}
 	| OR_ASSIGN
  		{
+ 			// output data 
 			if(YFLAG){
 				outY << "assignment_operator : OR_ASSIGN;" << std::endl;
-			outG << "assignment_operator -> OR_ASSIGN;" << std::endl;
+				outG << "assignment_operator -> OR_ASSIGN;" << std::endl;
 			}
 		}
 	;
@@ -2538,16 +3003,18 @@ assignment_operator
 conditional_expression
 	: logical_or_expression
  		{
+ 			// output data 
 			if(YFLAG){
 				outY << "conditional_expression : logical_or_expression;" << std::endl;
-			outG << "conditional_expression -> logical_or_expression;" << std::endl;
+				outG << "conditional_expression -> logical_or_expression;" << std::endl;
 			}
 		}
 	| logical_or_expression QUESTION expression COLON conditional_expression
  		{
+ 			// output data 
 			if(YFLAG){
 				outY << "conditional_expression : logical_or_expression QUESTION expression COLON conditional_expression;" << std::endl;
-			outG << "conditional_expression -> {logical_or_expression QUESTION expression COLON conditional_expression;" << std::endl;
+				outG << "conditional_expression -> {logical_or_expression QUESTION expression COLON conditional_expression;" << std::endl;
 			}
 		}
 	;
@@ -2555,9 +3022,10 @@ conditional_expression
 constant_expression
 	: conditional_expression
  		{
+ 			// output data 
 			if(YFLAG){
 				outY << "constant_expression : conditional_expression;" << std::endl;
-			outG << "constant_expression -> conditional_expression;" << std::endl;
+				outG << "constant_expression -> conditional_expression;" << std::endl;
 			}
 		}
 	;
@@ -2565,16 +3033,18 @@ constant_expression
 logical_or_expression
 	: logical_and_expression
  		{
+ 			// output data 
 			if(YFLAG){
 				outY << "logical_or_expression : logical_and_expression;" << std::endl;
-			outG << "logical_or_expression -> logical_and_expression;" << std::endl;
+				outG << "logical_or_expression -> logical_and_expression;" << std::endl;
 			}
 		}
 	| logical_or_expression OR_OP logical_and_expression
  		{
+ 			// output data 
 			if(YFLAG){
 				outY << "logical_or_expression : logical_or_expression OR_OP logical_and_expression;" << std::endl;
-			outG << "logical_or_expression -> {logical_or_expression OR_OP logical_and_expression};" << std::endl;
+				outG << "logical_or_expression -> {logical_or_expression OR_OP logical_and_expression};" << std::endl;
 			}
 		}
 	;
@@ -2582,17 +3052,18 @@ logical_or_expression
 logical_and_expression
 	: inclusive_or_expression
  		{
+ 			// output data 
 			if(YFLAG){
 				outY << "logical_and_expression : inclusive_or_expression;" << std::endl;
-			outG << "logical_and_expression -> inclusive_or_expression;" << std::endl;
+				outG << "logical_and_expression -> inclusive_or_expression;" << std::endl;
 			}
 		}
 	| logical_and_expression AND_OP inclusive_or_expression
  		{
 			if(YFLAG){
+				// output data 
 				outY << "logical_and_expression : logical_and_expression AND_OP inclusive_or_expression;" << std::endl;
-
-			outG << "logical_and_expression -> {logical_and_expression AND_OP inclusive_or_expression};" << std::endl;
+				outG << "logical_and_expression -> {logical_and_expression AND_OP inclusive_or_expression};" << std::endl;
 			}
 
 		}
@@ -2601,16 +3072,18 @@ logical_and_expression
 inclusive_or_expression
 	: exclusive_or_expression
  		{
+ 			// output data 
 			if(YFLAG){
 				outY << "inclusive_or_expression : exclusive_or_expression;" << std::endl;
-			outG << "inclusive_or_expression -> exclusive_or_expression;" << std::endl;
+				outG << "inclusive_or_expression -> exclusive_or_expression;" << std::endl;
 			}
 		}
 	| inclusive_or_expression PIPE exclusive_or_expression
  		{
+ 			// output data 
 			if(YFLAG){
 				outY << "inclusive_or_expression : inclusive_or_expression PIPE exclusive_or_expression;" << std::endl;
-			outG << "inclusive_or_expression -> {inclusive_or_expression PIPE exclusive_or_expression};" << std::endl;
+				outG << "inclusive_or_expression -> {inclusive_or_expression PIPE exclusive_or_expression};" << std::endl;
 			}
 		}
 	;
@@ -2618,16 +3091,18 @@ inclusive_or_expression
 exclusive_or_expression
 	: and_expression
  		{
+ 			// output data 
 			if(YFLAG){
 				outY << "exclusive_or_expression : and_expression;" << std::endl;
-			outG << "exclusive_or_expression -> and_expression;" << std::endl;
+				outG << "exclusive_or_expression -> and_expression;" << std::endl;
 			}
 		}
 	| exclusive_or_expression CARROT and_expression
  		{
+ 			// output data 
 			if(YFLAG){
 				outY << "exclusive_or_expression : exclusive_or_expression CARROT and_expression;" << std::endl;
-			outG << "exclusive_or_expression -> {exclusive_or_expression CARROT and_expression};" << std::endl;
+				outG << "exclusive_or_expression -> {exclusive_or_expression CARROT and_expression};" << std::endl;
 			}
 		}
 	;
@@ -2635,16 +3110,18 @@ exclusive_or_expression
 and_expression
 	: equality_expression
  		{
+ 			// output data 
 			if(YFLAG){
 				outY << "and_expression : equality_expression;" << std::endl;
-			outG << "and_expression -> equality_expression;" << std::endl;
+				outG << "and_expression -> equality_expression;" << std::endl;
 			}
 		}
 	| and_expression AMP equality_expression
  		{
+ 			// output data 
 			if(YFLAG){
 				outY << "and_expression : and_expression AMP equality_expression;" << std::endl;
-			outG << "and_expression -> {and_expression AMP equality_expression};" << std::endl;
+				outG << "and_expression -> {and_expression AMP equality_expression};" << std::endl;
 			}
 		}
 	;
@@ -2652,16 +3129,19 @@ and_expression
 equality_expression
 	: relational_expression
  		{
-			if(YFLAG){
-				outY << "equality_expression : relational_expression;" << std::endl;
-	 		outG << "equality_expression -> relational_expression;" << std::endl;
-			}
-
-			// create ast node
+ 			// create ast node
 			$$ = new node();
 			$$->val = $1->val;
 			$$->valType = $1->valType;
 	 		$$->astPtr = new equalityExpr_Node($1->astPtr, NULL, -1);
+
+	 		// output data 
+			if(YFLAG){
+				outY << "equality_expression : relational_expression;" << std::endl;
+	 			outG << "equality_expression -> relational_expression;" << std::endl;
+			}
+			
+			// register data for graphviz
 	 		registerNode(outA, $$->astPtr);
 	 		outputNode(outA, $$->astPtr);
  			outA << " -> ";
@@ -2671,25 +3151,28 @@ equality_expression
 		}
 	| equality_expression EQ_OP relational_expression
  		{
+ 			// create ast node and assign attributes
+			$$ = new node();
+			$$->val = $1->val;
+			$$->valType = $1->valType;
+	 		$$->astPtr = new equalityExpr_Node($1->astPtr, $3->astPtr, EQ_OP);
+
+	 		// output data 
 			if(YFLAG){
 				outY << "equality_expression : equality_expression EQ_OP relational_expression;" << std::endl;
 				outG << "equality_expression -> {equality_expression EQ_OP relational_expression};" << std::endl;
 			}
 
-			// create ast node
-			$$ = new node();
-			$$->val = $1->val;
-			$$->valType = $1->valType;
-	 		$$->astPtr = new equalityExpr_Node($1->astPtr, $3->astPtr, EQ_OP);
+			// register data for graphviz
 	 		registerNode(outA, $$->astPtr);
 	 		outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $1->astPtr);
  			outA << ";\n";
-
 	 		outputNode(outA, $$->astPtr);
- 			outA << " -> EQ_OP;\n";
-
+ 			outA << " -> ";
+ 			outputTerminal(outA, "EQ_OP", unique);
+ 			unique++;
  			outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $3->astPtr);
@@ -2697,25 +3180,28 @@ equality_expression
 		}
 	| equality_expression NE_OP relational_expression
  		{
+ 			// create ast node and assign attributes
+			$$ = new node();
+			$$->val = $1->val;
+			$$->valType = $1->valType;
+	 		$$->astPtr = new equalityExpr_Node($1->astPtr, $3->astPtr, NE_OP);
+
+ 			// output data 
 			if(YFLAG){
 				outY << "equality_expression : equality_expression NE_OP relational_expression;" << std::endl;
 	 			outG << "equality_expression -> {equality_expression LTHAN relational_expression};" << std::endl;
 			}
 
-			// create ast node
-			$$ = new node();
-			$$->val = $1->val;
-			$$->valType = $1->valType;
-	 		$$->astPtr = new equalityExpr_Node($1->astPtr, $3->astPtr, NE_OP);
+			// register data for graphviz			
 	 		registerNode(outA, $$->astPtr);
 	 		outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $1->astPtr);
  			outA << ";\n";
-
 	 		outputNode(outA, $$->astPtr);
- 			outA << " -> NE_OP;\n";
-
+ 			outA << " -> ";
+ 			outputTerminal(outA, "NE_OP", unique);
+ 			unique++;
  			outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $3->astPtr);
@@ -2726,16 +3212,19 @@ equality_expression
 relational_expression
 	: shift_expression
  		{
+ 			// create ast node and assign attributes
+			$$ = new node();
+			$$->val = $1->val;
+			$$->valType = $1->valType;
+	 		$$->astPtr = new relationalExpr_Node($1->astPtr, NULL, -1);
+
+	 		// output data
 			if(YFLAG){
 				outY << "relational_expression : shift_expression;" << std::endl;
 	 		outG << "relational_expression -> shift_expression;" << std::endl;
 			}
 
-			// create ast node
-			$$ = new node();
-			$$->val = $1->val;
-			$$->valType = $1->valType;
-	 		$$->astPtr = new relationalExpr_Node($1->astPtr, NULL, -1);
+			// register data for graphviz
 	 		registerNode(outA, $$->astPtr);
 	 		outputNode(outA, $$->astPtr);
  			outA << " -> ";
@@ -2744,23 +3233,28 @@ relational_expression
 		}
 	| relational_expression LTHAN shift_expression
  		{
-			if(YFLAG){
-				outY << "relational_expression : relational_expression LTHAN shift_expression;" << std::endl;
-	 		outG << "relational_expression -> {relational_expression LTHAN shift_expression};" << std::endl;
-			}
-
 			// create ast node
 			$$ = new node();
 			$$->val = $1->val;
 			$$->valType = $1->valType;
 	 		$$->astPtr = new relationalExpr_Node($1->astPtr, $3->astPtr, LTHAN);
+
+	 		// output data
+			if(YFLAG){
+				outY << "relational_expression : relational_expression LTHAN shift_expression;" << std::endl;
+	 			outG << "relational_expression -> {relational_expression LTHAN shift_expression};" << std::endl;
+			}
+
+			// register data for graphviz
 	 		registerNode(outA, $$->astPtr);
 	 		outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $1->astPtr);
  			outA << ";\n";
  			outputNode(outA, $$->astPtr);
- 			outA << "-> LTHAN;\n";
+ 			outA << " -> ";
+ 			outputTerminal(outA, "LTHAN", unique);
+ 			unique++;
  			outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $3->astPtr);
@@ -2768,23 +3262,28 @@ relational_expression
 		}
 	| relational_expression GTHAN shift_expression
  		{
+			// create ast node and assign attributes
+			$$ = new node();
+			$$->val = $1->val;
+			$$->valType = $1->valType;
+	 		$$->astPtr = new relationalExpr_Node($1->astPtr, $3->astPtr, GTHAN);
+
+	 		// output data 
 			if(YFLAG){
 				outY << "relational_expression : relational_expression GTHAN shift_expression;" << std::endl;
 	 			outG << "relational_expression -> {relational_expression GTHAN shift_expression};" << std::endl;
 			}
 
-			// create ast node
-			$$ = new node();
-			$$->val = $1->val;
-			$$->valType = $1->valType;
-	 		$$->astPtr = new relationalExpr_Node($1->astPtr, $3->astPtr, GTHAN);
+			// register data for graphviz
 	 		registerNode(outA, $$->astPtr);
 	 		outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $1->astPtr);
  			outA << ";\n";
  			outputNode(outA, $$->astPtr);
- 			outA << "-> GTHAN;\n";
+ 			outA << " -> ";
+ 			outputTerminal(outA, "GTHAN", unique);
+ 			unique++;
  			outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $3->astPtr);
@@ -2792,23 +3291,28 @@ relational_expression
 		}
 	| relational_expression LE_OP shift_expression
  		{
-			if(YFLAG){
-				outY << "relational_expression : relational_expression LE_OP shift_expression;" << std::endl;
-	 		outG << "relational_expression -> {relational_expression LE_OP shift_expression};" << std::endl;
-			}
-
 			// create ast node
 			$$ = new node();
 			$$->val = $1->val;
 			$$->valType = $1->valType;
 	 		$$->astPtr = new relationalExpr_Node($1->astPtr, $3->astPtr, LE_OP);
+
+	 		// output data 
+			if(YFLAG){
+				outY << "relational_expression : relational_expression LE_OP shift_expression;" << std::endl;
+	 			outG << "relational_expression -> {relational_expression LE_OP shift_expression};" << std::endl;
+			}
+
+			// register data for graphviz
 	 		registerNode(outA, $$->astPtr);
 	 		outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $1->astPtr);
  			outA << ";\n";
  			outputNode(outA, $$->astPtr);
- 			outA << "-> LE_OP;\n";
+ 			outA << " -> ";
+ 			outputTerminal(outA, "LE_OP", unique);
+ 			unique++;
  			outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $3->astPtr);
@@ -2816,23 +3320,28 @@ relational_expression
 		}
 	| relational_expression GE_OP shift_expression
  		{
-			if(YFLAG){
-				outY << "relational_expression : relational_expression GE_OP shift_expression;" << std::endl;
-	 		outG << "relational_expression -> {relational_expression GE_OP shift_expression};" << std::endl;
-			}
-
-			// create ast node
-			$$ = new node();
+ 			// create ast node and assign attributes
+ 			$$ = new node();
 			$$->val = $1->val;
 			$$->valType = $1->valType;
 	 		$$->astPtr = new relationalExpr_Node($1->astPtr, $3->astPtr, GE_OP);
-	 		registerNode(outA, $$->astPtr);
+
+	 		// output data 
+			if(YFLAG){
+				outY << "relational_expression : relational_expression GE_OP shift_expression;" << std::endl;
+	 			outG << "relational_expression -> {relational_expression GE_OP shift_expression};" << std::endl;
+			}
+
+			// create ast node
+			registerNode(outA, $$->astPtr);
 	 		outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $1->astPtr);
  			outA << ";\n";
  			outputNode(outA, $$->astPtr);
- 			outA << "-> GE_OP;\n";
+ 			outA << " -> ";
+ 			outputTerminal(outA, "GE_OP", unique);
+ 			unique++;
  			outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $3->astPtr);
@@ -2843,23 +3352,26 @@ relational_expression
 shift_expression
 	: additive_expression
  		{
+ 			// output data
 			if(YFLAG){
 				outY << "shift_expression : additive_expression;" << std::endl;
-			outG << "shift_expression -> additive_expression;" << std::endl;
+				outG << "shift_expression -> additive_expression;" << std::endl;
 			}
 		}
 	| shift_expression LEFT_OP additive_expression
  		{
+ 			// output data
 			if(YFLAG){
 				outY << "shift_expression : shift_expression LEFT_OP additive_expression;" << std::endl;
-			outG << "shift_expression -> {shift_expression LEFT_OP additive_expression};" << std::endl;
+				outG << "shift_expression -> {shift_expression LEFT_OP additive_expression};" << std::endl;
 			}
 		}
 	| shift_expression RIGHT_OP additive_expression
  		{
+ 			// output data
 			if(YFLAG){
 				outY << "shift_expression : shift_expression RIGHT_OP additive_expression;" << std::endl;
-			outG << "shift_expression -> {shift_expression RIGHT_OP additive_expression};" << std::endl;
+				outG << "shift_expression -> {shift_expression RIGHT_OP additive_expression};" << std::endl;
 			}
 		}
 	;
@@ -2867,17 +3379,20 @@ shift_expression
 additive_expression
 	: multiplicative_expression
  		{
-			if(YFLAG){
-				outY << "additive_expression : multiplicative_expression;" << std::endl;
-	 		outG << "additive_expression -> multiplicative_expression;" << std::endl;
-			}
-
-			// create ast node
+ 			// create ast node and assign attributes
 			$$ = new node();
 			$$->val = $1->val;
 			$$->valType = $1->valType;
 	 		$$->astPtr = new multExpr_Node($1->astPtr, NULL, -1);
-	 		registerNode(outA, $$->astPtr);
+
+	 		// output data 
+			if(YFLAG){
+				outY << "additive_expression : multiplicative_expression;" << std::endl;
+	 			outG << "additive_expression -> multiplicative_expression;" << std::endl;
+			}
+
+			// register data for graphviz
+			registerNode(outA, $$->astPtr);
 	 		outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $1->astPtr);
@@ -2885,34 +3400,30 @@ additive_expression
 		}
 	| additive_expression PLUS multiplicative_expression
  		{
+ 			// create ast node and assign attributes
+ 			$$ = new node();
+ 			$$->valType = $1->valType;
+			$$->val = $1->val; 
+ 			$$->astPtr = new additiveExpr_Node($1->astPtr, $3->astPtr, PLUS);
+
+ 			// output data 
  			if(YFLAG){
 				outY << "additive_expression : additive_expression PLUS multiplicative_expression;" << std::endl;
 	 			outG << "additive_expression -> {additive_expression PLUS cast_expression};" << std::endl;
 			}
-			$$ = new node();
- 			performArithmeticOp($$, $1, $3, PLUS);
-			//$$->val._num = $1->val._num + $3->val._num;
- 			/*
- 			if ($1-> != NULL) {
- 				dVal dTemp = $1->sEntry->getIdentifierValue(); 
- 				dTemp.value._number = dTemp.value._number + $3->value._number;
- 				$$ = &dTemp; 
- 			}
+			
+ 			// performArithmeticOp($$, $1, $3, PLUS);
 
- 			else {
- 				$$->val._num = $1->val._num + $3->val._num;
- 			} */
-
-
-			// create ast node
-	 		$$->astPtr = new additiveExpr_Node($1->astPtr, $3->astPtr, PLUS);
+			// register data for graphviz		
 	 		registerNode(outA, $$->astPtr);
 	 		outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $1->astPtr);
  			outA << ";\n";
  			outputNode(outA, $$->astPtr);
- 			outA << "-> PLUS;\n";
+ 			outA << " -> ";
+ 			outputTerminal(outA, "PLUS", unique);
+ 			unique++;
  			outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $3->astPtr);
@@ -2920,24 +3431,30 @@ additive_expression
 		}
 	| additive_expression MINUS multiplicative_expression
  		{
+ 			// create ast node and assign attributes
+			$$ = new node();
+			$$->valType = $1->valType;
+			$$->val = $1->val; 
+			$$->astPtr = new additiveExpr_Node($1->astPtr, $3->astPtr, MINUS);
+
+			// output data 
  			if(YFLAG){
 				outY << "additive_expression : additive_expression MINUS multiplicative_expression;" << std::endl;
-	 		outG << "additive_expression -> {additive_expression MINUS cast_expression};" << std::endl;
+	 			outG << "additive_expression -> {additive_expression MINUS cast_expression};" << std::endl;
 			}
-			$$ = new node();
- 			performArithmeticOp($$, $1, $3, MINUS);
- 			//$$->val._num = $1->val._num - $3->val._num;
+			
+ 			//performArithmeticOp($$, $1, $3, MINUS);
 
-
-			// create ast node
-	 		$$->astPtr = new additiveExpr_Node($1->astPtr, $3->astPtr, MINUS);
+			// register data for graphviz
 	 		registerNode(outA, $$->astPtr);
 	 		outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $1->astPtr);
  			outA << ";\n";
  			outputNode(outA, $$->astPtr);
- 			outA << "-> MINUS;\n";
+ 			outA << " -> ";
+ 			outputTerminal(outA, "MINUS", unique);
+ 			unique++;
  			outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $3->astPtr);
@@ -2948,18 +3465,20 @@ additive_expression
 multiplicative_expression
 	: cast_expression
  		{
-			if(YFLAG){
-				outY << "multiplicative_expression : cast_expression;" << std::endl;
-	 		outG << "multiplicative_expression -> cast_expression;" << std::endl;
-			}
-
-			// create ast node -- should this be a cast_expr node??
+ 			// create ast node
 			$$ = new node();
 			$$->val = $1->val; 
 			$$->valType = $1->valType; 
 	 		$$->astPtr = new multExpr_Node($1->astPtr, NULL, -1);
-	 		registerNode(outA, $$->astPtr);
 
+ 			// output data 
+			if(YFLAG){
+				outY << "multiplicative_expression : cast_expression;" << std::endl;
+	 			outG << "multiplicative_expression -> cast_expression;" << std::endl;
+			}
+
+			// register data for graphviz
+	 		registerNode(outA, $$->astPtr);
  			outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $1->astPtr);
@@ -2967,14 +3486,19 @@ multiplicative_expression
 		}
 	| multiplicative_expression MULT cast_expression
  		{
+ 			// create ast node and assign attributes
+			$$ = new node();
+ 			$$->valType = $1->valType;
+ 			$$->val = $1->val; 
+			$$->astPtr = new multExpr_Node($1->astPtr, $3->astPtr, MULT);
+
+			// output data
 			if(YFLAG){
 				outY << "multiplicative_expression : multiplicative_expression MULT cast_expression;" << std::endl;
-	 		outG << "multiplicative_expression -> {multiplicative_expression MULT cast_expression};" << std::endl;
+	 			outG << "multiplicative_expression -> {multiplicative_expression MULT cast_expression};" << std::endl;
 			}
 
-			// create ast node
- 			$$ = new node();
-
+			/*
  			if ($1->valType != STE_T && $3->valType == STE_T) {
  				performArithmeticOp_OneSTE($$, $1, $3, MULT, false);
  			}
@@ -2982,16 +3506,18 @@ multiplicative_expression
  				std::cout << "left is an STE and right is not" << std::endl; 
  				performArithmeticOp_OneSTE($$, $1, $3, MULT, true);
  			}
-			// create ast node
-	 		$$->astPtr = new multExpr_Node($1->astPtr, $3->astPtr, MULT);
-			registerNode(outA, $$->astPtr);
+			*/
 
+ 			// register data for graphviz
+			registerNode(outA, $$->astPtr);
  			outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $1->astPtr);
  			outA << ";\n";
  			outputNode(outA, $$->astPtr);
- 			outA << "-> MULT;\n";
+ 			outA << " -> ";
+ 			outputTerminal(outA, "MULT", unique);
+ 			unique++;
  			outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $3->astPtr);
@@ -2999,16 +3525,43 @@ multiplicative_expression
 		}
 	| multiplicative_expression DIV cast_expression
  		{
+ 			// create ast node and assign attributes
+			$$ = new node();
+ 			$$->valType = $1->valType;
+ 			$$->val = $1->val; 
+			$$->astPtr = new multExpr_Node($1->astPtr, $3->astPtr, DIV);
+
+			// prevent division by 0
+			switch ($3->valType) {
+				case LONG_LONG_T:
+				case LONG_T:
+				case INT_T:
+				case SHORT_T:
+					if ($3->val._num == 0) {
+						std::cout << COLOR_NORMAL << COLOR_CYAN_NORMAL << "ERROR: " << COLOR_NORMAL;
+						std::cout << "Unable to divide by 0." << std::endl; 
+ 						yyerror("");
+					}
+				break;
+
+				case FLOAT_T:
+				case DOUBLE_T:
+				case LONG_DOUBLE_T:
+					if ($3->val._dec == 0.0) {
+						std::cout << COLOR_NORMAL << COLOR_CYAN_NORMAL << "ERROR: " << COLOR_NORMAL;
+						std::cout << "Unable to divide by 0.0." << std::endl; 
+ 						yyerror("");
+					}
+				break;  
+			}
+
+			// output data
  			if(YFLAG){
 				outY << "multiplicative_expression : multiplicative_expression DIV cast_expression;" << std::endl;
 	 			outG << "multiplicative_expression -> {multiplicative_expression DIV cast_expression};" << std::endl;
 			}
- 			if ($3->val._num == 0) {
- 				yyerror("Unable to divide by 0");
- 			}
- 			// create ast node
- 			$$ = new node();
 
+			/*
 			if ($1->valType != STE_T && $3->valType == STE_T) {
  				performArithmeticOp_OneSTE($$, $1, $3, DIV, false);
  			}
@@ -3016,18 +3569,18 @@ multiplicative_expression
  				std::cout << "left is an STE and right is not" << std::endl; 
  				performArithmeticOp_OneSTE($$, $1, $3, DIV, true);
  			}
+ 			*/
 
-
-	 		$$->astPtr = new multExpr_Node($1->astPtr, $3->astPtr, DIV);
-
+ 			// register data for graphviz
 			registerNode(outA, $$->astPtr);
-
  			outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $1->astPtr);
  			outA << ";\n";
  			outputNode(outA, $$->astPtr);
- 			outA << "-> DIV;\n";
+ 			outA << " -> ";
+ 			outputTerminal(outA, "DIV", unique);
+ 			unique++;
  			outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $3->astPtr);
@@ -3035,46 +3588,54 @@ multiplicative_expression
 		}
 	| multiplicative_expression MOD cast_expression
  		{
+ 			// create ast node and assign attributes
+ 			$$ = new node();
+ 			$$->valType = $1->valType;
+ 			$$->val = $1->val; 
+			$$->astPtr = new multExpr_Node($1->astPtr, $3->astPtr, MOD);
+
+			// output data
  			if(YFLAG){
 				outY << "multiplicative_expression : multiplicative_expression MOD cast_expression;" << std::endl;
 	 			outG << "multiplicative_expression -> {multiplicative_expression MOD cast_expression};" << std::endl;
 			}
- 			// create ast node
- 			$$ = new node();
-
- 			performArithmeticOp($$, $1, $3, MOD);
  			
-	 		$$->astPtr = new multExpr_Node($1->astPtr, $3->astPtr, MOD);
-
+			/*
+ 			performArithmeticOp($$, $1, $3, MOD);
+ 			*/
+	 		
+ 			// register data for graphviz
 			registerNode(outA, $$->astPtr);
-
  			outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $1->astPtr);
  			outA << ";\n";
  			outputNode(outA, $$->astPtr);
- 			outA << "-> MOD;\n";
+ 			outA << " -> ";
+ 			outputTerminal(outA, "MOD", unique);
+ 			unique++;
  			outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $3->astPtr);
  			outA << ";\n";
-
 		}
 	;
 
 cast_expression
 	: unary_expression
  		{
+ 			// output data 
 			if(YFLAG){
 				outY << "cast_expression : unary_expression;" << std::endl;
-			outG << "cast_expression -> unary_expression;" << std::endl;
+				outG << "cast_expression -> unary_expression;" << std::endl;
 			}
 		}
 	| LPAREN type_name RPAREN cast_expression
  		{
+ 			// output data 
 			if(YFLAG){
 				outY << "cast_expression : LPAREN type_name RPAREN cast_expression;" << std::endl;
-			outG << "cast_expression -> {LPAREN type_name RPAREN cast_expression};" << std::endl;
+				outG << "cast_expression -> {LPAREN type_name RPAREN cast_expression};" << std::endl;
 			}
 		}
 	;
@@ -3082,34 +3643,40 @@ cast_expression
 unary_expression
 	: postfix_expression
  		{
-			if(YFLAG){
-				outY << "unary_expression : postfix_expression;" << std::endl;
-	 		outG << "unary_expression -> postfix_expression;" << std::endl;
-			}
-
-			// create ast node
+			// create ast node and assign attributes
 			$$ = new node();
 			$$->valType = $1->valType;
 			$$->val = $1->val;
 	 		$$->astPtr = new unaryExpr_Node($1->astPtr, NULL, false, false);
+
+	 		// output data 
+			if(YFLAG){
+				outY << "unary_expression : postfix_expression;" << std::endl;
+	 			outG << "unary_expression -> postfix_expression;" << std::endl;
+			}
+
+			// register data for graphviz
 	 		registerNode(outA, $$->astPtr);
  			outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $1->astPtr);
  			outA << ";\n";
-
-
-
-
-
- 			std::cout << "In unary_expression - displaying the data type: " << $$->valType << std::endl;  
 		}
 	| INC_OP unary_expression /* ++a, ++a[x][y], etc.. */
  		{
+ 			// create ast node and assign attributes
+ 			$$ = new node();
+ 			$$->valType = $2->valType;
+ 			$$->val = $2->val;
+			$$->astPtr = new unaryExpr_Node(NULL, $2->astPtr, true, false);
+
+ 			// output data 
  			if(YFLAG){
 				outY << "unary_expression : INC_OP unary_expression;" << std::endl;
 	 			outG << "unary_expression -> {INC_OP cast_expression};" << std::endl;
 			}
+
+			/*
  			node* n = $2->val._ste->getIdentifierValue();
  			switch(n->valType) {
  				case LONG_LONG_T:
@@ -3133,19 +3700,15 @@ unary_expression
  					yyerror("Unable to increment.");
  					break;
  			}
- 			//$2->val._ste->setIdentifierValue(*n);
-
-			$$ = new node();
- 			$$->valType = $2->valType;
- 			$$->val = $2->val;
-			$$->astPtr = new unaryExpr_Node(NULL, $2->astPtr, true, false);
-
-			// create ast node
-	 		
+ 			$2->val._ste->setIdentifierValue(*n);
+			*/
+			
+			// register data for graphviz	 		
 			registerNode(outA, $$->astPtr);
-
  			outputNode(outA, $$->astPtr);
- 			outA << "-> INC_OP;\n";
+ 			outA << " -> ";
+ 			outputTerminal(outA, "INC_OP", unique);
+ 			unique++;
  			outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $2->astPtr);
@@ -3154,7 +3717,7 @@ unary_expression
 		}
 	| DEC_OP unary_expression /* --a, --a[x][y], etc.. */ 
  		{
- 			// create ast node
+ 			// create ast node and assign attributes
 	 		$$ = new node();
  			$$->valType = $2->valType;
  			$$->val = $2->val;
@@ -3195,7 +3758,9 @@ unary_expression
  			// register data for graphviz
 			registerNode(outA, $$->astPtr);
  			outputNode(outA, $$->astPtr);
- 			outA << "-> DEC_OP;\n";
+ 			outA << " -> ";
+ 			outputTerminal(outA, "DEC_OP", unique);
+ 			unique++;
  			outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $2->astPtr);
@@ -3443,13 +4008,17 @@ postfix_expression
  			outputNode(outA, $1->astPtr);
  			outA << ";\n";
  			outputNode(outA, $$->astPtr);
- 			outA << "->LPAREN;\n";
+ 			outA << " -> ";
+ 			outputTerminal(outA, "LPAREN", unique);
+ 			unique++;
  			outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $3->astPtr);
  			outA << ";\n";
 			outputNode(outA, $$->astPtr);
- 			outA << "->RPAREN;\n";
+ 			outA << " -> ";
+ 			outputTerminal(outA, "RPAREN", unique);
+ 			unique++;
 		}
 	| postfix_expression DOT identifier
  		{
@@ -3488,7 +4057,9 @@ postfix_expression
  			outputNode(outA, $1->astPtr);
  			outA << ";\n";
  			outputNode(outA, $$->astPtr);
- 			outA << " -> INC_OP;\n";
+ 			outA << " -> ";
+ 			outputTerminal(outA, "INC_OP", unique);
+ 			unique++;
 
  			// do we need this? Seems like run-time stuff
  			/*
@@ -4269,4 +4840,9 @@ void registerNode(std::ofstream &out, astNode* ptr){
 void outputNode(std::ofstream &out, astNode* ptr){
 
 	out << ptr->getName() << '_' << ptr->getID();
+}
+
+void outputTerminal(std::ofstream &out, std::string name, int id){
+	out << name << id << ";\n";
+	out << name << id << "[label=" << name << "];\n";
 }
