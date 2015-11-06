@@ -1,3 +1,1 @@
-int a = 6;
-int b;
-long long c;
+int a = 5.5; !!S

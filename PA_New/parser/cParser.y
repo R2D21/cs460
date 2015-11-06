@@ -3651,7 +3651,7 @@ constant
 			}
 
 			// register data for graphviz
-			registerNode(outA, $1->astPtr);
+			registerNode(outA, $$->astPtr);
 		}
 	| CHARACTER_CONSTANT
  		{
@@ -3668,7 +3668,7 @@ constant
 			}
 
 			// register data for graphviz
-			registerNode(outA, $1->astPtr);
+			registerNode(outA, $$->astPtr);
 		}
 	| FLOATING_CONSTANT
  		{
@@ -3685,7 +3685,7 @@ constant
 			}
 
 			// register data for graphviz
-			registerNode(outA, $1->astPtr);
+			registerNode(outA, $$->astPtr);
 		}
 	| ENUMERATION_CONSTANT
  		{
