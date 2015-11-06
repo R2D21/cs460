@@ -176,7 +176,6 @@ start_unit
 		{
 			table.popLevelOff();
 			outG << "start_unit -> translation_unit;" << std::endl;
-
 			astRoot = $1->astPtr; 
 		}
 	;
@@ -184,15 +183,19 @@ start_unit
 translation_unit
 	: external_declaration
 		{
-			if(YFLAG){
-				outY << "translation_unit : external_declaration;" << std::endl;
-			outG << "translation_unit -> external_declaration;" << std::endl;
-			}
-
+			// create ast node 
 			$$ = new node();
 			$$->val = $1->val;
 			$$->valType = $1->valType;
 			$$->astPtr = new translationUnit_Node($1->astPtr, NULL);
+
+			// output data 
+			if(YFLAG){
+				outY << "translation_unit : external_declaration;" << std::endl;
+				outG << "translation_unit -> external_declaration;" << std::endl;
+			}	
+			
+			// register data for graphviz
 			registerNode(outA, $$->astPtr);
 	 		outputNode(outA, $$->astPtr);
  			outA << " -> ";
@@ -201,21 +204,24 @@ translation_unit
 		}
 	| translation_unit external_declaration
 		{
-			if(YFLAG){
-				outY << "translation_unit : translation_unit external_declaration;" << std::endl;
-			outG << "translation_unit -> {translation_unit external_declaration};" << std::endl;
-			}
-
+			// create ast node 
 			$$ = new node();
 			$$->val = $1->val;
 			$$->valType = $1->valType;
 			$$->astPtr = new translationUnit_Node($1->astPtr, $2->astPtr);
+
+			// output data 
+			if(YFLAG){
+				outY << "translation_unit : translation_unit external_declaration;" << std::endl;
+				outG << "translation_unit -> {translation_unit external_declaration};" << std::endl;
+			}			
+			
+			// register data for graphviz
 			registerNode(outA, $$->astPtr);
 	 		outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $1->astPtr);
  			outA << ";\n";
-
  			outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $2->astPtr);
@@ -226,16 +232,18 @@ translation_unit
 external_declaration
 	: function_definition
 		{
+			// output data 
 			if(YFLAG){
 				outY << "external_declaration : function_definition;" << std::endl;
-			outG << "external_declaration -> function_definition;" << std::endl;
+				outG << "external_declaration -> function_definition;" << std::endl;
 			}
 		}
 	| declaration
 		{
+			// output data 
 			if(YFLAG){
 				outY << "external_declaration : declaration;" << std::endl;
-			outG << "external_declaration -> declaration;" << std::endl;
+				outG << "external_declaration -> declaration;" << std::endl;
 			}
 		}
 	;
@@ -246,15 +254,20 @@ Have stuff for going into the symbol table here.
 function_definition
 	: declarator compound_statement
 		{
-			if(YFLAG){
-				outY << "function_definition : declarator compound_statement;" << std::endl;
-			outG << "function_definition -> {declarator compound_statement};" << std::endl;
-			}
+			// create ast node 
 			$$ = new node();
 			$$->val = $1->val;
 			$$->valType = $1->valType;
 			$$->astPtr = new funcDef_Node(NULL, $1->astPtr, NULL, $2->astPtr);
 
+			// output data 
+			if(YFLAG){
+				outY << "function_definition : declarator compound_statement;" << std::endl;
+				outG << "function_definition -> {declarator compound_statement};" << std::endl;
+			}
+			
+
+			// register data for graphviz
 			registerNode(outA, $$->astPtr);
 	 		outputNode(outA, $$->astPtr);
  			outA << " -> ";
@@ -267,15 +280,19 @@ function_definition
 		}
 	| declarator declaration_list compound_statement
 		{
-			if(YFLAG){
-				outY << "function_definition : declarator declaration_list compound_statement;" << std::endl;
-			outG << "function_definition -> {declarator declaration_list compound_statement};" << std::endl;
-			}
+			// create ast node
 			$$ = new node();
 			$$->val = $1->val;
 			$$->valType = $1->valType;
 			$$->astPtr = new funcDef_Node(NULL, $1->astPtr, $2->astPtr, $3->astPtr);
 
+			// output data 
+			if(YFLAG){
+				outY << "function_definition : declarator declaration_list compound_statement;" << std::endl;
+				outG << "function_definition -> {declarator declaration_list compound_statement};" << std::endl;
+			}
+
+			// register data for graphviz
 			registerNode(outA, $$->astPtr);
 	 		outputNode(outA, $$->astPtr);
  			outA << " -> ";
@@ -292,15 +309,19 @@ function_definition
 		}
 	| declaration_specifiers declarator compound_statement
 		{
-			if(YFLAG){
-				outY << "function_definition : declaration_specifiers declarator compound_statement;" << std::endl;
-			outG << "function_definition -> {declaration_specifiers declarator compound_statement};" << std::endl;
-			}
+			// create ast node 
 			$$ = new node();
 			$$->val = $1->val;
 			$$->valType = $1->valType;
 			$$->astPtr = new funcDef_Node($1->astPtr, $2->astPtr, NULL, $3->astPtr);
 
+			// output data 
+			if(YFLAG){
+				outY << "function_definition : declaration_specifiers declarator compound_statement;" << std::endl;
+				outG << "function_definition -> {declaration_specifiers declarator compound_statement};" << std::endl;
+			}
+
+			// register data for graphviz
 			registerNode(outA, $$->astPtr);
 	 		outputNode(outA, $$->astPtr);
  			outA << " -> ";
@@ -317,15 +338,19 @@ function_definition
 		}
 	| declaration_specifiers declarator declaration_list compound_statement
 		{
-			if(YFLAG){
-				outY << "function_definition : declaration_specifiers declarator declaration_list compound_statement;" << std::endl;
-			outG << "function_definition -> {declaration_specifiers declarator declaration_list compound_statement};" << std::endl;
-			}
+			// create ast node 
 			$$ = new node();
 			$$->val = $1->val;
 			$$->valType = $1->valType;
 			$$->astPtr = new funcDef_Node($1->astPtr, $2->astPtr, $3->astPtr, $4->astPtr);
 
+			// output data 
+			if(YFLAG){
+				outY << "function_definition : declaration_specifiers declarator declaration_list compound_statement;" << std::endl;
+				outG << "function_definition -> {declaration_specifiers declarator declaration_list compound_statement};" << std::endl;
+			}
+
+			// register data for graphviz
 			registerNode(outA, $$->astPtr);
 	 		outputNode(outA, $$->astPtr);
  			outA << " -> ";
@@ -348,22 +373,24 @@ function_definition
 declaration
 	: declaration_specifiers SEMI
 		{
-			if(YFLAG){
-				outY << "declaration : declaration_specifiers SEMI;" << std::endl;
-			outG << "declaration -> {declaration_specifiers SEMI};" << std::endl;
-			}
-
+			// create ast node
 			$$ = new node();
 			$$->val = $1->val;
 			$$->valType = $1->valType;
 			$$->astPtr = new declaration_Node($1->astPtr, NULL);
 
+			// output data
+			if(YFLAG){
+				outY << "declaration : declaration_specifiers SEMI;" << std::endl;
+				outG << "declaration -> {declaration_specifiers SEMI};" << std::endl;
+			}			
+
+			// register data for graphviz
 			registerNode(outA, $$->astPtr);
 	 		outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $1->astPtr);
  			outA << ";\n";
-
 	 		outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputTerminal(outA, "SEMI", unique);
@@ -371,22 +398,24 @@ declaration
 		}
 	| declaration_specifiers init_declarator_list SEMI
 		{
-			if(YFLAG){
-				outY << "declaration : declaration_specifiers init_declarator_list SEMI;" << std::endl;
-				outG << "declaration -> {declaration_specifiers init_declarator_list SEMI};" << std::endl;
-			}
-
 			// create ast node
 			$$ = new node();
 			$$->val = $1->val;
 			$$->valType = $1->valType;
 			$$->astPtr = new declaration_Node($1->astPtr, $2->astPtr);
+
+			// output data 
+			if(YFLAG){
+				outY << "declaration : declaration_specifiers init_declarator_list SEMI;" << std::endl;
+				outG << "declaration -> {declaration_specifiers init_declarator_list SEMI};" << std::endl;
+			}
+
+			// register data for graphviz
 			registerNode(outA, $$->astPtr);
 	 		outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $1->astPtr);
  			outA << ";\n";
-
  			outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $2->astPtr);
@@ -401,15 +430,19 @@ declaration
 declaration_list
 	: set_insert declaration set_lookup
 		{
-			if(YFLAG){
-				outY << "declaration_list : declaration;" << std::endl;
-			outG << "declaration_list -> declaration;" << std::endl;
-			}
-
+			// create ast node 
 			$$ = new node(); 
 			$$->val = $2->val;
 			$$->valType = $2->valType;
 			$$->astPtr = new declList_Node($2->astPtr, NULL);
+
+			// output data 
+			if(YFLAG){
+				outY << "declaration_list : declaration;" << std::endl;
+				outG << "declaration_list -> declaration;" << std::endl;
+			}
+
+			// register data for graphviz
 			registerNode(outA, $$->astPtr);
 	 		outputNode(outA, $$->astPtr);
  			outA << " -> ";
@@ -419,21 +452,24 @@ declaration_list
 		}
 	| declaration_list set_insert declaration set_lookup
 		{
-			if(YFLAG){
-				outY << "declaration_list : declaration_list declaration;" << std::endl;
-			outG << "declaration_list -> {declaration_list declaration};" << std::endl;
-			}
+			// create new ast node 
 			$$ = new node();
 			$$->val = $1->val;
 			$$->valType = $1->valType;
 			$$->astPtr = new declList_Node($1->astPtr, $3->astPtr);
+
+			// output data 
+			if(YFLAG){
+				outY << "declaration_list : declaration_list declaration;" << std::endl;
+				outG << "declaration_list -> {declaration_list declaration};" << std::endl;
+			}
+			
+			// register data for graphviz
 			registerNode(outA, $$->astPtr);
 	 		outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $1->astPtr);
  			outA << ";\n";
-
-
  			outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $3->astPtr);
@@ -444,16 +480,19 @@ declaration_list
 declaration_specifiers
 	: storage_class_specifier
 		{
-			if(YFLAG){
-				outY << "declaration_specifiers : storage_class_specifier;" << std::endl;
-			outG << "declaration_specifiers -> storage_class_specifier;" << std::endl; 
-			}
-
 			// create AST node
 			$$ = new node();
 			$$->val = $1->val;
 			$$->valType = $1->valType;
 			$$->astPtr = new declSpec_Node(NULL, $1->val._num);
+
+			// output data 
+			if(YFLAG){
+				outY << "declaration_specifiers : storage_class_specifier;" << std::endl;
+				outG << "declaration_specifiers -> storage_class_specifier;" << std::endl; 
+			}
+
+			// register data for graphviz
 	 		registerNode(outA, $$->astPtr);
 	 		outputNode(outA, $$->astPtr);
  			outA << " -> ";
@@ -462,23 +501,23 @@ declaration_specifiers
 		}
 	| storage_class_specifier declaration_specifiers
 		{
-			if(YFLAG){
-				outY << "declaration_specifiers : storage_class_specifier declaration_specifiers;" << std::endl;
-			outG << "declaration_specifiers -> {storage_class_specifier declaration_specifiers};" << std::endl;
-			}
-
 			// create AST node
 			$$ = new node();
 			$$->val = $1->val;
 			$$->valType = $1->valType;
 			$$->astPtr = new declSpec_Node($2->astPtr, $1->val._num);
+
+			if(YFLAG){
+				outY << "declaration_specifiers : storage_class_specifier declaration_specifiers;" << std::endl;
+				outG << "declaration_specifiers -> {storage_class_specifier declaration_specifiers};" << std::endl;
+			}
+			
+			// register data for graphviz
 			registerNode(outA, $$->astPtr);
 	 		outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $1->astPtr);
  			outA << ";\n";
-
-
  			outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $2->astPtr);
@@ -486,16 +525,19 @@ declaration_specifiers
 		}
 	| type_specifier
 		{
-			if(YFLAG){
-				outY << "declaration_specifiers : type_specifier;" << std::endl;
-			outG << "declaration_specifiers -> type_specifier;" << std::endl;
-			}
-
 			// create AST node
 			$$ = new node();
 			$$->val = $1->val;
 			$$->valType = $1->valType;
 			$$->astPtr = new declSpec_Node(NULL, $1->val._num);
+
+			// output data 
+			if(YFLAG){
+				outY << "declaration_specifiers : type_specifier;" << std::endl;
+				outG << "declaration_specifiers -> type_specifier;" << std::endl;
+			}
+
+			// register data for graphviz
 			registerNode(outA, $$->astPtr);
 	 		outputNode(outA, $$->astPtr);
  			outA << " -> ";
@@ -505,22 +547,24 @@ declaration_specifiers
 		}
 	| type_specifier declaration_specifiers
 		{
-			if(YFLAG){
-				outY << "declaration_specifiers : type_specifier declaration_specifiers;" << std::endl;
-			outG << "declaration_specifiers -> {type_specifier declaration_specifiers};" << std::endl;
-			}
-
 			// create AST node
 			$$ = new node();
 			$$->val = $1->val;
 			$$->valType = $1->valType;
 			$$->astPtr = new declSpec_Node($2->astPtr, $1->val._num);
-				 		registerNode(outA, $$->astPtr);
+
+			// output data 
+			if(YFLAG){
+				outY << "declaration_specifiers : type_specifier declaration_specifiers;" << std::endl;
+				outG << "declaration_specifiers -> {type_specifier declaration_specifiers};" << std::endl;
+			}
+			
+			// register data for graphviz
+			registerNode(outA, $$->astPtr);
 	 		outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $1->astPtr);
  			outA << ";\n";
-
  			outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $2->astPtr);
@@ -528,17 +572,20 @@ declaration_specifiers
 		}
 	| type_qualifier 
 		{
-			if(YFLAG){
-				outY << "declaration_specifiers : type_qualifier;" << std::endl;
-			outG << "declaration_specifiers -> type_qualifier;" << std::endl;
-			}
-
 			// create AST node
 			$$ = new node();
 			$$->val = $1->val;
 			$$->valType = $1->valType;
 			$$->astPtr = new declSpec_Node(NULL, $1->val._num);
-				 		registerNode(outA, $$->astPtr);
+
+			// output data 
+			if(YFLAG){
+				outY << "declaration_specifiers : type_qualifier;" << std::endl;
+				outG << "declaration_specifiers -> type_qualifier;" << std::endl;
+			}
+
+			// register data for graphviz
+			registerNode(outA, $$->astPtr);
 	 		outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $1->astPtr);
@@ -546,22 +593,24 @@ declaration_specifiers
 		}
 	| type_qualifier declaration_specifiers
 		{
-			if(YFLAG){
-				outY << "declaration_specifiers : type_qualifier declaration_specifiers;" << std::endl;
-			outG << "declaration_specifiers -> {type_qualifier declaration_specifiers};" << std::endl;
-			}
-
 			// create AST node
 			$$ = new node();
 			$$->val = $1->val;
 			$$->valType = $1->valType;
 			$$->astPtr = new declSpec_Node($2->astPtr, $1->val._num);
+
+			// output data 
+			if(YFLAG){
+				outY << "declaration_specifiers : type_qualifier declaration_specifiers;" << std::endl;
+				outG << "declaration_specifiers -> {type_qualifier declaration_specifiers};" << std::endl;
+			}
+
+			// register data for graphviz
 			registerNode(outA, $$->astPtr);
 	 		outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $1->astPtr);
  			outA << ";\n";
-
  			outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $2->astPtr);
@@ -572,155 +621,211 @@ declaration_specifiers
 storage_class_specifier
 	: AUTO
 		{
+			// create ast node 
 			$$ = new node();
 			$$->valType = LONG_LONG_T;
 			$$->val._num = AUTO; 
 			$$->astPtr = new leaf_Node($$->val, $$->valType, "auto");
-			registerNode(outA, $$->astPtr);
+
+			// output data 
 			if(YFLAG){
 				outY << "storage_class_specifier : AUTO;" << std::endl;
-			outG << "storage_class_specifier -> AUTO;" << std::endl;
+				outG << "storage_class_specifier -> AUTO;" << std::endl;
 			}
+
+			// register data for graphviz
+			registerNode(outA, $$->astPtr);
 		}
 	| REGISTER
 		{
+			// create ast node 
 			$$ = new node();
 			$$->valType = LONG_LONG_T;
 			$$->val._num = REGISTER; 
 			$$->astPtr = new leaf_Node($$->val, $$->valType, "register");
-			registerNode(outA, $$->astPtr);
+
+			// output data 
 			if(YFLAG){
 				outY << "storage_class_specifier : REGISTER;" << std::endl;
-			outG << "storage_class_specifier -> REGISTER;" << std::endl;
+				outG << "storage_class_specifier -> REGISTER;" << std::endl;
 			}
+
+			// register data for graphviz
+			registerNode(outA, $$->astPtr);
 		}
 	| STATIC
 		{
+			// create ast node 
 			$$ = new node();
 			$$->valType = LONG_LONG_T;
 			$$->val._num = STATIC; 
 			$$->astPtr = new leaf_Node($$->val, $$->valType, "static");
-			registerNode(outA, $$->astPtr);
+
+			// output data 
 			if(YFLAG){
 				outY << "storage_class_specifier : STATIC;" << std::endl;
-			outG << "storage_class_specifier -> STATIC;" << std::endl;
+				outG << "storage_class_specifier -> STATIC;" << std::endl;
 			}
+
+			// register data for graphviz
+			registerNode(outA, $$->astPtr);
 		}
 	| EXTERN
 		{
+			// create ast node 
 			$$ = new node();
 			$$->valType = LONG_LONG_T;
 			$$->val._num = EXTERN; 
 			$$->astPtr = new leaf_Node($$->val, $$->valType, "extern");
-			registerNode(outA, $$->astPtr);
+
+			// output data 
 			if(YFLAG){
 				outY << "storage_class_specifier : EXTERN;" << std::endl;
-			outG << "storage_class_specifier -> EXTERN;" << std::endl;
+				outG << "storage_class_specifier -> EXTERN;" << std::endl;
 			}
+
+			// register data for graphviz
+			registerNode(outA, $$->astPtr);
 		}
 	| TYPEDEF
 		{
+			// create ast node 
 			$$ = new node();
 			$$->valType = LONG_LONG_T;
 			$$->val._num = TYPEDEF; 
 			$$->astPtr = new leaf_Node($$->val, $$->valType, "typedef");
-			registerNode(outA, $$->astPtr);
+
+			// output data 
 			if(YFLAG){
 				outY << "storage_class_specifier : TYPEDEF;" << std::endl;
-			outG << "storage_class_specifier -> TYPEDEF;" << std::endl;
+				outG << "storage_class_specifier -> TYPEDEF;" << std::endl;
 			}
+
+			// register data for graphviz
+			registerNode(outA, $$->astPtr);
 		}
 	;
 
 type_specifier
 	: VOID
 		{
-			$$ = new node();
+			// create ast node
+ 			$$ = new node();
 			$$->valType = LONG_LONG_T;
 			$$->val._num = VOID; 
-
 			$$->astPtr = new leaf_Node($$->val, $$->valType, "VOID");
-			registerNode(outA, $$->astPtr);
+			
+			// output data 
 			if(YFLAG){
 				outY << "type_specifier : VOID;" << std::endl;
-			outG << "type_specifier -> VOID;" << std::endl;
+				outG << "type_specifier -> VOID;" << std::endl;
 			}
+
+			// register data for graphviz
+			registerNode(outA, $$->astPtr);
 		}
 	| CHAR
 		{
-			$$ = new node();
+			// create ast node
+ 			$$ = new node();
 			$$->valType = LONG_LONG_T;
 			$$->val._num = CHAR; 
-
 			$$->astPtr = new leaf_Node($$->val, $$->valType, "CHAR");
-			registerNode(outA, $$->astPtr);
+			
+			// output data 
 			if(YFLAG){
 				outY << "type_specifier : CHAR;" << std::endl;
-			outG << "type_specifier -> CHAR;" << std::endl;
+				outG << "type_specifier -> CHAR;" << std::endl;
 			}
+
+			// register data for graphviz
+			registerNode(outA, $$->astPtr);
 		}
 	| SHORT
 		{
-			$$ = new node();
+			// create ast node
+ 			$$ = new node();
 			$$->valType = LONG_LONG_T;
 			$$->val._num = SHORT; 
-
 			$$->astPtr = new leaf_Node($$->val, $$->valType, "SHORT");
-			registerNode(outA, $$->astPtr);
+			
+			// output data 
 			if(YFLAG){
 				outY << "type_specifier : SHORT;" << std::endl;
-			outG << "type_specifier -> SHORT;" << std::endl;
+				outG << "type_specifier -> SHORT;" << std::endl;
 			}
+
+			// register data for graphviz
+			registerNode(outA, $$->astPtr);
 		}
 	| INT
 		{
-			$$ = new node();
+			// create ast node
+ 			$$ = new node();
 			$$->valType = LONG_LONG_T;
 			$$->val._num = INT; 
 			$$->astPtr = new leaf_Node($$->val, $$->valType, "INT");
-			registerNode(outA, $$->astPtr);
+			
+			// output data 
 			if(YFLAG){
 				outY << "type_specifier : INT;" << std::endl;
-			outG << "type_specifier -> INT;" << std::endl;
+				outG << "type_specifier -> INT;" << std::endl;
 			}
+
+			// register data for graphviz
+			registerNode(outA, $$->astPtr);
 		}
 	| LONG
 		{
-			$$ = new node();
+			// create ast node
+ 			$$ = new node();
 			$$->valType = LONG_LONG_T;
 			$$->val._num = LONG; 
 			$$->astPtr = new leaf_Node($$->val, $$->valType, "LONG");
-			registerNode(outA, $$->astPtr);
+			
+			// output data 
 			if(YFLAG){
 				outY << "type_specifier : LONG;" << std::endl;
-			outG << "type_specifier -> LONG;" << std::endl;
+				outG << "type_specifier -> LONG;" << std::endl;
 			}
+
+			// register data for graphviz
+			registerNode(outA, $$->astPtr);
 		}
 	| FLOAT
  		{
+ 			// create ast node
  			$$ = new node();
 			$$->valType = LONG_LONG_T;
 			$$->val._num = FLOAT; 
-
 			$$->astPtr = new leaf_Node($$->val, $$->valType, "FLOAT");
-			registerNode(outA, $$->astPtr);
+			
+			// output data 
 			if(YFLAG){
 				outY << "type_specifier : FLOAT;" << std::endl;
-			outG << "type_specifier -> FLOAT;" << std::endl;
+				outG << "type_specifier -> FLOAT;" << std::endl;
 			}
+
+			// register data for graphviz
+			registerNode(outA, $$->astPtr);
 		}
 	| DOUBLE
  		{
+			// create ast node
  			$$ = new node();
 			$$->valType = LONG_LONG_T;
 			$$->val._num = DOUBLE; 
-
 			$$->astPtr = new leaf_Node($$->val, $$->valType, "DOUBLE");
-			registerNode(outA, $$->astPtr);
+			
+			// output data 
 			if(YFLAG){
 				outY << "type_specifier : DOUBLE;" << std::endl;
-			outG << "type_specifier -> DOUBLE;" << std::endl;
+				outG << "type_specifier -> DOUBLE;" << std::endl;
 			}
+
+			// register data for graphviz
+			registerNode(outA, $$->astPtr);
+
 		}
 	| SIGNED
  		{
@@ -943,6 +1048,7 @@ init_declarator
 			$$->astPtr = new initDecl_Node($1->astPtr, $4->astPtr);
 
 			 
+			// output data
  			if(YFLAG){
 				outY << "init_declarator : declarator ASSIGN initializer;" << std::endl;
 				outG << "init_declarator -> {declarator ASSIGN initializer};" << std::endl; 
