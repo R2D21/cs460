@@ -808,9 +808,19 @@ init_declarator
 				outY << "init_declarator : declarator ASSIGN initializer;" << std::endl;
 			outG << "init_declarator -> {declarator ASSIGN initializer};" << std::endl; 
 			}
- 			std::cout << $1->val._ste->getIdentifierType_String() << std::endl; 
+ 			std::cout << "$1 datatype: " << $1->val._ste->getIdentifierType_String() << std::endl; 
+ 			std::cout << "$4 datatype: " << $4->valType << std::endl; 
 
- 			if (!$1->val._ste->setIdentifierValue(*$4)) {
+ 			bool warningFlag = false;
+ 			std::string message = ""; 
+ 			bool fatalAssignment = $1->val._ste->setIdentifierValue((*$4), warningFlag, message);
+ 			
+
+ 			if (warningFlag) {
+ 				std::cout << COLOR_NORMAL << COLOR_CYAN_NORMAL << "WARNING: " << COLOR_NORMAL << message << std::endl; 
+ 			}
+
+ 			else if (fatalAssignment) {
  				std::cout << COLOR_NORMAL << COLOR_CYAN_NORMAL << "ERROR:" << COLOR_NORMAL << " Invalid assignment." << std::endl;
  				yyerror("");
  			}
@@ -2945,6 +2955,8 @@ multiplicative_expression
 
 			// create ast node -- should this be a cast_expr node??
 			$$ = new node();
+			$$->val = $1->val; 
+			$$->valType = $1->valType; 
 	 		$$->astPtr = new multExpr_Node($1->astPtr, NULL, -1);
 	 		registerNode(outA, $$->astPtr);
 
@@ -3085,6 +3097,12 @@ unary_expression
  			outA << " -> ";
  			outputNode(outA, $1->astPtr);
  			outA << ";\n";
+
+
+
+
+
+ 			std::cout << "In unary_expression - displaying the data type: " << $$->valType << std::endl;  
 		}
 	| INC_OP unary_expression /* ++a, ++a[x][y], etc.. */
  		{
@@ -3115,14 +3133,15 @@ unary_expression
  					yyerror("Unable to increment.");
  					break;
  			}
- 			$2->val._ste->setIdentifierValue(*n);
+ 			//$2->val._ste->setIdentifierValue(*n);
 
 			$$ = new node();
  			$$->valType = $2->valType;
  			$$->val = $2->val;
+			$$->astPtr = new unaryExpr_Node(NULL, $2->astPtr, true, false);
 
 			// create ast node
-	 		$$->astPtr = new unaryExpr_Node(NULL, $2->astPtr, true, false);
+	 		
 			registerNode(outA, $$->astPtr);
 
  			outputNode(outA, $$->astPtr);
@@ -3135,10 +3154,18 @@ unary_expression
 		}
 	| DEC_OP unary_expression /* --a, --a[x][y], etc.. */ 
  		{
+ 			// create ast node
+	 		$$ = new node();
+ 			$$->valType = $2->valType;
+ 			$$->val = $2->val;
+ 			$$->astPtr = new unaryExpr_Node(NULL, $2->astPtr, false, true);
+
  			if(YFLAG){
 				outY << "unary_expression : DEC_OP unary_expression;" << std::endl;
 	 		outG << "unary_expression -> {DEC_OP cast_expression};" << std::endl;
 			}
+
+			/*
  			node* n = $2->val._ste->getIdentifierValue();
  			switch(n->valType) {
  				case LONG_LONG_T:
@@ -3163,16 +3190,10 @@ unary_expression
  					break;
  			}
  			$2->val._ste->setIdentifierValue(*n);
+			*/ 			
 
-			$$ = new node();
- 			$$->valType = $2->valType;
- 			$$->val = $2->val;
-
- 			// create ast node
-	 		$$->astPtr = new unaryExpr_Node(NULL, $2->astPtr, false, true);
-
+ 			// register data for graphviz
 			registerNode(outA, $$->astPtr);
-
  			outputNode(outA, $$->astPtr);
  			outA << "-> DEC_OP;\n";
  			outputNode(outA, $$->astPtr);
@@ -3182,17 +3203,24 @@ unary_expression
 		}
 	| unary_operator cast_expression /* negative values */
  		{
+ 			// create ast node and assign attributes 
+			$$ = new node();
+			$$->valType = $1->valType;
+ 			$$->val = $1->val;
+			$$->astPtr = new unaryExpr_Node($1->astPtr, $2->astPtr);
+
+			// output data 
 			if(YFLAG){
 				outY << "unary_expression : unary_operator cast_expression;" << std::endl;
 	 			outG << "unary_expression -> {unary_operator cast_expression}" << std::endl;
-			}
-	 		// create ast node
- 			$$ = new node();
+			}		
 
+			// check for a negative sign
+			/* 
  			if(unaryOperatorChosen == MINUS) { 
-	 			switch($2->valType) {
+	 			switch($$->valType) {
 	 				case LONG_LONG_T:
-	 					$2->val._num *= -1;
+	 					$$->val._num *= -1;
 	 					
 						$$ = new node();
 			 			$$->valType = $2->valType;
@@ -3212,15 +3240,14 @@ unary_expression
 	 			}
 	 			unaryOperatorChosen = -1;
 	 		}
+	 		*/
 
-
-	 		$$->astPtr = new unaryExpr_Node($1->astPtr, $2->astPtr);
+			// register data for graphviz
 			registerNode(outA, $$->astPtr);
  			outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $1->astPtr);
  			outA << ";\n";
-
  			outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $2->astPtr);
@@ -3229,16 +3256,18 @@ unary_expression
 		}
 	| SIZEOF unary_expression
  		{
+ 			// output data 
 			if(YFLAG){
 				outY << "unary_expression : SIZEOF unary_expression;" << std::endl;
-			outG << "unary_expression -> {SIZEOF unary_expression};" << std::endl;
+				outG << "unary_expression -> {SIZEOF unary_expression};" << std::endl;
 			}
 		}
 	| SIZEOF LPAREN type_name RPAREN
  		{
+ 			// output data 
 			if(YFLAG){
 				outY << "unary_expression : SIZEOF LPAREN type_name RPAREN;" << std::endl;
-			outG << "unary_expression -> {SIZEOF LPAREN type_name RPAREN};" << std::endl;
+				outG << "unary_expression -> {SIZEOF LPAREN type_name RPAREN};" << std::endl;
 			}
 		}
 	;
@@ -3246,83 +3275,98 @@ unary_expression
 unary_operator
 	: AMP
  		{
- 			unaryOperatorChosen = AMP; 
+ 			// create ast node and assign attributes 
+ 			$$ = new node();
+			$$->astPtr = new unaryOp_Node(AMP);
+ 			unaryOperatorChosen = AMP;
+
+ 			// output data 
 			if(YFLAG){
 				outY << "unary_operator : AMP;" << std::endl;
- 			outG << "unary_operator -> AMP;" << std::endl;
+ 				outG << "unary_operator -> AMP;" << std::endl;
 			}
 
-			// create ast node
- 			$$ = new node();
-
-			$$->astPtr = new unaryOp_Node(AMP);
+			// register data for graphviz 
  			registerNode(outA, $$->astPtr);
 		}
 	| MULT
  		{
+ 			// create ast node and assign attributes 
+ 			$$ = new node();
+			$$->astPtr = new unaryOp_Node(MULT);
  			unaryOperatorChosen = MULT;
+
+ 			// output data 
 			if(YFLAG){
 				outY << "unary_operator : MULT;" << std::endl;
- 			outG << "unary_operator -> MULT;" << std::endl;
+ 				outG << "unary_operator -> MULT;" << std::endl;
 			}
 
-			// create ast node
-			// create ast node
- 			$$ = new node();
-
-			$$->astPtr = new unaryOp_Node(MULT);
+			// register data for graphviz 
  			registerNode(outA, $$->astPtr);
 		}
 	| PLUS
  		{
- 			unaryOperatorChosen = PLUS;
-			if(YFLAG){
- 			outG << "unary_operator -> PLUS;" << std::endl;
-				outY << "unary_operator : PLUS;" << std::endl;
-			}
-
-			// create ast node
+ 			// create ast node and assign attributes 
  			$$ = new node();
 			$$->astPtr = new unaryOp_Node(PLUS);
+ 			unaryOperatorChosen = PLUS;
+
+ 			// output data 
+			if(YFLAG){
+				outY << "unary_operator : PLUS;" << std::endl;
+ 				outG << "unary_operator -> PLUS;" << std::endl;
+			}
+
+			// register data for graphviz 
  			registerNode(outA, $$->astPtr);
 		}
 	| MINUS
  		{
- 			unaryOperatorChosen = MINUS;
-			if(YFLAG){
-				outY << "unary_operator : MINUS;" << std::endl;
- 			outG << "unary_operator -> MINUS;" << std::endl;
-			}
-
-			// create ast node
+ 			// create ast node and assign attributes 
  			$$ = new node();
 			$$->astPtr = new unaryOp_Node(MINUS);
+ 			unaryOperatorChosen = MINUS;
+
+ 			// output data 
+			if(YFLAG){
+				outY << "unary_operator : MINUS;" << std::endl;
+ 				outG << "unary_operator -> MINUS;" << std::endl;
+			}
+
+			// register data for graphviz 
  			registerNode(outA, $$->astPtr);
 		}
 	| TILDE
  		{
- 			unaryOperatorChosen = TILDE;
-			if(YFLAG){
-				outY << "unary_operator : TILDE;" << std::endl;
- 			outG << "unary_operator -> TILDE;" << std::endl;
-			}
-
-			// create ast node
+ 			// create ast node and assign attributes 
  			$$ = new node();
 			$$->astPtr = new unaryOp_Node(TILDE);
+ 			unaryOperatorChosen = TILDE;
+
+ 			// output data 
+			if(YFLAG){
+				outY << "unary_operator : TILDE;" << std::endl;
+ 				outG << "unary_operator -> TILDE;" << std::endl;
+			}
+
+			// register data for graphviz 
  			registerNode(outA, $$->astPtr);
 		}
 	| BANG
  		{
+ 			// create ast node and assign attributes 
+ 			$$ = new node();
+			$$->astPtr = new unaryOp_Node(BANG);
  			unaryOperatorChosen = BANG;
+
+ 			// output data 
 			if(YFLAG){
 				outY << "unary_operator : BANG;" << std::endl;
  				outG << "unary_operator -> BANG;" << std::endl;
 			}
 
-			// create ast node
- 			$$ = new node();
-			$$->astPtr = new unaryOp_Node(BANG);
+			// register data for graphviz
 			registerNode(outA, $$->astPtr);
 		}
 	;
@@ -3330,46 +3374,61 @@ unary_operator
 postfix_expression
 	: primary_expression
  		{
- 			if(YFLAG){
-				outY << "postfix_expression : primary_expression;" << std::endl;
- 			outG << "postfix_expression -> primary_expression;" << std::endl;
-			}
+ 			// create ast node and assign attributes
 			$$ = new node();
  			$$->valType = $1->valType;
  			$$->val = $1->val;
+			$$->astPtr = new postfixExpr_Node($1->astPtr, NULL, false, false);
+
+			// output data 
+ 			if(YFLAG){
+				outY << "postfix_expression : primary_expression;" << std::endl;
+ 				outG << "postfix_expression -> primary_expression;" << std::endl;
+			}
+
+			// check to see if the current identifier is a function 
  			if($1->valType == STE_T && $1->val._ste->isFunction()){
  				currentFunc = $1->val._ste;
  			} 
  			
- 			// create ast node
- 			$$->astPtr = new postfixExpr_Node($1->astPtr, NULL, false, false);
+ 			// register data for graphviz
  			registerNode(outA, $$->astPtr);
  			outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $1->astPtr);
- 			outA << ";\n";
+ 			outA << ";\n"; 
  		}
 	| postfix_expression set_lookup LBRACK expression RBRACK /* COME BACK TO THIS */
  		{
+ 			// output data 
  			if(YFLAG){
 				outY << "postfix_expression : postfix_expression LBRACK expression RBRACK;" << std::endl;
-			outG << "postfix_expression -> {postfix_expression LBRACK expression RBRACK};" << std::endl;
+				outG << "postfix_expression -> {postfix_expression LBRACK expression RBRACK};" << std::endl;
 			}
 		}
 	| postfix_expression LPAREN RPAREN
  		{
+ 			// output data 
 			if(YFLAG){
 				outY << "postfix_expression : postfix_expression LPAREN RPAREN;" << std::endl;
-			outG << "postfix_expression -> {postfix_expression LPAREN RPAREN};" << std::endl;
+				outG << "postfix_expression -> {postfix_expression LPAREN RPAREN};" << std::endl;
 			}
 		}
 	| postfix_expression LPAREN argument_expression_list RPAREN
  		{
+ 			// create ast node and assign attributes
+ 			$$ = new node();
+ 			$$->valType = $1->valType;
+ 			$$->val = $1->val;
+ 			$$->astPtr = new postfixExpr_Node($1->astPtr, $3->astPtr, false, false);
+
+ 			// output data 
   			if(YFLAG){
 				outY << "postfix_expression : postfix_expression LPAREN argument_expression_list RPAREN;" << std::endl;
- 			outG << "postfix_expression -> {postfix_expression LPAREN argument_expression_list RPAREN;};" << std::endl;
+ 				outG << "postfix_expression -> {postfix_expression LPAREN argument_expression_list RPAREN;};" << std::endl;
 			}
 
+			// check to see if the function parameters are valid 
  			$1->val._ste = currentFunc; 
  			if (!$1->val._ste->checkParams(funcCallingParams)) {
  				std::cout << COLOR_NORMAL << COLOR_CYAN_NORMAL << "ERROR:" << COLOR_NORMAL << " Invalid function arguments." << std::endl;
@@ -3377,48 +3436,62 @@ postfix_expression
  			}
  			funcCallingParams.clear();
 
-			// create ast node
- 			$$ = new node();
- 			$$->valType = $1->valType;
- 			$$->val = $1->val;
- 			$$->astPtr = new postfixExpr_Node($1->astPtr, $3->astPtr, false, false);
+			// register data for graphviz
  			registerNode(outA, $$->astPtr);
  			outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $1->astPtr);
  			outA << ";\n";
-
-
  			outputNode(outA, $$->astPtr);
  			outA << "->LPAREN;\n";
-
-
  			outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $3->astPtr);
  			outA << ";\n";
-
 			outputNode(outA, $$->astPtr);
  			outA << "->RPAREN;\n";
 		}
 	| postfix_expression DOT identifier
  		{
+ 			// output data
 			if(YFLAG){
 				outY << "postfix_expression : postfix_expression DOT identifier;" << std::endl;
-			outG << "postfix_expression -> {postfix_expression DOT identifier};" << std::endl;
+				outG << "postfix_expression -> {postfix_expression DOT identifier};" << std::endl;
 			}
 		}
 	| postfix_expression PTR_OP identifier
  		{
+ 			// output data
 			if(YFLAG){
 				outY << "postfix_expression : postfix_expression PTR_OP identifier;" << std::endl;
-			outG << "postfix_expression -> {postfix_expression PTR_OP identifier};" << std::endl;
+				outG << "postfix_expression -> {postfix_expression PTR_OP identifier};" << std::endl;
 			}
 		}
 	| postfix_expression INC_OP /* a++, a[x][y]++. etc.. */
  		{
- 			// do we need this? Seems like run-time stuff
+ 			// create ast node and assign attributes
+ 			$$ = new node();
+ 			$$->valType = $1->valType;
+ 			$$->val = $1->val;
+ 			$$->astPtr = new postfixExpr_Node($1->astPtr, NULL, true, false);
 
+ 			// output data 
+			if(YFLAG){
+				outY << "postfix_expression : postfix_expression INC_OP;" << std::endl;
+ 				outG << "postfix_expression -> {postfix_expression INC_OP};" << std::endl;
+			}
+
+			// register data for graphviz
+			registerNode(outA, $$->astPtr);
+ 			outputNode(outA, $$->astPtr);
+ 			outA << " -> ";
+ 			outputNode(outA, $1->astPtr);
+ 			outA << ";\n";
+ 			outputNode(outA, $$->astPtr);
+ 			outA << " -> INC_OP;\n";
+
+ 			// do we need this? Seems like run-time stuff
+ 			/*
  			node* n = $1->val._ste->getIdentifierValue();
  			switch(n->valType) {
  				case LONG_LONG_T:
@@ -3443,32 +3516,31 @@ postfix_expression
  					break;
  			}
  			$1->val._ste->setIdentifierValue(*n);
-			$$ = new node();
+			*/	
+		}
+	| postfix_expression DEC_OP /* a--, a[x][y]--, etc.. */
+ 		{
+ 			// create ast node and assign attributes
+ 			$$ = new node();
  			$$->valType = $1->valType;
  			$$->val = $1->val;
- 			// create ast node
- 			$$->astPtr = new postfixExpr_Node($1->astPtr, NULL, true, false);
+ 			$$->astPtr = new postfixExpr_Node($1->astPtr, NULL, false, true);
 
-			if(YFLAG){
-				outY << "postfix_expression : postfix_expression INC_OP;" << std::endl;
- 				outG << "postfix_expression -> {postfix_expression INC_OP};" << std::endl;
+ 			// output data 
+ 			if(YFLAG){
+				outY << "postfix_expression : postfix_expression DEC_OP;" << std::endl;
+ 				outG << "postfix_expression -> {postfix_expression DEC_OP};" << std::endl;
 			}
+
+			// register data for graphviz
 			registerNode(outA, $$->astPtr);
  			outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $1->astPtr);
  			outA << ";\n";
- 			outputNode(outA, $$->astPtr);
- 			outA << " -> INC_OP;\n";
-		}
-	| postfix_expression DEC_OP /* a--, a[x][y]--, etc.. */
- 		{
- 			if(YFLAG){
-				outY << "postfix_expression : postfix_expression DEC_OP;" << std::endl;
- 			outG << "postfix_expression -> {postfix_expression DEC_OP};" << std::endl;
-			}
 
  			// perform decrement - do we need this? Seems like run-time stuff
+ 			/*
  			node* n = $1->val._ste->getIdentifierValue();
  			switch(n->valType) {
  				case LONG_LONG_T:
@@ -3493,48 +3565,44 @@ postfix_expression
  					break;
  			}
  			$1->val._ste->setIdentifierValue(*n);
-			$$ = new node();
- 			$$->valType = $1->valType;
- 			$$->val = $1->val;
- 			// create ast node
- 			$$->astPtr = new postfixExpr_Node($1->astPtr, NULL, false, true);
- 			registerNode(outA, $$->astPtr);
- 			outputNode(outA, $$->astPtr);
- 			outA << " -> ";
- 			outputNode(outA, $1->astPtr);
- 			outA << ";\n";
+			*/
 		}
 	;
 
 primary_expression /* no code in this production - just passing stuff up */
 	: identifier
  		{
+ 			// output data 
 			if(YFLAG){
 				outY << "primary_expression : identifier;" << std::endl;
-			outG << "primary_expression -> identifier;" << std::endl;
+				outG << "primary_expression -> identifier;" << std::endl;
 			}
 		}
 	| constant
  		{
+ 			// output data 
  			if(YFLAG){
 				outY << "primary_expression : constant;" << std::endl;
-			outG << "primary_expression -> constant;" << std::endl;
+				outG << "primary_expression -> constant;" << std::endl;
 			}
 		}
 	| string
  		{
+ 			// output data 
 			if(YFLAG){
 				outY << "primary_expression : string;" << std::endl;
-			outG << "primary_expression -> string;" << std::endl;
+				outG << "primary_expression -> string;" << std::endl;
 			}
 		}
 	| LPAREN expression RPAREN
  		{
- 			
+ 			// assign appropriate noe
  			$$ = $2;
+
+ 			// output data 
 			if(YFLAG){
 				outY << "primary_expression : LPAREN expression RPAREN;" << std::endl;
-			outG << "primary_expression -> {LPAREN expression RPAREN};" << std::endl;
+				outG << "primary_expression -> {LPAREN expression RPAREN};" << std::endl;
 			}
 		}
 	;
@@ -3542,16 +3610,17 @@ primary_expression /* no code in this production - just passing stuff up */
 argument_expression_list /* used for calling a function with actual parameters */
 	: assignment_expression
  		{ 
+			// push back the symbol table entry of the actual parameter
+ 			funcCallingParams.push_back($1->val._ste);
+
+ 			// output data 
  			if(YFLAG){
 				outY << "argument_expression_list : assignment_expression;" << std::endl;
 				outG << "argument_expression_list -> assignment_expression;" << std::endl;
 			}
- 			// push back the symbol table entry of the actual parameter
- 			funcCallingParams.push_back($1->val._ste);
 
+ 			
  			// create ast node ?
-
-
 		}
 	| argument_expression_list COMMA assignment_expression
  		{
@@ -3563,48 +3632,60 @@ argument_expression_list /* used for calling a function with actual parameters *
  			funcCallingParams.push_back($3->val._ste);
 
 			// create ast node ?
-
-
 		}
 	;
 
 constant
 	: INTEGER_CONSTANT
  		{
- 			// create ast node
-			//$1->astPtr = new data_Node($1->val, $1->valType);
-			$$->astPtr = new leaf_Node($1->val, $1->valType, "INTEGER_CONSTANT");
+ 			// create ast node and assign attributes
+ 			$$ = new node(); 
+ 			$$->astPtr = new leaf_Node($1->val, $1->valType, "INTEGER_CONSTANT");
+ 			$$->val = $1->val; 
+ 			$$->valType = INT_T; 
+
+ 			// output data
  			if(YFLAG){
 				outY << "constant : INTEGER_CONSTANT;" << std::endl;
 				outG << "constant -> INTEGER_CONSTANT;" << std::endl;
 			}
-			registerNode(outA, $1->astPtr);
- 			$$ = $1; 
 
+			// register data for graphviz
+			registerNode(outA, $1->astPtr);
 		}
 	| CHARACTER_CONSTANT
  		{
- 			// create ast node 
-			//$$->astPtr = new data_Node($1->val, $1->valType);
-			$$->astPtr = new leaf_Node($1->val, $1->valType, "CHARACTER_CONSTANT");
-			if(YFLAG){
+			// create ast node and assign attributes
+ 			$$ = new node(); 
+ 			$$->astPtr = new leaf_Node($1->val, $1->valType, "CHARACTER_CONSTANT");
+ 			$$->val = $1->val; 
+ 			$$->valType = CHAR_T; 
+
+ 			// output data
+ 			if(YFLAG){
 				outY << "constant : CHARACTER_CONSTANT;" << std::endl;
 				outG << "constant -> CHARACTER_CONSTANT;" << std::endl;
 			}
+
+			// register data for graphviz
 			registerNode(outA, $1->astPtr);
- 			$$ = $1;
 		}
 	| FLOATING_CONSTANT
  		{
- 			// create ast node
-			//$$->astPtr = new data_Node($1->val, $1->valType);
-			$$->astPtr = new leaf_Node($1->val, $1->valType, "FLOATING_CONSTANT");
+ 			// create ast node and assign attributes
+ 			$$ = new node(); 
+ 			$$->astPtr = new leaf_Node($1->val, $1->valType, "FLOATING_CONSTANT");
+ 			$$->val = $1->val; 
+ 			$$->valType = FLOAT_T; 
+
+ 			// output data
  			if(YFLAG){
 				outY << "constant : FLOATING_CONSTANT;" << std::endl;
 				outG << "constant -> FLOATING_CONSTANT;" << std::endl;
 			}
+
+			// register data for graphviz
 			registerNode(outA, $1->astPtr);
- 			$$ = $1; 
 		}
 	| ENUMERATION_CONSTANT
  		{
@@ -3613,38 +3694,49 @@ constant
 				outY << "constant : ENUMERATION_CONSTANT;" << std::endl;
 				outG << "constant -> ENUMERATION_CONSTANT;" << std::endl;
 			}
+
+			// displaying error message 
+			yyerror("catfishC cannot handle enumeration constants.");
 		}
 	;
 
 string
 	: STRING_LITERAL
  		{
- 			// create ast node - think this needs a strcpy?
- 			$$->astPtr = new data_Node($1->val, $1->valType);
- 			outG << "data_Node -> string;" << std::endl; 
+ 			// create ast node and assign attributes
+ 			$$ = new node(); 
+ 			$$->astPtr = new leaf_Node($1->val, $1->valType, "STRING_LITERAL");
+ 			strcpy($$->val._str, $1->val._str);
+ 			$$->valType = STR_T; 
+
+ 			// output data 
 			if(YFLAG){
 				outY << "string : STRING_LITERAL;" << std::endl;
 				outG << "string -> STRING_LITERAL;" << std::endl;
 			}
-			registerNode(outA, $1->astPtr);
- 			$$ = $1;
 
+			// register data for graphviz
+			registerNode(outA, $$->astPtr);
 		}
 	;
 
 identifier
 	: IDENTIFIER
 		{
-			// create ast node 
-			//$$->astPtr = new data_Node($1->val, $1->valType);
+			// create ast node and assign attributes
+			$$ = new node(); 
 			$$->astPtr = new leaf_Node($1->val, $1->valType, $1->val._ste->getIdentifierName());
+			$$->val = $1->val;
+			$$->valType = $1->valType; 
 
+			// output data
 			if(YFLAG){
 				outY << "identifier : IDENTIFIER;" << std::endl;
 				outG << "identifier -> IDENTIFIER;" << std::endl;
 			}
-			registerNode(outA, $1->astPtr);
-			$$ = $1;
+
+			// register data for graphviz
+			registerNode(outA, $$->astPtr);
 		}
 	;
 %% /* end of ANSI C grammar and actions */

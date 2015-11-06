@@ -166,7 +166,8 @@ the actual value itself.
 
 Description: Sets the value of a corresponding identifier. 
 */
-bool symbolTableEntry::setIdentifierValue(const node& src){
+bool symbolTableEntry::setIdentifierValue(const node& src, bool& warningFlag,
+											 std::string& message){
 	// check the data type of the current identifier and continue processing 
 	switch(entryType) {
 		case LONG_LONG_T:
@@ -232,7 +233,9 @@ bool symbolTableEntry::setIdentifierValue(const node& src){
 
 			// warning, down conversion from float to long long
 			else if(src.valType == FLOAT_T || src.valType == DOUBLE_T || src.valType == LONG_DOUBLE_T ){
-				
+				warningFlag = true; 
+				message = "Down conversion from decimal to integer.";
+				entryVal._num = src.val._dec;
 			}
 
 			// warning???
@@ -246,7 +249,7 @@ bool symbolTableEntry::setIdentifierValue(const node& src){
 			}
 
 			// assign src number to the symbol table entry
-			entryVal._num = src.val._num;
+			//entryVal._num = src.val._num;
 			break;
 
 		case SHORT_T:

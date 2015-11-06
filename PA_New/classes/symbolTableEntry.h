@@ -64,7 +64,7 @@ class symbolTableEntry {
         std::string getIdentifierType_String() const; 
         void setIdentifierName(std::string name);
         std::string getIdentifierName() const; 
-        bool setIdentifierValue(const node& src);
+        bool setIdentifierValue(const node& src, bool& warningFlag, std::string& message);
         node* getIdentifierValue() const; 
         void printIdentifierValue() const;
 
