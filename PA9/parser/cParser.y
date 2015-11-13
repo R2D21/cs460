@@ -78,6 +78,7 @@ the token declarations that will be used in the lexer.
 		int valType; 
 		vals val;
 		class astNode* astPtr;
+		std::string address;
 	} node;
 }
 
@@ -3550,6 +3551,7 @@ additive_expression
 			$$->val = $1->val;
 			$$->valType = $1->valType;
 	 		$$->astPtr = new multExpr_Node($1->astPtr, NULL, -1);
+	 		$$->address = $1->address;
 
 	 		// output data 
 			if(YFLAG){
@@ -3571,6 +3573,9 @@ additive_expression
  			$$->valType = $1->valType;
 			$$->val = $1->val; 
  			$$->astPtr = new additiveExpr_Node($1->astPtr, $3->astPtr, PLUS);
+ 			$$->address = integerTicketCounter(); 
+ 			std::cout << "New temporary: " << $$->address << std::endl; 
+ 			std::cout << $$->astPtr->gen3AC($$->address, $1->address, $3->address) << std::endl;
 
  			// output data 
  			if(YFLAG){
@@ -3636,6 +3641,7 @@ multiplicative_expression
 			$$->val = $1->val; 
 			$$->valType = $1->valType; 
 	 		$$->astPtr = new multExpr_Node($1->astPtr, NULL, -1);
+			$$->address = $1->address;
 
  			// output data 
 			if(YFLAG){
@@ -3790,6 +3796,7 @@ multiplicative_expression
 cast_expression
 	: unary_expression
  		{
+ 			$$->address = $1->address;
  			// output data 
 			if(YFLAG){
 				outY << "cast_expression : unary_expression;" << std::endl;
@@ -3814,6 +3821,7 @@ unary_expression
 			$$->valType = $1->valType;
 			$$->val = $1->val;
 	 		$$->astPtr = new unaryExpr_Node($1->astPtr, NULL, false, false);
+			$$->address = $1->address;
 
 	 		// output data 
 			if(YFLAG){
@@ -4110,6 +4118,7 @@ postfix_expression
  			$$->valType = $1->valType;
  			$$->val = $1->val;
 			$$->astPtr = new postfixExpr_Node($1->astPtr, NULL, false, false);
+			$$->address = $1->address;
 
 			// output data 
  			if(YFLAG){
@@ -4338,6 +4347,7 @@ postfix_expression
 primary_expression /* no code in this production - just passing stuff up */
 	: identifier
  		{
+ 			$$->address = $1->address;
  			// output data 
 			if(YFLAG){
 				outY << "primary_expression : identifier;" << std::endl;
@@ -4496,7 +4506,8 @@ identifier
 			$$ = new node(); 
 			$$->astPtr = new leaf_Node($1->val, $1->valType, $1->val._ste->getIdentifierName());
 			$$->val = $1->val;
-			$$->valType = $1->valType; 
+			$$->valType = $1->valType;
+			$$->address = $1->val._ste->getIdentifierName();  
 
 			// output data
 			if(YFLAG){
@@ -4524,7 +4535,10 @@ void yyerror(const char* s) {
 }
 
 /*
+Function: integerTicketCounter()
 
+Description: Returns a unique string for each integer encountered while 
+parsing.
 */
 std::string integerTicketCounter() {
 	integerTicketCount++;

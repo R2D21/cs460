@@ -4,8 +4,6 @@ File: leaf_Node.cpp
 Created: October 22, 2015
 Last Modified: October 22, 2015
 Class: CS 460 (Compiler Construction)
-
-This is the implementation file for the base AST node class of our C compiler.  
 */
 
 #include "leaf_Node.h"

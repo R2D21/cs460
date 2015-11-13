@@ -27,7 +27,7 @@ class iterN : public astNode {
 
         // class functions 
 	
-
+        std::string gen3AC(std::string a_Addr, std::string b_Addr, std::string c_Addr);
         friend std::ostream &operator<<(std::ostream &out, const iterN&);
 
         // destructor 
