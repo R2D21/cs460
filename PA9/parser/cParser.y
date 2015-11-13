@@ -39,6 +39,7 @@ the token declarations that will be used in the lexer.
 	extern std::ofstream outA;
 	extern bool inInsertMode;
 	extern symbolTable table;
+	std::string integerTicketCounter();
 	int yylex(void);
 	void yyerror(const char* errorMsg);
 	void registerNode(std::ofstream &out, astNode* ptr);
@@ -53,6 +54,7 @@ the token declarations that will be used in the lexer.
 	std::vector<symbolTableEntry*> funcCallingParams; 
 	int unaryOperatorChosen = -1;
 	symbolTableEntry* currentFunc;
+	int integerTicketCount = 0;
 
 	// root of the ast
 	astNode* astRoot = NULL; 
@@ -4408,6 +4410,9 @@ constant
  			$$->val = $1->val; 
  			$$->valType = INT_T; 
 
+ 			// 
+ 			std::cout << integerTicketCounter() << std::endl; 
+
  			// output data
  			if(YFLAG){
 				outY << "constant : INTEGER_CONSTANT;" << std::endl;
@@ -4516,6 +4521,14 @@ void yyerror(const char* s) {
 
 	std::cout << s << std::endl;
 	exit(-1);
+}
+
+/*
+
+*/
+std::string integerTicketCounter() {
+	integerTicketCount++;
+	return "TI_" + std::to_string(integerTicketCount);
 }
 
 void registerNode(std::ofstream &out, astNode* ptr){
