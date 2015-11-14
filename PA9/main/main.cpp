@@ -48,6 +48,7 @@ ofstream outL;
 ofstream outY;
 ofstream outG;
 ofstream outA;
+ofstream out3AC; 
 
 extern symbolTable table; 
 extern std::string currentSourceCodeLine; 
@@ -85,7 +86,7 @@ int main(int argc, char* argv[]) {
 	    switch (opt.index())
 	    {
 			case AC:
-				cout << "3 address code TBD." << endl;
+				out3AC.open("../outputFiles/3AC.txt");
 				break;
 
 			case ASSEM:
@@ -173,8 +174,6 @@ int main(int argc, char* argv[]) {
 
 	cout << "Parse complete" << endl;
 
-
-
 	if (LFLAG) {
 		outL.close();
 	}
@@ -190,6 +189,7 @@ int main(int argc, char* argv[]) {
 	// Finish graph
 	outA << "}" << endl;
 	outA.close();
+	out3AC.close(); 
 	system("dot -Tpng ast.dot -o ast.png");
 	system("gnome-open ast.png");
 

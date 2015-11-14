@@ -17,6 +17,13 @@ This is the header file for the base AST node class of our C compiler.
 #include <iostream>
 #include <vector>
 #include <string>
+#include <fstream>
+#include "../../classes/symbolTableEntry.h"
+
+// externs
+extern int intTicket; 
+extern std::string intTC(); 
+extern std::ofstream out3AC; 
 
 // class definition 
 class astNode {

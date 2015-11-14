@@ -39,7 +39,7 @@ the token declarations that will be used in the lexer.
 	extern std::ofstream outA;
 	extern bool inInsertMode;
 	extern symbolTable table;
-	std::string integerTicketCounter();
+	std::string intTC();
 	int yylex(void);
 	void yyerror(const char* errorMsg);
 	void registerNode(std::ofstream &out, astNode* ptr);
@@ -54,7 +54,7 @@ the token declarations that will be used in the lexer.
 	std::vector<symbolTableEntry*> funcCallingParams; 
 	int unaryOperatorChosen = -1;
 	symbolTableEntry* currentFunc;
-	int integerTicketCount = 0;
+	int intTicket = 0;
 
 	// root of the ast
 	astNode* astRoot = NULL; 
@@ -3573,7 +3573,7 @@ additive_expression
  			$$->valType = $1->valType;
 			$$->val = $1->val; 
  			$$->astPtr = new additiveExpr_Node($1->astPtr, $3->astPtr, PLUS);
- 			$$->address = integerTicketCounter(); 
+ 			//$$->address = integerTicketCounter(); 
  			std::cout << "New temporary: " << $$->address << std::endl; 
  			//std::cout << $$->astPtr->gen3AC($$->address, $1->address, $3->address) << std::endl;
 
@@ -4416,12 +4416,13 @@ constant
  		{
  			// create ast node and assign attributes
  			$$ = new node(); 
- 			$$->astPtr = new leaf_Node($1->val, $1->valType, "INTEGER_CONSTANT");
  			$$->val = $1->val; 
  			$$->valType = INT_T; 
+ 			$$->astPtr = new leaf_Node($$->val, $$->valType, "INTEGER_CONSTANT");
 
  			// 
- 			std::cout << integerTicketCounter() << std::endl; 
+ 			//std::cout << integerTicketCounter() << std::endl;
+ 			$$->astPtr->gen3AC();  
 
  			// output data
  			if(YFLAG){
@@ -4431,6 +4432,7 @@ constant
 
 			// register data for graphviz
 			registerNode(outA, $$->astPtr);
+			std::cout << "after int constant" << std::endl;
 		}
 	| CHARACTER_CONSTANT
  		{
@@ -4540,8 +4542,8 @@ Function: integerTicketCounter()
 Description: Returns a unique string for each integer encountered while 
 parsing.
 */
-std::string integerTicketCounter() {
-	return "TI_" + std::to_string(integerTicketCount++);
+std::string intTC() {
+	return "ITEMP_" + std::to_string(intTicket++);
 }
 
 void registerNode(std::ofstream &out, astNode* ptr){

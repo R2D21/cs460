@@ -8,8 +8,8 @@
 # Macros
 CC = g++
 DEBUG = -g
-CFLAGS = -std=c++11 -Wall -c $(DEBUG) -Wno-unused-function
-LFLAGS = -Wall $(DEBUG) -Wno-unused-function
+CFLAGS = -std=c++11 -Wall -c $(DEBUG) -Wno-unused-function -Wno-return-type
+LFLAGS = -Wall $(DEBUG) -Wno-unused-function -Wno-return-type
 FLEX = flex
 BISON = bison
 LIBS = -L/usr/local/lib -lfl
@@ -49,6 +49,9 @@ all: ../bin/catfishC
 	$(BISON) -d $<
 	mv cParser.tab.h ../parser/
 	mv cParser.tab.c ../parser/
+
+.cpp.o:
+	$(CC) $(CFLAGS) $< -o $@
 
 clean:
 	rm -rf $(OBJS) $(NOBJS) ../parser/cParser.tab.* ../lexer/lex.yy.* \
