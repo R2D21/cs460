@@ -40,7 +40,7 @@ Function: gen3AC()
 
 Description: 
 */
-void equalityExpr_Node::gen3AC(){
+std::string equalityExpr_Node::gen3AC(){
 	std::cout << "Generate 3AC for equality expression node" << std::endl;
 }
 

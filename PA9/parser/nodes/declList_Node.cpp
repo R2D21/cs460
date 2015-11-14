@@ -36,7 +36,7 @@ Function: gen3AC()
 
 Description: 
 */
-void declList_Node::gen3AC(){
+std::string declList_Node::gen3AC(){
 	std::cout << "Generate 3AC for declarator node" << std::endl;
 }
 

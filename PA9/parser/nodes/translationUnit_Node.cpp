@@ -39,7 +39,7 @@ Function: gen3AC()
 
 Description: 
 */
-void translationUnit_Node::gen3AC(){
+std::string translationUnit_Node::gen3AC(){
 	std::cout << "Generate 3AC for translation unit node" << std::endl;
 }
 

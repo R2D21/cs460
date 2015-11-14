@@ -40,7 +40,7 @@
 extern int yydebug;
 #endif
 /* "%code requires" blocks.  */
-#line 66 "../parser/cParser.y" /* yacc.c:1909  */
+#line 68 "../parser/cParser.y" /* yacc.c:1909  */
 
 	typedef union {
 		char _char;
@@ -54,9 +54,10 @@ extern int yydebug;
 		int valType; 
 		vals val;
 		class astNode* astPtr;
+		std::string address;
 	} node;
 
-#line 60 "cParser.tab.h" /* yacc.c:1909  */
+#line 61 "cParser.tab.h" /* yacc.c:1909  */
 
 /* Token type.  */
 #ifndef YYTOKENTYPE
@@ -157,11 +158,11 @@ extern int yydebug;
 typedef union YYSTYPE YYSTYPE;
 union YYSTYPE
 {
-#line 86 "../parser/cParser.y" /* yacc.c:1909  */
+#line 89 "../parser/cParser.y" /* yacc.c:1909  */
 
 	node* n;
 
-#line 165 "cParser.tab.h" /* yacc.c:1909  */
+#line 166 "cParser.tab.h" /* yacc.c:1909  */
 };
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1

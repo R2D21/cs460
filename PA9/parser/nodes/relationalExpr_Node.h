@@ -27,7 +27,7 @@ class relationalExpr_Node : public astNode {
 
         // class functions 
         int getID() const;
-        void gen3AC();
+        std::string gen3AC();
         void print(int = 0);
 
         // destructor 

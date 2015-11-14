@@ -20,7 +20,7 @@ iterN::iterN(astNode* A,astNode* B,astNode* C,astNode*D) : astNode(){
 	std::cout << "Iteration Node constructor" << std::endl;
 }
 
-std::string iterN::gen3AC(std::string a_Addr, std::string b_Addr, std::string c_Addr) {
+std::string iterN::gen3AC() {
 	
 }
 

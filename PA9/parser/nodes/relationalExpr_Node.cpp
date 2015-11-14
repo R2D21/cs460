@@ -39,7 +39,7 @@ Function: gen3AC()
 
 Description: 
 */
-void relationalExpr_Node::gen3AC(){
+std::string relationalExpr_Node::gen3AC(){
 	std::cout << "Generate 3AC for postfix expression node" << std::endl;
 }
 

@@ -3575,7 +3575,7 @@ additive_expression
  			$$->astPtr = new additiveExpr_Node($1->astPtr, $3->astPtr, PLUS);
  			$$->address = integerTicketCounter(); 
  			std::cout << "New temporary: " << $$->address << std::endl; 
- 			std::cout << $$->astPtr->gen3AC($$->address, $1->address, $3->address) << std::endl;
+ 			//std::cout << $$->astPtr->gen3AC($$->address, $1->address, $3->address) << std::endl;
 
  			// output data 
  			if(YFLAG){
@@ -4541,8 +4541,7 @@ Description: Returns a unique string for each integer encountered while
 parsing.
 */
 std::string integerTicketCounter() {
-	integerTicketCount++;
-	return "TI_" + std::to_string(integerTicketCount);
+	return "TI_" + std::to_string(integerTicketCount++);
 }
 
 void registerNode(std::ofstream &out, astNode* ptr){

@@ -31,7 +31,7 @@ class astNode {
         std::string getName() const;
 
         virtual int getID() const;
-        virtual std::string gen3AC(std::string, std::string, std::string);
+        virtual std::string gen3AC();
         virtual void print(int = 0);
 
         // destructor 
