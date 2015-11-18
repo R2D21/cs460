@@ -41,16 +41,31 @@ Function: gen3AC()
 Description: 
 */
 threeAC postfixExpr_Node::gen3AC(){
+	threeAC temp;
 	std::string reg = "";
-/*
-	if ( dynamic_cast <postfixExpr_Node *> (exprA->exprA)) {
-		std::cout << "2D array" << std::endl; 
-	}
-*/
+
 	// check for simple case
 	if (exprA != NULL && exprB == NULL && !incOp && !decOp) {
 		std::cout << "super basic postfix expr case" << std::endl;
 		return exprA->gen3AC(); 
+	}
+
+	threeAC temp = exprA->gen3AC();
+	if (temp.ste.isArray()) {
+		std::cout << std::endl << "does this work?" << std::endl;
+		std::vector<int> arrDims = temp.ste.getArrayDimensions();
+		if (arrDims.size() > 1) {
+			std::string t1 = intTC();
+			std::string t2 = intTC(); 
+			std::string offset = intTC(); 
+			out3AC << ("MUL " + t1 + " " + exprB->gen3AC().str  + " 4") << std::endl;
+			out3AC << ("MUL " + t2 + " " + t1 + " " + std::to_string(arrDims[1])) << std::endl;
+			out3AC << ("ADD " + offset + " " + t1 + " " + t2) << std::endl;
+			reg = offset; 
+
+			// decrement dimension count
+			arrDims[0] = arrDims[1];
+		}
 	}
 
 	// check for increment
@@ -74,7 +89,7 @@ threeAC postfixExpr_Node::gen3AC(){
 		std::string secondOffsetCalc = intTC(); 
 		out3AC << ("ADD " + secondOffsetCalc + " " + exprA->gen3AC().str + " " + firstOffsetCalc) << std::endl;  
 	} 
-	threeAC temp;
+	
 	temp.str = reg;
 	return temp; 
 }
