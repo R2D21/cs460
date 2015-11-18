@@ -40,6 +40,7 @@ Description:
 */
 std::string expr_Node::gen3AC(){
 	std::cout << "Generate 3AC for expression node" << std::endl;
+	return "temporaryFromExpr_NodeBecauseOtherwiseSegFault";
 }
 
 /*
