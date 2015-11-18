@@ -46,31 +46,34 @@ std::string leaf_Node::gen3AC(){
 		break;
 
 		case STE_T:
+			std::cout << "STE_T portion of leaf_Node::gen3AC() IS GETTING CALLED" << std::endl;
+			std::cout << "WILL BE RETURNING: " << data._ste->getIdentifierName() << std::endl;  
 			return data._ste->getIdentifierName(); 
 		break;
 
 		default:
-			//out3AC << "3AC not supported for this leaf node." << std::endl;
+			out3AC << "3AC not supported for this leaf node." << std::endl;
 			return "";  
 		break;
-	}
+	} 
+
 	/*
 	if (dataType != STE_T) {
-		//std::string reg = intTC();
+		std::string reg = intTC();
 		switch(dataType) {
 			case INT_T:
-				//out3AC << ("ASSIGN\t" + reg + std::to_string(data._num)) << std::endl;
+				out3AC << ("ASSIGN\t" + reg + std::to_string(data._num)) << std::endl;
 				return reg;
 			break; 
 
 			case FLOAT_T:
-				//out3AC << ("ASSIGN\t" + reg + std::to_string(data._dec));
+				out3AC << ("ASSIGN\t" + reg + std::to_string(data._dec));
 				return reg;
 			break; 
 		} 
 		
-	}
-	return ""; */
+	} */
+	return ""; 
 }
 
 /*
