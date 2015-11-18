@@ -4113,7 +4113,7 @@ postfix_expression
  			$$->valType = $1->valType;
  			$$->val = $1->val;
 			$$->astPtr = new postfixExpr_Node($1->astPtr, NULL, false, false);
-			//$$->astPtr->gen3AC();
+			$$->astPtr->gen3AC();
 
 			// output data 
  			if(YFLAG){
@@ -4243,7 +4243,7 @@ postfix_expression
  			$$->valType = $1->valType;
  			$$->val = $1->val;
  			$$->astPtr = new postfixExpr_Node($1->astPtr, NULL, true, false);
- 			//$$->astPtr->gen3AC();
+ 			$$->astPtr->gen3AC();
 
  			// output data 
 			if(YFLAG){
@@ -4297,7 +4297,7 @@ postfix_expression
  			$$->valType = $1->valType;
  			$$->val = $1->val;
  			$$->astPtr = new postfixExpr_Node($1->astPtr, NULL, false, true);
- 			//$$->astPtr->gen3AC(); 
+ 			$$->astPtr->gen3AC(); 
 
  			// output data 
  			if(YFLAG){
@@ -4345,6 +4345,10 @@ postfix_expression
 primary_expression /* no code in this production - just passing stuff up */
 	: identifier
  		{
+ 			// 3AC stuff here? don't think so, pointing to leaf node
+ 			$$ = $1;
+ 			$$->astPtr->gen3AC(); 
+
  			// output data 
 			if(YFLAG){
 				outY << "primary_expression : identifier;" << std::endl;
@@ -4353,6 +4357,10 @@ primary_expression /* no code in this production - just passing stuff up */
 		}
 	| constant
  		{
+ 			// ???????
+ 			$$ = $1;
+ 			$$->astPtr->gen3AC(); 
+
  			// output data 
  			if(YFLAG){
 				outY << "primary_expression : constant;" << std::endl;
@@ -4416,6 +4424,7 @@ constant
  			$$->val = $1->val; 
  			$$->valType = INT_T; 
  			$$->astPtr = new leaf_Node($$->val, $$->valType, "INTEGER_CONSTANT");
+ 			$$->astPtr->gen3AC();
 
  			// output data
  			if(YFLAG){
@@ -4450,7 +4459,8 @@ constant
  			$$ = new node(); 
  			$$->astPtr = new leaf_Node($1->val, $1->valType, "FLOATING_CONSTANT");
  			$$->val = $1->val; 
- 			$$->valType = FLOAT_T; 
+ 			$$->valType = FLOAT_T;
+ 			$$->astPtr->gen3AC(); 
 
  			// output data
  			if(YFLAG){
@@ -4502,6 +4512,7 @@ identifier
 			$$->astPtr = new leaf_Node($1->val, $1->valType, $1->val._ste->getIdentifierName());
 			$$->val = $1->val;
 			$$->valType = $1->valType;
+			$$->astPtr->gen3AC();
 
 			// output data
 			if(YFLAG){
