@@ -4345,9 +4345,7 @@ postfix_expression
 primary_expression /* no code in this production - just passing stuff up */
 	: identifier
  		{
- 			// 3AC stuff here? don't think so, pointing to leaf node
  			$$ = $1;
- 			$$->astPtr->gen3AC(); 
 
  			// output data 
 			if(YFLAG){
@@ -4357,9 +4355,7 @@ primary_expression /* no code in this production - just passing stuff up */
 		}
 	| constant
  		{
- 			// ???????
  			$$ = $1;
- 			$$->astPtr->gen3AC(); 
 
  			// output data 
  			if(YFLAG){
@@ -4424,7 +4420,6 @@ constant
  			$$->val = $1->val; 
  			$$->valType = INT_T; 
  			$$->astPtr = new leaf_Node($$->val, $$->valType, "INTEGER_CONSTANT");
- 			$$->astPtr->gen3AC();
 
  			// output data
  			if(YFLAG){
@@ -4460,7 +4455,6 @@ constant
  			$$->astPtr = new leaf_Node($1->val, $1->valType, "FLOATING_CONSTANT");
  			$$->val = $1->val; 
  			$$->valType = FLOAT_T;
- 			$$->astPtr->gen3AC(); 
 
  			// output data
  			if(YFLAG){
@@ -4512,7 +4506,6 @@ identifier
 			$$->astPtr = new leaf_Node($1->val, $1->valType, $1->val._ste->getIdentifierName());
 			$$->val = $1->val;
 			$$->valType = $1->valType;
-			$$->astPtr->gen3AC();
 
 			// output data
 			if(YFLAG){

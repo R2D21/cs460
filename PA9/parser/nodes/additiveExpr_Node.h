@@ -27,7 +27,7 @@ class additiveExpr_Node : public astNode {
 
         // class functions 
 	
-        std::string gen3AC();
+        threeAC gen3AC();
         void print(int = 0);
 
         int getID() const;

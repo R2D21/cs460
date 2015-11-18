@@ -36,7 +36,7 @@ Function: gen3AC()
 
 Description: 
 */
-std::string unaryOp_Node::gen3AC(){
+threeAC unaryOp_Node::gen3AC(){
 	std::cout << "Generate 3AC for postfix expression node" << std::endl;
 }
 

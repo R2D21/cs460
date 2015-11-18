@@ -38,7 +38,7 @@ Function: gen3AC()
 
 Description: 
 */
-std::string declarator_Node::gen3AC(){
+threeAC declarator_Node::gen3AC(){
 	std::cout << "Generate 3AC for declarator node" << std::endl;
 }
 

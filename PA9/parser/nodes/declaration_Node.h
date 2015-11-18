@@ -24,7 +24,7 @@ class declaration_Node : public astNode {
 
         // class functions 
         int getID() const;
-	    std::string gen3AC();
+	    threeAC gen3AC();
         void print(int = 0);
 
         // destructor 

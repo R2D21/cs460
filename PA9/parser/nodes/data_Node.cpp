@@ -36,7 +36,7 @@ Function: gen3AC()
 
 Description: 
 */
-std::string data_Node::gen3AC(){
+threeAC data_Node::gen3AC(){
 	std::cout << "Generate 3AC for data node" << std::endl;
 }
 

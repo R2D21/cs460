@@ -63,7 +63,7 @@ Function: gen3AC()
 
 Description: generate node's 3 address code
 */
-std::string astNode::gen3AC(){
+threeAC astNode::gen3AC(){
 
 }
 /*

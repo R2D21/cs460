@@ -25,6 +25,12 @@ extern int intTicket;
 extern std::string intTC(); 
 extern std::ofstream out3AC; 
 
+// threeAC_Data
+typedef struct {
+    std::string str;
+    symbolTableEntry ste;
+} threeAC;
+
 // class definition 
 class astNode {
     public:
@@ -38,7 +44,7 @@ class astNode {
         std::string getName() const;
 
         virtual int getID() const;
-        virtual std::string gen3AC();
+        virtual threeAC gen3AC();
         virtual void print(int = 0);
 
         // destructor 

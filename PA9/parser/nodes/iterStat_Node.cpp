@@ -41,7 +41,7 @@ Function: gen3AC()
 
 Description: 
 */
-std::string iterStat_Node::gen3AC(){
+threeAC iterStat_Node::gen3AC(){
     std::cout << "Generate 3AC for iteration stat node" << std::endl;
 }
 

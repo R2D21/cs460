@@ -41,7 +41,7 @@ Function: gen3AC()
 
 Description: generate 3AC
 */
-std::string additiveExpr_Node::gen3AC(){
+threeAC additiveExpr_Node::gen3AC(){
 	std::cout << "Generate 3AC for postfix expression node" << std::endl;
 	/*
 	std::cout << "a_Addr: " << a_Addr << std::endl;

@@ -56,6 +56,7 @@ class symbolTableEntry {
         // constructors
         symbolTableEntry(); 
         symbolTableEntry(std::string name, int lineNumber);
+        symbolTableEntry& operator=(const symbolTableEntry& other);
         
         // basic functions
         bool setIdentifierType(std::vector<int> type);

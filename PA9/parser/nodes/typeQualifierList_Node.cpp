@@ -39,7 +39,7 @@ Function: gen3AC()
 
 Description: 
 */
-std::string typeQualifierList_Node::gen3AC(){
+threeAC typeQualifierList_Node::gen3AC(){
 	std::cout << "Generate 3AC for postfix expression node" << std::endl;
 }
 

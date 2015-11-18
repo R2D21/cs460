@@ -40,25 +40,29 @@ Function: gen3AC()
 
 Description: 
 */
-std::string postfixExpr_Node::gen3AC(){
+threeAC postfixExpr_Node::gen3AC(){
 	std::string reg = "";
-
+/*
+	if ( dynamic_cast <postfixExpr_Node *> (exprA->exprA)) {
+		std::cout << "2D array" << std::endl; 
+	}
+*/
 	// check for simple case
 	if (exprA != NULL && exprB == NULL && !incOp && !decOp) {
 		std::cout << "super basic postfix expr case" << std::endl;
-		exprA->gen3AC(); 
+		return exprA->gen3AC(); 
 	}
 
 	// check for increment
 	if (incOp) {
 		reg = intTC(); 
-		out3AC << ("ADD " + reg + " " + exprA->gen3AC() + " 1") << std::endl;
+		out3AC << ("ADD " + reg + " " + exprA->gen3AC().str + " 1") << std::endl;
 	} 
 
 	// check for decrement
 	else if (decOp) {
 		reg = intTC(); 
-		out3AC << ("SUB " + reg + " " + exprA->gen3AC() + " 1") << std::endl; 
+		out3AC << ("SUB " + reg + " " + exprA->gen3AC().str + " 1") << std::endl; 
 	} 
 
 	// check for array subscript - this checks to see if exprB points to an expr_Node
@@ -66,12 +70,13 @@ std::string postfixExpr_Node::gen3AC(){
 		std::cout << "ExprA is .. ?" << std::endl;
 
 		std::string firstOffsetCalc = intTC(); 
-		out3AC << ("MUL " + firstOffsetCalc + " " + exprB->gen3AC()  + " 4") << std::endl;
+		out3AC << ("MUL " + firstOffsetCalc + " " + exprB->gen3AC().str  + " 4") << std::endl;
 		std::string secondOffsetCalc = intTC(); 
-		out3AC << ("ADD " + secondOffsetCalc + " " + exprA->gen3AC() + " " + firstOffsetCalc) << std::endl;  
+		out3AC << ("ADD " + secondOffsetCalc + " " + exprA->gen3AC().str + " " + firstOffsetCalc) << std::endl;  
 	} 
-
-	return reg; 
+	threeAC temp;
+	temp.str = reg;
+	return temp; 
 }
 
 /*

@@ -39,7 +39,7 @@ Function: gen3AC()
 
 Description: 
 */
-std::string pointer_Node::gen3AC(){
+threeAC pointer_Node::gen3AC(){
 	std::cout << "Generate 3AC for pointer node" << std::endl;
 }
 

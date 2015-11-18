@@ -38,9 +38,11 @@ Function: gen3AC()
 
 Description: 
 */
-std::string expr_Node::gen3AC(){
+threeAC expr_Node::gen3AC(){
 	std::cout << "Generate 3AC for expression node" << std::endl;
-	return "temporaryFromExpr_NodeBecauseOtherwiseSegFault";
+	threeAC temp;
+	temp.str = "EXPR_TEMP";
+	return temp;
 }
 
 /*

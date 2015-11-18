@@ -40,7 +40,7 @@ Function: gen3AC()
 
 Description: 
 */
-std::string funcDef_Node::gen3AC(){
+threeAC funcDef_Node::gen3AC(){
 	std::cout << "Generate 3AC for expression node" << std::endl;
 }
 

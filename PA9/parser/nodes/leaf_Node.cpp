@@ -34,46 +34,33 @@ Function: gen3AC()
 
 Description: 
 */
-std::string leaf_Node::gen3AC(){
+threeAC leaf_Node::gen3AC(){
 	std::cout << "Generate 3AC for data node" << std::endl;
+	threeAC temp;
 	switch(dataType) {
 		case INT_T:
-			return std::to_string(data._num);
+			temp.str = std::to_string(data._num);
+			return temp;
 		break;
 
 		case FLOAT_T:
-			return std::to_string(data._dec);
+			temp.str = std::to_string(data._dec); 
+			return temp;
 		break;
 
-		case STE_T:
-			std::cout << "STE_T portion of leaf_Node::gen3AC() IS GETTING CALLED" << std::endl;
-			std::cout << "WILL BE RETURNING: " << data._ste->getIdentifierName() << std::endl;  
-			return data._ste->getIdentifierName(); 
+		case STE_T: 
+			temp.str =  data._ste->getIdentifierName();
+			temp.ste = *(data._ste);
+			return temp;
 		break;
 
 		default:
 			out3AC << "3AC not supported for this leaf node." << std::endl;
-			return "";  
+			temp.str = "";
+			return temp;  
 		break;
 	} 
 
-	/*
-	if (dataType != STE_T) {
-		std::string reg = intTC();
-		switch(dataType) {
-			case INT_T:
-				out3AC << ("ASSIGN\t" + reg + std::to_string(data._num)) << std::endl;
-				return reg;
-			break; 
-
-			case FLOAT_T:
-				out3AC << ("ASSIGN\t" + reg + std::to_string(data._dec));
-				return reg;
-			break; 
-		} 
-		
-	} */
-	return ""; 
 }
 
 /*

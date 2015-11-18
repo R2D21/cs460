@@ -38,7 +38,7 @@ Function: gen3AC()
 
 Description: 
 */
-std::string assignmentExpr_Node::gen3AC(){
+threeAC assignmentExpr_Node::gen3AC(){
 	std::cout << "Generate 3AC for assignment expression node" << std::endl;
 }
 

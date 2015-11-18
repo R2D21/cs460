@@ -76,6 +76,29 @@ symbolTableEntry::symbolTableEntry(std::string name, int lineNumber) {
 }
 
 /*
+
+*/
+symbolTableEntry& symbolTableEntry::operator=(const symbolTableEntry& other) {
+	if (this != &other) {
+		entryVal = other.entryVal;
+		entryType = other.entryType;
+		identifierName = other.identifierName;
+		identifierType = other.identifierType;
+		lineNum = other.lineNum;
+		isSigned = other.isSigned;
+		isUnsigned = other.isUnsigned;
+		isPtr = other.isPtr;
+		numPtrs = other.numPtrs;
+		isArr = other.isArr;
+		arrayDimensions = other.arrayDimensions;
+		isFunc = other.isFunc;
+		parameters = other.parameters;
+	}
+
+	return *this;
+}
+
+/*
 Function: setIdentifierType(std::vector<int> type)
 
 Parameters:

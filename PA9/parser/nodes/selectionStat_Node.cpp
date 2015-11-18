@@ -40,7 +40,7 @@ Function: gen3AC()
 
 Description: 
 */
-std::string selectionStat_Node::gen3AC(){
+threeAC selectionStat_Node::gen3AC(){
     std::cout << "Generate 3AC for selection stat node" << std::endl;
 }
 

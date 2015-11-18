@@ -39,7 +39,7 @@ Function: gen3AC()
 
 Description: 
 */
-std::string directDecl_Node::gen3AC(){
+threeAC directDecl_Node::gen3AC(){
 	std::cout << "Generate 3AC for direct declaration node" << std::endl;
 }
 
