@@ -17,7 +17,6 @@ Function: postfixExpr_Node(astNode* A, astNode* B, bool inc, bool dec) (construc
 Description: 
 */
 postfixExpr_Node::postfixExpr_Node(astNode* A, astNode* B, bool inc, bool dec) : astNode(){
-
 	exprA = A;
 	exprB = B;
 	incOp = inc;
@@ -43,52 +42,36 @@ Description:
 */
 std::string postfixExpr_Node::gen3AC(){
 	std::string reg = "";
-	std::string exprA_3AC = "";
-	std::string exprB_3AC = "";
-	
-	// obtain 3AC for exprA
-	if (exprA != NULL) {
-		exprA_3AC = exprA->gen3AC();
-		std::cout << "exprA_3AC: " << exprA_3AC << std::endl;
-		out3AC << exprA_3AC << std::endl;  
-	}
 
-	// obtain 3AC for exprB
-	if (exprB != NULL) {
-		exprB_3AC = exprB->gen3AC(); 
-		std::cout << "exprB_3AC: " << exprB_3AC << std::endl;
+	// check for simple case
+	if (exprA != NULL && exprB == NULL && !incOp && !decOp) {
+		std::cout << "super basic postfix expr case" << std::endl;
+		exprA->gen3AC(); 
 	}
-
-	if (incOp) {
-		std::cout << "increment operator" << std::endl; 
-	}
-
-/*
 
 	// check for increment
 	if (incOp) {
-		std::cout << "before register assignment" << std::endl; 
-		//reg = intTC();
-		std::cout << "new register: " << reg << std::endl;  
-		//out3AC << ("ADD " + reg + " " + exprA_3AC + " 1") << std::endl;
-		std::cout << "written to file" << std::endl;  
-	} */
+		reg = intTC(); 
+		out3AC << ("ADD " + reg + " " + exprA->gen3AC() + " 1") << std::endl;
+	} 
 
-/*
 	// check for decrement
 	else if (decOp) {
 		reg = intTC(); 
-		out3AC << ("SUB " + reg + " " + exprA_3AC + " 1") << std::endl; 
-	} */
-
-	// check for array subscript
-	else if (dynamic_cast <expr_Node *> (exprB)) {
-		std::cout << "array subscript" << std::endl;
-		//out3AC << ("MUL " + intTC() + exprA_3AC + "4") << std::endl;
-		//out3AC << () << std::endl;  
+		out3AC << ("SUB " + reg + " " + exprA->gen3AC() + " 1") << std::endl; 
 	} 
 
-	return reg;
+	// check for array subscript - this checks to see if exprB points to an expr_Node
+	else if ( (exprB != NULL) && (dynamic_cast <expr_Node *> (exprB)) ) {
+		std::cout << "ExprA is .. ?" << std::endl;
+
+		std::string firstOffsetCalc = intTC(); 
+		out3AC << ("MUL " + firstOffsetCalc + " " + exprB->gen3AC()  + " 4") << std::endl;
+		std::string secondOffsetCalc = intTC(); 
+		out3AC << ("ADD " + secondOffsetCalc + " " + exprA->gen3AC() + " " + firstOffsetCalc) << std::endl;  
+	} 
+
+	return reg; 
 }
 
 /*
