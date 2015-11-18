@@ -78,7 +78,6 @@ the token declarations that will be used in the lexer.
 		int valType; 
 		vals val;
 		class astNode* astPtr;
-		std::string address;
 	} node;
 }
 
@@ -2090,6 +2089,7 @@ labeled_statement
 expression_statement
 	: SEMI
  		{
+ 			std::cout << "beforeeee seg fault 1" << std::endl; 
  			// output data 
 			if(YFLAG){
 				outY << "expression_statement : SEMI;" << std::endl;
@@ -2098,8 +2098,8 @@ expression_statement
 		}
 	| expression SEMI
  		{
- 			// create ast node and assign attributes
-			$$ = $1;
+ 			// create ast node and assign attributes	
+			$$ = $1; 
 
 			outputNode(outA, $$->astPtr);
  			outA << " -> ";
@@ -2958,6 +2958,8 @@ expression
  			outA << " -> ";
  			outputNode(outA, $1->astPtr);
  			outA << ";\n";
+
+ 			std::cout << "after registration node" << std::endl; 
 		}
 	| expression COMMA assignment_expression
  		{
@@ -3551,7 +3553,6 @@ additive_expression
 			$$->val = $1->val;
 			$$->valType = $1->valType;
 	 		$$->astPtr = new multExpr_Node($1->astPtr, NULL, -1);
-	 		$$->address = $1->address;
 
 	 		// output data 
 			if(YFLAG){
@@ -3573,9 +3574,6 @@ additive_expression
  			$$->valType = $1->valType;
 			$$->val = $1->val; 
  			$$->astPtr = new additiveExpr_Node($1->astPtr, $3->astPtr, PLUS);
- 			//$$->address = integerTicketCounter(); 
- 			std::cout << "New temporary: " << $$->address << std::endl; 
- 			//std::cout << $$->astPtr->gen3AC($$->address, $1->address, $3->address) << std::endl;
 
  			// output data 
  			if(YFLAG){
@@ -3641,7 +3639,6 @@ multiplicative_expression
 			$$->val = $1->val; 
 			$$->valType = $1->valType; 
 	 		$$->astPtr = new multExpr_Node($1->astPtr, NULL, -1);
-			$$->address = $1->address;
 
  			// output data 
 			if(YFLAG){
@@ -3796,7 +3793,6 @@ multiplicative_expression
 cast_expression
 	: unary_expression
  		{
- 			$$->address = $1->address;
  			// output data 
 			if(YFLAG){
 				outY << "cast_expression : unary_expression;" << std::endl;
@@ -3821,7 +3817,6 @@ unary_expression
 			$$->valType = $1->valType;
 			$$->val = $1->val;
 	 		$$->astPtr = new unaryExpr_Node($1->astPtr, NULL, false, false);
-			$$->address = $1->address;
 
 	 		// output data 
 			if(YFLAG){
@@ -4118,7 +4113,7 @@ postfix_expression
  			$$->valType = $1->valType;
  			$$->val = $1->val;
 			$$->astPtr = new postfixExpr_Node($1->astPtr, NULL, false, false);
-			$$->address = $1->address;
+			//$$->astPtr->gen3AC();
 
 			// output data 
  			if(YFLAG){
@@ -4145,6 +4140,7 @@ postfix_expression
  			$$->valType = $1->valType;
  			$$->val = $1->val;
 			$$->astPtr = new postfixExpr_Node($1->astPtr, $4->astPtr, false, false);
+			$$->astPtr->gen3AC();
 
  			// output data 
  			if(YFLAG){
@@ -4169,7 +4165,7 @@ postfix_expression
  			outputNode(outA, $4->astPtr);
  			outA << ";\n"; 
 
- 			 outputNode(outA, $$->astPtr);
+ 			outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputTerminal(outA, "RBRACK", unique);
  			unique++;
@@ -4247,6 +4243,7 @@ postfix_expression
  			$$->valType = $1->valType;
  			$$->val = $1->val;
  			$$->astPtr = new postfixExpr_Node($1->astPtr, NULL, true, false);
+ 			//$$->astPtr->gen3AC();
 
  			// output data 
 			if(YFLAG){
@@ -4300,6 +4297,7 @@ postfix_expression
  			$$->valType = $1->valType;
  			$$->val = $1->val;
  			$$->astPtr = new postfixExpr_Node($1->astPtr, NULL, false, true);
+ 			//$$->astPtr->gen3AC(); 
 
  			// output data 
  			if(YFLAG){
@@ -4347,7 +4345,6 @@ postfix_expression
 primary_expression /* no code in this production - just passing stuff up */
 	: identifier
  		{
- 			$$->address = $1->address;
  			// output data 
 			if(YFLAG){
 				outY << "primary_expression : identifier;" << std::endl;
@@ -4372,7 +4369,7 @@ primary_expression /* no code in this production - just passing stuff up */
 		}
 	| LPAREN expression RPAREN
  		{
- 			// assign appropriate noe
+ 			// assign appropriate node
  			$$ = $2;
 
  			// output data 
@@ -4419,10 +4416,6 @@ constant
  			$$->val = $1->val; 
  			$$->valType = INT_T; 
  			$$->astPtr = new leaf_Node($$->val, $$->valType, "INTEGER_CONSTANT");
-
- 			// 
- 			//std::cout << integerTicketCounter() << std::endl;
- 			$$->astPtr->gen3AC();  
 
  			// output data
  			if(YFLAG){
@@ -4509,7 +4502,6 @@ identifier
 			$$->astPtr = new leaf_Node($1->val, $1->valType, $1->val._ste->getIdentifierName());
 			$$->val = $1->val;
 			$$->valType = $1->valType;
-			$$->address = $1->val._ste->getIdentifierName();  
 
 			// output data
 			if(YFLAG){

@@ -36,22 +36,41 @@ Description:
 */
 std::string leaf_Node::gen3AC(){
 	std::cout << "Generate 3AC for data node" << std::endl;
+	switch(dataType) {
+		case INT_T:
+			return std::to_string(data._num);
+		break;
+
+		case FLOAT_T:
+			return std::to_string(data._dec);
+		break;
+
+		case STE_T:
+			return data._ste->getIdentifierName(); 
+		break;
+
+		default:
+			//out3AC << "3AC not supported for this leaf node." << std::endl;
+			return "";  
+		break;
+	}
+	/*
 	if (dataType != STE_T) {
-		std::string reg = intTC();
+		//std::string reg = intTC();
 		switch(dataType) {
 			case INT_T:
-				out3AC << ("ASSIGN\t" + reg + std::to_string(data._num)) << std::endl;
+				//out3AC << ("ASSIGN\t" + reg + std::to_string(data._num)) << std::endl;
 				return reg;
 			break; 
 
 			case FLOAT_T:
-				out3AC << ("ASSIGN\t" + reg + std::to_string(data._dec));
+				//out3AC << ("ASSIGN\t" + reg + std::to_string(data._dec));
 				return reg;
 			break; 
 		} 
 		
 	}
-	return "";
+	return ""; */
 }
 
 /*

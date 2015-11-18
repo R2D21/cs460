@@ -9,6 +9,7 @@ This is the implementation file for the postfix expression AST node class of our
 */
 
 #include "postfixExpr_Node.h"
+#include "expr_Node.h"
 
 /*
 Function: postfixExpr_Node(astNode* A, astNode* B, bool inc, bool dec) (constructor) 
@@ -41,7 +42,53 @@ Function: gen3AC()
 Description: 
 */
 std::string postfixExpr_Node::gen3AC(){
-	std::cout << "Generate 3AC for postfix expression node" << std::endl;
+	std::string reg = "";
+	std::string exprA_3AC = "";
+	std::string exprB_3AC = "";
+	
+	// obtain 3AC for exprA
+	if (exprA != NULL) {
+		exprA_3AC = exprA->gen3AC();
+		std::cout << "exprA_3AC: " << exprA_3AC << std::endl;
+		out3AC << exprA_3AC << std::endl;  
+	}
+
+	// obtain 3AC for exprB
+	if (exprB != NULL) {
+		exprB_3AC = exprB->gen3AC(); 
+		std::cout << "exprB_3AC: " << exprB_3AC << std::endl;
+	}
+
+	if (incOp) {
+		std::cout << "increment operator" << std::endl; 
+	}
+
+/*
+
+	// check for increment
+	if (incOp) {
+		std::cout << "before register assignment" << std::endl; 
+		//reg = intTC();
+		std::cout << "new register: " << reg << std::endl;  
+		//out3AC << ("ADD " + reg + " " + exprA_3AC + " 1") << std::endl;
+		std::cout << "written to file" << std::endl;  
+	} */
+
+/*
+	// check for decrement
+	else if (decOp) {
+		reg = intTC(); 
+		out3AC << ("SUB " + reg + " " + exprA_3AC + " 1") << std::endl; 
+	} */
+
+	// check for array subscript
+	else if (dynamic_cast <expr_Node *> (exprB)) {
+		std::cout << "array subscript" << std::endl;
+		//out3AC << ("MUL " + intTC() + exprA_3AC + "4") << std::endl;
+		//out3AC << () << std::endl;  
+	} 
+
+	return reg;
 }
 
 /*
