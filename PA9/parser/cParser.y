@@ -3825,7 +3825,8 @@ unary_expression
 			$$->valType = $1->valType;
 			$$->val = $1->val;
 	 		$$->astPtr = new unaryExpr_Node($1->astPtr, NULL, false, false);
-
+			$$->astPtr->gen3AC();
+			
 	 		// output data 
 			if(YFLAG){
 				outY << "unary_expression : postfix_expression;" << std::endl;
@@ -3846,6 +3847,7 @@ unary_expression
  			$$->valType = $2->valType;
  			$$->val = $2->val;
 			$$->astPtr = new unaryExpr_Node(NULL, $2->astPtr, true, false);
+			$$->astPtr->gen3AC();
 
  			// output data 
  			if(YFLAG){
@@ -3899,6 +3901,7 @@ unary_expression
  			$$->valType = $2->valType;
  			$$->val = $2->val;
  			$$->astPtr = new unaryExpr_Node(NULL, $2->astPtr, false, true);
+			$$->astPtr->gen3AC();
 
  			if(YFLAG){
 				outY << "unary_expression : DEC_OP unary_expression;" << std::endl;
@@ -3950,6 +3953,7 @@ unary_expression
 			$$->valType = $1->valType;
  			$$->val = $1->val;
 			$$->astPtr = new unaryExpr_Node($1->astPtr, $2->astPtr);
+			$$->astPtr->gen3AC();
 
 			// output data 
 			if(YFLAG){
@@ -4121,7 +4125,7 @@ postfix_expression
  			$$->valType = $1->valType;
  			$$->val = $1->val;
 			$$->astPtr = new postfixExpr_Node($1->astPtr, NULL, false, false);
-			$$->astPtr->gen3AC();
+			//$$->astPtr->gen3AC();
 
 			// output data 
  			if(YFLAG){
@@ -4148,7 +4152,7 @@ postfix_expression
  			$$->valType = $1->valType;
  			$$->val = $1->val;
 			$$->astPtr = new postfixExpr_Node($1->astPtr, $4->astPtr, false, false);
-			$$->astPtr->gen3AC();
+			//$$->astPtr->gen3AC();
 
  			// output data 
  			if(YFLAG){
@@ -4251,7 +4255,7 @@ postfix_expression
  			$$->valType = $1->valType;
  			$$->val = $1->val;
  			$$->astPtr = new postfixExpr_Node($1->astPtr, NULL, true, false);
- 			$$->astPtr->gen3AC();
+ 			//$$->astPtr->gen3AC();
 
  			// output data 
 			if(YFLAG){
@@ -4305,7 +4309,7 @@ postfix_expression
  			$$->valType = $1->valType;
  			$$->val = $1->val;
  			$$->astPtr = new postfixExpr_Node($1->astPtr, NULL, false, true);
- 			$$->astPtr->gen3AC(); 
+ 			//$$->astPtr->gen3AC(); 
 
  			// output data 
  			if(YFLAG){

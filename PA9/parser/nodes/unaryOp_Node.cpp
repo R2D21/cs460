@@ -9,6 +9,7 @@ This is the implementation file for the unary op AST node class of our C compile
 */
 
 #include "unaryOp_Node.h"
+
 /*
 Function: unaryOp_Node(int t) (constructor) 
 
@@ -38,6 +39,9 @@ Description:
 */
 threeAC unaryOp_Node::gen3AC(){
 	std::cout << "Generate 3AC for postfix expression node" << std::endl;
+	threeAC temp;
+	temp.str = "-1";
+	return temp;
 }
 
 

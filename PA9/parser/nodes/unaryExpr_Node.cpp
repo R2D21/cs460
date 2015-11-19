@@ -9,7 +9,7 @@ This is the implementation file for the unary expression list AST node class of 
 */
 
 #include "unaryExpr_Node.h"
-
+#include "unaryOp_Node.h"
 
 /*
 Function: unaryExpr_Node(astNode* A, astNode* B) (constructor) 
@@ -42,6 +42,33 @@ Description:
 */
 threeAC unaryExpr_Node::gen3AC(){
 	std::cout << "Generate 3AC for postfix expression node" << std::endl;
+	std::string reg = ""; 
+	threeAC temp;
+
+	if (exprA != NULL && exprB == NULL && !incOp && !decOp) {
+		return exprA->gen3AC(); 
+	}
+
+	else if (incOp) {
+		temp = exprB->gen3AC();
+		reg = intTC(); 
+		out3AC << ("ADD " + reg + " " + temp.str + " 1") << std::endl;
+	}
+
+	else if (decOp) {
+		temp = exprB->gen3AC();
+		reg = intTC(); 
+		out3AC << ("SUB " + reg + " " + temp.str + " 1") << std::endl;
+	}
+
+	else if ( (exprB != NULL) && (dynamic_cast <unaryOp_Node*> (exprA))) {
+		//out3AC << "found a minus sign!" << std::endl; 
+		reg = intTC(); 
+		out3AC << ("MULT " + reg + " " + exprB->gen3AC().str + " -1") << std::endl;
+	}
+
+	temp.str = reg;
+	return temp;
 }
 
 
