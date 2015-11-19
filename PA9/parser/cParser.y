@@ -3561,6 +3561,7 @@ additive_expression
 			$$->val = $1->val;
 			$$->valType = $1->valType;
 	 		$$->astPtr = new multExpr_Node($1->astPtr, NULL, -1);
+	 		//$$->astPtr->gen3AC();
 
 	 		// output data 
 			if(YFLAG){
@@ -3582,6 +3583,7 @@ additive_expression
  			$$->valType = $1->valType;
 			$$->val = $1->val; 
  			$$->astPtr = new additiveExpr_Node($1->astPtr, $3->astPtr, PLUS);
+ 			//$$->astPtr->gen3AC();
 
  			// output data 
  			if(YFLAG){
@@ -3613,14 +3615,13 @@ additive_expression
 			$$->valType = $1->valType;
 			$$->val = $1->val; 
 			$$->astPtr = new additiveExpr_Node($1->astPtr, $3->astPtr, MINUS);
+			//$$->astPtr->gen3AC();
 
 			// output data 
  			if(YFLAG){
 				outY << "additive_expression : additive_expression MINUS multiplicative_expression;" << std::endl;
 	 			outG << "additive_expression -> {additive_expression MINUS cast_expression};" << std::endl;
 			}
-			
- 			//performArithmeticOp($$, $1, $3, MINUS);
 
 			// register data for graphviz
 	 		registerNode(outA, $$->astPtr);
@@ -3647,6 +3648,7 @@ multiplicative_expression
 			$$->val = $1->val; 
 			$$->valType = $1->valType; 
 	 		$$->astPtr = new multExpr_Node($1->astPtr, NULL, -1);
+			//$$->astPtr->gen3AC();
 
  			// output data 
 			if(YFLAG){
@@ -3668,6 +3670,7 @@ multiplicative_expression
  			$$->valType = $1->valType;
  			$$->val = $1->val; 
 			$$->astPtr = new multExpr_Node($1->astPtr, $3->astPtr, MULT);
+			//$$->astPtr->gen3AC();
 
 			// output data
 			if(YFLAG){
@@ -3707,6 +3710,7 @@ multiplicative_expression
  			$$->valType = $1->valType;
  			$$->val = $1->val; 
 			$$->astPtr = new multExpr_Node($1->astPtr, $3->astPtr, DIV);
+			//$$->astPtr->gen3AC();
 
 			// prevent division by 0
 			switch ($3->valType) {
@@ -3826,7 +3830,7 @@ unary_expression
 			$$->val = $1->val;
 	 		$$->astPtr = new unaryExpr_Node($1->astPtr, NULL, false, false);
 			$$->astPtr->gen3AC();
-			
+
 	 		// output data 
 			if(YFLAG){
 				outY << "unary_expression : postfix_expression;" << std::endl;
@@ -3847,7 +3851,7 @@ unary_expression
  			$$->valType = $2->valType;
  			$$->val = $2->val;
 			$$->astPtr = new unaryExpr_Node(NULL, $2->astPtr, true, false);
-			$$->astPtr->gen3AC();
+			//$$->astPtr->gen3AC();
 
  			// output data 
  			if(YFLAG){
@@ -3901,7 +3905,7 @@ unary_expression
  			$$->valType = $2->valType;
  			$$->val = $2->val;
  			$$->astPtr = new unaryExpr_Node(NULL, $2->astPtr, false, true);
-			$$->astPtr->gen3AC();
+			//$$->astPtr->gen3AC();
 
  			if(YFLAG){
 				outY << "unary_expression : DEC_OP unary_expression;" << std::endl;
@@ -3953,7 +3957,7 @@ unary_expression
 			$$->valType = $1->valType;
  			$$->val = $1->val;
 			$$->astPtr = new unaryExpr_Node($1->astPtr, $2->astPtr);
-			$$->astPtr->gen3AC();
+			//$$->astPtr->gen3AC();
 
 			// output data 
 			if(YFLAG){

@@ -41,6 +41,31 @@ Description:
 */
 threeAC multExpr_Node::gen3AC(){
 	std::cout << "Generate 3AC for postfix expression node" << std::endl;
+	if (exprA != NULL && exprB == NULL) {
+		return exprA->gen3AC(); 
+	}
+
+	threeAC tempA = exprA->gen3AC();
+	threeAC tempB = exprB->gen3AC(); 
+	std::string reg = "";  
+	switch(type) {
+		case MULT:
+			reg = intTC();
+			out3AC << ("MULT " + reg + " " + tempA.str + " " + tempB.str) << std::endl; 
+		break; 
+
+		case DIV:
+			reg = intTC();
+			out3AC << ("DIV " + reg + " " + tempA.str + " " + tempB.str) << std::endl; 
+		break;
+
+		default:
+			reg = ""; 
+		break;
+	}
+
+	tempA.str = reg;
+	return tempA; 
 }
 
 

@@ -58,7 +58,7 @@ threeAC postfixExpr_Node::gen3AC(){
 			std::string t1 = intTC();
 			std::string t2 = intTC(); 
 			std::string offset = intTC(); 
-			out3AC << ("MUL " + t1 + " " + exprB->gen3AC().str  + " 4") << std::endl;
+			out3AC << ("MUL " + t1 + " " + exprB->gen3AC().str + " 4") << std::endl;
 			out3AC << ("MUL " + t2 + " " + t1 + " " + std::to_string(arrDims[1])) << std::endl;
 			out3AC << ("ADD " + offset + " " + temp.str + " " + t2) << std::endl;
 			reg = offset; 

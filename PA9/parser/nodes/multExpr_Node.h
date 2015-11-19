@@ -18,6 +18,7 @@ This is the header file for the mutl expression AST node class of our C compiler
 #include <vector>
 #include <string>
 #include "astNode.h"
+#include "../cParser.tab.h"
 
 // class definition 
 class multExpr_Node : public astNode {
