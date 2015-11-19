@@ -40,6 +40,48 @@ Description:
 */
 threeAC assignmentExpr_Node::gen3AC(){
 	std::cout << "Generate 3AC for assignment expression node" << std::endl;
+	if (exprA != NULL && exprB == NULL) {
+		return exprA->gen3AC(); 
+	}
+
+	threeAC tempA = exprA->gen3AC();
+	threeAC tempB = exprB->gen3AC(); 
+	std::string reg = ""; 
+	switch(type) {
+		case ASSIGN:
+			out3AC << ("ASSIGN " + tempA.str + " " + tempB.str) << std::endl;  
+		break;
+
+		case MUL_ASSIGN:
+			reg = intTC();
+			out3AC << ("MUL " + reg + " " + tempA.str + " " + tempB.str) << std::endl;
+			out3AC << ("ASSIGN " + tempA.str + " " + reg) << std::endl;   
+		break;
+
+		case DIV_ASSIGN:
+			reg = intTC();
+			out3AC << ("DIV " + reg + " " + tempA.str + " " + tempB.str) << std::endl;
+			out3AC << ("ASSIGN " + tempA.str + " " + reg) << std::endl;   
+		break;
+
+		case ADD_ASSIGN:
+			reg = intTC();
+			out3AC << ("ADD " + reg + " " + tempA.str + " " + tempB.str) << std::endl;
+			out3AC << ("ASSIGN " + tempA.str + " " + reg) << std::endl;   
+		break;
+
+		case SUB_ASSIGN:
+			reg = intTC();
+			out3AC << ("SUB " + reg + " " + tempA.str + " " + tempB.str) << std::endl;
+			out3AC << ("ASSIGN " + tempA.str + " " + reg) << std::endl;   
+		break;
+
+		default:
+			reg = "";
+		break; 
+	}
+	 
+	return tempA; 
 }
 
 

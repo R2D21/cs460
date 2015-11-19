@@ -42,6 +42,16 @@ Description:
 */
 threeAC statList_Node::gen3AC(){
 	std::cout << "Generate 3AC for stat list node" << std::endl;
+	threeAC temp = exprA->gen3AC();
+	if (exprA != NULL && exprB == NULL) {
+		return temp; 
+	}
+	 
+	else {
+		exprB->gen3AC(); 
+	}
+
+	return temp;
 }
 
 /*

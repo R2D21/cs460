@@ -42,6 +42,32 @@ Description:
 */
 threeAC equalityExpr_Node::gen3AC(){
 	std::cout << "Generate 3AC for equality expression node" << std::endl;
+	if (exprA != NULL && exprB == NULL) {
+		return exprA->gen3AC(); 
+	}
+
+	threeAC tempA = exprA->gen3AC();
+	threeAC tempB = exprB->gen3AC(); 
+	std::string reg = ""; 
+	switch(type) {
+		case EQ_OP:
+			reg = intTC();
+			out3AC << ("EQ " + reg + " " + tempA.str + " " + tempB.str) << std::endl;  
+		break;
+
+		case NE_OP:
+			reg = intTC();
+			out3AC << ("NE " + reg + " " + tempA.str + " " + tempB.str) << std::endl;  
+		break;
+
+
+		default:
+			reg = "";
+		break; 
+	}
+
+	tempA.str = reg; 
+	return tempA; 
 }
 
 /*

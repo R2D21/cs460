@@ -2952,7 +2952,7 @@ expression
 			$$ = new node();
 			$$->val = $1->val;
 			$$->valType = $1->valType;
-			$$->astPtr = new expr_Node($1->astPtr, NULL);
+			$$->astPtr = new expr_Node($1->astPtr, NULL);	
 
 			// output data 
 			if(YFLAG){
@@ -3287,7 +3287,7 @@ exclusive_or_expression
 and_expression
 	: equality_expression
  		{
- 			// output data 
+			// output data 
 			if(YFLAG){
 				outY << "and_expression : equality_expression;" << std::endl;
 				outG << "and_expression -> equality_expression;" << std::endl;
@@ -3398,7 +3398,7 @@ relational_expression
 	 		// output data
 			if(YFLAG){
 				outY << "relational_expression : shift_expression;" << std::endl;
-	 		outG << "relational_expression -> shift_expression;" << std::endl;
+	 			outG << "relational_expression -> shift_expression;" << std::endl;
 			}
 
 			// register data for graphviz

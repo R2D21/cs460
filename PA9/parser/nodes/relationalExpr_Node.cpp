@@ -33,7 +33,6 @@ int relationalExpr_Node::getID() const{
     return id;
 }
 
-
 /*
 Function: gen3AC()
 
@@ -41,6 +40,42 @@ Description:
 */
 threeAC relationalExpr_Node::gen3AC(){
 	std::cout << "Generate 3AC for postfix expression node" << std::endl;
+	if (exprA != NULL && exprB == NULL) {
+		return exprA->gen3AC(); 
+	}
+
+	threeAC tempA = exprA->gen3AC();
+	threeAC tempB = exprB->gen3AC(); 
+	std::string reg = ""; 
+	switch(type) {
+		case LTHAN:
+			reg = intTC();
+			out3AC << ("LT " + reg + " " + tempA.str + " " + tempB.str) << std::endl;  
+		break;
+
+		case GTHAN:
+			reg = intTC();
+			out3AC << ("GT " + reg + " " + tempA.str + " " + tempB.str) << std::endl;  
+		break;
+
+
+		case LE_OP:
+			reg = intTC();
+			out3AC << ("LE " + reg + " " + tempA.str + " " + tempB.str) << std::endl; 
+		break; 
+
+		case GE_OP:
+			reg = intTC();
+			out3AC << ("GE " + reg + " " + tempA.str + " " + tempB.str) << std::endl; 
+		break; 
+
+		default:
+			reg = "";
+		break; 
+	}
+
+	tempA.str = reg; 
+	return tempA; 
 }
 
 
