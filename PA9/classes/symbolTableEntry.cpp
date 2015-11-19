@@ -22,6 +22,9 @@ symbolTableEntry::symbolTableEntry() {
 	// entry data info
 	entryType = -1;
 
+	// offset stuff
+	offset = 0;
+
 	// entry data attributes
 	identifierName = "";
 	identifierType.clear(); 
@@ -82,6 +85,7 @@ symbolTableEntry& symbolTableEntry::operator=(const symbolTableEntry& other) {
 	if (this != &other) {
 		entryVal = other.entryVal;
 		entryType = other.entryType;
+		offset = other.offset;
 		identifierName = other.identifierName;
 		identifierType = other.identifierType;
 		lineNum = other.lineNum;
@@ -668,6 +672,16 @@ std::vector<int> symbolTableEntry::getArrayDimensions() const {
 } 
 
 /*
+Function: setArrayDimensions()
+
+Description: Allows the caller to specify the dimensions of the array through
+a vector.
+*/
+void symbolTableEntry::setArrayDimensions(std::vector<int> dims) {
+	arrayDimensions = dims; 
+}
+
+/*
 Function: getNumArrDims() const
 
 Description: Returns an integer which represents the total number of dimensions
@@ -677,6 +691,14 @@ int symbolTableEntry::getNumArrDims() const {
 	if (isArr) {return arrayDimensions.size();}
 	else return 0; 
 } 
+
+int symbolTableEntry::getOffset() const {
+	return offset; 
+} 
+
+void symbolTableEntry::setOffset(int oset) {
+	offset = oset; 
+}
 
 /*
 Function: getLineNumber() const

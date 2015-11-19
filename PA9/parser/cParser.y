@@ -1055,7 +1055,7 @@ init_declarator
 			$$->val = $1->val;
 			$$->valType = $1->valType;
 			$$->astPtr = new initDecl_Node($1->astPtr, $4->astPtr);
-
+			//$$->astPtr->gen3AC(); 
 			 
 			// output data
  			if(YFLAG){
@@ -1377,7 +1377,15 @@ direct_declarator
 			// assign array attributes
  			$1->val._ste->setArray();
  			$1->val._ste->addArrayDimension($3->val._num); 
-			
+ 			std::vector<int> arrayDims = $1->val._ste->getArrayDimensions();
+ 			if(arrayDims.size()==1) {
+ 				table.incrementOffset(arrayDims[0]-1);
+ 			}
+ 			else if(arrayDims.size() == 2) {
+ 				table.decrementOffset(arrayDims[0]-1);
+ 				table.incrementOffset(arrayDims[0]*arrayDims[1]-1);
+			}
+
  			// output data 
 			if(YFLAG){
 				outY << "direct_declarator : direct_declarator LBRACK constant_expression RBRACK;" << std::endl;
@@ -4539,7 +4547,7 @@ Description: Returns a unique string for each integer encountered while
 parsing.
 */
 std::string intTC() {
-	return "ITEMP_" + std::to_string(intTicket++);
+	return "IT_" + std::to_string(intTicket++);
 }
 
 void registerNode(std::ofstream &out, astNode* ptr){

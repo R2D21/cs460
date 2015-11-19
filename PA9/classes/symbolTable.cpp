@@ -27,7 +27,8 @@ Function: pushLevelOn()
 
 Description: This function pushes a new scope level onto the stack. 
 */
-void symbolTable::pushLevelOn() { 
+void symbolTable::pushLevelOn() {
+	currentOffset = 0;  
 	Bst* newTree = new Bst();
 	int outer = table.size()-1;
 	if(outer == -1){
@@ -84,9 +85,13 @@ symbolTableEntry* symbolTable::insertNewSymbol(std::string name, int line) {
 	// allocate a new symbol table entry object and add it to the BST at
 	// the current scope 
 	symbolTableEntry* newEntry = new symbolTableEntry(name, line);
+	newEntry->setOffset(currentOffset);
 	Bst* currentVars = table[table.size() - 1].getBst();
 	currentVars->insert(entry(name, *newEntry));
 	
+	// offset stuff
+	incrementOffset(1);
+
 	// search for and declare a pointer to the symbol table entry object in the
 	// BST and NOT the one we just created in this function 
 	bstItr bItr = currentVars->find(name);
@@ -299,6 +304,22 @@ void symbolTable::writeToScreen() {
 		}
 		std::cout << "=== END OF SYMBOL TABLE DISPLAY ===" << std::endl; 
 	}
+}
+
+void symbolTable::setOffset(int oset) {
+	currentOffset = oset; 
+}
+
+int symbolTable::getOffset() const {
+	return currentOffset; 
+}
+
+void symbolTable::incrementOffset(int inc) {
+	currentOffset += 4*inc; 
+}
+
+void symbolTable::decrementOffset(int dec) {
+	currentOffset -= 4*dec;
 }
 
 /*

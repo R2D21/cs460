@@ -48,6 +48,10 @@ class symbolTable {
         int getTableSize() const; 
         void writeToFile();
         void writeToScreen();
+        void setOffset(int oset);
+        int getOffset() const;
+        void incrementOffset(int inc); 
+        void decrementOffset(int dec);
 
 	   // destructor 
         ~symbolTable();
@@ -55,6 +59,7 @@ class symbolTable {
     private:
         symbolTableEntry* searchHelper(std::string symbolToSearch, int&levelSymbolWasFound, int searchLevel);
         symTbl table;
+        int currentOffset; 
 };
 
 #endif // SYMBOL_TABLE_H

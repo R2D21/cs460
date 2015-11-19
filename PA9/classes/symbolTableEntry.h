@@ -90,7 +90,12 @@ class symbolTableEntry {
         bool isArray() const;  
         void addArrayDimension(int size);
         std::vector<int> getArrayDimensions() const;
+        void setArrayDimensions(std::vector<int> dims);
         int getNumArrDims() const;
+
+        // offset functions
+        int getOffset() const; 
+        void setOffset(int oset); 
 
         // other functions that may come in handy 
         int getLineNumber() const;
@@ -104,6 +109,9 @@ class symbolTableEntry {
         // the entry
         entryVals entryVal; 
         int entryType;
+
+        // offset into activation frame
+        int offset; 
 
         // attributes associated with a symbol table entry
         std::string identifierName;

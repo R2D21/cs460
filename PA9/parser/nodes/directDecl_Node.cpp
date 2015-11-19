@@ -41,6 +41,7 @@ Description:
 */
 threeAC directDecl_Node::gen3AC(){
 	std::cout << "Generate 3AC for direct declaration node" << std::endl;
+	return exprA->gen3AC(); 
 }
 
 /*

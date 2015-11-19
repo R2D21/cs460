@@ -46,13 +46,13 @@ threeAC postfixExpr_Node::gen3AC(){
 
 	// check for simple case
 	if (exprA != NULL && exprB == NULL && !incOp && !decOp) {
-		std::cout << "super basic postfix expr case" << std::endl;
 		return exprA->gen3AC(); 
 	}
 
-	threeAC temp = exprA->gen3AC();
+	temp = exprA->gen3AC();
 	if (temp.ste.isArray()) {
-		std::cout << std::endl << "does this work?" << std::endl;
+
+		// 2D array
 		std::vector<int> arrDims = temp.ste.getArrayDimensions();
 		if (arrDims.size() > 1) {
 			std::string t1 = intTC();
@@ -60,11 +60,23 @@ threeAC postfixExpr_Node::gen3AC(){
 			std::string offset = intTC(); 
 			out3AC << ("MUL " + t1 + " " + exprB->gen3AC().str  + " 4") << std::endl;
 			out3AC << ("MUL " + t2 + " " + t1 + " " + std::to_string(arrDims[1])) << std::endl;
-			out3AC << ("ADD " + offset + " " + t1 + " " + t2) << std::endl;
+			out3AC << ("ADD " + offset + " " + temp.str + " " + t2) << std::endl;
 			reg = offset; 
 
 			// decrement dimension count
 			arrDims[0] = arrDims[1];
+			arrDims.pop_back(); 
+			temp.ste.setArrayDimensions(arrDims);
+		}
+
+		// 1D array
+		else if (arrDims.size() == 1) {
+			std::string t1 = intTC();
+			std::string t2 = intTC();
+
+			out3AC << ("MUL " + t1 + " " + exprB->gen3AC().str  + " 4") << std::endl;
+			out3AC << ("ADD " + t2 + " " + temp.str + " " + t1) << std::endl;
+			reg = t2;
 		}
 	}
 
@@ -81,6 +93,7 @@ threeAC postfixExpr_Node::gen3AC(){
 	} 
 
 	// check for array subscript - this checks to see if exprB points to an expr_Node
+	/*
 	else if ( (exprB != NULL) && (dynamic_cast <expr_Node *> (exprB)) ) {
 		std::cout << "ExprA is .. ?" << std::endl;
 
@@ -88,7 +101,7 @@ threeAC postfixExpr_Node::gen3AC(){
 		out3AC << ("MUL " + firstOffsetCalc + " " + exprB->gen3AC().str  + " 4") << std::endl;
 		std::string secondOffsetCalc = intTC(); 
 		out3AC << ("ADD " + secondOffsetCalc + " " + exprA->gen3AC().str + " " + firstOffsetCalc) << std::endl;  
-	} 
+	} */
 	
 	temp.str = reg;
 	return temp; 

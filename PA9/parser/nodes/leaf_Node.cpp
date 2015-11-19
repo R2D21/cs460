@@ -49,7 +49,8 @@ threeAC leaf_Node::gen3AC(){
 		break;
 
 		case STE_T: 
-			temp.str =  data._ste->getIdentifierName();
+			//std::cout << "STE offset: " << to::stringdata._ste->getOffset() << std::endl; 
+			temp.str =  std::to_string(data._ste->getOffset());
 			temp.ste = *(data._ste);
 			return temp;
 		break;

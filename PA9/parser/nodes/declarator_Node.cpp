@@ -40,6 +40,7 @@ Description:
 */
 threeAC declarator_Node::gen3AC(){
 	std::cout << "Generate 3AC for declarator node" << std::endl;
+	return exprA->gen3AC(); 
 }
 
 /*
