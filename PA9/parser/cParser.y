@@ -40,6 +40,7 @@ the token declarations that will be used in the lexer.
 	extern bool inInsertMode;
 	extern symbolTable table;
 	std::string intTC();
+	std::string labelTC();
 	int yylex(void);
 	void yyerror(const char* errorMsg);
 	void registerNode(std::ofstream &out, astNode* ptr);
@@ -52,6 +53,7 @@ the token declarations that will be used in the lexer.
 	int unaryOperatorChosen = -1;
 	symbolTableEntry* currentFunc;
 	int intTicket = 0;
+	int labelCount = 0; 
 
 	// root of the ast
 	astNode* astRoot = NULL; 
@@ -1248,7 +1250,8 @@ declarator
 			$$ = new node();
  			$$->valType = $1->valType;
  			$$->val = $1->val;
-			$$->astPtr = new declarator_Node($1->astPtr, NULL);
+			$$->astPtr = new declarator_Node($1->astPtr);
+			//$1->astPtr->gen3AC();
 
 			// register data for graphviz
 			registerNode(outA, $$->astPtr);
@@ -1263,7 +1266,7 @@ declarator
 			$$ = new node();
 			$$->val = $1->val;
 			$$->valType = $1->valType;
-			$$->astPtr = new declarator_Node($1->astPtr, $2->astPtr);
+			$$->astPtr = new declarator_Node($2->astPtr);
 
 			// output data 
 			if(YFLAG){
@@ -2050,6 +2053,7 @@ statement
 		}
 	| iteration_statement
  		{
+ 			$1->astPtr->gen3AC(); 
  			// output data 
 			if(YFLAG){
 				outY << "statement : iteration_statement;" << std::endl;
@@ -2493,7 +2497,7 @@ iteration_statement
 			$$ = new node();
 			$$->val = $2->val;
 			$$->valType = $2->valType;
-			$$->astPtr = new iterStat_Node($5->astPtr, NULL, NULL, $2->astPtr, true);
+			$$->astPtr = new iterStat_Node(NULL, $5->astPtr, NULL, $2->astPtr, true);
 
 			// output data
 			if(YFLAG){
@@ -4553,6 +4557,10 @@ parsing.
 */
 std::string intTC() {
 	return "IT_" + std::to_string(intTicket++);
+}
+
+std::string labelTC() {
+	return "Label_" + std::to_string(labelCount++);
 }
 
 void registerNode(std::ofstream &out, astNode* ptr){

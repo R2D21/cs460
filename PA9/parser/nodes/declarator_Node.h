@@ -23,7 +23,7 @@ This is the header file for the additive expression AST node class of our C comp
 class declarator_Node : public astNode {
     public:
         // constructors
-        declarator_Node(astNode* = NULL, astNode* = NULL);
+        declarator_Node(astNode* = NULL);
 
         // class functions 
 	    int getID() const;
@@ -35,7 +35,6 @@ class declarator_Node : public astNode {
 
     private:
         astNode* exprA;
-        astNode* exprB;
         int id;
 };
 

@@ -39,6 +39,9 @@ Description:
 */
 threeAC declSpec_Node::gen3AC(){
 	std::cout << "Generate 3AC for declaration specifier node" << std::endl;
+	threeAC temp;
+	temp.str = ""; 
+	return temp; 
 }
 
 

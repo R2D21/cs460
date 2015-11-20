@@ -22,7 +22,8 @@ This is the header file for the base AST node class of our C compiler.
 
 // externs
 extern int intTicket; 
-extern std::string intTC(); 
+extern std::string intTC();
+extern std::string labelTC(); 
 extern std::ofstream out3AC;
 extern std::vector<std::string> sourceCode;
 extern int yylineno;  
@@ -40,12 +41,8 @@ class astNode {
         astNode();
 
         // class functions 
-        /*
-	    void setSourceCode( std::vector<std::string> src );
-        std::vector<std::string> getSourceCode() const; */
-
+        std::string getSourceCode() const; 
         std::string getName() const;
-
         virtual int getID() const;
         virtual threeAC gen3AC();
         virtual void print(int = 0);

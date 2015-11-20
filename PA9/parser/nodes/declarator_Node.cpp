@@ -15,9 +15,8 @@ Function: declarator_Node(astNode* A, astNode* B) (constructor)
 
 Description: 
 */
-declarator_Node::declarator_Node(astNode* A, astNode* B) : astNode(){ 
+declarator_Node::declarator_Node(astNode* A) : astNode(){ 
 	exprA = A;
-	exprB = B;
 	name = "declarator_Node";
 	id = idNum;
 }
@@ -39,7 +38,12 @@ Description:
 */
 threeAC declarator_Node::gen3AC(){
 	std::cout << "Generate 3AC for declarator node" << std::endl;
-	return exprA->gen3AC(); 
+	threeAC temp; 
+	temp.str = ""; 
+	if (exprA != NULL) {
+		return exprA->gen3AC();
+	}
+	return temp; 
 }
 
 /*
@@ -69,14 +73,6 @@ void declarator_Node::print(int indent){
 	std::cout << std::endl;
 	for(int i = 0; i < indent; i++){
 		std::cout << '\t';
-	}
-	std::cout << "B: ";
-	if( exprB != NULL ){
-		exprB->print(indent+1) ;
-		//std::cout << "AST Node";
-	}
-	else{
-		std::cout << "NULL ";
 	}
 }
 

@@ -16,7 +16,6 @@ Function: iterStat_Node(astNode* A, astNode* B) (constructor)
 Description: 
 */
 iterStat_Node::iterStat_Node(astNode* A, astNode* B, astNode* C, astNode* D, bool postCheck) : astNode(){
-
     exprA = A;
     exprB = B;
     exprC = C;
@@ -43,6 +42,38 @@ Description:
 */
 threeAC iterStat_Node::gen3AC(){
     std::cout << "Generate 3AC for iteration stat node" << std::endl;
+    
+    // for do while loops 
+    if (isPostCheck) {
+        std::string label1 = labelTC();
+        std::string tempCondition = intTC(); 
+        threeAC tempB; 
+
+        // generate 3AC for stuff inside of do/while loop
+        out3AC << label1 << std::endl; 
+        if (exprD != NULL) {
+            exprD->gen3AC(); 
+        }
+
+        // if the user supplies a condition
+        if (exprB != NULL) {
+            tempB = exprB->gen3AC(); 
+            out3AC << ("ASSIGN " + tempCondition + " " + tempB.str) << std::endl; 
+        }
+
+        // no condition is supplied -> infinite loop
+        else {
+            out3AC << ("ASSIGN " + tempCondition + " 1") << std::endl;  
+        }
+
+        // branch to back of loop if condition is met
+        out3AC << ("BRNE " + tempCondition + " 0 " + label1) << std::endl;  
+    }
+
+    // every other loop
+    else {
+
+    }
 }
 
 /*

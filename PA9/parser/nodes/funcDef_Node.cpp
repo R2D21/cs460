@@ -16,7 +16,6 @@ Function: funcDef_Node(astNode* A, astNode* B) (constructor)
 Description: 
 */
 funcDef_Node::funcDef_Node(astNode* A, astNode* B, astNode* C, astNode* D) : astNode(){
-
 	exprA = A;
 	exprB = B;
 	exprC = C;
