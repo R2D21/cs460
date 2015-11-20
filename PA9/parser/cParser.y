@@ -45,9 +45,6 @@ the token declarations that will be used in the lexer.
 	void registerNode(std::ofstream &out, astNode* ptr);
 	void outputNode(std::ofstream &out, astNode* ptr);
 	void outputTerminal(std::ofstream &out, std::string name, int id);
-	void performArithmeticOp(node* result, node* lhs, node* rhs, int token);
-	void performArithmeticOp_OneSTE(node* result, node* lhs, node* rhs, 
-									int token, bool steIsLeftOperand); 
 
 	// global variables 
 	std::vector< std::vector<int> > funcParams;
@@ -398,17 +395,17 @@ declaration
 		}
 	| declaration_specifiers init_declarator_list SEMI
 		{
-			// create ast node
-			$$ = new node();
-			$$->val = $1->val;
-			$$->valType = $1->valType;
-			$$->astPtr = new declaration_Node($1->astPtr, $2->astPtr);
-
 			// output data 
 			if(YFLAG){
 				outY << "declaration : declaration_specifiers init_declarator_list SEMI;" << std::endl;
 				outG << "declaration -> {declaration_specifiers init_declarator_list SEMI};" << std::endl;
 			}
+
+			// create ast node
+			$$ = new node();
+			$$->val = $1->val;
+			$$->valType = $1->valType;
+			$$->astPtr = new declaration_Node($1->astPtr, $2->astPtr);
 
 			// register data for graphviz
 			registerNode(outA, $$->astPtr);
@@ -480,18 +477,18 @@ declaration_list
 declaration_specifiers
 	: storage_class_specifier
 		{
-			// create AST node
-			$$ = new node();
-			$$->val = $1->val;
-			$$->valType = $1->valType;
-			$$->astPtr = new declSpec_Node(NULL, $1->val._num);
-
 			// output data 
 			if(YFLAG){
 				outY << "declaration_specifiers : storage_class_specifier;" << std::endl;
 				outG << "declaration_specifiers -> storage_class_specifier;" << std::endl; 
 			}
 
+			// create AST node
+			$$ = new node();
+			$$->val = $1->val;
+			$$->valType = $1->valType;
+			$$->astPtr = new declSpec_Node(NULL, $1->val._num);
+			
 			// register data for graphviz
 	 		registerNode(outA, $$->astPtr);
 	 		outputNode(outA, $$->astPtr);
@@ -501,16 +498,17 @@ declaration_specifiers
 		}
 	| storage_class_specifier declaration_specifiers
 		{
+			// output data 
+			if(YFLAG){
+				outY << "declaration_specifiers : storage_class_specifier declaration_specifiers;" << std::endl;
+				outG << "declaration_specifiers -> {storage_class_specifier declaration_specifiers};" << std::endl;
+			}
+
 			// create AST node
 			$$ = new node();
 			$$->val = $1->val;
 			$$->valType = $1->valType;
 			$$->astPtr = new declSpec_Node($2->astPtr, $1->val._num);
-
-			if(YFLAG){
-				outY << "declaration_specifiers : storage_class_specifier declaration_specifiers;" << std::endl;
-				outG << "declaration_specifiers -> {storage_class_specifier declaration_specifiers};" << std::endl;
-			}
 			
 			// register data for graphviz
 			registerNode(outA, $$->astPtr);
@@ -525,17 +523,17 @@ declaration_specifiers
 		}
 	| type_specifier
 		{
-			// create AST node
-			$$ = new node();
-			$$->val = $1->val;
-			$$->valType = $1->valType;
-			$$->astPtr = new declSpec_Node(NULL, $1->val._num);
-
 			// output data 
 			if(YFLAG){
 				outY << "declaration_specifiers : type_specifier;" << std::endl;
 				outG << "declaration_specifiers -> type_specifier;" << std::endl;
 			}
+
+			// create AST node
+			$$ = new node();
+			$$->val = $1->val;
+			$$->valType = $1->valType;
+			$$->astPtr = new declSpec_Node(NULL, $1->val._num);
 
 			// register data for graphviz
 			registerNode(outA, $$->astPtr);
@@ -543,21 +541,20 @@ declaration_specifiers
  			outA << " -> ";
  			outputNode(outA, $1->astPtr);
  			outA << ";\n";
-
 		}
 	| type_specifier declaration_specifiers
 		{
-			// create AST node
-			$$ = new node();
-			$$->val = $1->val;
-			$$->valType = $1->valType;
-			$$->astPtr = new declSpec_Node($2->astPtr, $1->val._num);
-
 			// output data 
 			if(YFLAG){
 				outY << "declaration_specifiers : type_specifier declaration_specifiers;" << std::endl;
 				outG << "declaration_specifiers -> {type_specifier declaration_specifiers};" << std::endl;
 			}
+
+			// create AST node
+			$$ = new node();
+			$$->val = $1->val;
+			$$->valType = $1->valType;
+			$$->astPtr = new declSpec_Node($2->astPtr, $1->val._num);
 			
 			// register data for graphviz
 			registerNode(outA, $$->astPtr);
@@ -572,17 +569,17 @@ declaration_specifiers
 		}
 	| type_qualifier 
 		{
-			// create AST node
-			$$ = new node();
-			$$->val = $1->val;
-			$$->valType = $1->valType;
-			$$->astPtr = new declSpec_Node(NULL, $1->val._num);
-
 			// output data 
 			if(YFLAG){
 				outY << "declaration_specifiers : type_qualifier;" << std::endl;
 				outG << "declaration_specifiers -> type_qualifier;" << std::endl;
 			}
+
+			// create AST node
+			$$ = new node();
+			$$->val = $1->val;
+			$$->valType = $1->valType;
+			$$->astPtr = new declSpec_Node(NULL, $1->val._num);
 
 			// register data for graphviz
 			registerNode(outA, $$->astPtr);
@@ -593,17 +590,17 @@ declaration_specifiers
 		}
 	| type_qualifier declaration_specifiers
 		{
-			// create AST node
-			$$ = new node();
-			$$->val = $1->val;
-			$$->valType = $1->valType;
-			$$->astPtr = new declSpec_Node($2->astPtr, $1->val._num);
-
 			// output data 
 			if(YFLAG){
 				outY << "declaration_specifiers : type_qualifier declaration_specifiers;" << std::endl;
 				outG << "declaration_specifiers -> {type_qualifier declaration_specifiers};" << std::endl;
 			}
+
+			// create AST node
+			$$ = new node();
+			$$->val = $1->val;
+			$$->valType = $1->valType;
+			$$->astPtr = new declSpec_Node($2->astPtr, $1->val._num);
 
 			// register data for graphviz
 			registerNode(outA, $$->astPtr);
@@ -1010,24 +1007,24 @@ init_declarator_list
 init_declarator
 	: declarator
  		{
- 			// create ast node
-			$$ = new node();
-			$$->val = $1->val;
-			$$->valType = $1->valType;
-			$$->astPtr = new initDecl_Node($1->astPtr, NULL);
-
 			// output data
 			if(YFLAG){
 				outY << "init_declarator : declarator;" << std::endl;
 				outG << "init_declarator -> declarator;" << std::endl; 
 			}
 
+ 			// create ast node
+			$$ = new node();
+			$$->val = $1->val;
+			$$->valType = $1->valType;
+			$$->astPtr = new initDecl_Node($1->astPtr, NULL); 
+
 			// register data for graphviz
 	 		registerNode(outA, $$->astPtr);
 	 		outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $1->astPtr);
- 			outA << ";\n";
+ 			outA << ";\n"; 
 		}
 	| declarator ASSIGN set_lookup initializer set_insert
  		{ 
@@ -1055,7 +1052,7 @@ init_declarator
 			$$->val = $1->val;
 			$$->valType = $1->valType;
 			$$->astPtr = new initDecl_Node($1->astPtr, $4->astPtr);
-			//$$->astPtr->gen3AC(); 
+			$$->astPtr->gen3AC(); 
 			 
 			// output data
  			if(YFLAG){
@@ -1241,18 +1238,18 @@ enumerator
 declarator
 	: direct_declarator
  		{
+ 			// output data
+			if(YFLAG){
+				outY << "declarator : direct_declarator;" << std::endl;
+				outG << "declarator -> direct_declarator;" << std::endl;
+			}			
+
 			// create ast node
 			$$ = new node();
  			$$->valType = $1->valType;
  			$$->val = $1->val;
 			$$->astPtr = new declarator_Node($1->astPtr, NULL);
 
- 			// output data
-			if(YFLAG){
-				outY << "declarator : direct_declarator;" << std::endl;
-				outG << "declarator -> direct_declarator;" << std::endl;
-			}			
-			
 			// register data for graphviz
 			registerNode(outA, $$->astPtr);
 	 		outputNode(outA, $$->astPtr);
@@ -1290,17 +1287,17 @@ declarator
 direct_declarator
 	: identifier
  		{
-			// create ast node
-			$$ = new node();
-			$$->val = $1->val;
-			$$->valType = $1->valType;
-			$$->astPtr = new directDecl_Node($1->astPtr, NULL);
-
 			// output data 
  			if(YFLAG){
 				outY << "direct_declarator : identifier;" << std::endl;
 				outG << "direct_declarator -> identifier;" << std::endl;
 			}
+
+			// create ast node
+			$$ = new node();
+			$$->val = $1->val;
+			$$->valType = $1->valType;
+			$$->astPtr = new directDecl_Node($1->astPtr, NULL);
 
 			// register data for graphviz
 			registerNode(outA, $$->astPtr);
@@ -1311,17 +1308,17 @@ direct_declarator
 		}
 	| LPAREN declarator RPAREN
  		{
-			// create ast node
-			$$ = new node();
-			$$->val = $1->val;
-			$$->valType = $1->valType;
-			$$->astPtr = new directDecl_Node($2->astPtr, NULL);
-
 			// output data 
 			if(YFLAG){
 				outY << "direct_declarator : LPAREN declarator RPAREN;" << std::endl;
 				outG << "direct_declarator -> {LPAREN declarator RPAREN};" << std::endl;
 			}
+
+			// create ast node
+			$$ = new node();
+			$$->val = $1->val;
+			$$->valType = $1->valType;
+			$$->astPtr = new directDecl_Node($2->astPtr, NULL);
 			
 			// register data for graphviz
 			registerNode(outA, $$->astPtr);
@@ -1340,16 +1337,17 @@ direct_declarator
 		}
 	| direct_declarator LBRACK RBRACK 
  		{
+ 			// output data 
+			if(YFLAG){
+				outY << "direct_declarator : direct_declarator LBRACK RBRACK;" << std::endl;
+				outG << "direct_declarator -> {direct_declarator LBRACK RBRACK};" << std::endl;
+			}	
+
 			// create ast node
 			$$ = new node();
 			$$->val = $1->val;
 			$$->valType = $1->valType;
 			$$->astPtr = new directDecl_Node($1->astPtr, NULL);
-
-			if(YFLAG){
-				outY << "direct_declarator : direct_declarator LBRACK RBRACK;" << std::endl;
-				outG << "direct_declarator -> {direct_declarator LBRACK RBRACK};" << std::endl;
-			}	
 
 			// register data for graphviz 
 			registerNode(outA, $$->astPtr);
@@ -1368,6 +1366,12 @@ direct_declarator
 		}
 	| direct_declarator LBRACK constant_expression RBRACK
  		{
+ 			// output data 
+			if(YFLAG){
+				outY << "direct_declarator : direct_declarator LBRACK constant_expression RBRACK;" << std::endl;
+				outG << "direct_declarator -> {direct_declarator LBRACK constant_expression RBRACK};" << std::endl;
+			}
+
  			// create ast node
 			$$ = new node();
 			$$->val = $1->val;
@@ -1384,12 +1388,6 @@ direct_declarator
  			else if(arrayDims.size() == 2) {
  				table.decrementOffset(arrayDims[0]-1);
  				table.incrementOffset(arrayDims[0]*arrayDims[1]-1);
-			}
-
- 			// output data 
-			if(YFLAG){
-				outY << "direct_declarator : direct_declarator LBRACK constant_expression RBRACK;" << std::endl;
-				outG << "direct_declarator -> {direct_declarator LBRACK constant_expression RBRACK};" << std::endl;
 			}
 			
 			// register data for graphviz
@@ -1413,17 +1411,17 @@ direct_declarator
 		}
 	| direct_declarator LPAREN RPAREN
  		{
-			// create ast node
-			$$ = new node();
-			$$->val = $1->val;
-			$$->valType = $1->valType;
-			$$->astPtr = new directDecl_Node($1->astPtr, NULL);
-
 			// output data 
 			if(YFLAG){
 				outY << "direct_declarator : direct_declarator LPAREN RPAREN;" << std::endl;
 				outG << "direct_declarator -> {direct_declarator LPAREN RPAREN};" << std::endl;
-			}			
+			}	
+
+			// create ast node
+			$$ = new node();
+			$$->val = $1->val;
+			$$->valType = $1->valType;
+			$$->astPtr = new directDecl_Node($1->astPtr, NULL);		
 			
 			// register data for graphviz
 			registerNode(outA, $$->astPtr);
@@ -1443,6 +1441,12 @@ direct_declarator
 		}
 	| direct_declarator LPAREN parameter_type_list RPAREN
  		{
+ 			// output data 
+ 			if(YFLAG){
+				outY << "direct_declarator : direct_declarator LPAREN parameter_type_list RPAREN;" << std::endl;
+				outG << "direct_declarator -> {direct_declarator LPAREN parameter_type_list RPAREN};" << std::endl;
+			}
+
  			// create ast node
 			$$ = new node();
 			$$->val = $1->val;
@@ -1455,12 +1459,6 @@ direct_declarator
 				$1->val._ste->addParameter(funcParams[i]);
 			}
 			funcParams.clear();
-
-			// output data 
- 			if(YFLAG){
-				outY << "direct_declarator : direct_declarator LPAREN parameter_type_list RPAREN;" << std::endl;
-				outG << "direct_declarator -> {direct_declarator LPAREN parameter_type_list RPAREN};" << std::endl;
-			}
 			
 			// register data for graphviz
 			registerNode(outA, $$->astPtr);
@@ -1484,17 +1482,17 @@ direct_declarator
 		}
 	| direct_declarator LPAREN set_lookup identifier_list RPAREN 
  		{
-			// create ast node
-			$$ = new node();
-			$$->val = $1->val;
-			$$->valType = $1->valType;
-			$$->astPtr = new directDecl_Node($1->astPtr, $4->astPtr);
-
 			// output data 
  			if(YFLAG){
 				outY << "direct_declarator : direct_declarator LPAREN identifier_list RPAREN;" << std::endl;
 				outG << "direct_declarator -> {direct_declarator LPAREN identifier_list RPAREN};" << std::endl;
-			}		
+			}	
+
+			// create ast node
+			$$ = new node();
+			$$->val = $1->val;
+			$$->valType = $1->valType;
+			$$->astPtr = new directDecl_Node($1->astPtr, $4->astPtr);		
 	 		
 			// register data for graphviz
 	 		registerNode(outA, $$->astPtr);
@@ -2035,6 +2033,7 @@ statement
 		}
 	| expression_statement
  		{
+ 			//$1->astPtr->gen3AC(); 
  			// output data 
 			if(YFLAG){
 				outY << "statement : expression_statement;" << std::endl;
@@ -2097,7 +2096,6 @@ labeled_statement
 expression_statement
 	: SEMI
  		{
- 			std::cout << "beforeeee seg fault 1" << std::endl; 
  			// output data 
 			if(YFLAG){
 				outY << "expression_statement : SEMI;" << std::endl;
@@ -2966,8 +2964,6 @@ expression
  			outA << " -> ";
  			outputNode(outA, $1->astPtr);
  			outA << ";\n";
-
- 			std::cout << "after registration node" << std::endl; 
 		}
 	| expression COMMA assignment_expression
  		{
@@ -3829,7 +3825,7 @@ unary_expression
 			$$->valType = $1->valType;
 			$$->val = $1->val;
 	 		$$->astPtr = new unaryExpr_Node($1->astPtr, NULL, false, false);
-			$$->astPtr->gen3AC();
+			//$$->astPtr->gen3AC();
 
 	 		// output data 
 			if(YFLAG){
@@ -4361,23 +4357,25 @@ postfix_expression
 primary_expression /* no code in this production - just passing stuff up */
 	: identifier
  		{
- 			$$ = $1;
-
  			// output data 
 			if(YFLAG){
 				outY << "primary_expression : identifier;" << std::endl;
 				outG << "primary_expression -> identifier;" << std::endl;
 			}
+
+			// pass pointer up tree 
+ 			$$ = $1;
 		}
 	| constant
  		{
- 			$$ = $1;
-
  			// output data 
  			if(YFLAG){
 				outY << "primary_expression : constant;" << std::endl;
 				outG << "primary_expression -> constant;" << std::endl;
 			}
+
+			// pass pointer up tree
+ 			$$ = $1;
 		}
 	| string
  		{
@@ -4445,7 +4443,6 @@ constant
 
 			// register data for graphviz
 			registerNode(outA, $$->astPtr);
-			std::cout << "after int constant" << std::endl;
 		}
 	| CHARACTER_CONSTANT
  		{
@@ -4517,17 +4514,17 @@ string
 identifier
 	: IDENTIFIER
 		{
-			// create ast node and assign attributes
-			$$ = new node(); 
-			$$->astPtr = new leaf_Node($1->val, $1->valType, $1->val._ste->getIdentifierName());
-			$$->val = $1->val;
-			$$->valType = $1->valType;
-
 			// output data
 			if(YFLAG){
 				outY << "identifier : IDENTIFIER;" << std::endl;
 				outG << "identifier -> IDENTIFIER;" << std::endl;
 			}
+
+			// create ast node and assign attributes
+			$$ = new node(); 
+			$$->astPtr = new leaf_Node($1->val, $1->valType, $1->val._ste->getIdentifierName());
+			$$->val = $1->val;
+			$$->valType = $1->valType;
 
 			// register data for graphviz
 			registerNode(outA, $$->astPtr);

@@ -41,7 +41,7 @@ Function: gen3AC()
 Description: 
 */
 threeAC unaryExpr_Node::gen3AC(){
-	std::cout << "Generate 3AC for postfix expression node" << std::endl;
+	std::cout << "Generate 3AC for unary expression node" << std::endl;
 	std::string reg = ""; 
 	threeAC temp;
 
@@ -62,7 +62,6 @@ threeAC unaryExpr_Node::gen3AC(){
 	}
 
 	else if ( (exprB != NULL) && (dynamic_cast <unaryOp_Node*> (exprA))) {
-		//out3AC << "found a minus sign!" << std::endl; 
 		reg = intTC(); 
 		out3AC << ("MULT " + reg + " " + exprB->gen3AC().str + " -1") << std::endl;
 	}

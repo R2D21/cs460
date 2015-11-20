@@ -16,7 +16,6 @@ Function: directDecl_Node(astNode* A, astNode* B) (constructor)
 Description: 
 */
 directDecl_Node::directDecl_Node(astNode* A, astNode* B) : astNode(){
-
 	exprA = A;
 	exprB = B;
 	name = "directDecl_Node";

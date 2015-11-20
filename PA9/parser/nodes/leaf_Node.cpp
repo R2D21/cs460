@@ -35,7 +35,7 @@ Function: gen3AC()
 Description: 
 */
 threeAC leaf_Node::gen3AC(){
-	std::cout << "Generate 3AC for data node" << std::endl;
+	std::cout << "Generate 3AC for leaf node" << std::endl;
 	threeAC temp;
 	switch(dataType) {
 		case INT_T:
@@ -44,13 +44,13 @@ threeAC leaf_Node::gen3AC(){
 		break;
 
 		case FLOAT_T:
-			temp.str = std::to_string(data._dec); 
+			temp.str = std::to_string(data._dec);
 			return temp;
 		break;
 
-		case STE_T: 
-			//std::cout << "STE offset: " << to::stringdata._ste->getOffset() << std::endl; 
-			temp.str =  std::to_string(data._ste->getOffset());
+		case STE_T:
+			temp.str = ("V_" + std::to_string(data._ste->getOffset()));
+			//out3AC << source << std::endl; 
 			temp.ste = *(data._ste);
 			return temp;
 		break;
@@ -61,7 +61,6 @@ threeAC leaf_Node::gen3AC(){
 			return temp;  
 		break;
 	} 
-
 }
 
 /*

@@ -23,7 +23,9 @@ This is the header file for the base AST node class of our C compiler.
 // externs
 extern int intTicket; 
 extern std::string intTC(); 
-extern std::ofstream out3AC; 
+extern std::ofstream out3AC;
+extern std::vector<std::string> sourceCode;
+extern int yylineno;  
 
 // threeAC_Data
 typedef struct {
@@ -38,8 +40,9 @@ class astNode {
         astNode();
 
         // class functions 
+        /*
 	    void setSourceCode( std::vector<std::string> src );
-        std::vector<std::string> getSourceCode() const;
+        std::vector<std::string> getSourceCode() const; */
 
         std::string getName() const;
 
@@ -52,7 +55,7 @@ class astNode {
 
     protected:
         // data members 
-        std::vector<std::string> sourceCode;
+        std::string source;
         std::string name;
         static int idNum;
 };

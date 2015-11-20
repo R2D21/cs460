@@ -15,8 +15,7 @@ Function: declarator_Node(astNode* A, astNode* B) (constructor)
 
 Description: 
 */
-declarator_Node::declarator_Node(astNode* A, astNode* B) : astNode(){
-
+declarator_Node::declarator_Node(astNode* A, astNode* B) : astNode(){ 
 	exprA = A;
 	exprB = B;
 	name = "declarator_Node";

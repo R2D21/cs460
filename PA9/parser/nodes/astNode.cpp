@@ -17,6 +17,10 @@ Description:
 */
 astNode::astNode(){
 	idNum++;
+	//std::cout << "before ast" << std::endl; 
+	//source = sourceCode[yylineno - 1];
+	//std::cout << "source code: " << source << std::endl; 
+	//std::cout << "after ast" << std::endl; 
 }
 
 
@@ -25,19 +29,22 @@ Function: setSourceCode()
 
 Description: 
 */
+/*
 void astNode::setSourceCode( std::vector<std::string> src ){
 
 }
-
+*/
 
 /*
 Function: getSourceCode()  
 
 Description: return source code
 */
+/*
 std::vector<std::string> astNode::getSourceCode() const{
 
 }
+*/
 
 /*
 Function: getName()  

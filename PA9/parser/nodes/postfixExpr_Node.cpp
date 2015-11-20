@@ -51,14 +51,14 @@ threeAC postfixExpr_Node::gen3AC(){
 
 	temp = exprA->gen3AC();
 	if (temp.ste.isArray()) {
-
+		threeAC tempB = exprB->gen3AC(); 
 		// 2D array
 		std::vector<int> arrDims = temp.ste.getArrayDimensions();
 		if (arrDims.size() > 1) {
 			std::string t1 = intTC();
 			std::string t2 = intTC(); 
 			std::string offset = intTC(); 
-			out3AC << ("MUL " + t1 + " " + exprB->gen3AC().str + " 4") << std::endl;
+			out3AC << ("MUL " + t1 + " " + tempB.str + " 4") << std::endl;
 			out3AC << ("MUL " + t2 + " " + t1 + " " + std::to_string(arrDims[1])) << std::endl;
 			out3AC << ("ADD " + offset + " " + temp.str + " " + t2) << std::endl;
 			reg = offset; 
@@ -73,8 +73,7 @@ threeAC postfixExpr_Node::gen3AC(){
 		else if (arrDims.size() == 1) {
 			std::string t1 = intTC();
 			std::string t2 = intTC();
-
-			out3AC << ("MUL " + t1 + " " + exprB->gen3AC().str  + " 4") << std::endl;
+			out3AC << ("MUL " + t1 + " " + tempB.str  + " 4") << std::endl;
 			out3AC << ("ADD " + t2 + " " + temp.str + " " + t1) << std::endl;
 			reg = t2;
 		}

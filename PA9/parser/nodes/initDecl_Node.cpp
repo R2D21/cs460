@@ -16,11 +16,10 @@ Function: initDecl_Node(astNode* A, astNode* B) (constructor)
 Description: 
 */
 initDecl_Node::initDecl_Node(astNode* A, astNode* B) : astNode(){
-
 	exprA = A;
 	exprB = B;
 	name = "initDecl_Node";
-	id = idNum;
+	id = idNum; 
 }
 
 
