@@ -1,6 +1,9 @@
+//int x=0; 
+//int y; 
+
 void main(){
-	int a = 5;
-	int b = 1;
-	int c = 2;
-	c = b + a - c;
+	int i = 1;
+	for(i = 22; i < 42; i++) {
+		i = 100; 
+	}
 }

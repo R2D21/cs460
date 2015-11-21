@@ -7,9 +7,13 @@
 #include "funcDef_Node.h" (come back to this maybe)
 #include "initDecl_Node.h" (not tested)
 #include "initializer_Node.h" (not tested)
-#include "iterStat_Node.h"
-#include "paramDecl_Node.h"
+#include "iterStat_Node.h" (good?)
+#include "paramDecl_Node.h" (come back to this maybe)
 #include "selectionStat_Node.h"
 #include "statList_Node.h"
 #include "translationUnit_Node.h"
 #include "typeQualifierList_Node.h"
+
+
+todo:
+go back to base case thingy and check for exprA != null first 

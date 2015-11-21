@@ -53,12 +53,14 @@ threeAC unaryExpr_Node::gen3AC(){
 		temp = exprB->gen3AC();
 		reg = intTC(); 
 		out3AC << ("ADD " + reg + " " + temp.str + " 1") << std::endl;
+		out3AC << ("ASSIGN " + temp.str + " " + reg) << std::endl; 
 	}
 
 	else if (decOp) {
 		temp = exprB->gen3AC();
 		reg = intTC(); 
 		out3AC << ("SUB " + reg + " " + temp.str + " 1") << std::endl;
+		out3AC << ("ASSIGN " + temp.str + " " + reg) << std::endl; 
 	}
 
 	else if ( (exprB != NULL) && (dynamic_cast <unaryOp_Node*> (exprA))) {

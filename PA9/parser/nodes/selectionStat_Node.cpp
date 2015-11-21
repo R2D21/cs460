@@ -17,7 +17,6 @@ Function: selectionStat_Node(astNode* A, astNode* B) (constructor)
 Description: 
 */
 selectionStat_Node::selectionStat_Node(astNode* A, astNode* B, astNode* C) : astNode(){
-
     exprA = A;
     exprB = B;
     exprC = C;
@@ -42,6 +41,7 @@ Description:
 */
 threeAC selectionStat_Node::gen3AC(){
     std::cout << "Generate 3AC for selection stat node" << std::endl;
+    
 }
 
 /*

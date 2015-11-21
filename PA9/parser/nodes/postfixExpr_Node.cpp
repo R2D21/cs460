@@ -81,14 +81,18 @@ threeAC postfixExpr_Node::gen3AC(){
 
 	// check for increment
 	if (incOp) {
-		reg = intTC(); 
-		out3AC << ("ADD " + reg + " " + exprA->gen3AC().str + " 1") << std::endl;
+		reg = intTC();
+		temp = exprA->gen3AC();
+		out3AC << ("ADD " + reg + " " + temp.str + " 1") << std::endl;
+		out3AC << ("ASSIGN " + temp.str + " " + reg) << std::endl;   
 	} 
 
 	// check for decrement
 	else if (decOp) {
 		reg = intTC(); 
-		out3AC << ("SUB " + reg + " " + exprA->gen3AC().str + " 1") << std::endl; 
+		temp = exprA->gen3AC();
+		out3AC << ("SUB " + reg + " " + temp.str + " 1") << std::endl;
+		out3AC << ("ASSIGN " + temp.str + " " + reg) << std::endl;   
 	} 
 
 	// check for array subscript - this checks to see if exprB points to an expr_Node

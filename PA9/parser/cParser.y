@@ -2127,15 +2127,15 @@ expression_statement
 compound_statement
 	: LCURL RCURL 
  		{
- 			// create ast node and assign attributes
-			$$ = new node();
-			$$->astPtr = new compoundStat_Node(NULL, NULL);
-
 			// output data 
 			if(YFLAG){
 				outY << "compound_statement : LCURL RCURL;" << std::endl;
 				outG << "compound_statement -> {LCURL RCURL};" << std::endl;
 			}
+ 			
+ 			// create ast node and assign attributes
+			$$ = new node();
+			$$->astPtr = new compoundStat_Node(NULL, NULL);
 
 			// register data for graphviz
 			registerNode(outA, $$->astPtr);
@@ -2151,17 +2151,17 @@ compound_statement
 		}						
 	| LCURL open_curl set_lookup statement_list RCURL close_curl
  		{
- 			// create ast node and assign attributes
-			$$ = new node();
-			$$->val = $1->val;
-			$$->valType = $1->valType;
-			$$->astPtr = new compoundStat_Node(NULL, $4->astPtr);
-
 			// output data 
  			if(YFLAG){
 				outY << "compound_statement : LCURL statement_list RCURL;" << std::endl;
 				outG << "compound_statement -> {LCURL statement_list RCURL};" << std::endl;
 			}
+
+ 			// create ast node and assign attributes
+			$$ = new node();
+			$$->val = $1->val;
+			$$->valType = $1->valType;
+			$$->astPtr = new compoundStat_Node(NULL, $4->astPtr);
 
 			// register data for graphviz
 			registerNode(outA, $$->astPtr);
@@ -2285,17 +2285,17 @@ close_curl
 statement_list
 	: statement
  		{
- 			// create ast node and assign attributes
-			$$ = new node();
-			$$->val = $1->val;
-			$$->valType = $1->valType;
-			$$->astPtr = new statList_Node($1->astPtr, NULL);
-
 			// output data 
 			if(YFLAG){
 				outY << "statement_list : statement;" << std::endl;
 				outG << "statement_list -> statement;" << std::endl;
 			}	
+
+ 			// create ast node and assign attributes
+			$$ = new node();
+			$$->val = $1->val;
+			$$->valType = $1->valType;
+			$$->astPtr = new statList_Node($1->astPtr, NULL);
 			
 			// register data for graphviz			
 			registerNode(outA, $$->astPtr);
@@ -2306,17 +2306,17 @@ statement_list
 		}
 	| statement_list statement
  		{
-			// create ast node and assign attributes
-			$$ = new node();
-			$$->val = $1->val;
-			$$->valType = $1->valType;
-			$$->astPtr = new statList_Node($1->astPtr, $2->astPtr);
-
 			// output data 
 			if(YFLAG){
 				outY << "statement_list : statement_list statement;" << std::endl;
 				outG << "statement_list -> {statement_list statement};" << std::endl;
 			}
+
+			// create ast node and assign attributes
+			$$ = new node();
+			$$->val = $1->val;
+			$$->valType = $1->valType;
+			$$->astPtr = new statList_Node($1->astPtr, $2->astPtr);
 
 			// register data for graphviz
 			registerNode(outA, $$->astPtr);
@@ -2459,7 +2459,7 @@ iteration_statement
  		{
  			// create ast node and assign attributes
 			$$ = new node();
-			$$->astPtr = new iterStat_Node($3->astPtr, NULL, NULL, $5->astPtr, false);
+			$$->astPtr = new iterStat_Node(NULL, $3->astPtr, NULL, $5->astPtr, false);
 
 			// output data 
 			if(YFLAG){
