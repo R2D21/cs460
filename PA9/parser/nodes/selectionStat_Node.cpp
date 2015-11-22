@@ -41,7 +41,39 @@ Description:
 */
 threeAC selectionStat_Node::gen3AC(){
     std::cout << "Generate 3AC for selection stat node" << std::endl;
-    
+    threeAC temp;
+    std::string cond = intTC();
+    std::string labelFalse = labelTC();
+    std::string labelEnd = labelTC(); 
+
+    if (exprA != NULL) {
+        temp = exprA->gen3AC();
+        out3AC << ("ASSIGN " + cond + " " + temp.str) << std::endl;
+        
+        // no else 
+        if (exprC == NULL) {
+            labelFalse = labelEnd;
+        } 
+
+        // statements inside if
+        out3AC << ("BREQ " + cond + " 0 " + labelFalse) << std::endl;
+        if (exprB != NULL) {
+            exprB->gen3AC(); 
+        } 
+
+        // statements inside else 
+        if (exprC != NULL) {
+            out3AC << ("BR " + labelEnd) << std::endl;
+            out3AC << labelFalse << std::endl;  
+            exprC->gen3AC();
+        }
+
+        out3AC << labelEnd << std::endl; 
+    }
+
+    else {
+        out3AC << ("ASSIGN " + cond + " 1") << std::endl; 
+    }
 }
 
 /*

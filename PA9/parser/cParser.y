@@ -2045,6 +2045,7 @@ statement
 		}
 	| selection_statement
  		{
+ 			$1->astPtr->gen3AC(); 
  			// output data 
 			if(YFLAG){
 				outY << "statement : selection_statement;" << std::endl;
@@ -2053,7 +2054,7 @@ statement
 		}
 	| iteration_statement
  		{
- 			$1->astPtr->gen3AC(); 
+ 
  			// output data 
 			if(YFLAG){
 				outY << "statement : iteration_statement;" << std::endl;
