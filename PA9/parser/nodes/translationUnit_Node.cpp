@@ -17,7 +17,6 @@ Function: translationUnit_Node(astNode* A, astNode* B) (constructor)
 Description: 
 */
 translationUnit_Node::translationUnit_Node(astNode* A, astNode* B) : astNode(){
-
 	exprA = A;
 	exprB = B;
 	name = "translationUnit_Node";
@@ -41,6 +40,19 @@ Description:
 */
 threeAC translationUnit_Node::gen3AC(){
 	std::cout << "Generate 3AC for translation unit node" << std::endl;
+	threeAC temp; 
+	temp.str = "";
+	if (exprA != NULL && exprB == NULL) {
+		temp = exprA->gen3AC();
+		return temp; 
+	}
+	 
+	else if (exprA != NULL && exprB != NULL){
+		temp = exprA->gen3AC();
+		exprB->gen3AC(); 
+	}
+
+	return temp;
 }
 
 /*

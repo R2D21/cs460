@@ -175,7 +175,8 @@ start_unit
 		{
 			table.popLevelOff();
 			outG << "start_unit -> translation_unit;" << std::endl;
-			astRoot = $1->astPtr; 
+			astRoot = $1->astPtr;
+			astRoot->gen3AC(); 
 		}
 	;
 
@@ -1054,7 +1055,7 @@ init_declarator
 			$$->val = $1->val;
 			$$->valType = $1->valType;
 			$$->astPtr = new initDecl_Node($1->astPtr, $4->astPtr);
-			$$->astPtr->gen3AC(); 
+			//$$->astPtr->gen3AC(); 
 			 
 			// output data
  			if(YFLAG){
@@ -1297,10 +1298,11 @@ direct_declarator
 			}
 
 			// create ast node
+			/*
 			$$ = new node();
 			$$->val = $1->val;
-			$$->valType = $1->valType;
-			$$->astPtr = new directDecl_Node($1->astPtr, NULL);
+			$$->valType = $1->valType; */
+			$$ = $1;
 
 			// register data for graphviz
 			registerNode(outA, $$->astPtr);
@@ -2036,7 +2038,6 @@ statement
 		}
 	| expression_statement
  		{
- 			//$1->astPtr->gen3AC(); 
  			// output data 
 			if(YFLAG){
 				outY << "statement : expression_statement;" << std::endl;
@@ -2045,7 +2046,6 @@ statement
 		}
 	| selection_statement
  		{
- 			$1->astPtr->gen3AC(); 
  			// output data 
 			if(YFLAG){
 				outY << "statement : selection_statement;" << std::endl;
@@ -3562,7 +3562,6 @@ additive_expression
 			$$->val = $1->val;
 			$$->valType = $1->valType;
 	 		$$->astPtr = new multExpr_Node($1->astPtr, NULL, -1);
-	 		//$$->astPtr->gen3AC();
 
 	 		// output data 
 			if(YFLAG){
@@ -3860,33 +3859,6 @@ unary_expression
 	 			outG << "unary_expression -> {INC_OP cast_expression};" << std::endl;
 			}
 
-			/*
- 			node* n = $2->val._ste->getIdentifierValue();
- 			switch(n->valType) {
- 				case LONG_LONG_T:
-				case LONG_T:
-				case INT_T:
-				case SHORT_T:
- 					n->val._num++;
- 					break; 
-
- 				case FLOAT_T:
-				case DOUBLE_T:
-				case LONG_DOUBLE_T:
- 					n->val._dec++;
- 					break;
-
- 				case CHAR_T:
- 					n->val._char++;
- 					break;
-
- 				default:
- 					yyerror("Unable to increment.");
- 					break;
- 			}
- 			$2->val._ste->setIdentifierValue(*n);
-			*/
-			
 			// register data for graphviz	 		
 			registerNode(outA, $$->astPtr);
  			outputNode(outA, $$->astPtr);
@@ -3911,34 +3883,7 @@ unary_expression
  			if(YFLAG){
 				outY << "unary_expression : DEC_OP unary_expression;" << std::endl;
 	 		outG << "unary_expression -> {DEC_OP cast_expression};" << std::endl;
-			}
-
-			/*
- 			node* n = $2->val._ste->getIdentifierValue();
- 			switch(n->valType) {
- 				case LONG_LONG_T:
-				case LONG_T:
-				case INT_T:
-				case SHORT_T:
- 					n->val._num--;
- 					break; 
-
- 				case FLOAT_T:
-				case DOUBLE_T:
-				case LONG_DOUBLE_T:
- 					n->val._dec--;
- 					break;
-
- 				case CHAR_T:
- 					n->val._char--;
- 					break;
-
- 				default:
- 					yyerror("Unable to decrement.");
- 					break;
- 			}
- 			$2->val._ste->setIdentifierValue(*n);
-			*/ 			
+			}		
 
  			// register data for graphviz
 			registerNode(outA, $$->astPtr);
@@ -3965,33 +3910,6 @@ unary_expression
 				outY << "unary_expression : unary_operator cast_expression;" << std::endl;
 	 			outG << "unary_expression -> {unary_operator cast_expression}" << std::endl;
 			}		
-
-			// check for a negative sign
-			/* 
- 			if(unaryOperatorChosen == MINUS) { 
-	 			switch($$->valType) {
-	 				case LONG_LONG_T:
-	 					$$->val._num *= -1;
-	 					
-						$$ = new node();
-			 			$$->valType = $2->valType;
-			 			$$->val = $2->val;
-	 					break; 
-
-	 				case LONG_DOUBLE_T:
-	  					$2->val._dec *= -1;
-						$$ = new node();
-			 			$$->valType = $2->valType;
-			 			$$->val = $2->val; 
-	 					break; 
-
-	 				default:
-	 					std::cout << "cast_expression is ???" << std::endl; 
-	 					break; 
-	 			}
-	 			unaryOperatorChosen = -1;
-	 		}
-	 		*/
 
 			// register data for graphviz
 			registerNode(outA, $$->astPtr);
@@ -4527,6 +4445,7 @@ identifier
 
 			// create ast node and assign attributes
 			$$ = new node(); 
+			std::cout << "yacc file name: " << $1->val._ste->getIdentifierName() << std::endl; 
 			$$->astPtr = new leaf_Node($1->val, $1->valType, $1->val._ste->getIdentifierName());
 			$$->val = $1->val;
 			$$->valType = $1->valType;

@@ -40,7 +40,9 @@ Description:
 */
 threeAC directDecl_Node::gen3AC(){
 	std::cout << "Generate 3AC for direct declaration node" << std::endl;
-	return exprA->gen3AC(); 
+	threeAC temp = exprA->gen3AC(); 
+	std::cout << "In direct decl : " << temp.ste.getIdentifierName() << std::endl;
+	return temp;
 	/*
 	threeAC temp;
 	temp.str = ""; 

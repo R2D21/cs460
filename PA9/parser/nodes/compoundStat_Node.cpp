@@ -38,16 +38,32 @@ Description:
 */
 threeAC compoundStat_Node::gen3AC(){
 	std::cout << "Generate 3AC for compound stat node" << std::endl;
-	if (exprA != NULL) {
-		exprA->gen3AC(); 
+	threeAC temp; 
+	temp.str = "";
+
+	// nothing in {}
+	if (exprA == NULL && exprB == NULL) {
+		return temp; 
 	}
 
-	if (exprB != NULL) {
+	// declarations but no use (stupid)
+	else if (exprA != NULL && exprB == NULL) {
+		temp = exprA->gen3AC();
+		return temp; 
+	}
+	
+	// statements but no declarations 
+	else if (exprA == NULL && exprB != NULL) {
+		temp = exprB->gen3AC();
+		return temp; 
+	}
+
+	// statements and declarations 
+	else if (exprA != NULL && exprB != NULL){
+		temp = exprA->gen3AC();
 		exprB->gen3AC(); 
 	}
 
-	threeAC temp;
-	temp.str = ""; 
 	return temp; 
 }
 

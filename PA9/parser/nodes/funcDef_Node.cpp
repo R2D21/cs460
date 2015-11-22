@@ -40,7 +40,10 @@ Function: gen3AC()
 Description: 
 */
 threeAC funcDef_Node::gen3AC(){
-	std::cout << "Generate 3AC for expression node" << std::endl;
+	std::cout << "Generate 3AC for function definition node" << std::endl;
+	threeAC temp;
+	out3AC << "label is :" << exprB->gen3AC().ste.getIdentifierName() << std::endl; 
+	return temp; 
 }
 
 /*

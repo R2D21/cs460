@@ -39,6 +39,7 @@ class leaf_Node : public astNode {
         vals data;
         int dataType;
         int id;
+        symbolTableEntry steTemp;
 };
 
 #endif // LEAF_NODE_H

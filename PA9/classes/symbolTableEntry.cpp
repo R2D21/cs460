@@ -26,7 +26,7 @@ symbolTableEntry::symbolTableEntry() {
 	offset = 0;
 
 	// entry data attributes
-	identifierName = "";
+	identifierName = "default constructor!";
 	identifierType.clear(); 
 	lineNum = -1;
 	isSigned = false;
@@ -82,11 +82,14 @@ symbolTableEntry::symbolTableEntry(std::string name, int lineNumber) {
 
 */
 symbolTableEntry& symbolTableEntry::operator=(const symbolTableEntry& other) {
+	std::cout << "operator= before" << std::endl; 
 	if (this != &other) {
 		entryVal = other.entryVal;
 		entryType = other.entryType;
 		offset = other.offset;
 		identifierName = other.identifierName;
+		identifierName = "wtf is happening?";
+		std::cout << "operator= name: " << other.identifierName << std::endl; 
 		identifierType = other.identifierType;
 		lineNum = other.lineNum;
 		isSigned = other.isSigned;
@@ -99,6 +102,8 @@ symbolTableEntry& symbolTableEntry::operator=(const symbolTableEntry& other) {
 		parameters = other.parameters;
 	}
 
+
+	std::cout << "operator= after" << std::endl; 
 	return *this;
 }
 
