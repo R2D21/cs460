@@ -41,6 +41,7 @@ threeAC expr_Node::gen3AC(){
 	std::cout << "Generate 3AC for expression node" << std::endl;
 	threeAC temp; 
 	temp.str = "";
+	out3AC << source << std::endl; 
 	if (exprA != NULL && exprB == NULL) {
 		temp = exprA->gen3AC();
 		return temp; 

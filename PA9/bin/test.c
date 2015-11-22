@@ -1,9 +1,10 @@
-//int x=0; 
-//int y; 
+int x;
+int y;
 
 void main(){
 	int i = 1;
-	for(i = 22; i < 42; i++) {
-		i = 100; 
-	}
+	i++;
+	i++;
+	i--;
+	i += 2;
 }

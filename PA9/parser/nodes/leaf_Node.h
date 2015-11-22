@@ -31,7 +31,6 @@ class leaf_Node : public astNode {
         threeAC gen3AC();
         void print(int = 0);
 
-
         // destructor 
         ~leaf_Node();
 
@@ -39,7 +38,6 @@ class leaf_Node : public astNode {
         vals data;
         int dataType;
         int id;
-        symbolTableEntry steTemp;
 };
 
 #endif // LEAF_NODE_H

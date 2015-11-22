@@ -42,7 +42,9 @@ Description:
 threeAC funcDef_Node::gen3AC(){
 	std::cout << "Generate 3AC for function definition node" << std::endl;
 	threeAC temp;
-	out3AC << "label is :" << exprB->gen3AC().ste.getIdentifierName() << std::endl; 
+	out3AC << exprB->getName() << std::endl;
+	out3AC << source << std::endl; 
+	exprD->gen3AC(); 
 	return temp; 
 }
 

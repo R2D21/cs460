@@ -18,7 +18,7 @@ Description:
 directDecl_Node::directDecl_Node(astNode* A, astNode* B) : astNode(){
 	exprA = A;
 	exprB = B;
-	name = "directDecl_Node";
+	name = A->getName();
 	id = idNum;
 }
 
@@ -41,7 +41,7 @@ Description:
 threeAC directDecl_Node::gen3AC(){
 	std::cout << "Generate 3AC for direct declaration node" << std::endl;
 	threeAC temp = exprA->gen3AC(); 
-	std::cout << "In direct decl : " << temp.ste.getIdentifierName() << std::endl;
+	std::cout << "In direct decl : " << exprA->getName() << std::endl;
 	return temp;
 	/*
 	threeAC temp;

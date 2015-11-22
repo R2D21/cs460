@@ -17,7 +17,7 @@ Description:
 */
 declarator_Node::declarator_Node(astNode* A) : astNode(){ 
 	exprA = A;
-	name = "declarator_Node";
+	name = A->getName();
 	id = idNum;
 }
 

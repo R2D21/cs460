@@ -87,9 +87,11 @@ symbolTableEntry& symbolTableEntry::operator=(const symbolTableEntry& other) {
 		entryVal = other.entryVal;
 		entryType = other.entryType;
 		offset = other.offset;
-		identifierName = other.identifierName;
 		identifierName = "wtf is happening?";
-		std::cout << "operator= name: " << other.identifierName << std::endl; 
+		identifierName = other.identifierName;
+		
+		std::cout << "operator= other.name: " << other.identifierName << std::endl;
+		std::cout << "operator= name: " << identifierName << std::endl;  
 		identifierType = other.identifierType;
 		lineNum = other.lineNum;
 		isSigned = other.isSigned;
