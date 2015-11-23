@@ -21,6 +21,7 @@ funcDef_Node::funcDef_Node(astNode* A, astNode* B, astNode* C, astNode* D) : ast
 	exprC = C;
 	exprD = D;
 	name = "funcDef_Node";
+	source = exprB->getSourceCode(); 
 	id = idNum;
 }
 
@@ -42,7 +43,7 @@ Description:
 threeAC funcDef_Node::gen3AC(){
 	std::cout << "Generate 3AC for function definition node" << std::endl;
 	threeAC temp;
-	out3AC << exprB->getName() << std::endl;
+	out3AC << "Label_" << exprB->getName() << std::endl;
 	out3AC << source << std::endl; 
 	exprD->gen3AC(); 
 	return temp; 

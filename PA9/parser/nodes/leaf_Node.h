@@ -38,6 +38,8 @@ class leaf_Node : public astNode {
         vals data;
         int dataType;
         int id;
+        int myScope;
+        int myOffset;  
 };
 
 #endif // LEAF_NODE_H

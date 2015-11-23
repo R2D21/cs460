@@ -17,14 +17,18 @@ leaf_Node::leaf_Node(const vals& d, int dt, std::string n) : astNode(){
 	data = d;
 	dataType = dt;
 	name = n;
-	//std::cout << "leaf_Node constructor name: " << name << std::endl; 
-	if (dataType == STE_T) {
-
-		//std::cout << "leaf_Node constructor name from data._ste: " << data._ste->getIdentifierName() << std::endl;
-		//steTemp = *(data._ste);
-		//std::cout << "leaf_Node constructor name from steTemp: " << steTemp.getIdentifierName() << std::endl;
-	}
 	id = idNum;
+	myOffset = 0;
+	if (dataType == STE_T) {
+		myScope = data._ste->getScopeLevel();
+		myOffset = data._ste->getOffset(); 
+	} 
+	else {
+		myScope = -1; 
+	}
+
+			std::cout << std::endl << "Hello my name is: " << name;
+		std::cout << " i belong to scope #: " << myScope << std::endl; 
 }
 
 /*
@@ -56,11 +60,12 @@ threeAC leaf_Node::gen3AC(){
 		break;
 
 		case STE_T:
-			//std::cout << "Inside leaf node STE: " << std::endl; 
-			//std::cout << "Inside leaf node STE case: " << steTemp.getIdentifierName() << std::endl; 
-			temp.str = ("V_" + std::to_string(data._ste->getOffset()));
-			//temp.ste = *steTemp;
-			//std::cout << "Inside leaf node STE case displaying temp: " << temp.ste.getIdentifierName() << std::endl;
+			if (myScope == 0) {
+				temp.str = ("GL_V_" + std::to_string(myOffset));
+			}
+			else {
+				temp.str = ("LOC_V_" + std::to_string(myOffset));
+			}
 			return temp;
 		break;
 
@@ -70,6 +75,10 @@ threeAC leaf_Node::gen3AC(){
 			return temp;  
 		break;
 	} 
+
+		/*
+	temp.str = "";
+	return temp; */
 }
 
 /*

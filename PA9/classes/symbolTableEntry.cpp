@@ -21,6 +21,7 @@ All data attributes are initialized to default values.
 symbolTableEntry::symbolTableEntry() {
 	// entry data info
 	entryType = -1;
+	myScope = -1; 
 
 	// offset stuff
 	offset = 0;
@@ -57,6 +58,7 @@ with a specified line number.
 symbolTableEntry::symbolTableEntry(std::string name, int lineNumber) {
 	// entry data info
 	entryType = -1;
+	myScope = -1;
 
 	// entry data attributes
 	identifierName = name;
@@ -81,17 +83,12 @@ symbolTableEntry::symbolTableEntry(std::string name, int lineNumber) {
 /*
 
 */
-symbolTableEntry& symbolTableEntry::operator=(const symbolTableEntry& other) {
-	std::cout << "operator= before" << std::endl; 
+symbolTableEntry& symbolTableEntry::operator=(const symbolTableEntry& other) { 
 	if (this != &other) {
 		entryVal = other.entryVal;
 		entryType = other.entryType;
 		offset = other.offset;
-		identifierName = "wtf is happening?";
-		identifierName = other.identifierName;
-		
-		std::cout << "operator= other.name: " << other.identifierName << std::endl;
-		std::cout << "operator= name: " << identifierName << std::endl;  
+		identifierName = other.identifierName; 
 		identifierType = other.identifierType;
 		lineNum = other.lineNum;
 		isSigned = other.isSigned;
@@ -103,9 +100,6 @@ symbolTableEntry& symbolTableEntry::operator=(const symbolTableEntry& other) {
 		isFunc = other.isFunc;
 		parameters = other.parameters;
 	}
-
-
-	std::cout << "operator= after" << std::endl; 
 	return *this;
 }
 
@@ -469,6 +463,25 @@ void symbolTableEntry::printIdentifierValue() const {
 			break;
 	} 
 }
+
+/*
+Function: getScopeLevel() const
+
+Description: Allows the caller to receive the scope level that 
+the current symbol table entry is located. 
+*/
+int symbolTableEntry::getScopeLevel() const {
+	return myScope; 
+}
+
+/*
+Function: setScopeLevel() const
+
+Description: Allows the caller to set the scope level. 
+*/
+void symbolTableEntry::setScopeLevel(int scopeLevel) {
+	myScope = scopeLevel; 
+} 
 
 /*
 Function: isFunction() const

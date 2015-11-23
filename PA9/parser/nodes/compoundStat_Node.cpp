@@ -61,7 +61,8 @@ threeAC compoundStat_Node::gen3AC(){
 	// statements and declarations 
 	else if (exprA != NULL && exprB != NULL){
 		temp = exprA->gen3AC();
-		exprB->gen3AC(); 
+		exprB->gen3AC();
+		 
 	}
 
 	return temp; 

@@ -112,6 +112,9 @@ threeAC iterStat_Node::gen3AC(){
         out3AC << ("BR " + label1) << std::endl; 
         out3AC << label2 << std::endl; 
     }
+    threeAC temp;
+    temp.str = "";
+    return temp;
 }
 
 /*

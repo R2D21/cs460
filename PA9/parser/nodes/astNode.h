@@ -18,6 +18,7 @@ This is the header file for the base AST node class of our C compiler.
 #include <vector>
 #include <string>
 #include <fstream>
+#include <unordered_set>
 #include "../../classes/symbolTableEntry.h"
 
 // externs
@@ -26,6 +27,8 @@ extern std::string intTC();
 extern std::string labelTC(); 
 extern std::ofstream out3AC;
 extern std::vector<std::string> sourceCode;
+//extern std::string sourceHistory; 
+extern std::unordered_set<std::string> sourceHistory;
 extern int yylineno;  
 
 // threeAC_Data

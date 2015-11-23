@@ -13,6 +13,7 @@ This is the main file for the front end of our ANSI C compiler.
 #include <fstream>
 #include "../classes/symbolTable.h"
 #include <stdlib.h>
+#include <unordered_set>
 using namespace std;
 
 #include "optionparser.h"
@@ -36,9 +37,6 @@ const option::Descriptor usage[] =
 	{0,0,0,0,0,0}
 };
 
-
-
-
 // externs 
 extern int yyparse();
 extern FILE* yyin; 
@@ -54,6 +52,7 @@ extern symbolTable table;
 extern std::string currentSourceCodeLine; 
 extern int yylineno;
 extern bool endline;
+unordered_set<std::string> sourceHistory; // = ""; 
 vector<string> sourceCode;
 
 int main(int argc, char* argv[]) {
@@ -173,6 +172,7 @@ int main(int argc, char* argv[]) {
 	yyparse();  
 
 	cout << "Parse complete" << endl;
+	//sourceHistory.clear(); 
 
 	if (LFLAG) {
 		outL.close();

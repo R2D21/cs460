@@ -1303,13 +1303,13 @@ direct_declarator
 			$$->val = $1->val;
 			$$->valType = $1->valType; */
 			$$ = $1;
-
+/*
 			// register data for graphviz
 			registerNode(outA, $$->astPtr);
 	 		outputNode(outA, $$->astPtr);
  			outA << " -> ";
  			outputNode(outA, $1->astPtr);
- 			outA << ";\n";
+ 			outA << ";\n";*/
 		}
 	| LPAREN declarator RPAREN
  		{
@@ -4445,7 +4445,7 @@ identifier
 
 			// create ast node and assign attributes
 			$$ = new node(); 
-			std::cout << "yacc file name: " << $1->val._ste->getIdentifierName() << std::endl; 
+			std::cout << std::endl << "yacc file OFFFSET STUFFFFFF: " << $1->val._ste->getOffset() << std::endl; 
 			$$->astPtr = new leaf_Node($1->val, $1->valType, $1->val._ste->getIdentifierName());
 			$$->val = $1->val;
 			$$->valType = $1->valType;
@@ -4480,6 +4480,7 @@ std::string intTC() {
 }
 
 std::string labelTC() {
+	std::cout << std::endl << std::endl << labelCount << std::endl << std::endl; 
 	return "Label_" + std::to_string(labelCount++);
 }
 

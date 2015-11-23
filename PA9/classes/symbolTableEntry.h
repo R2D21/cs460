@@ -68,6 +68,8 @@ class symbolTableEntry {
         bool setIdentifierValue(const node& src, bool& warningFlag, std::string& message);
         node* getIdentifierValue() const; 
         void printIdentifierValue() const;
+        int getScopeLevel() const;
+        void setScopeLevel(int scopeLevel); 
 
         // functions required if the entry is a function
         bool isFunction() const;
@@ -109,6 +111,7 @@ class symbolTableEntry {
         // the entry
         entryVals entryVal; 
         int entryType;
+        int myScope; 
 
         // offset into activation frame
         int offset; 

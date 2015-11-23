@@ -307,7 +307,8 @@ void symbolTable::writeToScreen() {
 }
 
 void symbolTable::setOffset(int oset) {
-	currentOffset = oset; 
+	currentOffset = oset;
+	std::cout << "CURRENT OFFSET: " << currentOffset << std::endl; 
 }
 
 int symbolTable::getOffset() const {
@@ -315,6 +316,7 @@ int symbolTable::getOffset() const {
 }
 
 void symbolTable::incrementOffset(int inc) {
+	std::cout << std::endl << "incrementOffset getting called" << std::endl << std::endl; 
 	currentOffset += 4*inc; 
 }
 

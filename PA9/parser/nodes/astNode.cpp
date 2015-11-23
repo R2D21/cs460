@@ -27,7 +27,7 @@ Function: getSourceCode()
 Description: return source code
 */
 std::string astNode::getSourceCode() const{
-
+	return source;
 }
 
 /*
