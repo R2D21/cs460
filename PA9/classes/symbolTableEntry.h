@@ -45,7 +45,7 @@ typedef union {
     char _char;
     long long _num;
     long double _dec; // decimal
-    char _str[256];    
+    //char _str[256];    
 } entryVals; 
 
 // typdefs to reduce keystrokes

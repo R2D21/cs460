@@ -309,17 +309,19 @@ function_definition
 		}
 	| declaration_specifiers declarator compound_statement
 		{
+			// output data 
+			if(YFLAG){
+				outY << "function_definition : declaration_specifiers declarator compound_statement;" << std::endl;
+				outG << "function_definition -> {declaration_specifiers declarator compound_statement};" << std::endl;
+			}
+
 			// create ast node 
 			$$ = new node();
 			$$->val = $1->val;
 			$$->valType = $1->valType;
 			$$->astPtr = new funcDef_Node($1->astPtr, $2->astPtr, NULL, $3->astPtr);
 
-			// output data 
-			if(YFLAG){
-				outY << "function_definition : declaration_specifiers declarator compound_statement;" << std::endl;
-				outG << "function_definition -> {declaration_specifiers declarator compound_statement};" << std::endl;
-			}
+
 
 			// register data for graphviz
 			registerNode(outA, $$->astPtr);
@@ -338,17 +340,19 @@ function_definition
 		}
 	| declaration_specifiers declarator declaration_list compound_statement
 		{
+			// output data 
+			if(YFLAG){
+				outY << "function_definition : declaration_specifiers declarator declaration_list compound_statement;" << std::endl;
+				outG << "function_definition -> {declaration_specifiers declarator declaration_list compound_statement};" << std::endl;
+			}
+
 			// create ast node 
 			$$ = new node();
 			$$->val = $1->val;
 			$$->valType = $1->valType;
 			$$->astPtr = new funcDef_Node($1->astPtr, $2->astPtr, $3->astPtr, $4->astPtr);
 
-			// output data 
-			if(YFLAG){
-				outY << "function_definition : declaration_specifiers declarator declaration_list compound_statement;" << std::endl;
-				outG << "function_definition -> {declaration_specifiers declarator declaration_list compound_statement};" << std::endl;
-			}
+
 
 			// register data for graphviz
 			registerNode(outA, $$->astPtr);
@@ -372,18 +376,19 @@ function_definition
 */
 declaration
 	: declaration_specifiers SEMI
-		{
+		{	
+			// output data
+			if(YFLAG){
+				outY << "declaration : declaration_specifiers SEMI;" << std::endl;
+				outG << "declaration -> {declaration_specifiers SEMI};" << std::endl;
+			}		
 			// create ast node
 			$$ = new node();
 			$$->val = $1->val;
 			$$->valType = $1->valType;
 			$$->astPtr = new declaration_Node($1->astPtr, NULL);
 
-			// output data
-			if(YFLAG){
-				outY << "declaration : declaration_specifiers SEMI;" << std::endl;
-				outG << "declaration -> {declaration_specifiers SEMI};" << std::endl;
-			}			
+	
 
 			// register data for graphviz
 			registerNode(outA, $$->astPtr);
@@ -1714,7 +1719,13 @@ parameter_list
 
 parameter_declaration
 	: declaration_specifiers declarator
- 		{
+ 		{	
+ 			// output data
+			if(YFLAG){
+				outY << "parameter_declaration : declaration_specifiers declarator;" << std::endl;
+				outG << "parameter_declaration -> {declaration_specifiers declarator};" << std::endl;
+			}
+
  			// store integer data types of parameters 
  			std::vector<int> formalParamType;
  			formalParamType = $2->val._ste->getIdentifierType_Vector();
@@ -1726,11 +1737,7 @@ parameter_declaration
 			$$->valType = $1->valType;
 			$$->astPtr = new paramDecl_Node($1->astPtr, $2->astPtr);
 
-			// output data
-			if(YFLAG){
-				outY << "parameter_declaration : declaration_specifiers declarator;" << std::endl;
-				outG << "parameter_declaration -> {declaration_specifiers declarator};" << std::endl;
-			}
+
 
 			// register data for graphviz
 			registerNode(outA, $$->astPtr);
@@ -1745,17 +1752,18 @@ parameter_declaration
 		}
 	| declaration_specifiers
  		{
+ 			 			// output data
+			if(YFLAG){
+				outY << "parameter_declaration : declaration_specifiers;" << std::endl;
+				outG << "parameter_declaration -> declaration_specifiers;" << std::endl;
+			}
  			// create ast node
 			$$ = new node();
 			$$->val = $1->val;
 			$$->valType = $1->valType;
 			$$->astPtr = new paramDecl_Node($1->astPtr, NULL);
 
- 			// output data
-			if(YFLAG){
-				outY << "parameter_declaration : declaration_specifiers;" << std::endl;
-				outG << "parameter_declaration -> declaration_specifiers;" << std::endl;
-			}
+
 
 			registerNode(outA, $$->astPtr);
 	 		outputNode(outA, $$->astPtr);

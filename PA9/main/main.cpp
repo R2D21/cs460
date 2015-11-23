@@ -91,8 +91,8 @@ int main(int argc, char* argv[]) {
 	    switch (opt.index())
 	    {
 			case AC:
-				out3AC.open("../outputFiles/3AC.txt");
-				out3ac = fopen("../outputFiles/3ACdifjadsijfds.txt", "w");
+				out3AC.open("../outputImages/3AC.txt");
+				out3ac = fopen("../outputFiles/3AC.txt", "w");
 				break;
 
 			case ASSEM:
@@ -188,7 +188,8 @@ int main(int argc, char* argv[]) {
 		// Finish graph
 		outG << "}" << endl;
 		outG.close();
-		system("dot -Tpng graph.dot -o graph.png");
+		//system("dot -Tpng graph.dot -o graph.png");
+		system("rm -f graph.dot");
 		//system("gnome-open graph.png");
 		outY.close();
 	}

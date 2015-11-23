@@ -50,11 +50,9 @@ threeAC postfixExpr_Node::gen3AC(){
 	}
 
 	temp = exprA->gen3AC();
-	std::cout << "ID NAME" << temp.ste.getIdentifierName() << std::endl;
 	if (temp.ste.isArray()) {
 		threeAC tempB = exprB->gen3AC(); 
 
-		std::cout << "IM AN ARRAY" << std::endl;
 		// 2D array
 		std::vector<int> arrDims = temp.ste.getArrayDimensions();
 		if (arrDims.size() > 1) {

@@ -416,7 +416,7 @@ node* symbolTableEntry::getIdentifierValue() const {
 			break;
 
 		case STR_T:
-			strcpy(n->val._str, entryVal._str);
+			//strcpy(n->val._str, entryVal._str);
 			break;
 
 		// should only occur if the symbol table entry has not been

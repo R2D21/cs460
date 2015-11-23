@@ -22,7 +22,7 @@ leaf_Node::leaf_Node(const vals& d, int dt, std::string n) : astNode(){
 	if (dataType == STE_T) {
 		myScope = data._ste->getScopeLevel();
 		myOffset = data._ste->getOffset(); 
-		//ste = *(data._ste);
+		ste = *(data._ste);
 		isArray = data._ste->isArray();
 	} 
 	else {
@@ -65,8 +65,8 @@ threeAC leaf_Node::gen3AC(){
 			else {
 				temp.str = ("LOC_V_" + std::to_string(myOffset));
 			}
-			//temp.ste = ste;
-			//temp.ste = *(data._ste);
+			temp.ste = ste;
+
 			return temp;
 		break;
 
