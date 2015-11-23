@@ -41,8 +41,8 @@ Function: gen3AC()
 Description: 
 */
 threeAC iterStat_Node::gen3AC(){
-    std::cout << "Generate 3AC for iteration stat node" << std::endl;
-    
+    //std::cout << "Generate 3AC for iteration stat node" << std::endl;
+
     // for do while loops 
     if (isPostCheck) {
         std::string label1 = labelTC();
@@ -50,7 +50,9 @@ threeAC iterStat_Node::gen3AC(){
         threeAC tempB; 
 
         // generate 3AC for stuff inside of do/while loop
-        out3AC << label1 << std::endl; 
+        //out3AC << label1 << std::endl; 
+        outputLabel(label1);
+
         if (exprD != NULL) {
             exprD->gen3AC(); 
         }
@@ -58,16 +60,19 @@ threeAC iterStat_Node::gen3AC(){
         // if the user supplies a condition
         if (exprB != NULL) {
             tempB = exprB->gen3AC(); 
-            out3AC << ("ASSIGN " + tempCondition + " " + tempB.str) << std::endl; 
+            //out3AC << ("ASSIGN " + tempCondition + " " + tempB.str) << std::endl; 
+            output3AC("ASSIGN", tempCondition, tempB.str, "-"); 
         }
 
         // no condition is supplied -> infinite loop
         else {
-            out3AC << ("ASSIGN " + tempCondition + " 1") << std::endl;  
+            //out3AC << ("ASSIGN " + tempCondition + " 1") << std::endl;   
+            output3AC("ASSIGN", tempCondition, "1", "-"); 
         }
 
         // branch back of loop if condition is met
-        out3AC << ("BRNE " + tempCondition + " 0 " + label1) << std::endl;  
+        //out3AC << ("BRNE " + tempCondition + " 0 " + label1) << std::endl;  
+        output3AC("BRNE", tempCondition, "0", label1); 
     }
 
     // every other loop
@@ -78,25 +83,28 @@ threeAC iterStat_Node::gen3AC(){
         std::string tempCondition = intTC();  
         threeAC temp; 
 
+        //out3AC << label1 << std::endl; 
+        outputLabel(label1);
+
         if (exprA != NULL) {
             exprA->gen3AC();
         }
-        out3AC << label1 << std::endl; 
-
         // if the user supplies a condition
         if (exprB != NULL) {
             temp = exprB->gen3AC(); 
-            out3AC << ("ASSIGN " + tempCondition + " " + temp.str) << std::endl; 
+            //out3AC << ("ASSIGN " + tempCondition + " " + temp.str) << std::endl; 
+            output3AC("ASSIGN", tempCondition, temp.str, "-"); 
         }
 
         // no condition is supplied -> infinite loop
         else {
-            out3AC << ("ASSIGN " + tempCondition + " 1") << std::endl;  
+            //out3AC << ("ASSIGN " + tempCondition + " 1") << std::endl;  
+            output3AC("ASSIGN", tempCondition, "1", "-"); 
         } 
 
         // branch out of loop if condition is met
-        out3AC << ("BREQ " + tempCondition + " 0 " + label2) << std::endl;
-
+        //out3AC << ("BREQ " + tempCondition + " 0 " + label2) << std::endl;
+        output3AC("BREQ", tempCondition, "0", label2);
         // label3 ?
 
         if (exprD != NULL) {
@@ -109,8 +117,10 @@ threeAC iterStat_Node::gen3AC(){
         }
 
         // back to loop condition
-        out3AC << ("BR " + label1) << std::endl; 
-        out3AC << label2 << std::endl; 
+        //out3AC << ("BR " + label1) << std::endl; 
+        output3AC("BR", label1, "-", "-");
+        //out3AC << label2 << std::endl; 
+        outputLabel(label2);
     }
     threeAC temp;
     temp.str = "";

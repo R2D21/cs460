@@ -47,13 +47,19 @@ ofstream outY;
 ofstream outG;
 ofstream outA;
 ofstream out3AC; 
+FILE* out3ac;
 
 extern symbolTable table; 
 extern std::string currentSourceCodeLine; 
 extern int yylineno;
 extern bool endline;
-unordered_set<std::string> sourceHistory; // = ""; 
+unordered_set<std::string> sourceHistory; 
 vector<string> sourceCode;
+
+// 3ac output functions
+void output3AC(std::string, std::string, std::string, std::string);
+void outputSource(std::string source);
+void outputLabel(std::string label);
 
 int main(int argc, char* argv[]) {
 
@@ -86,6 +92,7 @@ int main(int argc, char* argv[]) {
 	    {
 			case AC:
 				out3AC.open("../outputFiles/3AC.txt");
+				out3ac = fopen("../outputFiles/3ACdifjadsijfds.txt", "w");
 				break;
 
 			case ASSEM:
@@ -168,12 +175,12 @@ int main(int argc, char* argv[]) {
 		outY << sourceCode[0] << std::endl;
 	}
 
+	cout << "Beginning parse" << endl;
 	// Parser
 	yyparse();  
 
 	cout << "Parse complete" << endl;
-	//sourceHistory.clear(); 
-
+	// close files
 	if (LFLAG) {
 		outL.close();
 	}
@@ -190,8 +197,29 @@ int main(int argc, char* argv[]) {
 	outA << "}" << endl;
 	outA.close();
 	out3AC.close(); 
-	system("dot -Tpng ast.dot -o ast.png");
-	system("gnome-open ast.png");
 
+
+	cout << "Generating AST" << endl;
+	system("dot -Tpng ast.dot -o ast.png");
+	//system("gnome-open ast.png");
+
+	// Generate 3AC
+	cout << "Generating 3AC" << endl;
+	//end program
 	return 0; 
 } 
+
+
+// output 3ac
+
+void output3AC(std::string type, std::string dest, std::string src1, std::string src2){
+	fprintf(out3ac, "\t\t(%8s, %8s, %8s, %8s)\n", type.c_str(), dest.c_str(), src1.c_str(), src2.c_str() );
+}
+
+void outputSource(std::string source){
+	fprintf(out3ac, "\t// %s\n", source.c_str());
+}
+
+void outputLabel(std::string label){
+	fprintf(out3ac, "%s\n", label.c_str());
+}

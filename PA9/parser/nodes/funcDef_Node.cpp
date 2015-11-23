@@ -41,11 +41,13 @@ Function: gen3AC()
 Description: 
 */
 threeAC funcDef_Node::gen3AC(){
-	std::cout << "Generate 3AC for function definition node" << std::endl;
+	//std::cout << "Generate 3AC for function definition node" << std::endl;
 	threeAC temp;
-	out3AC << "Label_" << exprB->getName() << std::endl;
-	out3AC << source << std::endl; 
-	exprD->gen3AC(); 
+	//out3AC << "Label_" << exprB->getName() << std::endl;
+	outputLabel("Label_"+exprB->getName());
+	outputSource(source);
+	//out3AC << source << std::endl; 
+	temp = exprD->gen3AC(); 
 	return temp; 
 }
 

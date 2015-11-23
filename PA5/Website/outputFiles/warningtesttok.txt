@@ -1,0 +1,29 @@
+
+=================================================================
+Line #1: 
+int lee = 68;
+< INT >< IDENTIFIER >< = > < INTEGER_CONSTANT >< ; > 
+=================================================================
+Line #2: 
+void main(void){
+< VOID >< IDENTIFIER >< ( > < VOID >< ) > < { > 
+=================================================================
+Line #3: 
+	int whydoesthisidentifierhavemorethansixyfourcharacterswesandabgirlareinafightbecauseshehasnobeenshowinguptothegymatsixamwhichshowslackofdedication = 1;
+< INT >< IDENTIFIER >< = > < INTEGER_CONSTANT >< ; > 
+=================================================================
+Line #4: 
+	
+
+=================================================================
+Line #5: 
+	int lee;
+< INT >< IDENTIFIER >< ; > 
+=================================================================
+Line #6: 
+
+
+=================================================================
+Line #7: 
+	char kepke = "thisisatesttoseeifthiswarningwillshowwhenourstringwillbeovertwohundredandfiftysixcharacterslongbutblahblahthissuckblahblahblahabgirlandwesblahblahblahnowholdupkanyeezyhahahadyeasdfasdfasdfasdfasdfadsfasdfasdfasdgasdgasdglhasdgklhasd;lghasd;
+< CHAR >< IDENTIFIER >< = > < STRING_LITERAL > 

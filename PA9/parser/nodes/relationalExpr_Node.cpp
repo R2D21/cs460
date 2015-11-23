@@ -39,7 +39,7 @@ Function: gen3AC()
 Description: 
 */
 threeAC relationalExpr_Node::gen3AC(){
-	std::cout << "Generate 3AC for postfix expression node" << std::endl;
+	//std::cout << "Generate 3AC for postfix expression node" << std::endl;
 	if (exprA != NULL && exprB == NULL) {
 		return exprA->gen3AC(); 
 	}
@@ -50,23 +50,27 @@ threeAC relationalExpr_Node::gen3AC(){
 	switch(type) {
 		case LTHAN:
 			reg = intTC();
-			out3AC << ("LT " + reg + " " + tempA.str + " " + tempB.str) << std::endl;  
+			//out3AC << ("LT " + reg + " " + tempA.str + " " + tempB.str) << std::endl;  
+			output3AC("LT", reg, tempA.str, tempB.str);
 		break;
 
 		case GTHAN:
 			reg = intTC();
-			out3AC << ("GT " + reg + " " + tempA.str + " " + tempB.str) << std::endl;  
+			//out3AC << ("GT " + reg + " " + tempA.str + " " + tempB.str) << std::endl;  
+			output3AC("GT", reg, tempA.str, tempB.str);
 		break;
 
 
 		case LE_OP:
 			reg = intTC();
-			out3AC << ("LE " + reg + " " + tempA.str + " " + tempB.str) << std::endl; 
+			//out3AC << ("LE " + reg + " " + tempA.str + " " + tempB.str) << std::endl; 
+			output3AC("LE", reg, tempA.str, tempB.str);
 		break; 
 
 		case GE_OP:
 			reg = intTC();
-			out3AC << ("GE " + reg + " " + tempA.str + " " + tempB.str) << std::endl; 
+			//out3AC << ("GE " + reg + " " + tempA.str + " " + tempB.str) << std::endl; 
+			output3AC("GE", reg, tempA.str, tempB.str);
 		break; 
 
 		default:

@@ -39,14 +39,9 @@ Function: gen3AC()
 Description: 
 */
 threeAC directDecl_Node::gen3AC(){
-	std::cout << "Generate 3AC for direct declaration node" << std::endl;
+	//std::cout << "Generate 3AC for direct declaration node" << std::endl;
 	threeAC temp = exprA->gen3AC(); 
-	std::cout << "In direct decl : " << exprA->getName() << std::endl;
 	return temp;
-	/*
-	threeAC temp;
-	temp.str = ""; 
-	return temp; */
 }
 
 /*

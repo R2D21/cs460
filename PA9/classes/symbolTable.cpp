@@ -316,7 +316,6 @@ int symbolTable::getOffset() const {
 }
 
 void symbolTable::incrementOffset(int inc) {
-	std::cout << std::endl << "incrementOffset getting called" << std::endl << std::endl; 
 	currentOffset += 4*inc; 
 }
 

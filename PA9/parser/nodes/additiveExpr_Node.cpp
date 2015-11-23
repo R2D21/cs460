@@ -42,7 +42,7 @@ Function: gen3AC()
 Description: generate 3AC
 */
 threeAC additiveExpr_Node::gen3AC(){
-	std::cout << "Generate 3AC for postfix expression node" << std::endl;
+	//std::cout << "Generate 3AC for postfix expression node" << std::endl;
 	if (exprA != NULL && exprB == NULL) {
 		return exprA->gen3AC(); 
 	}
@@ -53,12 +53,14 @@ threeAC additiveExpr_Node::gen3AC(){
 	switch(type) {
 		case PLUS:
 			reg = intTC();
-			out3AC << ("PLUS " + reg + " " + tempA.str + " " + tempB.str) << std::endl; 
+			//out3AC << ("PLUS " + reg + " " + tempA.str + " " + tempB.str) << std::endl; 
+			output3AC("PLUS", reg, tempA.str, tempB.str);
 		break; 
 
 		case MINUS:
 			reg = intTC();
-			out3AC << ("MINUS " + reg + " " + tempA.str + " " + tempB.str) << std::endl; 
+			//out3AC << ("MINUS " + reg + " " + tempA.str + " " + tempB.str) << std::endl; 
+			output3AC("PLUS", reg, tempA.str, tempB.str);
 		break;
 
 		default:

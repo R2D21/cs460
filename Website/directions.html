@@ -13,9 +13,10 @@
         <ul>
           <li><a href="main.html">Home</a></li>
           <li><a href="info.html">Info</a></li>
-          <li><a href="directions.html">Directions</a></li>
+          <li><a href="directions.html">How To Run</a></li>
           <li><a href="source.html">Source Code</a></li>
           <li><a href="test.html">Test Cases</a></li>
+          <li><a href="errorex.html">Error Examples</a></li>
           <li><a href="output.html">Output Files</a></li>
         </ul>
       </div>
@@ -37,30 +38,25 @@
 
         <li><h3>Run (From Build)</h3></li>
         <ul>
-            <li><p>>$ cd ../bin</p></li>
-            <li><p>>$ ./krwCompiler testfile.c -flags</p></li>
+            <li><p>>$  cd ../bin</p></li>
+            <li><p>>$  ./catfishC -c test.c</p></li>
             <ul>
               <li>Optional flags:</li>
                 <ul>
-                <li>-dyl (optional y to output reductions, optional l to output tokens)</li>
-                <li>-o output (to specify output file name)</li>
-                <p>Note: Custom output file is not updated on website. To see updated files, omit -o flag.</p>
-
+                <li>--help                       Print usage and exit.</li>
+                <li>--assembly, -S               Output assembly.</li>
+                <li>--3AC, -q                    Output 3 address code.</li>
+                <li>--compile [file], -c [file]  Compile [file].</li>
+                <li>--output [file], -o [file]   Output to [file].</li>
+                <li>-d[l|y|s]                    Output lex/yacc/symbol table.</li>
                 </ul>
-              <li>Examples:</li>
+
+              <li>Example:</li>
               <ul>
-               <li>$ ./krwCompiler testfile.c -dy</li>
-               <li>$ ./krwCompiler testfile.c -o myoutput -dly </li>
+               <li>$ ./catfishC -c test.c -dly -q</li>
                </ul>
             </ul>
         </ul>
-        <li><h3>Symbol Table Test Driver (From PA5)</h3></li>
-        <ul>
-            <li><p>>$ cd SymbolTableTest</p></li>
-            <li><p>>$ make</p></li>
-            <li><p>>$ ./TestST</p></li>
-        </ul>
-
 
         </ul>
         </ul>

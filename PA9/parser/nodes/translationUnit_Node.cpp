@@ -39,7 +39,7 @@ Function: gen3AC()
 Description: 
 */
 threeAC translationUnit_Node::gen3AC(){
-	std::cout << "Generate 3AC for translation unit node" << std::endl;
+	//std::cout << "Generate 3AC for translation unit node" << std::endl;
 	threeAC temp; 
 	temp.str = "";
 	if (exprA != NULL && exprB == NULL) {

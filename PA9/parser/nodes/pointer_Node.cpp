@@ -40,7 +40,10 @@ Function: gen3AC()
 Description: 
 */
 threeAC pointer_Node::gen3AC(){
-	std::cout << "Generate 3AC for pointer node" << std::endl;
+	//std::cout << "Generate 3AC for pointer node" << std::endl;
+	threeAC temp;
+	temp.str = "";
+	return temp;
 }
 
 /*

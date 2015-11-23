@@ -50,17 +50,23 @@ threeAC postfixExpr_Node::gen3AC(){
 	}
 
 	temp = exprA->gen3AC();
+	std::cout << "ID NAME" << temp.ste.getIdentifierName() << std::endl;
 	if (temp.ste.isArray()) {
 		threeAC tempB = exprB->gen3AC(); 
+
+		std::cout << "IM AN ARRAY" << std::endl;
 		// 2D array
 		std::vector<int> arrDims = temp.ste.getArrayDimensions();
 		if (arrDims.size() > 1) {
 			std::string t1 = intTC();
 			std::string t2 = intTC(); 
 			std::string offset = intTC(); 
-			out3AC << ("MUL " + t1 + " " + tempB.str + " 4") << std::endl;
-			out3AC << ("MUL " + t2 + " " + t1 + " " + std::to_string(arrDims[1])) << std::endl;
-			out3AC << ("ADD " + offset + " " + temp.str + " " + t2) << std::endl;
+			//out3AC << ("MUL " + t1 + " " + tempB.str + " 4") << std::endl;
+			//out3AC << ("MUL " + t2 + " " + t1 + " " + std::to_string(arrDims[1])) << std::endl;
+			//out3AC << ("ADD " + offset + " " + temp.str + " " + t2) << std::endl;
+			output3AC("MULT", t1, tempB.str, "4"); 
+			output3AC("MULT", t2, t1, std::to_string(arrDims[1])); 
+			output3AC("ADD", offset, temp.str, t2); 
 			reg = offset; 
 
 			// decrement dimension count
@@ -73,8 +79,10 @@ threeAC postfixExpr_Node::gen3AC(){
 		else if (arrDims.size() == 1) {
 			std::string t1 = intTC();
 			std::string t2 = intTC();
-			out3AC << ("MUL " + t1 + " " + tempB.str  + " 4") << std::endl;
-			out3AC << ("ADD " + t2 + " " + temp.str + " " + t1) << std::endl;
+			//out3AC << ("MUL " + t1 + " " + tempB.str  + " 4") << std::endl;
+			//out3AC << ("ADD " + t2 + " " + temp.str + " " + t1) << std::endl;
+			output3AC("MULT", t1, tempB.str, "4"); 
+			output3AC("ADD", t2, temp.str, t1);
 			reg = t2;
 		}
 	}
@@ -83,29 +91,22 @@ threeAC postfixExpr_Node::gen3AC(){
 	if (incOp) {
 		reg = intTC();
 		temp = exprA->gen3AC();
-		out3AC << ("ADD " + reg + " " + temp.str + " 1") << std::endl;
-		out3AC << ("ASSIGN " + temp.str + " " + reg) << std::endl;   
+		//out3AC << ("ADD " + reg + " " + temp.str + " 1") << std::endl;
+		//out3AC << ("ASSIGN " + temp.str + " " + reg) << std::endl;   
+		output3AC("ADD", reg, temp.str, "1"); 
+		output3AC("ASSIGN", temp.str, reg, "-");
 	} 
 
 	// check for decrement
 	else if (decOp) {
 		reg = intTC(); 
 		temp = exprA->gen3AC();
-		out3AC << ("SUB " + reg + " " + temp.str + " 1") << std::endl;
-		out3AC << ("ASSIGN " + temp.str + " " + reg) << std::endl;   
+		//out3AC << ("SUB " + reg + " " + temp.str + " 1") << std::endl;
+		//out3AC << ("ASSIGN " + temp.str + " " + reg) << std::endl; 
+		output3AC("SUB", reg, temp.str, "1"); 
+		output3AC("ASSIGN", temp.str, reg, "-");  
 	} 
 
-	// check for array subscript - this checks to see if exprB points to an expr_Node
-	/*
-	else if ( (exprB != NULL) && (dynamic_cast <expr_Node *> (exprB)) ) {
-		std::cout << "ExprA is .. ?" << std::endl;
-
-		std::string firstOffsetCalc = intTC(); 
-		out3AC << ("MUL " + firstOffsetCalc + " " + exprB->gen3AC().str  + " 4") << std::endl;
-		std::string secondOffsetCalc = intTC(); 
-		out3AC << ("ADD " + secondOffsetCalc + " " + exprA->gen3AC().str + " " + firstOffsetCalc) << std::endl;  
-	} */
-	
 	temp.str = reg;
 	return temp; 
 }

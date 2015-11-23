@@ -40,40 +40,50 @@ Function: gen3AC()
 Description: 
 */
 threeAC selectionStat_Node::gen3AC(){
-    std::cout << "Generate 3AC for selection stat node" << std::endl;
+   // std::cout << "Generate 3AC for selection stat node" << std::endl;
     threeAC temp;
+    temp.str = "";
     std::string cond = intTC();
     std::string labelFalse = labelTC();
     std::string labelEnd = labelTC(); 
 
     if (exprA != NULL) {
         temp = exprA->gen3AC();
-        out3AC << ("ASSIGN " + cond + " " + temp.str) << std::endl;
-        
-        // no else 
-        if (exprC == NULL) {
-            labelFalse = labelEnd;
-        } 
-
-        // statements inside if
-        out3AC << ("BREQ " + cond + " 0 " + labelFalse) << std::endl;
-        if (exprB != NULL) {
-            exprB->gen3AC(); 
-        } 
-
-        // statements inside else 
-        if (exprC != NULL) {
-            out3AC << ("BR " + labelEnd) << std::endl;
-            out3AC << labelFalse << std::endl;  
-            exprC->gen3AC();
-        }
-
-        out3AC << labelEnd << std::endl; 
+       // out3AC << ("ASSIGN " + cond + " " + temp.str) << std::endl;
+        output3AC("ASSIGN", cond, temp.str, "-");
     }
 
     else {
-        out3AC << ("ASSIGN " + cond + " 1") << std::endl; 
+        //out3AC << ("ASSIGN " + cond + " 1") << std::endl; 
+        output3AC("ASSIGN", cond, "1", "-");
     }
+    
+    // no else 
+    if (exprC == NULL) {
+        labelFalse = labelEnd;
+    } 
+
+    // statements inside if
+    //out3AC << ("BREQ " + cond + " 0 " + labelFalse) << std::endl;
+    output3AC("BREQ", cond, "0", labelFalse);
+
+    if (exprB != NULL) {
+        exprB->gen3AC(); 
+    } 
+
+    // statements inside else 
+    if (exprC != NULL) {
+       // out3AC << ("BR " + labelEnd) << std::endl;
+        output3AC("BR", labelEnd, "-", "-");
+       // out3AC << labelFalse << std::endl;  
+        outputLabel(labelFalse);
+        exprC->gen3AC();
+    }
+
+    //out3AC << labelEnd << std::endl; 
+    outputLabel(labelEnd);
+    return temp;
+
 }
 
 /*

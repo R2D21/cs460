@@ -22,13 +22,12 @@ leaf_Node::leaf_Node(const vals& d, int dt, std::string n) : astNode(){
 	if (dataType == STE_T) {
 		myScope = data._ste->getScopeLevel();
 		myOffset = data._ste->getOffset(); 
+		//ste = *(data._ste);
+		isArray = data._ste->isArray();
 	} 
 	else {
 		myScope = -1; 
 	}
-
-			std::cout << std::endl << "Hello my name is: " << name;
-		std::cout << " i belong to scope #: " << myScope << std::endl; 
 }
 
 /*
@@ -46,7 +45,7 @@ Function: gen3AC()
 Description: 
 */
 threeAC leaf_Node::gen3AC(){
-	std::cout << "Generate 3AC for leaf node" << std::endl;
+	//std::cout << "Generate 3AC for leaf node" << std::endl;
 	threeAC temp;
 	switch(dataType) {
 		case INT_T:
@@ -66,11 +65,13 @@ threeAC leaf_Node::gen3AC(){
 			else {
 				temp.str = ("LOC_V_" + std::to_string(myOffset));
 			}
+			//temp.ste = ste;
+			//temp.ste = *(data._ste);
 			return temp;
 		break;
 
 		default:
-			out3AC << "3AC not supported for this leaf node." << std::endl;
+			//out3AC << "3AC not supported for this leaf node." << std::endl;
 			temp.str = "";
 			return temp;  
 		break;

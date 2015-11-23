@@ -38,27 +38,17 @@ Function: gen3AC()
 Description: 
 */
 threeAC expr_Node::gen3AC(){
-	std::cout << "Generate 3AC for expression node" << std::endl;
+	//std::cout << "Generate 3AC for expression node" << std::endl;
 	threeAC temp; 
 	temp.str = "";
 	
 	std::unordered_set<std::string>::iterator setItr = sourceHistory.find(source);
 	if (setItr == sourceHistory.end()) {
 		
-		out3AC << source << std::endl;
-		if( source.length() == 0) {
-			std::cout << "empty string" << std::endl << std::endl; 
-		}
+		//out3AC << source << std::endl;
+		outputSource(source);
 		sourceHistory.insert(source);
-		//std::cout << "added to set" << std::endl;  
 	} 
-
-
-		/*
-	if (source != sourceHistory) {
-		out3AC << source << std::endl;
-		sourceHistory = source; 
-	} */
 
 
 	if (exprA != NULL && exprB == NULL) {

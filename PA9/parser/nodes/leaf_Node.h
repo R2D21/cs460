@@ -19,6 +19,7 @@ This is the header file for the iteration AST node class of our C compiler.
 #include <string>
 #include "astNode.h"
 #include "../cParser.tab.h"
+//#include "../../classes/symbolTableEntry.h"
 
 // class definition 
 class leaf_Node : public astNode {
@@ -39,7 +40,9 @@ class leaf_Node : public astNode {
         int dataType;
         int id;
         int myScope;
-        int myOffset;  
+        int myOffset; 
+        bool isArray; 
+        symbolTableEntry ste;
 };
 
 #endif // LEAF_NODE_H

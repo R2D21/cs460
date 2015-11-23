@@ -39,7 +39,7 @@ Function: gen3AC()
 Description: 
 */
 threeAC assignmentExpr_Node::gen3AC(){
-	std::cout << "Generate 3AC for assignment expression node" << std::endl;
+	//std::cout << "Generate 3AC for assignment expression node" << std::endl;
 	if (exprA != NULL && exprB == NULL) {
 		return exprA->gen3AC(); 
 	}
@@ -49,31 +49,40 @@ threeAC assignmentExpr_Node::gen3AC(){
 	std::string reg = ""; 
 	switch(type) {
 		case ASSIGN:
-			out3AC << ("ASSIGN " + tempA.str + " " + tempB.str) << std::endl;  
+			//out3AC << ("ASSIGN " + tempA.str + " " + tempB.str) << std::endl;
+			output3AC("ASSIGN", tempA.str, tempB.str, "-");  
 		break;
 
 		case MUL_ASSIGN:
 			reg = intTC();
-			out3AC << ("MUL " + reg + " " + tempA.str + " " + tempB.str) << std::endl;
-			out3AC << ("ASSIGN " + tempA.str + " " + reg) << std::endl;   
+			//out3AC << ("MUL " + reg + " " + tempA.str + " " + tempB.str) << std::endl;
+			//out3AC << ("ASSIGN " + tempA.str + " " + reg) << std::endl;   
+			output3AC("MUL", reg, tempA.str, tempB.str);  
+			output3AC("ASSIGN", tempA.str, reg, "-");  
 		break;
 
 		case DIV_ASSIGN:
 			reg = intTC();
-			out3AC << ("DIV " + reg + " " + tempA.str + " " + tempB.str) << std::endl;
-			out3AC << ("ASSIGN " + tempA.str + " " + reg) << std::endl;   
+			//out3AC << ("DIV " + reg + " " + tempA.str + " " + tempB.str) << std::endl;
+			//out3AC << ("ASSIGN " + tempA.str + " " + reg) << std::endl;   
+			output3AC("DIV", reg, tempA.str, tempB.str);  
+			output3AC("ASSIGN", tempA.str, reg, "-");
 		break;
 
 		case ADD_ASSIGN:
 			reg = intTC();
-			out3AC << ("ADD " + reg + " " + tempA.str + " " + tempB.str) << std::endl;
-			out3AC << ("ASSIGN " + tempA.str + " " + reg) << std::endl;   
+			//out3AC << ("ADD " + reg + " " + tempA.str + " " + tempB.str) << std::endl;
+			//out3AC << ("ASSIGN " + tempA.str + " " + reg) << std::endl;  
+			output3AC("ADD", reg, tempA.str, tempB.str);  
+			output3AC("ASSIGN", tempA.str, reg, "-"); 
 		break;
 
 		case SUB_ASSIGN:
 			reg = intTC();
-			out3AC << ("SUB " + reg + " " + tempA.str + " " + tempB.str) << std::endl;
-			out3AC << ("ASSIGN " + tempA.str + " " + reg) << std::endl;   
+			//out3AC << ("SUB " + reg + " " + tempA.str + " " + tempB.str) << std::endl;
+			//out3AC << ("ASSIGN " + tempA.str + " " + reg) << std::endl;   
+			output3AC("SUB", reg, tempA.str, tempB.str);  
+			output3AC("ASSIGN", tempA.str, reg, "-");
 		break;
 
 		default:

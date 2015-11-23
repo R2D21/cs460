@@ -39,7 +39,7 @@ Function: gen3AC()
 Description: 
 */
 threeAC initializer_Node::gen3AC(){
-	std::cout << "Generate 3AC for postfix expression node" << std::endl;
+	//std::cout << "Generate 3AC for postfix expression node" << std::endl;
 	if (exprA != NULL) {
 		return exprA->gen3AC(); 
 	}

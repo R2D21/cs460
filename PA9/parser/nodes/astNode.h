@@ -30,6 +30,9 @@ extern std::vector<std::string> sourceCode;
 //extern std::string sourceHistory; 
 extern std::unordered_set<std::string> sourceHistory;
 extern int yylineno;  
+extern void output3AC(std::string type, std::string op3, std::string op1, std::string op2);
+extern void outputSource(std::string source);
+extern void outputLabel(std::string label);
 
 // threeAC_Data
 typedef struct {

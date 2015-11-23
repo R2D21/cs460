@@ -38,7 +38,7 @@ Function: gen3AC()
 Description: 
 */
 threeAC initDecl_Node::gen3AC(){
-	std::cout << "Generate 3AC for initialize declarator node" << std::endl;
+	//std::cout << "Generate 3AC for initialize declarator node" << std::endl;
 	threeAC temp;
 	temp.str = "";
 
@@ -48,7 +48,8 @@ threeAC initDecl_Node::gen3AC(){
 
 	else if( exprA !=NULL && exprB != NULL){ 
 		temp = exprA->gen3AC();
-		out3AC << ("ASSIGN " + temp.str + " " + exprB->gen3AC().str) << std::endl;
+		//out3AC << ("ASSIGN " + temp.str + " " + exprB->gen3AC().str) << std::endl;
+		output3AC("ASSIGN", temp.str, exprB->gen3AC().str, "-"); 
 		return temp;
 	}
 	return temp;

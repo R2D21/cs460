@@ -56,6 +56,7 @@ class symbolTableEntry {
         // constructors
         symbolTableEntry(); 
         symbolTableEntry(std::string name, int lineNumber);
+        symbolTableEntry(const symbolTableEntry& other) ;
         symbolTableEntry& operator=(const symbolTableEntry& other);
         
         // basic functions

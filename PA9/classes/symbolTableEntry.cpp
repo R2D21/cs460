@@ -79,14 +79,17 @@ symbolTableEntry::symbolTableEntry(std::string name, int lineNumber) {
 	isFunc = false;
 	parameters.clear();
 }
-
+symbolTableEntry::symbolTableEntry(const symbolTableEntry& other) { 
+	*this = other;
+}
 /*
-
+Function: overloaded assignment operator
 */
 symbolTableEntry& symbolTableEntry::operator=(const symbolTableEntry& other) { 
 	if (this != &other) {
 		entryVal = other.entryVal;
 		entryType = other.entryType;
+		myScope = other.myScope;
 		offset = other.offset;
 		identifierName = other.identifierName; 
 		identifierType = other.identifierType;

@@ -37,7 +37,7 @@ Function: gen3AC()
 Description: 
 */
 threeAC compoundStat_Node::gen3AC(){
-	std::cout << "Generate 3AC for compound stat node" << std::endl;
+	//std::cout << "Generate 3AC for compound stat node" << std::endl;
 	threeAC temp; 
 	temp.str = "";
 

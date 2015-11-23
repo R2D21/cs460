@@ -41,31 +41,37 @@ Function: gen3AC()
 Description: 
 */
 threeAC unaryExpr_Node::gen3AC(){
-	std::cout << "Generate 3AC for unary expression node" << std::endl;
+	//std::cout << "Generate 3AC for unary expression node" << std::endl;
 	std::string reg = ""; 
 	threeAC temp;
 
 	if (exprA != NULL && exprB == NULL && !incOp && !decOp) {
 		return exprA->gen3AC(); 
 	}
-
+	// if ++
 	else if (incOp) {
 		temp = exprB->gen3AC();
 		reg = intTC(); 
-		out3AC << ("ADD " + reg + " " + temp.str + " 1") << std::endl;
-		out3AC << ("ASSIGN " + temp.str + " " + reg) << std::endl; 
+		//out3AC << ("ADD " + reg + " " + temp.str + " 1") << std::endl;
+		//out3AC << ("ASSIGN " + temp.str + " " + reg) << std::endl; 
+		output3AC("ADD", reg, temp.str, "1");
+		output3AC("ASSIGN", temp.str, reg, "-");
 	}
-
+	// if --
 	else if (decOp) {
 		temp = exprB->gen3AC();
 		reg = intTC(); 
-		out3AC << ("SUB " + reg + " " + temp.str + " 1") << std::endl;
-		out3AC << ("ASSIGN " + temp.str + " " + reg) << std::endl; 
+		//out3AC << ("SUB " + reg + " " + temp.str + " 1") << std::endl;
+		//out3AC << ("ASSIGN " + temp.str + " " + reg) << std::endl; 
+		output3AC("SUB", reg, temp.str, "1");
+		output3AC("ASSIGN", temp.str, reg, "-");
 	}
-
+	// if -
 	else if ( (exprB != NULL) && (dynamic_cast <unaryOp_Node*> (exprA))) {
 		reg = intTC(); 
-		out3AC << ("MULT " + reg + " " + exprB->gen3AC().str + " -1") << std::endl;
+		//out3AC << ("MULT " + reg + " " + exprB->gen3AC().str + " -1") << std::endl;
+		output3AC("MULT", reg, exprB->gen3AC().str, "-1");
+		
 	}
 
 	temp.str = reg;
