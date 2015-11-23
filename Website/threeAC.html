@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <title>
+    KRW CatfishC | 3AC
+    </title>
+     <link rel="stylesheet" href="main.css">
+  </head>
+  
+  <body>
+    <div class="nav">
+      <div class="container">
+        <ul>
+          <li><a href="main.html">Home</a></li>
+          <li><a href="info.html">Info</a></li>
+          <li><a href="directions.html">How To Run</a></li>
+          <li><a href="source.html">Source Code</a></li>
+          <li><a href="test.html">Test Cases</a></li>
+          <li><a href="errorex.html">Error Examples</a></li>
+          <li><a href="output.html">Output Files</a></li>
+          <li><a href="threeAC.html">3AC Info</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="info">
+      <div class = "header">
+        <h1>CatfishC Compiler</h1>
+      </div>
+
+    <ul>
+      <li><h2>3AC Info</h2></li>
+      <ul>
+        <li><h3>Naming convention of 3AC variables</h3></li>
+        <ul>
+          <li>Local Variable at byte offset #</li>
+            <ul>
+              <li>LOC_V_#</li>
+            </ul>
+           <li>Global Variables at byte offset #</li>
+            <ul>
+              <li>GL_V_#</li>
+            </ul>   
+           <li>Integer Ticket Counter for temporary register</li>
+            <ul>
+              <li>IT_#</li>
+            </ul> 
+        </ul>
+        <li><h3>Note:</h3></li>
+        <ul>
+          <li>We followed the recommended 3AC on the Intermediate Language Specification document</li>
+          <li>We did not implement functions or pointers</li>
+          <li>We did implement for/do while loops</li>
+          <li>We only generate 3AC for integer data types</li>
+        </ul>
+      </ul>
+      <li><h2>3AC Tests</h2></li>
+      <ul>
+        <li><h3>Test 1 and 2: Declaration and Simple Assignments</h3></li>
+        <ul>
+          <li><a href="../PA9/bin/test_1_2.c">Test Source Code</a></li>
+          <li><a href="../PA9/outputFiles/3AC_test_1_2.txt">Test 3AC</a></li>
+
+        </ul>
+
+        <li><h3>Test 3: If Statement</h3></li>
+        <ul>
+          <li><a href="../PA9/bin/test_3.c">Test Source Code</a></li>
+          <li><a href="../PA9/outputFiles/3AC_test_3.txt">Test 3AC</a></li>
+
+        </ul>
+        <li><h3>Test 4: While Loop</h3></li>
+        <ul>
+          <li><a href="../PA9/bin/test_4.c">Test Source Code</a></li>
+          <li><a href="../PA9/outputFiles/3AC_test_4.txt">Test 3AC</a></li>
+
+        </ul>
+        <li><h3>Test 5: Array Usage </h3></li>
+        <ul>
+          <li><a href="../PA9/bin/test_5.c">Test Source Code</a></li>
+          <li><a href="../PA9/outputFiles/3AC_test_5.txt">Test 3AC</a></li>
+
+        </ul>
+
+
+
+      </ul>
+        </ul>
+        </ul>
+    </ul>
+
+  </body>
+</html>
