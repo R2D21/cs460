@@ -308,7 +308,6 @@ void symbolTable::writeToScreen() {
 
 void symbolTable::setOffset(int oset) {
 	currentOffset = oset;
-	std::cout << "CURRENT OFFSET: " << currentOffset << std::endl; 
 }
 
 int symbolTable::getOffset() const {

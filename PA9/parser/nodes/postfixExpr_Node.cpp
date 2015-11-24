@@ -55,7 +55,23 @@ threeAC postfixExpr_Node::gen3AC(){
 
 		// 2D array
 		std::vector<int> arrDims = temp.ste.getArrayDimensions();
-		if (arrDims.size() > 1) {
+		if (arrDims.size() == 3) {
+			std::string t1 = intTC();
+			std::string t2 = intTC(); 
+			std::string offset = intTC(); 
+			//out3AC << ("MUL " + t1 + " " + tempB.str + " 4") << std::endl;
+			//out3AC << ("MUL " + t2 + " " + t1 + " " + std::to_string(arrDims[1])) << std::endl;
+			//out3AC << ("ADD " + offset + " " + temp.str + " " + t2) << std::endl;
+			output3AC("MULT", t1, tempB.str, "4"); 
+			output3AC("MULT", t2, t1, std::to_string(arrDims[2])); 
+			output3AC("ADD", offset, temp.str, t2); 
+			reg = offset; 
+
+			// decrement dimension count
+			arrDims.pop_back(); 
+			temp.ste.setArrayDimensions(arrDims);
+		}
+		else if (arrDims.size() == 2) {
 			std::string t1 = intTC();
 			std::string t2 = intTC(); 
 			std::string offset = intTC(); 

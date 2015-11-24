@@ -1399,6 +1399,10 @@ direct_declarator
  				table.decrementOffset(arrayDims[0]-1);
  				table.incrementOffset(arrayDims[0]*arrayDims[1]-1);
 			}
+			else if(arrayDims.size() == 3) {
+ 				table.decrementOffset(arrayDims[0]*arrayDims[1]-1);
+ 				table.incrementOffset(arrayDims[0]*arrayDims[1]*arrayDims[2]-1);
+			}
 			
 			// register data for graphviz
 			registerNode(outA, $$->astPtr);

@@ -29,53 +29,33 @@ Line #7:
 < INT >< IDENTIFIER >< = > < INTEGER_CONSTANT >< ; > 
 =================================================================
 Line #8: 
-	int a[3];
-< INT >< IDENTIFIER >< [ > < INTEGER_CONSTANT >< ] > < ; > 
+
+
 =================================================================
 Line #9: 
-	int b[5][6];
-< INT >< IDENTIFIER >< [ > < INTEGER_CONSTANT >< ] > < [ > < INTEGER_CONSTANT >< ] > < ; > 
+	// declaring 3D array
+
 =================================================================
 Line #10: 
-
-
+	int b[7][8][9];
+< INT >< IDENTIFIER >< [ > < INTEGER_CONSTANT >< ] > < [ > < INTEGER_CONSTANT >< ] > < [ > < INTEGER_CONSTANT >< ] > < ; > 
 =================================================================
 Line #11: 
-	// 1D usage on left and right hand side
+
 
 =================================================================
 Line #12: 
-	a[2] = i;
-< IDENTIFIER >< [ > < INTEGER_CONSTANT >< ] > < = > < IDENTIFIER >< ; > 
+	b[2][3][5] = 1;
+< IDENTIFIER >< [ > < INTEGER_CONSTANT >< ] > < [ > < INTEGER_CONSTANT >< ] > < [ > < INTEGER_CONSTANT >< ] > < = > < INTEGER_CONSTANT >< ; > 
 =================================================================
 Line #13: 
-	a[1] = a[2];
-< IDENTIFIER >< [ > < INTEGER_CONSTANT >< ] > < = > < IDENTIFIER >< [ > < INTEGER_CONSTANT >< ] > < ; > 
+	b[0][1][2] = b[2][3][5];
+< IDENTIFIER >< [ > < INTEGER_CONSTANT >< ] > < [ > < INTEGER_CONSTANT >< ] > < [ > < INTEGER_CONSTANT >< ] > < = > < IDENTIFIER >< [ > < INTEGER_CONSTANT >< ] > < [ > < INTEGER_CONSTANT >< ] > < [ > < INTEGER_CONSTANT >< ] > < ; > 
 =================================================================
 Line #14: 
 
 
 =================================================================
 Line #15: 
-
-
-=================================================================
-Line #16: 
-	// 2d usage on left and right hand side
-
-=================================================================
-Line #17: 
-	b[3][4] = i;
-< IDENTIFIER >< [ > < INTEGER_CONSTANT >< ] > < [ > < INTEGER_CONSTANT >< ] > < = > < IDENTIFIER >< ; > 
-=================================================================
-Line #18: 
-	b[2][0] = b[3][4];
-< IDENTIFIER >< [ > < INTEGER_CONSTANT >< ] > < [ > < INTEGER_CONSTANT >< ] > < = > < IDENTIFIER >< [ > < INTEGER_CONSTANT >< ] > < [ > < INTEGER_CONSTANT >< ] > < ; > 
-=================================================================
-Line #19: 
-
-
-=================================================================
-Line #20: 
 }
 < } > 
