@@ -40,8 +40,19 @@ const option::Descriptor usage[] =
 // externs 
 extern int yyparse();
 extern FILE* yyin; 
+extern symbolTable table; 
+extern std::string currentSourceCodeLine; 
+extern int yylineno;
+extern bool endline;
+
+// Debug flags
 bool LFLAG = false; 
 bool YFLAG = false;
+bool AFLAG = false;
+bool ASMFLAG = false;
+
+
+// File output
 ofstream outL;
 ofstream outY;
 ofstream outG;
@@ -49,10 +60,7 @@ ofstream outA;
 ofstream out3AC; 
 FILE* out3ac;
 
-extern symbolTable table; 
-extern std::string currentSourceCodeLine; 
-extern int yylineno;
-extern bool endline;
+// Source code
 unordered_set<std::string> sourceHistory; 
 vector<string> sourceCode;
 
@@ -71,7 +79,7 @@ int main(int argc, char* argv[]) {
 	int j;
 	char input;
 
-	// Command line
+	// Command line parsing
 	argc-=(argc>0); argv+=(argc>0);
 	option::Stats  stats(usage, argc, argv);
 	std::vector<option::Option> options(stats.options_max);
@@ -92,11 +100,13 @@ int main(int argc, char* argv[]) {
 	    switch (opt.index())
 	    {
 			case AC:
+				AFLAG = true;
 				out3AC.open("../outputImages/3AC.txt");
 				out3ac = fopen("../outputFiles/3AC.txt", "w");
 				break;
 
 			case ASSEM:
+				ASMFLAG = true;
 				cout << "Assembly code TBD." << endl;
 				break;
 			case COMP:
@@ -164,6 +174,7 @@ int main(int argc, char* argv[]) {
 	outA.open("ast.dot");
 	outA << "digraph{\n" << "graph[ordering = out]\n";
 
+	// Initialize output
 	cout << "Main program - compiler driver." << endl;
 	if(LFLAG){
 		outL << std::endl << "=================================================================" << std::endl;
@@ -176,12 +187,13 @@ int main(int argc, char* argv[]) {
 		outY << sourceCode[0] << std::endl;
 	}
 
-	cout << "Beginning parse" << endl;
-	// Parser
-	yyparse();  
 
+	// Parser
+	cout << "Beginning parse" << endl;
+	yyparse();  
 	cout << "Parse complete" << endl;
-	// close files
+
+	// Close files
 	if (LFLAG) {
 		outL.close();
 	}
@@ -189,29 +201,28 @@ int main(int argc, char* argv[]) {
 		// Finish graph
 		outG << "}" << endl;
 		outG.close();
-		//system("dot -Tpng graph.dot -o graph.png");
 		system("rm -f graph.dot");
 		//system("gnome-open graph.png");
 		outY.close();
 	}
 
-	// Finish graph
-	outA << "}" << endl;
-	outA.close();
-	out3AC.close(); 
-	fclose(out3ac); 
+	// Finish AST graph
+	if( AFLAG )
+	{
+		outA << "}" << endl;
+		outA.close();
+		out3AC.close(); 
+		fclose(out3ac); 
+		cout << "Generating AST" << endl;
+		system("dot -Tpng ast.dot -o ast.png");
+
+		// Generate 3AC
+		cout << "Generating 3AC" << endl;
+		//system("gnome-open ast.png");
+	}
 
 
-	cout << "Generating AST" << endl;
-	system("dot -Tpng ast.dot -o ast.png");
-	//system("gnome-open ast.png");
-
-	// Generate 3AC
-	cout << "Generating 3AC" << endl;
-
-
-	//FILE* in3ac = fopen("../outputFiles/3AC.txt", "r"); // make flexible?
-
+	// Generate ASM
 	string command;
 	string dest;
 	string src1;
@@ -233,11 +244,14 @@ int main(int argc, char* argv[]) {
 	return 0; 
 } 
 
-// output 3ac
+/* Function Implementations */
+
+
+// Output ASM
 void outputASM(std::string command, std::string dest, std::string src1, std::string src2, FILE* asmFile){
 	string mipsCommand = ""; 
 
-	if (command == ) {
+	if (command == "ADD") {
 
 
 	}
@@ -246,14 +260,17 @@ void outputASM(std::string command, std::string dest, std::string src1, std::str
 	fprintf(asmFile, "\t\t( %8s %8s %8s %8s )\n", mipsCommand.c_str(), dest.c_str(), src1.c_str(), src2.c_str() );
 }
 
+// Output 3AC
 void output3AC(std::string type, std::string dest, std::string src1, std::string src2){
 	fprintf(out3ac, "\t\t( %8s %8s %8s %8s )\n", type.c_str(), dest.c_str(), src1.c_str(), src2.c_str() );
 }
 
+// Output source code
 void outputSource(std::string source){
 	fprintf(out3ac, "\t// %s\n", source.c_str());
 }
 
+// Output label
 void outputLabel(std::string label){
 	fprintf(out3ac, "%s\n", label.c_str());
 }
