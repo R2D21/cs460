@@ -294,13 +294,32 @@ void outputASM(std::string command, std::string dest, std::string src1,
 		mipsCommand = "";
 	} */
 
-	// if src1 is not a number
+	// if src1 is nota constant
 	if (opOneValid && (parseString(src1) != "Label") ) {
+
+		// if it is a variable
 		if( (parseString(src1) == "LOCV") || (parseString(src1) == "GLV")){
-			string offset = getOffset(src1);
-			cout << "Variable at offset: " << offset << endl;
-			src1 = offset + "($sp)";
+			// check for location of variable from variable table
+
+			// if it's not in memory
+				
+				
+				// get new register for it
+				string offset = getOffset(src1);
+				string newReg1 = table.getReg(src1, newReg);
+
+				// move value into register
+
+				cout << "Variable at offset: " << offset << endl;
+				src1 = offset + "($sp)";
+				fprintf(asmFile, "\t\tlw %s %s\n", newReg1.c_str(), src1.c_str());
+
+				// update variable table
+				
+			
 		}
+
+		// if it is a temp int
 		else if(isdigit(src1[0]) == 0) {
 			// get src1 reg
 			src1 = table.getReg(src1, newReg);
@@ -311,13 +330,17 @@ void outputASM(std::string command, std::string dest, std::string src1,
 		src1 = "";
 	}
 		
-	// if src2 is not a number
+	// if src2 is not a constant
 	if (opTwoValid && (parseString(src2) != "Label") ) {
+
+		// if it is a variable
 		if( (parseString(src2) == "LOCV") || (parseString(src2) == "GLV")){
 			string offset = getOffset(src2);
 			cout << "Variable at offset: " << offset << endl;
 			src2 = offset + "($sp)";
 		}
+
+		// if it is a temp int
 		else if (isdigit(src2[0]) == 0) {
 			// get src2 reg
 			src2 = table.getReg(src2, newReg);
