@@ -15,7 +15,7 @@ BISON = bison
 LIBS = -L/usr/local/lib -lfl
 OBJS = ../lexer/lex.yy.o ../parser/cParser.tab.o ../main/main.o \
 		../classes/symbolTable.o ../classes/symbolTableEntry.o \
-		../classes/scope.o
+		../classes/scope.o ../classes/registerTable.o
 NSRC = $(wildcard ../parser/nodes/*.cpp)
 NOBJS = $(NSRC:.cpp=.o)
 
@@ -39,6 +39,9 @@ all: ../bin/catfishC
 
 ../classes/scope.o: ../classes/scope.cpp ../classes/scope.h \
 					../classes/symbolTableEntry.o
+	$(CC) $(CFLAGS) $< -o $@
+
+../classes/registerTable.o: ../classes/registerTable.cpp ../classes/registerTable.h
 	$(CC) $(CFLAGS) $< -o $@
 
 ../lexer/lex.yy.c: ../lexer/cLexer.l ../parser/cParser.tab.c

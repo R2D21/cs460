@@ -13,7 +13,10 @@ This is the main file for the front end of our ANSI C compiler.
 #include <fstream>
 #include "../classes/symbolTable.h"
 #include <stdlib.h>
+#include "../classes/registerTable.h"
 #include <unordered_set>
+#include <unordered_map>
+#include <cctype>
 using namespace std;
 
 #include "optionparser.h"
@@ -51,7 +54,6 @@ bool YFLAG = false;
 bool AFLAG = false;
 bool ASMFLAG = false;
 
-
 // File output
 ofstream outL;
 ofstream outY;
@@ -65,10 +67,14 @@ unordered_set<std::string> sourceHistory;
 vector<string> sourceCode;
 
 // 3ac output functions
-void outputASM(std::string command, std::string dest, std::string src1, std::string src2, FILE* asmFile);
+void outputASM(std::string command, std::string dest, std::string src1, 
+					std::string src2, FILE* asmFile, registerTable& table);
 void output3AC(std::string, std::string, std::string, std::string);
 void outputSource(std::string source);
 void outputLabel(std::string label);
+
+// register allocation function
+string parseString(string str); 
 
 int main(int argc, char* argv[]) {
 
@@ -221,13 +227,13 @@ int main(int argc, char* argv[]) {
 		//system("gnome-open ast.png");
 	}
 
-
 	// Generate ASM
 	string command;
 	string dest;
 	string src1;
 	string src2;
 	string dummy;
+	registerTable regTbl;
 	FILE* outASM = fopen("../outputFiles/ASM.txt", "w");  
 
 	ifstream in3ac;
@@ -235,8 +241,9 @@ int main(int argc, char* argv[]) {
 	while(in3ac.good()) {
 		in3ac >> dummy;
 		if (dummy == "(") {
-			in3ac >> command >> dest >> src1 >> src2;
-			cout << "Just read: " << command << dest << src1 << src2 << endl;
+			in3ac >> command >> dest >> src1 >> src2 >> dummy;
+			cout << "Just read: " << command << ' ' << dest << ' ' <<  src1 << ' ' <<  src2 << endl;
+			outputASM(command, dest, src1, src2, outASM, regTbl);
 		}
 
 	}
@@ -248,16 +255,48 @@ int main(int argc, char* argv[]) {
 
 
 // Output ASM
-void outputASM(std::string command, std::string dest, std::string src1, std::string src2, FILE* asmFile){
-	string mipsCommand = ""; 
+void outputASM(std::string command, std::string dest, std::string src1, 
+					std::string src2, FILE* asmFile, registerTable& table){
+	// variables
+	string mipsCommand = "";
+	bool twoOpCommand = false;
+	bool newReg = false;  
 
+	// get mips command
 	if (command == "ADD") {
-
-
+		mipsCommand = "add";
 	}
-	
+	else if (command == "ASSIGN") {
+		mipsCommand = "move";
+		twoOpCommand = true; 
+	}
 
-	fprintf(asmFile, "\t\t( %8s %8s %8s %8s )\n", mipsCommand.c_str(), dest.c_str(), src1.c_str(), src2.c_str() );
+	/*
+	else if (command == "") {
+		mipsCommand = "";
+	} */
+
+	// if src1 is not a number
+	if (isdigit(src1[0]) == 0) {
+		// get src1 reg
+		src1 = table.getReg(src1, newReg);
+	}
+		
+	// if src2 is not a number
+	if (!twoOpCommand) {
+		if (isdigit(src2[0]) == 0) {
+			// get src2 reg
+			src2 = table.getReg(src2, newReg);
+		}
+	}
+	else {
+		src2 = "";
+	}
+
+	// get reg for dest
+	dest = table.getReg(dest, newReg);
+
+	fprintf(asmFile, "\t\t %8s %8s %8s %8s \n", mipsCommand.c_str(), dest.c_str(), src1.c_str(), src2.c_str() );
 }
 
 // Output 3AC
@@ -273,4 +312,9 @@ void outputSource(std::string source){
 // Output label
 void outputLabel(std::string label){
 	fprintf(out3ac, "%s\n", label.c_str());
+}
+
+// String parsing function
+string parseString(string str) {
+	return str.substr(0, str.find("_")); 
 }

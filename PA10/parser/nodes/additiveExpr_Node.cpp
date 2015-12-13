@@ -54,13 +54,13 @@ threeAC additiveExpr_Node::gen3AC(){
 		case PLUS:
 			reg = intTC();
 			//out3AC << ("PLUS " + reg + " " + tempA.str + " " + tempB.str) << std::endl; 
-			output3AC("PLUS", reg, tempA.str, tempB.str);
+			output3AC("ADD", reg, tempA.str, tempB.str);
 		break; 
 
 		case MINUS:
 			reg = intTC();
 			//out3AC << ("MINUS " + reg + " " + tempA.str + " " + tempB.str) << std::endl; 
-			output3AC("PLUS", reg, tempA.str, tempB.str);
+			output3AC("MINUS", reg, tempA.str, tempB.str);
 		break;
 
 		default:

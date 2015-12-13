@@ -60,10 +60,10 @@ threeAC leaf_Node::gen3AC(){
 
 		case STE_T:
 			if (myScope == 0) {
-				temp.str = ("GL_V_" + std::to_string(myOffset));
+				temp.str = ("GLV_" + std::to_string(myOffset));
 			}
 			else {
-				temp.str = ("LOC_V_" + std::to_string(myOffset));
+				temp.str = ("LOCV_" + std::to_string(myOffset));
 			}
 			temp.ste = ste;
 

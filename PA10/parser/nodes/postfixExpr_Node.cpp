@@ -107,8 +107,10 @@ threeAC postfixExpr_Node::gen3AC(){
 		temp = exprA->gen3AC();
 		//out3AC << ("ADD " + reg + " " + temp.str + " 1") << std::endl;
 		//out3AC << ("ASSIGN " + temp.str + " " + reg) << std::endl;   
-		output3AC("ADD", reg, temp.str, "1"); 
-		output3AC("ASSIGN", temp.str, reg, "-");
+
+		//output3AC("ADD", reg, temp.str, "1"); 
+		output3AC("ADD", temp.str, temp.str, "1"); 
+		//output3AC("ASSIGN", temp.str, reg, "-");
 	} 
 
 	// check for decrement
@@ -117,8 +119,10 @@ threeAC postfixExpr_Node::gen3AC(){
 		temp = exprA->gen3AC();
 		//out3AC << ("SUB " + reg + " " + temp.str + " 1") << std::endl;
 		//out3AC << ("ASSIGN " + temp.str + " " + reg) << std::endl; 
-		output3AC("SUB", reg, temp.str, "1"); 
-		output3AC("ASSIGN", temp.str, reg, "-");  
+
+		//output3AC("SUB", reg, temp.str, "1"); 
+		output3AC("SUB", temp.str, temp.str, "1"); 
+		//output3AC("ASSIGN", temp.str, reg, "-");  
 	} 
 
 	temp.str = reg;
