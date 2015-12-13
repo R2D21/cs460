@@ -31,6 +31,8 @@ class registerTable {
 		// register table functions 
 		std::string getReg(std::string var, bool& newReg);
 
+		void print();
+
 	private:
 		// object members
 		tbl regTable;

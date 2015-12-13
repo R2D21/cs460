@@ -75,6 +75,7 @@ void outputLabel(std::string label);
 
 // register allocation function
 string parseString(string str); 
+string getOffset(string str);
 
 int main(int argc, char* argv[]) {
 
@@ -242,8 +243,10 @@ int main(int argc, char* argv[]) {
 		in3ac >> dummy;
 		if (dummy == "(") {
 			in3ac >> command >> dest >> src1 >> src2 >> dummy;
-			cout << "Just read: " << command << ' ' << dest << ' ' <<  src1 << ' ' <<  src2 << endl;
 			outputASM(command, dest, src1, src2, outASM, regTbl);
+		}
+		else{
+			getline(in3ac, dummy);
 		}
 
 	}
@@ -259,7 +262,9 @@ void outputASM(std::string command, std::string dest, std::string src1,
 					std::string src2, FILE* asmFile, registerTable& table){
 	// variables
 	string mipsCommand = "";
-	bool twoOpCommand = false;
+	bool opOneValid = true;
+	bool opTwoValid = true;
+	bool destValid = true;
 	bool newReg = false;  
 
 	// get mips command
@@ -268,8 +273,21 @@ void outputASM(std::string command, std::string dest, std::string src1,
 	}
 	else if (command == "ASSIGN") {
 		mipsCommand = "move";
-		twoOpCommand = true; 
+		opTwoValid = false; 
 	}
+	else if (command == "BR"){
+		mipsCommand = "b";
+		opOneValid = false;
+		opTwoValid = false;
+		destValid = false;
+	}
+	else if (command == "MULT"){
+		mipsCommand = "mul";
+	}
+	else if (command == "BREQ"){
+		mipsCommand = "beq";
+	}
+
 
 	/*
 	else if (command == "") {
@@ -277,14 +295,30 @@ void outputASM(std::string command, std::string dest, std::string src1,
 	} */
 
 	// if src1 is not a number
-	if (isdigit(src1[0]) == 0) {
-		// get src1 reg
-		src1 = table.getReg(src1, newReg);
+	if (opOneValid && (parseString(src1) != "Label") ) {
+		if( (parseString(src1) == "LOCV") || (parseString(src1) == "GLV")){
+			string offset = getOffset(src1);
+			cout << "Variable at offset: " << offset << endl;
+			src1 = offset + "($sp)";
+		}
+		else if(isdigit(src1[0]) == 0) {
+			// get src1 reg
+			src1 = table.getReg(src1, newReg);
+		}
+		
+	}
+	else {
+		src1 = "";
 	}
 		
 	// if src2 is not a number
-	if (!twoOpCommand) {
-		if (isdigit(src2[0]) == 0) {
+	if (opTwoValid && (parseString(src2) != "Label") ) {
+		if( (parseString(src2) == "LOCV") || (parseString(src2) == "GLV")){
+			string offset = getOffset(src2);
+			cout << "Variable at offset: " << offset << endl;
+			src2 = offset + "($sp)";
+		}
+		else if (isdigit(src2[0]) == 0) {
 			// get src2 reg
 			src2 = table.getReg(src2, newReg);
 		}
@@ -294,7 +328,9 @@ void outputASM(std::string command, std::string dest, std::string src1,
 	}
 
 	// get reg for dest
-	dest = table.getReg(dest, newReg);
+	if( parseString(dest) != "Label") {
+		dest = table.getReg(dest, newReg);
+	}
 
 	fprintf(asmFile, "\t\t %8s %8s %8s %8s \n", mipsCommand.c_str(), dest.c_str(), src1.c_str(), src2.c_str() );
 }
@@ -317,4 +353,8 @@ void outputLabel(std::string label){
 // String parsing function
 string parseString(string str) {
 	return str.substr(0, str.find("_")); 
+}
+
+string getOffset(string str) {
+	return str.substr(str.find("_") + 1, std::string::npos); 
 }

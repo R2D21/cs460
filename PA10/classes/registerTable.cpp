@@ -86,6 +86,7 @@ std::string registerTable::getReg(std::string var, bool& newReg) {
 	}
 	else { // reg table is full
 		std::cout << "Reg. table is full." << std::endl; 
+		//print();
 		return ""; 
 	}
 }
@@ -122,4 +123,15 @@ bool registerTable::findEmptyReg(std::string& reg) {
 	}
 	reg = "";
 	return false;
+}
+
+/*
+
+*/
+void registerTable::print() {
+	// search for empty variable within register table 
+	tblItr itr;
+	for (itr = regTable.begin(); itr != regTable.end(); itr++) {
+		std::cout << itr->first << " =\t" << itr->second << std::endl;
+	}
 }
