@@ -237,19 +237,39 @@ int main(int argc, char* argv[]) {
 	registerTable regTbl;
 	FILE* outASM = fopen("../outputFiles/ASM.txt", "w");  
 
+
+
 	ifstream in3ac;
 	in3ac.open("../outputFiles/3AC.txt");
-	while(in3ac.good()) {
+
+	// Initialize ASM
+
+
 		in3ac >> dummy;
+	while(in3ac.good()) {
 		if (dummy == "(") {
 			in3ac >> command >> dest >> src1 >> src2 >> dummy;
 			outputASM(command, dest, src1, src2, outASM, regTbl);
 		}
-		else{
+		// Else if commented C code
+		else if( dummy == "//") {
 			getline(in3ac, dummy);
 		}
+		// Otherwise must be label
+		else{
+			fprintf(outASM, "%s:\n", dummy.c_str());
+		}
 
+		in3ac >> dummy;
 	}
+
+
+	// Finish ASM
+
+		// Moving back to memory
+
+		// Ending program
+
 
 	return 0; 
 } 
@@ -287,12 +307,17 @@ void outputASM(std::string command, std::string dest, std::string src1,
 	else if (command == "BREQ"){
 		mipsCommand = "beq";
 	}
+	else if (command == "LT" ){
+		
+	}
 
 
 	/*
 	else if (command == "") {
 		mipsCommand = "";
 	} */
+
+
 
 	// if src1 is nota constant
 	if (opOneValid && (parseString(src1) != "Label") ) {
@@ -309,10 +334,13 @@ void outputASM(std::string command, std::string dest, std::string src1,
 				string newReg1 = table.getReg(src1, newReg);
 
 				// move value into register
-
-				cout << "Variable at offset: " << offset << endl;
-				src1 = offset + "($sp)";
-				fprintf(asmFile, "\t\tlw %s %s\n", newReg1.c_str(), src1.c_str());
+				if( newReg ){
+					cout << "Variable at offset: " << offset << endl;
+					src1 = offset + "($sp)";
+					fprintf(asmFile, "\t\t %8s %8s %8s\n", "lw", newReg1.c_str(), src1.c_str());
+				}
+				src1 = newReg1;
+				
 
 				// update variable table
 				
@@ -323,6 +351,11 @@ void outputASM(std::string command, std::string dest, std::string src1,
 		else if(isdigit(src1[0]) == 0) {
 			// get src1 reg
 			src1 = table.getReg(src1, newReg);
+		}
+		else{
+			if( mipsCommand == "move"){
+				mipsCommand = "li";
+			}
 		}
 		
 	}
@@ -335,15 +368,37 @@ void outputASM(std::string command, std::string dest, std::string src1,
 
 		// if it is a variable
 		if( (parseString(src2) == "LOCV") || (parseString(src2) == "GLV")){
-			string offset = getOffset(src2);
-			cout << "Variable at offset: " << offset << endl;
-			src2 = offset + "($sp)";
+			// check for location of variable from variable table
+
+			// if it's not in memory
+				
+				
+				// get new register for it
+				string offset = getOffset(src2);
+				string newReg1 = table.getReg(src2, newReg);
+
+				// move value into register
+				if( newReg ){
+					cout << "Variable at offset: " << offset << endl;
+					src1 = offset + "($sp)";
+					fprintf(asmFile, "\t\t %8s %8s %8s\n", "lw", newReg1.c_str(), src2.c_str());
+				}
+				src2 = newReg1;
+				
+
+				// update variable table
+				
 		}
 
 		// if it is a temp int
 		else if (isdigit(src2[0]) == 0) {
 			// get src2 reg
 			src2 = table.getReg(src2, newReg);
+		}
+		else{
+			if( mipsCommand == "move"){
+				mipsCommand = "li";
+			}
 		}
 	}
 	else {
@@ -352,7 +407,35 @@ void outputASM(std::string command, std::string dest, std::string src1,
 
 	// get reg for dest
 	if( parseString(dest) != "Label") {
-		dest = table.getReg(dest, newReg);
+		// if it is a variable
+		if( (parseString(dest) == "LOCV") || (parseString(dest) == "GLV")){
+			// check for location of variable from variable table
+
+			// if it's not in memory
+				
+				
+				// get new register for it
+				string offset = getOffset(dest);
+				string newReg1 = table.getReg(dest, newReg);
+
+				// move value into register
+				if( newReg )
+				{
+					cout << "Variable at offset: " << offset << endl;
+					dest = offset + "($sp)";
+					fprintf(asmFile, "\t\t %8s %8s %8s\n", "lw", newReg1.c_str(), dest.c_str());
+				}
+				dest = newReg1;
+				
+
+				// update variable table
+				
+			
+		}
+		else
+		{
+			dest = table.getReg(dest, newReg);
+		}
 	}
 
 	fprintf(asmFile, "\t\t %8s %8s %8s %8s \n", mipsCommand.c_str(), dest.c_str(), src1.c_str(), src2.c_str() );

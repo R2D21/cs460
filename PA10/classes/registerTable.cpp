@@ -17,12 +17,10 @@ Function: registerTable (constructor)
 Description: Allows for instantiation of a new register table object.
 */
 registerTable::registerTable() {
-	// $v0 - $v1
-	regTable["$v0"] = "";
+	// $v1
 	regTable["$v1"] = "";
 
-	// $a0 - $a3 
-	regTable["$a0"] = "";
+	// $a1 - $a3 
 	regTable["$a1"] = "";
 	regTable["$a2"] = "";
 	regTable["$a3"] = "";
@@ -82,7 +80,8 @@ std::string registerTable::getReg(std::string var, bool& newReg) {
 	}
 	else if (findEmptyReg(currentReg)) { // look for an empty location 
 		newReg = true; 
-		return regTable[currentReg] = var;
+		regTable[currentReg] = var;
+		return currentReg;
 	}
 	else { // reg table is full
 		std::cout << "Reg. table is full." << std::endl; 
