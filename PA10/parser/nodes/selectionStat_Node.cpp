@@ -50,12 +50,14 @@ threeAC selectionStat_Node::gen3AC(){
     if (exprA != NULL) {
         temp = exprA->gen3AC();
        // out3AC << ("ASSIGN " + cond + " " + temp.str) << std::endl;
-        output3AC("ASSIGN", cond, temp.str, "-");
+        //output3AC("ASSIGN", cond, temp.str, "-");
+        cond = temp.str;
     }
 
     else {
         //out3AC << ("ASSIGN " + cond + " 1") << std::endl; 
-        output3AC("ASSIGN", cond, "1", "-");
+        //output3AC("ASSIGN", cond, "1", "-");
+        cond = "1";
     }
     
     // no else 

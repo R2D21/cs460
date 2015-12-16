@@ -61,13 +61,15 @@ threeAC iterStat_Node::gen3AC(){
         if (exprB != NULL) {
             tempB = exprB->gen3AC(); 
             //out3AC << ("ASSIGN " + tempCondition + " " + tempB.str) << std::endl; 
-            output3AC("ASSIGN", tempCondition, tempB.str, "-"); 
+            //output3AC("ASSIGN", tempCondition, tempB.str, "-"); 
+             tempCondition = tempB.str;
         }
 
         // no condition is supplied -> infinite loop
         else {
             //out3AC << ("ASSIGN " + tempCondition + " 1") << std::endl;   
-            output3AC("ASSIGN", tempCondition, "1", "-"); 
+            //output3AC("ASSIGN", tempCondition, "1", "-"); 
+            tempCondition = "1";
         }
 
         // branch back of loop if condition is met
@@ -95,13 +97,15 @@ threeAC iterStat_Node::gen3AC(){
         if (exprB != NULL) {
             temp = exprB->gen3AC(); 
             //out3AC << ("ASSIGN " + tempCondition + " " + temp.str) << std::endl; 
-            output3AC("ASSIGN", tempCondition, temp.str, "-"); 
+            //output3AC("ASSIGN", tempCondition, temp.str, "-"); 
+            tempCondition = temp.str;
         }
 
         // no condition is supplied -> infinite loop
         else {
             //out3AC << ("ASSIGN " + tempCondition + " 1") << std::endl;  
-            output3AC("ASSIGN", tempCondition, "1", "-"); 
+            //output3AC("ASSIGN", tempCondition, "1", "-"); 
+            tempCondition = "1";
         } 
 
         // branch out of loop if condition is met

@@ -72,7 +72,7 @@ Description: Destructor of the register table object.
 std::string registerTable::getReg(std::string var, bool& newReg) {
 	// variables
 	std::string currentReg = ""; 
-
+	
 	// check if variable is within the register table 
 	if (idInTable(var, currentReg)) {
 		newReg = false;

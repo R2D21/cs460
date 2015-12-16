@@ -15,12 +15,43 @@ declarator : direct_declarator;
 
 =================================================================
 Line #3: 
-	// variables
+	int swapped = 1;
+set_insert_push : inInsertMode = true
+set_insert : inInsertMode = true
+type_specifier : INT;
+declaration_specifiers : type_specifier;
+identifier : IDENTIFIER;
+direct_declarator : identifier;
+declarator : direct_declarator;
+set_lookup : inInsertMode = false
+constant : INTEGER_CONSTANT;
+primary_expression : constant;
+postfix_expression : primary_expression;
+unary_expression : postfix_expression;
+cast_expression : unary_expression;
+multiplicative_expression : cast_expression;
+additive_expression : multiplicative_expression;
+shift_expression : additive_expression;
+relational_expression : shift_expression;
+equality_expression : relational_expression;
+and_expression : equality_expression;
+exclusive_or_expression : and_expression;
+inclusive_or_expression : exclusive_or_expression;
+logical_and_expression : inclusive_or_expression;
+logical_or_expression : logical_and_expression;
+conditional_expression : logical_or_expression;
+assignment_expression : conditional_expression;
+initializer : assignment_expression;
+set_insert : inInsertMode = true
+init_declarator : declarator ASSIGN initializer;
+init_declarator_list : init_declarator;
+declaration : declaration_specifiers init_declarator_list SEMI;
+set_lookup : inInsertMode = false
+declaration_list : declaration;
 
 =================================================================
 Line #4: 
-	int array[4];
-set_insert_push : inInsertMode = true
+	int array[3];
 set_insert : inInsertMode = true
 type_specifier : INT;
 declaration_specifiers : type_specifier;
@@ -49,56 +80,11 @@ init_declarator : declarator;
 init_declarator_list : init_declarator;
 declaration : declaration_specifiers init_declarator_list SEMI;
 set_lookup : inInsertMode = false
-declaration_list : declaration;
+declaration_list : declaration_list declaration;
 
 =================================================================
 Line #5: 
-	int i;
-set_insert : inInsertMode = true
-type_specifier : INT;
-declaration_specifiers : type_specifier;
-identifier : IDENTIFIER;
-direct_declarator : identifier;
-declarator : direct_declarator;
-init_declarator : declarator;
-init_declarator_list : init_declarator;
-declaration : declaration_specifiers init_declarator_list SEMI;
-set_lookup : inInsertMode = false
-declaration_list : declaration_list declaration;
-
-=================================================================
-Line #6: 
-	int j;
-set_insert : inInsertMode = true
-type_specifier : INT;
-declaration_specifiers : type_specifier;
-identifier : IDENTIFIER;
-direct_declarator : identifier;
-declarator : direct_declarator;
-init_declarator : declarator;
-init_declarator_list : init_declarator;
-declaration : declaration_specifiers init_declarator_list SEMI;
-set_lookup : inInsertMode = false
-declaration_list : declaration_list declaration;
-
-=================================================================
-Line #7: 
-	int temp;
-set_insert : inInsertMode = true
-type_specifier : INT;
-declaration_specifiers : type_specifier;
-identifier : IDENTIFIER;
-direct_declarator : identifier;
-declarator : direct_declarator;
-init_declarator : declarator;
-init_declarator_list : init_declarator;
-declaration : declaration_specifiers init_declarator_list SEMI;
-set_lookup : inInsertMode = false
-declaration_list : declaration_list declaration;
-
-=================================================================
-Line #8: 
-	int swapped = 1;
+	int i = 0; 
 set_insert : inInsertMode = true
 type_specifier : INT;
 declaration_specifiers : type_specifier;
@@ -132,7 +118,42 @@ set_lookup : inInsertMode = false
 declaration_list : declaration_list declaration;
 
 =================================================================
-Line #9: 
+Line #6: 
+	int temp = 0; 
+set_insert : inInsertMode = true
+type_specifier : INT;
+declaration_specifiers : type_specifier;
+identifier : IDENTIFIER;
+direct_declarator : identifier;
+declarator : direct_declarator;
+set_lookup : inInsertMode = false
+constant : INTEGER_CONSTANT;
+primary_expression : constant;
+postfix_expression : primary_expression;
+unary_expression : postfix_expression;
+cast_expression : unary_expression;
+multiplicative_expression : cast_expression;
+additive_expression : multiplicative_expression;
+shift_expression : additive_expression;
+relational_expression : shift_expression;
+equality_expression : relational_expression;
+and_expression : equality_expression;
+exclusive_or_expression : and_expression;
+inclusive_or_expression : exclusive_or_expression;
+logical_and_expression : inclusive_or_expression;
+logical_or_expression : logical_and_expression;
+conditional_expression : logical_or_expression;
+assignment_expression : conditional_expression;
+initializer : assignment_expression;
+set_insert : inInsertMode = true
+init_declarator : declarator ASSIGN initializer;
+init_declarator_list : init_declarator;
+declaration : declaration_specifiers init_declarator_list SEMI;
+set_lookup : inInsertMode = false
+declaration_list : declaration_list declaration;
+
+=================================================================
+Line #7: 
 	array[0] = 4;
 set_lookup : inInsertMode = false
 identifier : IDENTIFIER;
@@ -184,8 +205,8 @@ statement : expression_statement;
 statement_list : statement;
 
 =================================================================
-Line #10: 
-	array[1] = 66;
+Line #8: 
+		array[1] = 66;
 identifier : IDENTIFIER;
 primary_expression : identifier;
 postfix_expression : primary_expression;
@@ -214,6 +235,108 @@ assignment_operator : ASSIGN;
 constant : INTEGER_CONSTANT;
 primary_expression : constant;
 postfix_expression : primary_expression;
+unary_expression : postfix_expression;
+cast_expression : unary_expression;
+multiplicative_expression : cast_expression;
+additive_expression : multiplicative_expression;
+shift_expression : additive_expression;
+relational_expression : shift_expression;
+equality_expression : relational_expression;
+and_expression : equality_expression;
+exclusive_or_expression : and_expression;
+inclusive_or_expression : exclusive_or_expression;
+logical_and_expression : inclusive_or_expression;
+logical_or_expression : logical_and_expression;
+conditional_expression : logical_or_expression;
+assignment_expression : conditional_expression;
+assignment_expression : unary_expression assignment_operator assignment_expression;
+expression : assignment_expression;
+expression_statement : expression SEMI;
+statement : expression_statement;
+statement_list : statement_list statement;
+
+=================================================================
+Line #9: 
+		array[2] = 1;
+identifier : IDENTIFIER;
+primary_expression : identifier;
+postfix_expression : primary_expression;
+set_lookup : inInsertMode = false
+constant : INTEGER_CONSTANT;
+primary_expression : constant;
+postfix_expression : primary_expression;
+unary_expression : postfix_expression;
+cast_expression : unary_expression;
+multiplicative_expression : cast_expression;
+additive_expression : multiplicative_expression;
+shift_expression : additive_expression;
+relational_expression : shift_expression;
+equality_expression : relational_expression;
+and_expression : equality_expression;
+exclusive_or_expression : and_expression;
+inclusive_or_expression : exclusive_or_expression;
+logical_and_expression : inclusive_or_expression;
+logical_or_expression : logical_and_expression;
+conditional_expression : logical_or_expression;
+assignment_expression : conditional_expression;
+expression : assignment_expression;
+postfix_expression : postfix_expression LBRACK expression RBRACK;
+unary_expression : postfix_expression;
+assignment_operator : ASSIGN;
+constant : INTEGER_CONSTANT;
+primary_expression : constant;
+postfix_expression : primary_expression;
+unary_expression : postfix_expression;
+cast_expression : unary_expression;
+multiplicative_expression : cast_expression;
+additive_expression : multiplicative_expression;
+shift_expression : additive_expression;
+relational_expression : shift_expression;
+equality_expression : relational_expression;
+and_expression : equality_expression;
+exclusive_or_expression : and_expression;
+inclusive_or_expression : exclusive_or_expression;
+logical_and_expression : inclusive_or_expression;
+logical_or_expression : logical_and_expression;
+conditional_expression : logical_or_expression;
+assignment_expression : conditional_expression;
+assignment_expression : unary_expression assignment_operator assignment_expression;
+expression : assignment_expression;
+expression_statement : expression SEMI;
+statement : expression_statement;
+statement_list : statement_list statement;
+
+=================================================================
+Line #10: 
+					temp = array[i];
+identifier : IDENTIFIER;
+primary_expression : identifier;
+postfix_expression : primary_expression;
+unary_expression : postfix_expression;
+assignment_operator : ASSIGN;
+identifier : IDENTIFIER;
+primary_expression : identifier;
+postfix_expression : primary_expression;
+set_lookup : inInsertMode = false
+identifier : IDENTIFIER;
+primary_expression : identifier;
+postfix_expression : primary_expression;
+unary_expression : postfix_expression;
+cast_expression : unary_expression;
+multiplicative_expression : cast_expression;
+additive_expression : multiplicative_expression;
+shift_expression : additive_expression;
+relational_expression : shift_expression;
+equality_expression : relational_expression;
+and_expression : equality_expression;
+exclusive_or_expression : and_expression;
+inclusive_or_expression : exclusive_or_expression;
+logical_and_expression : inclusive_or_expression;
+logical_or_expression : logical_and_expression;
+conditional_expression : logical_or_expression;
+assignment_expression : conditional_expression;
+expression : assignment_expression;
+postfix_expression : postfix_expression LBRACK expression RBRACK;
 unary_expression : postfix_expression;
 cast_expression : unary_expression;
 multiplicative_expression : cast_expression;
@@ -236,13 +359,13 @@ statement_list : statement_list statement;
 
 =================================================================
 Line #11: 
-	array[2] = 1;
+					array[i] = array[i+1];
 identifier : IDENTIFIER;
 primary_expression : identifier;
 postfix_expression : primary_expression;
 set_lookup : inInsertMode = false
-constant : INTEGER_CONSTANT;
-primary_expression : constant;
+identifier : IDENTIFIER;
+primary_expression : identifier;
 postfix_expression : primary_expression;
 unary_expression : postfix_expression;
 cast_expression : unary_expression;
@@ -262,9 +385,36 @@ expression : assignment_expression;
 postfix_expression : postfix_expression LBRACK expression RBRACK;
 unary_expression : postfix_expression;
 assignment_operator : ASSIGN;
+identifier : IDENTIFIER;
+primary_expression : identifier;
+postfix_expression : primary_expression;
+set_lookup : inInsertMode = false
+identifier : IDENTIFIER;
+primary_expression : identifier;
+postfix_expression : primary_expression;
+unary_expression : postfix_expression;
+cast_expression : unary_expression;
+multiplicative_expression : cast_expression;
+additive_expression : multiplicative_expression;
 constant : INTEGER_CONSTANT;
 primary_expression : constant;
 postfix_expression : primary_expression;
+unary_expression : postfix_expression;
+cast_expression : unary_expression;
+multiplicative_expression : cast_expression;
+additive_expression : additive_expression PLUS multiplicative_expression;
+shift_expression : additive_expression;
+relational_expression : shift_expression;
+equality_expression : relational_expression;
+and_expression : equality_expression;
+exclusive_or_expression : and_expression;
+inclusive_or_expression : exclusive_or_expression;
+logical_and_expression : inclusive_or_expression;
+logical_or_expression : logical_and_expression;
+conditional_expression : logical_or_expression;
+assignment_expression : conditional_expression;
+expression : assignment_expression;
+postfix_expression : postfix_expression LBRACK expression RBRACK;
 unary_expression : postfix_expression;
 cast_expression : unary_expression;
 multiplicative_expression : cast_expression;
@@ -287,18 +437,25 @@ statement_list : statement_list statement;
 
 =================================================================
 Line #12: 
-	array[3] = 21;
+					array[i+1] = temp;
 identifier : IDENTIFIER;
 primary_expression : identifier;
 postfix_expression : primary_expression;
 set_lookup : inInsertMode = false
+identifier : IDENTIFIER;
+primary_expression : identifier;
+postfix_expression : primary_expression;
+unary_expression : postfix_expression;
+cast_expression : unary_expression;
+multiplicative_expression : cast_expression;
+additive_expression : multiplicative_expression;
 constant : INTEGER_CONSTANT;
 primary_expression : constant;
 postfix_expression : primary_expression;
 unary_expression : postfix_expression;
 cast_expression : unary_expression;
 multiplicative_expression : cast_expression;
-additive_expression : multiplicative_expression;
+additive_expression : additive_expression PLUS multiplicative_expression;
 shift_expression : additive_expression;
 relational_expression : shift_expression;
 equality_expression : relational_expression;
@@ -313,8 +470,8 @@ expression : assignment_expression;
 postfix_expression : postfix_expression LBRACK expression RBRACK;
 unary_expression : postfix_expression;
 assignment_operator : ASSIGN;
-constant : INTEGER_CONSTANT;
-primary_expression : constant;
+identifier : IDENTIFIER;
+primary_expression : identifier;
 postfix_expression : primary_expression;
 unary_expression : postfix_expression;
 cast_expression : unary_expression;
@@ -338,508 +495,9 @@ statement_list : statement_list statement;
 
 =================================================================
 Line #13: 
-	//array[4] = 420;
-
-=================================================================
-Line #14: 
-
-
-=================================================================
-Line #15: 
-	// bubble sort
-
-=================================================================
-Line #16: 
-	while(swapped == 1)
-identifier : IDENTIFIER;
-primary_expression : identifier;
-postfix_expression : primary_expression;
-unary_expression : postfix_expression;
-cast_expression : unary_expression;
-multiplicative_expression : cast_expression;
-additive_expression : multiplicative_expression;
-shift_expression : additive_expression;
-relational_expression : shift_expression;
-equality_expression : relational_expression;
-constant : INTEGER_CONSTANT;
-primary_expression : constant;
-postfix_expression : primary_expression;
-unary_expression : postfix_expression;
-cast_expression : unary_expression;
-multiplicative_expression : cast_expression;
-additive_expression : multiplicative_expression;
-shift_expression : additive_expression;
-relational_expression : shift_expression;
-equality_expression : equality_expression EQ_OP relational_expression;
-and_expression : equality_expression;
-exclusive_or_expression : and_expression;
-inclusive_or_expression : exclusive_or_expression;
-logical_and_expression : inclusive_or_expression;
-logical_or_expression : logical_and_expression;
-conditional_expression : logical_or_expression;
-assignment_expression : conditional_expression;
-expression : assignment_expression;
-
-=================================================================
-Line #17: 
-	{
-
-=================================================================
-Line #18: 
-		swapped = 0;
-set_lookup : inInsertMode = false
-identifier : IDENTIFIER;
-primary_expression : identifier;
-postfix_expression : primary_expression;
-unary_expression : postfix_expression;
-assignment_operator : ASSIGN;
-constant : INTEGER_CONSTANT;
-primary_expression : constant;
-postfix_expression : primary_expression;
-unary_expression : postfix_expression;
-cast_expression : unary_expression;
-multiplicative_expression : cast_expression;
-additive_expression : multiplicative_expression;
-shift_expression : additive_expression;
-relational_expression : shift_expression;
-equality_expression : relational_expression;
-and_expression : equality_expression;
-exclusive_or_expression : and_expression;
-inclusive_or_expression : exclusive_or_expression;
-logical_and_expression : inclusive_or_expression;
-logical_or_expression : logical_and_expression;
-conditional_expression : logical_or_expression;
-assignment_expression : conditional_expression;
-assignment_expression : unary_expression assignment_operator assignment_expression;
-expression : assignment_expression;
-expression_statement : expression SEMI;
-statement : expression_statement;
-statement_list : statement;
-
-=================================================================
-Line #19: 
-		for( i = 0; i < 4; i++)
-identifier : IDENTIFIER;
-primary_expression : identifier;
-postfix_expression : primary_expression;
-unary_expression : postfix_expression;
-assignment_operator : ASSIGN;
-constant : INTEGER_CONSTANT;
-primary_expression : constant;
-postfix_expression : primary_expression;
-unary_expression : postfix_expression;
-cast_expression : unary_expression;
-multiplicative_expression : cast_expression;
-additive_expression : multiplicative_expression;
-shift_expression : additive_expression;
-relational_expression : shift_expression;
-equality_expression : relational_expression;
-and_expression : equality_expression;
-exclusive_or_expression : and_expression;
-inclusive_or_expression : exclusive_or_expression;
-logical_and_expression : inclusive_or_expression;
-logical_or_expression : logical_and_expression;
-conditional_expression : logical_or_expression;
-assignment_expression : conditional_expression;
-assignment_expression : unary_expression assignment_operator assignment_expression;
-expression : assignment_expression;
-identifier : IDENTIFIER;
-primary_expression : identifier;
-postfix_expression : primary_expression;
-unary_expression : postfix_expression;
-cast_expression : unary_expression;
-multiplicative_expression : cast_expression;
-additive_expression : multiplicative_expression;
-shift_expression : additive_expression;
-relational_expression : shift_expression;
-constant : INTEGER_CONSTANT;
-primary_expression : constant;
-postfix_expression : primary_expression;
-unary_expression : postfix_expression;
-cast_expression : unary_expression;
-multiplicative_expression : cast_expression;
-additive_expression : multiplicative_expression;
-shift_expression : additive_expression;
-relational_expression : relational_expression LTHAN shift_expression;
-equality_expression : relational_expression;
-and_expression : equality_expression;
-exclusive_or_expression : and_expression;
-inclusive_or_expression : exclusive_or_expression;
-logical_and_expression : inclusive_or_expression;
-logical_or_expression : logical_and_expression;
-conditional_expression : logical_or_expression;
-assignment_expression : conditional_expression;
-expression : assignment_expression;
-identifier : IDENTIFIER;
-primary_expression : identifier;
-postfix_expression : primary_expression;
-postfix_expression : postfix_expression INC_OP;
-unary_expression : postfix_expression;
-cast_expression : unary_expression;
-multiplicative_expression : cast_expression;
-additive_expression : multiplicative_expression;
-shift_expression : additive_expression;
-relational_expression : shift_expression;
-equality_expression : relational_expression;
-and_expression : equality_expression;
-exclusive_or_expression : and_expression;
-inclusive_or_expression : exclusive_or_expression;
-logical_and_expression : inclusive_or_expression;
-logical_or_expression : logical_and_expression;
-conditional_expression : logical_or_expression;
-assignment_expression : conditional_expression;
-expression : assignment_expression;
-
-=================================================================
-Line #20: 
-		{
-
-=================================================================
-Line #21: 
-			if(array[i] > array[i+1])
-set_lookup : inInsertMode = false
-identifier : IDENTIFIER;
-primary_expression : identifier;
-postfix_expression : primary_expression;
-set_lookup : inInsertMode = false
-identifier : IDENTIFIER;
-primary_expression : identifier;
-postfix_expression : primary_expression;
-unary_expression : postfix_expression;
-cast_expression : unary_expression;
-multiplicative_expression : cast_expression;
-additive_expression : multiplicative_expression;
-shift_expression : additive_expression;
-relational_expression : shift_expression;
-equality_expression : relational_expression;
-and_expression : equality_expression;
-exclusive_or_expression : and_expression;
-inclusive_or_expression : exclusive_or_expression;
-logical_and_expression : inclusive_or_expression;
-logical_or_expression : logical_and_expression;
-conditional_expression : logical_or_expression;
-assignment_expression : conditional_expression;
-expression : assignment_expression;
-postfix_expression : postfix_expression LBRACK expression RBRACK;
-unary_expression : postfix_expression;
-cast_expression : unary_expression;
-multiplicative_expression : cast_expression;
-additive_expression : multiplicative_expression;
-shift_expression : additive_expression;
-relational_expression : shift_expression;
-identifier : IDENTIFIER;
-primary_expression : identifier;
-postfix_expression : primary_expression;
-set_lookup : inInsertMode = false
-identifier : IDENTIFIER;
-primary_expression : identifier;
-postfix_expression : primary_expression;
-unary_expression : postfix_expression;
-cast_expression : unary_expression;
-multiplicative_expression : cast_expression;
-additive_expression : multiplicative_expression;
-constant : INTEGER_CONSTANT;
-primary_expression : constant;
-postfix_expression : primary_expression;
-unary_expression : postfix_expression;
-cast_expression : unary_expression;
-multiplicative_expression : cast_expression;
-additive_expression : additive_expression PLUS multiplicative_expression;
-shift_expression : additive_expression;
-relational_expression : shift_expression;
-equality_expression : relational_expression;
-and_expression : equality_expression;
-exclusive_or_expression : and_expression;
-inclusive_or_expression : exclusive_or_expression;
-logical_and_expression : inclusive_or_expression;
-logical_or_expression : logical_and_expression;
-conditional_expression : logical_or_expression;
-assignment_expression : conditional_expression;
-expression : assignment_expression;
-postfix_expression : postfix_expression LBRACK expression RBRACK;
-unary_expression : postfix_expression;
-cast_expression : unary_expression;
-multiplicative_expression : cast_expression;
-additive_expression : multiplicative_expression;
-shift_expression : additive_expression;
-relational_expression : relational_expression GTHAN shift_expression;
-equality_expression : relational_expression;
-and_expression : equality_expression;
-exclusive_or_expression : and_expression;
-inclusive_or_expression : exclusive_or_expression;
-logical_and_expression : inclusive_or_expression;
-logical_or_expression : logical_and_expression;
-conditional_expression : logical_or_expression;
-assignment_expression : conditional_expression;
-expression : assignment_expression;
-
-=================================================================
-Line #22: 
-			{
-
-=================================================================
-Line #23: 
-				swapped = 1;
-set_lookup : inInsertMode = false
-identifier : IDENTIFIER;
-primary_expression : identifier;
-postfix_expression : primary_expression;
-unary_expression : postfix_expression;
-assignment_operator : ASSIGN;
-constant : INTEGER_CONSTANT;
-primary_expression : constant;
-postfix_expression : primary_expression;
-unary_expression : postfix_expression;
-cast_expression : unary_expression;
-multiplicative_expression : cast_expression;
-additive_expression : multiplicative_expression;
-shift_expression : additive_expression;
-relational_expression : shift_expression;
-equality_expression : relational_expression;
-and_expression : equality_expression;
-exclusive_or_expression : and_expression;
-inclusive_or_expression : exclusive_or_expression;
-logical_and_expression : inclusive_or_expression;
-logical_or_expression : logical_and_expression;
-conditional_expression : logical_or_expression;
-assignment_expression : conditional_expression;
-assignment_expression : unary_expression assignment_operator assignment_expression;
-expression : assignment_expression;
-expression_statement : expression SEMI;
-statement : expression_statement;
-statement_list : statement;
-
-=================================================================
-Line #24: 
-				temp = array[i];
-identifier : IDENTIFIER;
-primary_expression : identifier;
-postfix_expression : primary_expression;
-unary_expression : postfix_expression;
-assignment_operator : ASSIGN;
-identifier : IDENTIFIER;
-primary_expression : identifier;
-postfix_expression : primary_expression;
-set_lookup : inInsertMode = false
-identifier : IDENTIFIER;
-primary_expression : identifier;
-postfix_expression : primary_expression;
-unary_expression : postfix_expression;
-cast_expression : unary_expression;
-multiplicative_expression : cast_expression;
-additive_expression : multiplicative_expression;
-shift_expression : additive_expression;
-relational_expression : shift_expression;
-equality_expression : relational_expression;
-and_expression : equality_expression;
-exclusive_or_expression : and_expression;
-inclusive_or_expression : exclusive_or_expression;
-logical_and_expression : inclusive_or_expression;
-logical_or_expression : logical_and_expression;
-conditional_expression : logical_or_expression;
-assignment_expression : conditional_expression;
-expression : assignment_expression;
-postfix_expression : postfix_expression LBRACK expression RBRACK;
-unary_expression : postfix_expression;
-cast_expression : unary_expression;
-multiplicative_expression : cast_expression;
-additive_expression : multiplicative_expression;
-shift_expression : additive_expression;
-relational_expression : shift_expression;
-equality_expression : relational_expression;
-and_expression : equality_expression;
-exclusive_or_expression : and_expression;
-inclusive_or_expression : exclusive_or_expression;
-logical_and_expression : inclusive_or_expression;
-logical_or_expression : logical_and_expression;
-conditional_expression : logical_or_expression;
-assignment_expression : conditional_expression;
-assignment_expression : unary_expression assignment_operator assignment_expression;
-expression : assignment_expression;
-expression_statement : expression SEMI;
-statement : expression_statement;
-statement_list : statement_list statement;
-
-=================================================================
-Line #25: 
-				array[i] = array[i+1];
-identifier : IDENTIFIER;
-primary_expression : identifier;
-postfix_expression : primary_expression;
-set_lookup : inInsertMode = false
-identifier : IDENTIFIER;
-primary_expression : identifier;
-postfix_expression : primary_expression;
-unary_expression : postfix_expression;
-cast_expression : unary_expression;
-multiplicative_expression : cast_expression;
-additive_expression : multiplicative_expression;
-shift_expression : additive_expression;
-relational_expression : shift_expression;
-equality_expression : relational_expression;
-and_expression : equality_expression;
-exclusive_or_expression : and_expression;
-inclusive_or_expression : exclusive_or_expression;
-logical_and_expression : inclusive_or_expression;
-logical_or_expression : logical_and_expression;
-conditional_expression : logical_or_expression;
-assignment_expression : conditional_expression;
-expression : assignment_expression;
-postfix_expression : postfix_expression LBRACK expression RBRACK;
-unary_expression : postfix_expression;
-assignment_operator : ASSIGN;
-identifier : IDENTIFIER;
-primary_expression : identifier;
-postfix_expression : primary_expression;
-set_lookup : inInsertMode = false
-identifier : IDENTIFIER;
-primary_expression : identifier;
-postfix_expression : primary_expression;
-unary_expression : postfix_expression;
-cast_expression : unary_expression;
-multiplicative_expression : cast_expression;
-additive_expression : multiplicative_expression;
-constant : INTEGER_CONSTANT;
-primary_expression : constant;
-postfix_expression : primary_expression;
-unary_expression : postfix_expression;
-cast_expression : unary_expression;
-multiplicative_expression : cast_expression;
-additive_expression : additive_expression PLUS multiplicative_expression;
-shift_expression : additive_expression;
-relational_expression : shift_expression;
-equality_expression : relational_expression;
-and_expression : equality_expression;
-exclusive_or_expression : and_expression;
-inclusive_or_expression : exclusive_or_expression;
-logical_and_expression : inclusive_or_expression;
-logical_or_expression : logical_and_expression;
-conditional_expression : logical_or_expression;
-assignment_expression : conditional_expression;
-expression : assignment_expression;
-postfix_expression : postfix_expression LBRACK expression RBRACK;
-unary_expression : postfix_expression;
-cast_expression : unary_expression;
-multiplicative_expression : cast_expression;
-additive_expression : multiplicative_expression;
-shift_expression : additive_expression;
-relational_expression : shift_expression;
-equality_expression : relational_expression;
-and_expression : equality_expression;
-exclusive_or_expression : and_expression;
-inclusive_or_expression : exclusive_or_expression;
-logical_and_expression : inclusive_or_expression;
-logical_or_expression : logical_and_expression;
-conditional_expression : logical_or_expression;
-assignment_expression : conditional_expression;
-assignment_expression : unary_expression assignment_operator assignment_expression;
-expression : assignment_expression;
-expression_statement : expression SEMI;
-statement : expression_statement;
-statement_list : statement_list statement;
-
-=================================================================
-Line #26: 
-				array[i+1] = temp;
-identifier : IDENTIFIER;
-primary_expression : identifier;
-postfix_expression : primary_expression;
-set_lookup : inInsertMode = false
-identifier : IDENTIFIER;
-primary_expression : identifier;
-postfix_expression : primary_expression;
-unary_expression : postfix_expression;
-cast_expression : unary_expression;
-multiplicative_expression : cast_expression;
-additive_expression : multiplicative_expression;
-constant : INTEGER_CONSTANT;
-primary_expression : constant;
-postfix_expression : primary_expression;
-unary_expression : postfix_expression;
-cast_expression : unary_expression;
-multiplicative_expression : cast_expression;
-additive_expression : additive_expression PLUS multiplicative_expression;
-shift_expression : additive_expression;
-relational_expression : shift_expression;
-equality_expression : relational_expression;
-and_expression : equality_expression;
-exclusive_or_expression : and_expression;
-inclusive_or_expression : exclusive_or_expression;
-logical_and_expression : inclusive_or_expression;
-logical_or_expression : logical_and_expression;
-conditional_expression : logical_or_expression;
-assignment_expression : conditional_expression;
-expression : assignment_expression;
-postfix_expression : postfix_expression LBRACK expression RBRACK;
-unary_expression : postfix_expression;
-assignment_operator : ASSIGN;
-identifier : IDENTIFIER;
-primary_expression : identifier;
-postfix_expression : primary_expression;
-unary_expression : postfix_expression;
-cast_expression : unary_expression;
-multiplicative_expression : cast_expression;
-additive_expression : multiplicative_expression;
-shift_expression : additive_expression;
-relational_expression : shift_expression;
-equality_expression : relational_expression;
-and_expression : equality_expression;
-exclusive_or_expression : and_expression;
-inclusive_or_expression : exclusive_or_expression;
-logical_and_expression : inclusive_or_expression;
-logical_or_expression : logical_and_expression;
-conditional_expression : logical_or_expression;
-assignment_expression : conditional_expression;
-assignment_expression : unary_expression assignment_operator assignment_expression;
-expression : assignment_expression;
-expression_statement : expression SEMI;
-statement : expression_statement;
-statement_list : statement_list statement;
-
-=================================================================
-Line #27: 
-
-
-=================================================================
-Line #28: 
-			}
-compound_statement : LCURL statement_list RCURL;
-statement : compound_statement;
-
-=================================================================
-Line #29: 
-		}
-selection_statement : IF LPAREN expression RPAREN statement;
-statement : selection_statement;
-statement_list : statement;
-compound_statement : LCURL statement_list RCURL;
-statement : compound_statement;
-iteration_statement : FOR LPAREN expression SEMI expression SEMI expression RPAREN statement;
-statement : iteration_statement;
-statement_list : statement_list statement;
-
-=================================================================
-Line #30: 
-	}
-compound_statement : LCURL statement_list RCURL;
-statement : compound_statement;
-iteration_statement : WHILE LPAREN expression RPAREN statement;
-statement : iteration_statement;
-statement_list : statement_list statement;
-
-=================================================================
-Line #31: 
-
-
-=================================================================
-Line #32: 
 }
 set_lookup_pop : inInsertMode = false
 compound_statement : LCURL declaration_list statement_list RCURL;
 function_definition : declaration_specifiers declarator compound_statement;
 external_declaration : function_definition;
 translation_unit : external_declaration;
-
-=================================================================
-Line #33: 
-

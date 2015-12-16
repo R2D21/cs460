@@ -18,15 +18,16 @@ int main()
 		swapped = 0;
 		for( i = 0; i < 4; i++)
 		{
-			if(array[i] > array[i+1])
-			{
+			//if(array[i] > array[i+1])
+			//{
 				swapped = 1;
 				temp = array[i];
 				array[i] = array[i+1];
 				array[i+1] = temp;
 
-			}
+			//}
 		}
+		swapped = 0; 
 	}
 
 }
