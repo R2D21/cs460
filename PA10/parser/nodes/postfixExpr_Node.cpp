@@ -96,7 +96,7 @@ threeAC postfixExpr_Node::gen3AC(){
 			//out3AC << ("MUL " + t1 + " " + tempB.str  + " 4") << std::endl;
 			//out3AC << ("ADD " + t2 + " " + temp.str + " " + t1) << std::endl;
 			output3AC("MULT", t1, tempB.str, "4"); 
-			output3AC("ADD", t2, temp.str, t1);
+			output3AC("ADDO", t2, temp.str, t1);
 			reg = t2;
 		}
 	}

@@ -289,6 +289,7 @@ void outputASM(std::string command, std::string dest, std::string src1,
 	bool destValid = true;
 	bool newReg = false;  
 	bool conditional = false; 
+	bool arrayOffset = false;
 
 	// get mips command
 	if (command == "ADD") {
@@ -339,6 +340,14 @@ void outputASM(std::string command, std::string dest, std::string src1,
 		mipsCommand = "bge";
 		conditional = true; 
 	}
+	else if (command == "LA") {
+		mipsCommand = "la";
+		opTwoValid = false;
+	}
+	else if (command == "ADDO") {
+		mipsCommand = "add";
+		arrayOffset = true;
+	}
 
 	/*
 	else if (command == "") {
@@ -346,6 +355,8 @@ void outputASM(std::string command, std::string dest, std::string src1,
 	} */
 
 
+				table.print();
+				std::cout << "HERE" << endl << endl;
 
 	// if src1 is not a constant
 	if (opOneValid && (parseString(src1) != "Label") ) {
@@ -365,9 +376,14 @@ void outputASM(std::string command, std::string dest, std::string src1,
 				if( newReg ){
 					cout << "Variable at offset: " << offset << endl;
 					src1 = offset + "($sp)";
-					fprintf(asmFile, "\t\t %8s %8s %8s\n", "lw", newReg1.c_str(), src1.c_str());
+					fprintf(asmFile, "\t\t %8s %8s %8s\n", "la", newReg1.c_str(), src1.c_str());
 				}
-				src1 = newReg1;
+				if( !arrayOffset ){
+					src1 = "0(" + newReg1 + ")";
+				}
+				else{
+					src1 = newReg1;
+				}
 				
 
 				// update variable table
@@ -375,14 +391,22 @@ void outputASM(std::string command, std::string dest, std::string src1,
 			
 		}
 
-		// if it is a temp int
+		// if it is not a temp int
 		else if(isdigit(src1[0]) == 0) {
 			// get src1 reg
 			src1 = table.getReg(src1, newReg);
 		}
+		// if it is an int
 		else{
 			if( mipsCommand == "move"){
 				mipsCommand = "li";
+			}
+			else{
+				string newReg1 = table.getReg(src1, newReg);
+				if( newReg ){
+					fprintf(asmFile, "\t\t %8s %8s %8s\n", "li", newReg1.c_str(), src1.c_str());
+				}
+				src1 = newReg1;
 			}
 		}
 		
@@ -408,10 +432,15 @@ void outputASM(std::string command, std::string dest, std::string src1,
 				// move value into register
 				if( newReg ){
 					cout << "Variable at offset: " << offset << endl;
-					src1 = offset + "($sp)";
-					fprintf(asmFile, "\t\t %8s %8s %8s\n", "lw", newReg1.c_str(), src2.c_str());
+					src2 = offset + "($sp)";
+					fprintf(asmFile, "\t\t %8s %8s %8s\n", "la", newReg1.c_str(), src2.c_str());
 				}
-				src2 = newReg1;
+				if( !arrayOffset ){
+					src2 = "0(" + newReg1 + ")";
+				}
+				else{
+					src2 = newReg1;
+				}
 				
 
 				// update variable table
@@ -441,7 +470,6 @@ void outputASM(std::string command, std::string dest, std::string src1,
 
 			// if it's not in memory
 				
-				
 				// get new register for it
 				string offset = getOffset(dest);
 				string newReg1 = table.getReg(dest, newReg);
@@ -451,9 +479,14 @@ void outputASM(std::string command, std::string dest, std::string src1,
 				{
 					cout << "Variable at offset: " << offset << endl;
 					dest = offset + "($sp)";
-					fprintf(asmFile, "\t\t %8s %8s %8s\n", "lw", newReg1.c_str(), dest.c_str());
+					fprintf(asmFile, "\t\t %8s %8s %8s\n", "la", newReg1.c_str(), dest.c_str());
 				}
-				dest = newReg1;
+				if( !arrayOffset ){
+					dest = "0(" + newReg1 + ")";
+				}
+				else{
+					dest = newReg1;
+				}
 				
 
 				// update variable table
