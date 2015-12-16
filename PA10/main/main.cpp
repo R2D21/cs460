@@ -73,9 +73,11 @@ void output3AC(std::string, std::string, std::string, std::string);
 void outputSource(std::string source);
 void outputLabel(std::string label);
 
-// register allocation function
+// ASM functions
+int asmLabelCount = 0; 
 string parseString(string str); 
 string getOffset(string str);
+string getASMLabel(); 
 
 int main(int argc, char* argv[]) {
 
@@ -286,6 +288,7 @@ void outputASM(std::string command, std::string dest, std::string src1,
 	bool opTwoValid = true;
 	bool destValid = true;
 	bool newReg = false;  
+	bool conditional = false; 
 
 	// get mips command
 	if (command == "ADD") {
@@ -308,9 +311,21 @@ void outputASM(std::string command, std::string dest, std::string src1,
 		mipsCommand = "beq";
 	}
 	else if (command == "LT" ){
-		
+		mipsCommand = "blt";
+		conditional = true; 
 	}
-
+	else if (command == "GT" ){
+		mipsCommand = "bgt";
+		conditional = true; 
+	}
+	else if (command == "LE") {
+		mipsCommand = "ble";
+		conditional = true; 
+	}
+	else if (command == "GE") {
+		mipsCommand = "bge";
+		conditional = true; 
+	}
 
 	/*
 	else if (command == "") {
@@ -319,7 +334,7 @@ void outputASM(std::string command, std::string dest, std::string src1,
 
 
 
-	// if src1 is nota constant
+	// if src1 is not a constant
 	if (opOneValid && (parseString(src1) != "Label") ) {
 
 		// if it is a variable
@@ -401,8 +416,8 @@ void outputASM(std::string command, std::string dest, std::string src1,
 			}
 		}
 	}
-	else {
-		src2 = "";
+	else if ((parseString(src2) != "Label")) {
+		src2 = ""; 
 	}
 
 	// get reg for dest
@@ -438,7 +453,19 @@ void outputASM(std::string command, std::string dest, std::string src1,
 		}
 	}
 
-	fprintf(asmFile, "\t\t %8s %8s %8s %8s \n", mipsCommand.c_str(), dest.c_str(), src1.c_str(), src2.c_str() );
+	if (!conditional) {
+		fprintf(asmFile, "\t\t %8s %8s %8s %8s \n", mipsCommand.c_str(), dest.c_str(), src1.c_str(), src2.c_str() );
+	}
+	else {
+		string tempLabel1 = getASMLabel();
+		string tempLabel2 = getASMLabel(); 
+		fprintf(asmFile, "\t\t %8s %8s %8s %8s \n", mipsCommand.c_str(), src1.c_str(), src2.c_str(), tempLabel1.c_str());
+		fprintf(asmFile, "\t\t %8s %8s %8s \n", "li", dest.c_str(), "0");
+		fprintf(asmFile, "\t\t %8s %8s \n", "b", tempLabel2.c_str());
+		fprintf(asmFile, "%s:\n", tempLabel1.c_str());
+		fprintf(asmFile, "\t\t %8s %8s %8s \n", "li", dest.c_str(), "1");
+		fprintf(asmFile, "%s:\n", tempLabel2.c_str());
+	}
 }
 
 // Output 3AC
@@ -463,4 +490,8 @@ string parseString(string str) {
 
 string getOffset(string str) {
 	return str.substr(str.find("_") + 1, std::string::npos); 
+}
+
+string getASMLabel() {
+	return "Label_T" + to_string(asmLabelCount++);
 }
