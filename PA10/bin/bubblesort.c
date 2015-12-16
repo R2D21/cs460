@@ -1,27 +1,28 @@
 int main()
 {
 	// variables
-	int array[7];
-
-
+	int array[4];
 	int i;
 	int j;
 	int temp;
 	int swapped = 1;
+	array[0] = 4;
+	array[1] = 66;
+	array[2] = 1;
+	array[3] = 21;
+	//array[4] = 420;
 
 	// bubble sort
-	while(swapped)
+	while(swapped == 1)
 	{
 		swapped = 0;
-		for( i = 0; i < 9; i++)
+		for( i = 0; i < 4; i++)
 		{
-			if(array[4] > array[i+1])
+			if(array[i] > array[i+1])
 			{
-				if(1)
-				{ swapped = 2;}
 				swapped = 1;
 				temp = array[i];
-				array[4] = array[4+1];
+				array[i] = array[i+1];
 				array[i+1] = temp;
 
 			}

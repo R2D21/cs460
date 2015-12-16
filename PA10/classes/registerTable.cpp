@@ -84,9 +84,11 @@ std::string registerTable::getReg(std::string var, bool& newReg) {
 		return currentReg;
 	}
 	else { // reg table is full
-		std::cout << "Reg. table is full." << std::endl; 
-		//print();
-		return ""; 
+		//std::cout << "Reg. table is full." << std::endl;
+		currentReg = spill(); 
+		regTable[currentReg] = var;
+		newReg = true;   
+		return currentReg; 
 	}
 }
 
@@ -133,4 +135,28 @@ void registerTable::print() {
 	for (itr = regTable.begin(); itr != regTable.end(); itr++) {
 		std::cout << itr->first << " =\t" << itr->second << std::endl;
 	}
+	std::cout << std::endl;
+}
+
+std::string registerTable::parseString(std::string str) {
+	return str.substr(0, str.find("_")); 
+}
+
+/*
+
+*/
+std::string registerTable::spill() {
+	while (parseString(regTableItr->second) == "LOCV") {
+		regTableItr++;
+		if (regTableItr == regTable.end()) {
+			regTableItr = regTable.begin(); 
+		}  
+	}
+
+	std::string availReg = regTableItr->first;
+	regTableItr++;
+	if (regTableItr == regTable.end()) {
+			regTableItr = regTable.begin(); 
+		} 
+	return availReg; 
 }

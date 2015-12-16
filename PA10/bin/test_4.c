@@ -5,11 +5,9 @@ void main(){
 
 	// declaring constants and single variables
 	int i = 1;
-
+	int j = 0;
 	// while loop
-	while( i < 2 )
-	{
-		i++;
+	for( i = 3; i < 6; i++){
+		j += 2;
 	}
-
 }

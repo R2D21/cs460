@@ -1,35 +1,70 @@
-	// int x;
-	// int y;
 Label_main
-	// void main(){
-	// 	int i = 1;
-		(   ASSIGN  LOC_V_0        1        - )
-	// 	int b[7][8][9];
-	// 	b[2][3][5] = 1;
-		(     MULT     IT_0        2        4 )
-		(     MULT     IT_1     IT_0        9 )
-		(      ADD     IT_2  LOC_V_4     IT_1 )
-		(     MULT     IT_3        3        4 )
-		(     MULT     IT_4     IT_3        8 )
-		(      ADD     IT_5     IT_2     IT_4 )
-		(     MULT     IT_6        5        4 )
-		(      ADD     IT_7     IT_5     IT_6 )
-		(   ASSIGN     IT_7        1        - )
-	// 	b[0][1][2] = b[2][3][5];
-		(     MULT     IT_8        0        4 )
-		(     MULT     IT_9     IT_8        9 )
-		(      ADD    IT_10  LOC_V_4     IT_9 )
-		(     MULT    IT_11        1        4 )
-		(     MULT    IT_12    IT_11        8 )
-		(      ADD    IT_13    IT_10    IT_12 )
-		(     MULT    IT_14        2        4 )
-		(      ADD    IT_15    IT_13    IT_14 )
-		(     MULT    IT_16        2        4 )
-		(     MULT    IT_17    IT_16        9 )
-		(      ADD    IT_18  LOC_V_4    IT_17 )
-		(     MULT    IT_19        3        4 )
-		(     MULT    IT_20    IT_19        8 )
-		(      ADD    IT_21    IT_18    IT_20 )
-		(     MULT    IT_22        5        4 )
-		(      ADD    IT_23    IT_21    IT_22 )
-		(   ASSIGN    IT_15    IT_23        - )
+	// {
+	// 	int array[4];
+	// 	int i;
+	// 	int j;
+	// 	int temp;
+	// 	int swapped = 1;
+		(   ASSIGN  LOCV_28        1        - )
+	// 	array[0] = 4;
+		(     MULT     IT_0        0        4 )
+		(     ADDO     IT_1   LOCV_0     IT_0 )
+		(   ASSIGN     IT_1        4        - )
+	// 	array[1] = 66;
+		(     MULT     IT_2        1        4 )
+		(     ADDO     IT_3   LOCV_0     IT_2 )
+		(   ASSIGN     IT_3       66        - )
+	// 	array[2] = 1;
+		(     MULT     IT_4        2        4 )
+		(     ADDO     IT_5   LOCV_0     IT_4 )
+		(   ASSIGN     IT_5        1        - )
+	// 	array[3] = 21;
+		(     MULT     IT_6        3        4 )
+		(     ADDO     IT_7   LOCV_0     IT_6 )
+		(   ASSIGN     IT_7       21        - )
+Label_0
+	// 	while(swapped == 1)
+		(       EQ     IT_9  LOCV_28        1 )
+		(   ASSIGN     IT_8     IT_9        - )
+		(     BREQ     IT_8        0  Label_1 )
+	// 		swapped = 0;
+		(   ASSIGN  LOCV_28        0        - )
+	// 		for( i = 0; i < 4; i++)
+		(   ASSIGN  LOCV_16        0        - )
+Label_3
+		(       LT    IT_11  LOCV_16        4 )
+		(   ASSIGN    IT_10    IT_11        - )
+		(     BREQ    IT_10        0  Label_4 )
+	// 			if(array[i] > array[i+1])
+		(     MULT    IT_13  LOCV_16        4 )
+		(     ADDO    IT_14   LOCV_0    IT_13 )
+		(      ADD    IT_15  LOCV_16        1 )
+		(     MULT    IT_16    IT_15        4 )
+		(     ADDO    IT_17   LOCV_0    IT_16 )
+		(       GT    IT_18    IT_14    IT_17 )
+		(   ASSIGN    IT_12    IT_18        - )
+		(     BREQ    IT_12        0  Label_7 )
+	// 				swapped = 1;
+		(   ASSIGN  LOCV_28        1        - )
+	// 				temp = array[i];
+		(     MULT    IT_19  LOCV_16        4 )
+		(     ADDO    IT_20   LOCV_0    IT_19 )
+		(   ASSIGN  LOCV_24    IT_20        - )
+	// 				array[i] = array[i+1];
+		(     MULT    IT_21  LOCV_16        4 )
+		(     ADDO    IT_22   LOCV_0    IT_21 )
+		(      ADD    IT_23  LOCV_16        1 )
+		(     MULT    IT_24    IT_23        4 )
+		(     ADDO    IT_25   LOCV_0    IT_24 )
+		(   ASSIGN    IT_22    IT_25        - )
+	// 				array[i+1] = temp;
+		(      ADD    IT_26  LOCV_16        1 )
+		(     MULT    IT_27    IT_26        4 )
+		(     ADDO    IT_28   LOCV_0    IT_27 )
+		(   ASSIGN    IT_28  LOCV_24        - )
+Label_7
+		(      ADD  LOCV_16  LOCV_16        1 )
+		(       BR  Label_3        -        - )
+Label_4
+		(       BR  Label_0        -        - )
+Label_1

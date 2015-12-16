@@ -31,6 +31,7 @@ class registerTable {
 		// register table functions 
 		std::string getReg(std::string var, bool& newReg);
 
+
 		void print();
 
 	private:
@@ -40,7 +41,9 @@ class registerTable {
 
 		// private object functions
 		bool idInTable(std::string var, std::string& reg);
-		bool findEmptyReg(std::string& reg); 
+		bool findEmptyReg(std::string& reg);
+		std::string spill(); 
+		std::string parseString(std::string str);
 };
 
 #endif // REGISTER_TABLE_H

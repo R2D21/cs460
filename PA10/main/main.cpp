@@ -288,8 +288,16 @@ void outputASM(std::string command, std::string dest, std::string src1,
 	bool opTwoValid = true;
 	bool destValid = true;
 	bool newReg = false;  
-	bool conditional = false; 
-	bool arrayOffset = false;
+	bool conditional = false;
+	bool foundArray = false; 
+	bool output = true;
+	string origSrc1 = ""; 
+	string origSrc2 = "";
+	string origDest = ""; 
+	char temp;
+
+	//table.print(); 
+	//cin >> temp;
 
 	// get mips command
 	if (command == "ADD") {
@@ -340,13 +348,10 @@ void outputASM(std::string command, std::string dest, std::string src1,
 		mipsCommand = "bge";
 		conditional = true; 
 	}
-	else if (command == "LA") {
-		mipsCommand = "la";
-		opTwoValid = false;
-	}
 	else if (command == "ADDO") {
 		mipsCommand = "add";
-		arrayOffset = true;
+		foundArray = true; 
+
 	}
 
 	/*
@@ -354,13 +359,9 @@ void outputASM(std::string command, std::string dest, std::string src1,
 		mipsCommand = "";
 	} */
 
-
-				table.print();
-				std::cout << "HERE" << endl << endl;
-
 	// if src1 is not a constant
 	if (opOneValid && (parseString(src1) != "Label") ) {
-
+		origSrc1 = src1; 
 		// if it is a variable
 		if( (parseString(src1) == "LOCV") || (parseString(src1) == "GLV")){
 			// check for location of variable from variable table
@@ -376,14 +377,11 @@ void outputASM(std::string command, std::string dest, std::string src1,
 				if( newReg ){
 					cout << "Variable at offset: " << offset << endl;
 					src1 = offset + "($sp)";
-					fprintf(asmFile, "\t\t %8s %8s %8s\n", "la", newReg1.c_str(), src1.c_str());
+					if (!foundArray) {
+						fprintf(asmFile, "\t\t %8s %8s %8s\n", "lw", newReg1.c_str(), src1.c_str());
+					}
 				}
-				if( !arrayOffset ){
-					src1 = "0(" + newReg1 + ")";
-				}
-				else{
-					src1 = newReg1;
-				}
+				src1 = newReg1;
 				
 
 				// update variable table
@@ -391,12 +389,11 @@ void outputASM(std::string command, std::string dest, std::string src1,
 			
 		}
 
-		// if it is not a temp int
+		// if it is a temp int
 		else if(isdigit(src1[0]) == 0) {
 			// get src1 reg
 			src1 = table.getReg(src1, newReg);
 		}
-		// if it is an int
 		else{
 			if( mipsCommand == "move"){
 				mipsCommand = "li";
@@ -409,7 +406,6 @@ void outputASM(std::string command, std::string dest, std::string src1,
 				src1 = newReg1;
 			}
 		}
-		
 	}
 	else {
 		src1 = "";
@@ -417,14 +413,9 @@ void outputASM(std::string command, std::string dest, std::string src1,
 		
 	// if src2 is not a constant
 	if (opTwoValid && (parseString(src2) != "Label") ) {
-
+		origSrc2 = src2;
 		// if it is a variable
 		if( (parseString(src2) == "LOCV") || (parseString(src2) == "GLV")){
-			// check for location of variable from variable table
-
-			// if it's not in memory
-				
-				
 				// get new register for it
 				string offset = getOffset(src2);
 				string newReg1 = table.getReg(src2, newReg);
@@ -432,15 +423,10 @@ void outputASM(std::string command, std::string dest, std::string src1,
 				// move value into register
 				if( newReg ){
 					cout << "Variable at offset: " << offset << endl;
-					src2 = offset + "($sp)";
-					fprintf(asmFile, "\t\t %8s %8s %8s\n", "la", newReg1.c_str(), src2.c_str());
+					src1 = offset + "($sp)";
+					fprintf(asmFile, "\t\t %8s %8s %8s\n", "lw", newReg1.c_str(), src2.c_str());
 				}
-				if( !arrayOffset ){
-					src2 = "0(" + newReg1 + ")";
-				}
-				else{
-					src2 = newReg1;
-				}
+				src2 = newReg1;
 				
 
 				// update variable table
@@ -464,12 +450,10 @@ void outputASM(std::string command, std::string dest, std::string src1,
 
 	// get reg for dest
 	if( parseString(dest) != "Label") {
+		origDest = dest;
 		// if it is a variable
 		if( (parseString(dest) == "LOCV") || (parseString(dest) == "GLV")){
-			// check for location of variable from variable table
-
-			// if it's not in memory
-				
+							
 				// get new register for it
 				string offset = getOffset(dest);
 				string newReg1 = table.getReg(dest, newReg);
@@ -479,30 +463,57 @@ void outputASM(std::string command, std::string dest, std::string src1,
 				{
 					cout << "Variable at offset: " << offset << endl;
 					dest = offset + "($sp)";
-					fprintf(asmFile, "\t\t %8s %8s %8s\n", "la", newReg1.c_str(), dest.c_str());
+					fprintf(asmFile, "\t\t %8s %8s %8s\n", "lw", newReg1.c_str(), dest.c_str());
 				}
-				if( !arrayOffset ){
-					dest = "0(" + newReg1 + ")";
-				}
-				else{
-					dest = newReg1;
-				}
-				
+				dest = newReg1;
 
-				// update variable table
-				
-			
+				// if move
+				if( mipsCommand == "move"){
+					// if src 1 is not a variable
+					if( !(parseString(src1) == "LOCV") && !(parseString(src1) == "GLV")){
+
+						fprintf(asmFile, "\t\t %8s %8s %8s\n", "lw", dest.c_str(), ("("+src1+")").c_str() );
+						output = false;
+					}
+				}
 		}
 		else
 		{
+			string tempReg = table.getReg(dest+"_t", newReg);
 			dest = table.getReg(dest, newReg);
+
+			if (mipsCommand == "li") {
+				fprintf(asmFile, "\t\t %8s %8s %8s\n", "li", tempReg.c_str(), src1.c_str());
+				fprintf(asmFile, "\t\t %8s %8s %8s\n", "sw", tempReg.c_str(), ("("+dest+")").c_str() );
+				output = false;
+			}
+			if(mipsCommand =="move"){
+				// if src 1 is not a variable
+					string tempReg = table.getReg(dest, newReg);
+					if( !(parseString(src1) == "LOCV") && !(parseString(src1) == "GLV")){
+
+						// call lw instead
+						fprintf(asmFile, "\t\t %8s %8s %8s\n", "lw", tempReg.c_str(), ("("+tempReg+")").c_str() );
+						fprintf(asmFile, "\t\t %8s %8s %8s\n", "sw", tempReg.c_str(), ("("+dest+")").c_str() );
+						output = false;
+					}
+
+
+			}
 		}
 	}
 
-	if (!conditional) {
-		fprintf(asmFile, "\t\t %8s %8s %8s %8s \n", mipsCommand.c_str(), dest.c_str(), src1.c_str(), src2.c_str() );
+	
+	if (foundArray) {
+		output = false;
+		string arrTempReg1 = table.getReg(origSrc1 + "_a", newReg);
+		string arrTempReg2 = table.getReg(origDest, newReg);
+		fprintf(asmFile, "\t\t %8s %8s %8s %8s \n", "addu", arrTempReg1.c_str(), "$sp", getOffset(origSrc1).c_str());
+		fprintf(asmFile, "\t\t %8s %8s %8s %8s \n", "addu", arrTempReg2.c_str(), arrTempReg1.c_str(), 
+															src2.c_str());
 	}
-	else {
+	else if(conditional){
+		output = false;
 		string tempLabel1 = getASMLabel();
 		string tempLabel2 = getASMLabel(); 
 		fprintf(asmFile, "\t\t %8s %8s %8s %8s \n", mipsCommand.c_str(), src1.c_str(), src2.c_str(), tempLabel1.c_str());
@@ -511,6 +522,9 @@ void outputASM(std::string command, std::string dest, std::string src1,
 		fprintf(asmFile, "%s:\n", tempLabel1.c_str());
 		fprintf(asmFile, "\t\t %8s %8s %8s \n", "li", dest.c_str(), "1");
 		fprintf(asmFile, "%s:\n", tempLabel2.c_str());
+	}
+	if (output) {
+		fprintf(asmFile, "\t\t %8s %8s %8s %8s \n", mipsCommand.c_str(), dest.c_str(), src1.c_str(), src2.c_str() );
 	}
 }
 
