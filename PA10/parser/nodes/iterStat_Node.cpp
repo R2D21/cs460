@@ -83,12 +83,14 @@ threeAC iterStat_Node::gen3AC(){
         std::string tempCondition = intTC();  
         threeAC temp; 
 
-        //out3AC << label1 << std::endl; 
-        outputLabel(label1);
 
         if (exprA != NULL) {
             exprA->gen3AC();
         }
+
+        //out3AC << label1 << std::endl; 
+        outputLabel(label1);
+     
         // if the user supplies a condition
         if (exprB != NULL) {
             temp = exprB->gen3AC(); 

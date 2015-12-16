@@ -60,7 +60,7 @@ threeAC additiveExpr_Node::gen3AC(){
 		case MINUS:
 			reg = intTC();
 			//out3AC << ("MINUS " + reg + " " + tempA.str + " " + tempB.str) << std::endl; 
-			output3AC("MINUS", reg, tempA.str, tempB.str);
+			output3AC("SUB", reg, tempA.str, tempB.str);
 		break;
 
 		default:

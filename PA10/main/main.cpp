@@ -307,8 +307,21 @@ void outputASM(std::string command, std::string dest, std::string src1,
 	else if (command == "MULT"){
 		mipsCommand = "mul";
 	}
+	else if (command == "SUB" ){
+		mipsCommand = "sub";
+	}
+	else if (command == "DIV"){
+		mipsCommand = "div";
+	}
 	else if (command == "BREQ"){
 		mipsCommand = "beq";
+	}
+	else if (command == "BRNE"){
+		mipsCommand = "bne";
+	}
+	else if (command == "EQ"){
+		mipsCommand = "beq";
+		conditional = true;
 	}
 	else if (command == "LT" ){
 		mipsCommand = "blt";
